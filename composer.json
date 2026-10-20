@@ -1,0 +1,8 @@
+{
+    "name": "bomonov/tg-channel-bot",
+    "description": "Telegram bot: egasining akkaunti nomidan kanal/guruh ochib, ko'rsatilgan userni admin qiladi",
+    "require": {
+        "php": ">=8.2",
+        "danog/madelineproto": "^8.0"
+    }
+}
