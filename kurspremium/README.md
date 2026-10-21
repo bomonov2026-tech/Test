@@ -108,3 +108,20 @@ Menyu → **🛡 Guruh himoyasi**: guruh egasi o'z guruhlarida himoyani va har b
 - **So'rov:** `output_config.format` (JSON schema) va `effort: low` bilan yuboriladi. Opus/Sonnet modellarida `fallbacks: "default"` (`server-side-fallback-2026-07-01`) yoqilgan.
 - **Xatolar:** AI javob bermasa yoki xato qilsa, xabar o'chirilmaydi. Oxirgi xato admin panelda ko'rinadi, u yerda matnni sinab ko'rish tugmasi ham bor.
 - **Cheklov:** AI 100% aniq emas. Ba'zi porno rasmlar o'tib ketishi yoki oddiy rasm o'chib ketishi mumkin. Kesh jadvali: `ai_cache`.
+
+### Yagona bo'lim: Menyu → «Guruh qo'shish» (qo'shish + himoya)
+
+Guruh shu sahifada qo'shiladi va himoya darhol yoqiladi: ovozli va «barcha arabcha»dan boshqa hamma qoidalar yoqilgan holda.
+
+Qoidalar tartibi:
+1. ✅ Guruhga reklama yubormaydi — pullik «E'lon» buyurtmalari bu guruhga yuborilmaydi (`group_guard.noad`).
+2. 🔞 So'kinish xabarni o'chiradi — ichki ro'yxat + admin ro'yxati + **guruh egasi kiritgan so'zlar** (`group_guard.words`).
+3. ⚠️ Reklama havolani tozalaydi.
+4. 🔈 So'kinish golosni o'chiradi — bot ovozni eshita olmaydi, shuning uchun a'zolarning barcha ovozli xabarlari o'chiriladi.
+5. 🚫 Spam xabardan tozalaydi.
+6. 🤨 Arab botlardan himoya qiladi — arabcha ismli akkauntlar (kirganda yoki yozganda) va oddiy a'zo qo'shgan botlar guruhdan chiqariladi. Buning uchun botga «Foydalanuvchilarni bloklash» huquqi kerak.
+7. ❗️ Arabcha reklama o'chiradi.
+8. 🗑 Kirdi-chiqdini tozalaydi.
+9. 🛡 Guruhni 100% himoya qiladi — bosilganda 1–8 va qo'shimcha himoyalar (APK, AI porno, AI reklama) birdan yoqiladi; hammasi yoqilgan bo'lsa, qayta bosilganda o'chadi.
+
+«Qo'shimcha himoya» ichida: 📦 zararli fayllar, 🔞 AI porno, 📣 AI yashirin reklama, 🇸🇦 barcha arabcha xabarlar. Guruh kartasidagi «📈 Kurs xabarlari» tugmasi avvalgi kurs xabarlari sozlamasini ochadi.
