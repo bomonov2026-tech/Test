@@ -11,6 +11,12 @@ PHPV=8.3
 
 [ "$(id -u)" = 0 ] || { echo "root sifatida ishga tushiring (sudo)"; exit 1; }
 
+if ! swapon --show | grep -q .; then
+  echo ">>> Swap 2G (kichik RAM'da composer qotib qolmasligi uchun)"
+  fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile >/dev/null && swapon /swapfile
+  grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
+
 echo ">>> Paketlar"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
