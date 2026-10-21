@@ -109,7 +109,7 @@ Menyu → **🛡 Guruh himoyasi**: guruh egasi o'z guruhlarida himoyani va har b
 - **Xatolar:** AI javob bermasa yoki xato qilsa, xabar o'chirilmaydi. Oxirgi xato admin panelda ko'rinadi, u yerda matnni sinab ko'rish tugmasi ham bor.
 - **Cheklov:** AI 100% aniq emas. Ba'zi porno rasmlar o'tib ketishi yoki oddiy rasm o'chib ketishi mumkin. Kesh jadvali: `ai_cache`.
 
-### Yagona bo'lim: Menyu → «Guruh qo'shish» (qo'shish + himoya)
+### Alohida bo'lim: Menyu → «🛡 Guruh himoyasi» (ulash + himoya; «Guruh qo'shish» — kurs xabarlari uchun)
 
 Guruh shu sahifada qo'shiladi va himoya darhol yoqiladi: ovozli va «barcha arabcha»dan boshqa hamma qoidalar yoqilgan holda.
 
