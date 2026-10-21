@@ -2072,6 +2072,43 @@ nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;p
 .dwc{background:#fff;border-radius:20px}.dwp{display:flex;align-items:center;gap:12px;padding:11px 14px;margin-bottom:8px}.dwa{position:relative;width:46px;height:46px;border-radius:50%;background:#7fe9d4;color:#fff;font-size:19px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.dwa img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.dwn{min-width:0}.dwn b{display:block;font-size:16px;font-weight:700;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dwn span{display:block;font-size:13px;color:#8e8e93;margin-top:1px}
 .dws{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:8px}.dws>div{background:#fff;border-radius:18px;padding:9px 2px 8px;text-align:center}.dws i,.dwi{width:32px;height:32px;border-radius:50%;background:#e8f0fe;display:flex;align-items:center;justify-content:center;flex:none}.dws i{margin:0 auto 5px}.dws i svg,.dwi svg{width:17px;height:17px;stroke:#4a86e8;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}.dws b{display:block;font-size:16px;font-weight:700;color:#000;line-height:1.2}.dws span{display:block;font-size:11px;color:#8e8e93;margin-top:1px}
 .dwm{display:flex;align-items:center;gap:11px;width:100%;border:0;background:#fff;border-radius:18px;padding:8px 12px;margin-bottom:6px;text-align:left;color:#000;font-size:15px;font-weight:600}.dwm>span:not(.dwi){flex:1}.dwm .ch{width:16px;height:16px;stroke:#c7c7cc;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ===== Zamonaviy ko'rinish: yorug' va tungi tema (Telegram mavzusiga moslashadi) ===== */
+:root{--bg:#f2f4f8;--cd:#fff;--in:#f1f3f7;--tx:#0f172a;--sub:#7b8494;--ln:#eceff4;--soft:#eaf1ff;--ac:#2f7cf6;--ac2:#5b5cf6;--sw:#d5d9e1;--sh:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06)}
+html.dark{--bg:#0e1116;--cd:#181c23;--in:#232934;--tx:#eef2f7;--sub:#97a1b3;--ln:#262c37;--soft:#1b2944;--ac:#4c8dff;--ac2:#7c7dff;--sw:#3a4150;--sh:0 1px 2px rgba(0,0,0,.35),0 10px 26px rgba(0,0,0,.28);color-scheme:dark}
+body,.top,#gate,.md{background:var(--bg);color:var(--tx)}
+body{font-family:-apple-system,"SF Pro Text",Inter,Roboto,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+h1{font-size:24px;font-weight:800;letter-spacing:-.4px}
+.tt b,.dt,.dwb,.dwn b,.dws b,.dwm,.at,.tb{color:var(--tx)}
+.card,.bk,.cbf,.mk,.rb,.qa,.dt,.bkb,.mb,.tb,.dwc,.dws>div,.dwm,.at{background:var(--cd);box-shadow:var(--sh)}
+.card{border-radius:22px}.at{border-radius:22px}.at small,.dwn span,.dws span{color:var(--sub)}
+input,select,textarea{background:var(--in);color:var(--tx);border:1.5px solid transparent;transition:border-color .15s,box-shadow .15s,background .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--ac);background:var(--cd);box-shadow:0 0 0 4px rgba(47,124,246,.16)}
+input::placeholder,textarea::placeholder{color:var(--sub);opacity:.8}
+.fl,.chip,.up,.cbx,.mi,.mh button,.qt,.lg,.rb .ri,.bh .ri2,.all{background:var(--in)}
+.btn{background:linear-gradient(135deg,var(--ac),var(--ac2));box-shadow:0 8px 18px rgba(47,124,246,.28);transition:transform .12s,box-shadow .12s,opacity .12s}
+.btn.s{background:var(--soft);color:var(--ac);box-shadow:none;font-weight:700}
+.btn:disabled{opacity:.55}
+.btn:active,.dwm:active,.at:active,.bkb:active,[onclick].card:active,[onclick].row:active,[onclick].card.row:active{transform:scale(.975)}
+.tag{background:var(--in);color:var(--sub);font-weight:600;border-radius:999px}
+.sk{background:linear-gradient(90deg,var(--cd),var(--in),var(--cd));background-size:200%;border-radius:22px}
+.pg.on{animation:pgin .28s cubic-bezier(.2,.8,.2,1)}@keyframes pgin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#toast{border-radius:18px;background:rgba(22,24,30,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);animation:pgin .2s}
+details>summary{cursor:pointer;list-style:none;padding:6px 0}details>summary::-webkit-details-marker{display:none}
+details>summary:before{content:'›';display:inline-block;width:14px;margin-right:4px;transition:transform .2s;color:var(--sub);font-weight:800}details[open]>summary:before{transform:rotate(90deg)}
+/* iOS uslubidagi yoqish/o'chirish tugmachasi (ck) */
+.sw{position:relative;display:inline-block;width:46px;height:28px;border-radius:28px;background:var(--sw);flex:none;order:9;margin-left:auto;transition:background .2s}
+.sw:after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.22);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.sw.on{background:#34c759}.sw.on:after{transform:translateX(18px)}
+div:has(>.sw){flex:1}
+.mo{background:rgba(8,12,20,.45)}
+.dws i,.dwi{background:var(--soft)}.dwm{border-radius:16px}
+nav a{background:rgba(255,255,255,.86)}html.dark nav a{background:rgba(24,28,35,.86);box-shadow:0 6px 24px rgba(0,0,0,.45)}nav a.on{background:var(--soft)}
+html.dark .cp{background:var(--cd)}html.dark .dwx svg{stroke:var(--sub)}html.dark .dwm .ch{stroke:#4a5161}
+html.dark .pl.gg{background:rgba(52,199,89,.16)}html.dark .pl.pp{background:rgba(255,59,48,.16)}
+html.dark img{opacity:.96}
+[style*="background:#eef1f6"],[style*="background:#f3f6fb"]{background:var(--in)!important;color:var(--tx)}
+.md{box-shadow:none}.md.on{box-shadow:4px 0 24px rgba(0,0,0,.18)}
 </style></head><body>
 <div id="toast"></div>
 <div id="gate"><div class="gi">📱</div><h1>Telefon raqamingizni tasdiqlang</h1><p class="sub">Ilovadan foydalanish uchun raqamingizni bir marta yuboring. Raqam faqat tasdiqlash uchun saqlanadi.</p><button class="btn" id="gb">📱 Raqamni yuborish</button><p class="sub" id="gn" style="margin-top:14px"></p></div>
@@ -2094,7 +2131,7 @@ nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;p
 </div>
 <nav><a data-p="me" id="admb" style="display:none"><b>⚙️</b>Panel</a></nav>
 <script>
-var tg=window.Telegram.WebApp;tg.ready();tg.expand();try{tg.disableVerticalSwipes()}catch(e){}document.addEventListener('gesturestart',function(e){e.preventDefault()});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});try{tg.setHeaderColor('#efeff4');tg.setBackgroundColor('#efeff4')}catch(e){}
+var tg=window.Telegram.WebApp;tg.ready();tg.expand();try{tg.disableVerticalSwipes()}catch(e){}document.addEventListener('gesturestart',function(e){e.preventDefault()});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});function thm(){var d=tg.colorScheme==='dark';document.documentElement.classList.toggle('dark',d);try{tg.setHeaderColor(d?'#0e1116':'#f2f4f8');tg.setBackgroundColor(d?'#0e1116':'#f2f4f8')}catch(e){}}thm();try{tg.onEvent('themeChanged',thm)}catch(e){}
 var R=[],ADM=false,$=function(i){return document.getElementById(i)};
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function f(n){return n==null?'—':Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ')}
@@ -2323,7 +2360,7 @@ function ait(){$('ai_r').textContent='Tekshirilmoqda...';api('adm_ai_test',{text
 function gdw(){api('adm_guard_words',{words:$('gd_w').value}).then(function(j){if(j.ok){GDA.words=$('gd_w').value;toast('Saqlandi ✅')}})}
 var DPC=null;
 function dpl(){$('dpb').innerHTML='<div class="sk"></div>';api('dp_my').then(function(j){if(j.ok){DPC=j;dpr()}})}
-function ck(on){return '<span style="font-size:22px;line-height:1">'+(on?'✅':'⬜')+'</span>'}
+function ck(on){return '<span class="sw'+(on?' on':'')+'"></span>'}
 function dpr(){var j=DPC,D=j.cfg,h='';
 if(D){h+='<div class="card row" style="cursor:pointer" onclick="dpf(0)"><div style="display:flex;align-items:center;gap:10px">'+ck(D.on)+'<div><b>Tongi xabar</b><div class="sub">har kuni '+esc(D.time)+' · '+D.n+' ta kanal</div></div></div><span class="sub">'+(D.on?'Yoqilgan':'O\'chirilgan')+'</span></div>'
 +'<div class="row" style="margin:4px 2px 8px"><b>Hafta kunlari</b><button class="btn s" onclick="dpa()">✅ Hammasi</button></div>'
