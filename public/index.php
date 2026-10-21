@@ -28,8 +28,6 @@ date_default_timezone_set((string)($CFG['timezone'] ?? 'Asia/Tashkent'));
 umask(0077);
 @mkdir(APP_DIR . '/data', 0700, true);
 @chmod(APP_DIR . '/data', 0700);
-// MadelineProto standart logini joriy papkaga (public/) yozmoqchi bo'ladi — u yerga yozish taqiqlangan
-chdir(APP_DIR . '/data');
 
 $IS_CRON = PHP_SAPI === 'cli' || isset($_GET['cron']);
 if (!$IS_CRON) {
