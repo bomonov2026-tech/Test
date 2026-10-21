@@ -1,0 +1,19 @@
+{
+  "name": "usdgo24-promo",
+  "version": "1.0.0",
+  "description": "Cinematic 3D promo video for the Usd Go24 (KursPremium) Telegram Mini App",
+  "main": "index.js",
+  "scripts": {
+    "capture": "node capture/capture.js",
+    "stills": "node render.js out/stills 30 --stills 2.6,9,14,17.6,21.9,24.2,29.5,37,41.5",
+    "frames": "node render.js out/frames 30",
+    "audio": "python3 audio/score.py out/soundtrack.wav",
+    "encode": "ffmpeg -y -framerate 30 -i out/frames/f_%05d.jpg -i out/soundtrack.wav -c:v libx264 -preset slow -crf 14 -pix_fmt yuv420p -profile:v high -tune film -movflags +faststart -c:a aac -b:a 320k -shortest out/usdgo24_promo_1080p.mp4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "three": "^0.180.0"
+  }
+}
