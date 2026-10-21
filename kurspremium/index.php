@@ -95,9 +95,13 @@ function mig() {
     if (setting('mig_pimg', '') !== '1') { try { db()->exec('ALTER TABLE chats ADD COLUMN send_c TINYINT NOT NULL DEFAULT 0, ADD COLUMN pi_key VARCHAR(20) NULL'); } catch (Exception $e) {} setset('mig_pimg', '1'); }
     if (setting('mig_dpr', '') !== '1') { try { db()->exec('ALTER TABLE chats ADD COLUMN dp_region VARCHAR(40) NULL'); } catch (Exception $e) {} setset('mig_dpr', '1'); }
     if (setting('mig_ext1', '') !== '1') { guard_install(); ext_install(); setset('mig_ext1', '1'); }
-    if (setting('wh_v2', '') !== '1' && APP_URL !== '') {   /* tugmalar (callback) va a'zolar o'zgarishi (chat_member) ham kelsin */
+    $whv = substr(md5(BOT_TOKEN . APP_URL), 0, 12);   /* token yoki manzil almashtirilsa — webhook va menyu tugmasi o'zi qayta o'rnatiladi */
+    if (setting('wh_v2', '') !== $whv && APP_URL !== '' && BOT_TOKEN !== '') {
         $r = pr_call('setWebhook', array('url' => APP_URL . '?hook=' . KEY, 'allowed_updates' => array('message', 'edited_message', 'callback_query', 'chat_member', 'my_chat_member')));
-        if (!empty($r['ok'])) setset('wh_v2', '1');
+        if (!empty($r['ok'])) {
+            pr_call('setChatMenuButton', array('menu_button' => array('type' => 'web_app', 'text' => 'Kurslar', 'web_app' => array('url' => APP_URL))));
+            setset('wh_v2', $whv);
+        }
     }
     if (setting('mig_guard3', '') !== '1') {
         try { db()->exec('ALTER TABLE group_guard ADD COLUMN words TEXT NULL, ADD COLUMN noad TINYINT NOT NULL DEFAULT 0'); } catch (Exception $e) {}
