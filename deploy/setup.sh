@@ -44,9 +44,17 @@ if [ ! -f "$DST/app/config.php" ]; then
   NEED_CFG=1
 fi
 
-echo ">>> MadelineProto (composer)"
+echo ">>> MadelineProto"
 chown -R www-data:www-data "$DST/app"
-sudo -u www-data -H composer install -d "$DST/app" --no-dev --no-interaction --prefer-dist
+if [ -f "$SRC/deploy/vendor.tar.xz" ]; then
+  # Tayyor vendor (ba'zi hostinglarda packagist.org ochilmaydi)
+  rm -rf "$DST/app/vendor"
+  tar -xJf "$SRC/deploy/vendor.tar.xz" -C "$DST/app"
+else
+  sudo -u www-data -H composer install -d "$DST/app" --no-dev --no-interaction --prefer-dist
+fi
+php -r 'require "'"$DST"'/app/vendor/autoload.php"; exit(class_exists(danog\MadelineProto\API::class) ? 0 : 1);' \
+  && echo "MadelineProto: OK" || { echo "MadelineProto yuklanmadi"; exit 1; }
 
 chown -R root:www-data "$DST/public"
 chown -R www-data:www-data "$DST/app"
