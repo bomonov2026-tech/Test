@@ -536,21 +536,20 @@ define('PR_TRIES', 3);         /* Telegram xatosida bitta xabar uchun eng ko'p u
 define('PR_WIN_MIN', 30);      /* namoz vaqti kirgach shu daqiqa ichida yuboriladi (cron to'xtab qolsa kech ketmasin) */
 define('PR_DAILY_WIN_MIN', 60);
 $PR_REG = array(   /* viloyat => array(API dagi nom => ko'rinadigan nom); faqat islomapi.uz qo'llab-quvvatlaydigan hududlar */
-    'Qoraqalpog\'iston Respublikasi' => array('Nukus' => 'Nukus', 'Mo\'ynоq' => 'Mo\'ynoq', 'Chimbоy' => 'Chimboy', 'Qo\'ng\'irоt' => 'Qo\'ng\'irot', 'Taxtako\'pir' => 'Taxtako\'pir', 'To\'rtko\'l' => 'To\'rtko\'l', 'Shumanay' => 'Shumanay'),
+    'Qoraqalpog\'iston Respublikasi' => array('Nukus' => 'Nukus', 'Qo\'ng\'irоt' => 'Qo\'ng\'irot', 'To\'rtko\'l' => 'To\'rtko\'l', 'Chimbоy' => 'Chimboy'),
     'Toshkent shahri' => array('Toshkent' => 'Toshkent'),
-    'Toshkent viloyati' => array('Angren' => 'Angren', 'Bekоbоd' => 'Bekobod', 'Burchmulla' => 'Burchmulla'),
-    'Andijon viloyati' => array('Andijon' => 'Andijon', 'Xоnоbоd' => 'Xonobod', 'Shahrixоn' => 'Shahrixon', 'Xo\'jaоbоd' => 'Xo\'jaobod', 'Bulоqbоshi' => 'Buloqboshi', 'Paxtaоbоd' => 'Paxtaobod', 'Оltinko\'l' => 'Oltinko\'l'),
-    'Namangan viloyati' => array('Namangan' => 'Namangan', 'Chust' => 'Chust', 'Chоrtоq' => 'Chortoq', 'Kоsоnsоy' => 'Kosonsoy', 'Mingbulоq' => 'Mingbuloq', 'Pоp' => 'Pop', 'Uchqo\'rg\'оn' => 'Uchqo\'rg\'on'),
-    'Farg\'ona viloyati' => array('Farg\'оna' => 'Farg\'ona', 'Qo\'qon' => 'Qo\'qon', 'Marg\'ilon' => 'Marg\'ilon', 'Quva' => 'Quva', 'Rishtоn' => 'Rishton', 'Оltiariq' => 'Oltiariq'),
+    'Toshkent viloyati' => array('Angren' => 'Angren', 'Bekоbоd' => 'Bekobod'),
+    'Andijon viloyati' => array('Andijon' => 'Andijon', 'Shahrixоn' => 'Shahrixon', 'Xоnоbоd' => 'Xonobod'),
+    'Namangan viloyati' => array('Namangan' => 'Namangan', 'Chust' => 'Chust', 'Kоsоnsоy' => 'Kosonsoy', 'Pоp' => 'Pop'),
+    'Farg\'ona viloyati' => array('Farg\'оna' => 'Farg\'ona', 'Qo\'qon' => 'Qo\'qon', 'Marg\'ilon' => 'Marg\'ilon', 'Quva' => 'Quva', 'Rishtоn' => 'Rishton'),
     'Sirdaryo viloyati' => array('Guliston' => 'Guliston'),
-    'Jizzax viloyati' => array('Jizzax' => 'Jizzax', 'Zоmin' => 'Zomin', 'G\'allaоrоl' => 'G\'allaorol', 'Do\'stlik' => 'Do\'stlik', 'Arnasоy' => 'Arnasoy', 'O\'smat' => 'O\'smat'),
-    'Samarqand viloyati' => array('Samarqand' => 'Samarqand', 'Kattaqo\'rg\'оn' => 'Kattaqo\'rg\'on', 'Urgut' => 'Urgut', 'Jоmbоy' => 'Jomboy'),
-    'Navoiy viloyati' => array('Navoiy' => 'Navoiy', 'Zarafshоn' => 'Zarafshon', 'Uchquduq' => 'Uchquduq', 'Nurоta' => 'Nurota', 'Kоnimex' => 'Konimex', 'Tоmdi' => 'Tomdi', 'Qiziltepa' => 'Qiziltepa'),
-    'Buxoro viloyati' => array('Buxoro' => 'Buxoro', 'Qоrako\'l' => 'Qorako\'l', 'Оlоt' => 'Olot', 'Gazli' => 'Gazli', 'Qоrоvulbоzоr' => 'Qorovulbozor'),
-    'Qashqadaryo viloyati' => array('Qarshi' => 'Qarshi', 'Mubоrak' => 'Muborak', 'G\'uzоr' => 'G\'uzor', 'Kоsоn' => 'Koson', 'Dehqоnоbоd' => 'Dehqonobod', 'Tallimarjоn' => 'Tallimarjon'),
-    'Surxondaryo viloyati' => array('Termiz' => 'Termiz', 'Denоv' => 'Denov', 'Sherоbоd' => 'Sherobod', 'Bоysun' => 'Boysun', 'Qumqo\'rg\'оn' => 'Qumqo\'rg\'on'),
-    'Xorazm viloyati' => array('Urganch' => 'Urganch', 'Xiva' => 'Xiva', 'Xоnqa' => 'Xonqa', 'Xazоrasp' => 'Xazorasp', 'Shоvоt' => 'Shovot', 'Yangibоzоr' => 'Yangibozor'),
-    'Boshqa hududlar' => array('Uchtepa' => 'Uchtepa', 'O\'g\'iz' => 'O\'g\'iz', 'Qo\'rg\'оntepa' => 'Qo\'rg\'ontepa', 'Uzunquduq' => 'Uzunquduq'),
+    'Jizzax viloyati' => array('Jizzax' => 'Jizzax', 'Zоmin' => 'Zomin', 'G\'allaоrоl' => 'G\'allaorol', 'Do\'stlik' => 'Do\'stlik'),
+    'Samarqand viloyati' => array('Samarqand' => 'Samarqand', 'Kattaqo\'rg\'оn' => 'Kattaqo\'rg\'on', 'Urgut' => 'Urgut'),
+    'Navoiy viloyati' => array('Navoiy' => 'Navoiy', 'Zarafshоn' => 'Zarafshon', 'Uchquduq' => 'Uchquduq', 'Nurоta' => 'Nurota'),
+    'Buxoro viloyati' => array('Buxoro' => 'Buxoro', 'Qоrako\'l' => 'Qorako\'l', 'Оlоt' => 'Olot'),
+    'Qashqadaryo viloyati' => array('Qarshi' => 'Qarshi', 'Kоsоn' => 'Koson', 'Mubоrak' => 'Muborak', 'G\'uzоr' => 'G\'uzor'),
+    'Surxondaryo viloyati' => array('Termiz' => 'Termiz', 'Denоv' => 'Denov', 'Sherоbоd' => 'Sherobod', 'Bоysun' => 'Boysun'),
+    'Xorazm viloyati' => array('Urganch' => 'Urganch', 'Xiva' => 'Xiva', 'Xazоrasp' => 'Xazorasp', 'Shоvоt' => 'Shovot'),
 );
 $PR_K = array('bomdod' => array('Bomdod', '🌅', 'tong_saharlik'), 'quyosh' => array('Quyosh', '☀️', 'quyosh'), 'peshin' => array('Peshin', '🕛', 'peshin'),
     'asr' => array('Asr', '🌤', 'asr'), 'shom' => array('Shom', '🌇', 'shom_iftor'), 'xufton' => array('Xufton', '🌙', 'hufton'));   /* kalit => nom, belgi, API maydoni */

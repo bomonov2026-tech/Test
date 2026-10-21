@@ -32,8 +32,7 @@ curl -s "https://DOMEN/KursPremium/?cron=KALIT&job=watch"
 - Javobdagi maydonlar: `times.tong_saharlik` (Bomdod), `quyosh`, `peshin`, `asr`, `shom_iftor` (Shom), `hufton` (Xufton), `date`, `hijri_date`.
 - **Cheklovlar:**
   - Bu islom.uz ning rasmiy API'si emas, uchinchi tomon xizmati. Kafolat yo'q, vaqti-vaqti bilan ishlamay qolishi mumkin.
-  - Faqat API'dagi hududlar bor: O'zbekiston bo'yicha 75 ta shahar va tuman. Hamma tuman yo'q, masalan Sirdaryo viloyatidan faqat Guliston bor. Yo'q tumanlar uchun vaqt hisoblanmaydi va to'qib chiqarilmaydi.
-  - Uchtepa, O'g'iz, Qo'rg'ontepa va Uzunquduqning viloyati tasdiqlanmagani uchun ular "Boshqa hududlar" guruhida turadi.
+  - Ro'yxatda har bir viloyatning faqat katta shaharlari va tuman markazlari bor (jami 46 ta, hammasi API'da mavjud). API'da yo'q hududlar uchun vaqt hisoblanmaydi va to'qib chiqarilmaydi (masalan, Sirdaryodan faqat Guliston bor).
   - Javobdagi sana so'ralgan sana bilan solishtiriladi. Boshqa yil yoki boshqa kun ma'lumoti qabul qilinmaydi.
 - Kesh: `prayer_cache` jadvali, standart holatda 360 daqiqa saqlanadi (admin panelda 15–1440 oralig'ida o'zgartiriladi). API xato bersa, o'sha hududga 15 daqiqadan keyin qayta uriniladi. Shu orada oxirgi saqlangan ma'lumot ⚠️ belgisi bilan ko'rsatiladi.
 
