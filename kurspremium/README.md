@@ -154,3 +154,8 @@ Bu xizmatlar uchun **har daqiqalik cron** kerak: `php /yo'l/index.php prayer` (y
 **📅 Hijriy sana** — tongi xabar matnida `{sana}` va `{hijriy}` o'zgaruvchilari ishlaydi. Hijriy sana API'dan olinadi; API bo'lmasa, arifmetik hisoblanadi (1 kun farq qilishi mumkin). Juma tongi uchun alohida matn tongi xabarda allaqachon bor.
 
 **Yangi jadvallar** (avtomatik yaratiladi): `guard_captcha`, `guard_warns`, `guard_tmp`, `guard_members`, `chat_stats`, `sched_posts`, `ref_links`, `ref_joins`, `giveaways`, `gw_users`. Yangi ustunlar: `group_guard.cfg`, `guard_log.txt/uname`, `chats.ref_on`.
+
+## Bosh sahifadagi namoz vaqtlari va tongi xabarga namoz vaqtlari
+- **Bosh sahifa:** kurslar ostida 13 ta hudud (12 viloyat markazi + Toshkent va Nukus) uchun **bitta namoz** vaqti chiqadi. Qaysi namoz ekani Toshkent vaqti bo'yicha aniqlanadi: namoz kirganidan 30 daqiqa o'tgach keyingisi ko'rsatiladi (Bomdod → Peshin → Asr → Shom → Xufton). Xuftondan 30 daqiqa o'tgach ertangi Bomdod chiqadi. Foydalanuvchining «Namoz vaqtlari» sahifasida tanlagan hududi ro'yxat boshida ajratib ko'rsatiladi. Ma'lumot 2 daqiqada bir yangilanadi, kesh esa har daqiqalik cron orqali oldindan tayyorlanadi.
+- **Tongi xabar:** «Tongi xabar → Kanallarim» bo'limida kanal egasi har bir kanal uchun o'z hududini tanlaydi (`chats.dp_region`). Shunda 6:00 dagi ertalabki xabar oxiriga shu hududning 6 ta vaqti qo'shiladi. Video posti tagidagi matn 1024 belgiga sig'masa, vaqtlar qo'shilmaydi. Hudud tanlanmasa, xabar avvalgidek ketadi.
+- Tongi xabar endi har daqiqalik cron orqali ham yuboriladi (takroriy yuborishdan himoyalangan). Kurs xabarlari o'zgarmagan.
