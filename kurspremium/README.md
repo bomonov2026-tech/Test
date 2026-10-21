@@ -125,3 +125,32 @@ Qoidalar tartibi:
 9. 🛡 Guruhni 100% himoya qiladi — bosilganda 1–8 va qo'shimcha himoyalar (APK, AI porno, AI reklama) birdan yoqiladi; hammasi yoqilgan bo'lsa, qayta bosilganda o'chadi.
 
 «Qo'shimcha himoya» ichida: 📦 zararli fayllar, 🔞 AI porno, 📣 AI yashirin reklama, 🇸🇦 barcha arabcha xabarlar. Guruh kartasidagi «📈 Kurs xabarlari» tugmasi avvalgi kurs xabarlari sozlamasini ochadi.
+
+## Qo'shimcha xizmatlar
+
+Bu xizmatlar uchun **har daqiqalik cron** kerak: `php /yo'l/index.php prayer` (yoki `minute`), yoki admin paneldagi `?prayer_cron=KALIT` URL. Bitta cron namoz xabarlari, postlar, kapcha, statistika, haftalik hisobot va konkurslarning hammasini bajaradi. Webhook endi `callback_query` (tugmalar) va `chat_member` (a'zolar o'zgarishi) yangilanishlarini ham oladi — birinchi so'rovdayoq o'zi qayta sozlanadi.
+
+**🛡 Guruh himoyasi → ⚙️ Guruh boshqaruvi**
+- **🤖 Kapcha** — yangi a'zo yoza olmaydi, 2 daqiqa ichida «✅ Men odamman» tugmasini bosishi kerak. Bosmasa guruhdan chiqariladi.
+- **⚠️ Avto-ogohlantirish** — qoida buzganga 1/3, 2/3 ogohlantirish beriladi. Limitdan keyin N soat yoza olmaydi (soni va soati sozlanadi).
+- **👋 Salomlashish** — `{ism}`, `{guruh}` o'zgaruvchilari bilan. Xabar 2 daqiqadan keyin o'chadi; kapcha yoqilgan bo'lsa, salom kapcha xabariga qo'shiladi.
+- **🌙 Tungi rejim** — belgilangan oraliqda faqat adminlar yozadi. A'zolarning xabarlari o'chiriladi, eslatma 10 daqiqada bir marta chiqadi.
+- **📨 O'chirilganlarni menga yuborish** — har bir o'chirilgan xabar sababi bilan guruh egasiga shaxsan keladi.
+- **👥 A'zolar faolligi** — eng faollar va 7 kundan beri yozmaganlar. Faqat bot qo'shilgandan keyingi xabarlar hisoblanadi.
+- **🗑 O'chirilgan xabarlar** — oxirgi 50 tasi, matnlilarini «♻️ Qayta yuborish» mumkin.
+- **Admin buyruqlari** (kerakli xabarga javob qilib): `/warn`, `/unwarn`, `/mute 2h` (30m, 1d), `/unmute`, `/kick`, `/ban`, `/unban`. Guruhda `/top` — taklif reytingi.
+- Kapcha, mute, kick va ban uchun botga «Foydalanuvchilarni bloklash» huquqi kerak.
+
+**🗓 Postlar** — kanal yoki guruhga belgilangan vaqtda post yuboriladi: bir marta, har kuni yoki har hafta. Matn (HTML), ixtiyoriy rasm/video (kanal post havolasi orqali `copyMessage`) va URL tugma qo'shish mumkin; «Menga yuborish» bilan sinab ko'riladi. Bir vaqtda bir nechta cron ishlasa ham post bir marta ketadi. Bir martalik post 1 kundan ko'p kechiksa, yuborilmaydi.
+
+**📊 Statistika** — obunachilar/a'zolar soni har kuni saqlanadi: kecha, 7 kun va 30 kun bilan solishtiriladi, 14 kunlik grafik chiqadi. Guruhda xabarlar soni, kirdi-chiqdi ham ko'rsatiladi. Har dushanba 9:00 dan keyin egasiga haftalik hisobot keladi (o'chirish mumkin). Telegram botlarga postlarning ko'rishlar sonini bermaydi, shuning uchun u hisobotda yo'q.
+
+**🔗 Taklif havolalari** — egasi kanal/guruhida yoqadi; botga «Invite users» huquqi kerak. Har bir foydalanuvchi shaxsiy havola oladi (`createChatInviteLink`, nomi `ref_<id>`). Havola orqali kirganlar `chat_member` yangilanishidan hisoblanadi: bir odam bir marta, o'zini taklif qilish hisoblanmaydi. Reyting ilovada, guruhda `/top` buyrug'i bilan va «Reytingni yuborish» tugmasi orqali ko'rinadi.
+
+**🎁 Konkurslar** — post «🎁 Ishtirok etish (N)» tugmasi bilan joylanadi. Tugma bosilganda shart qilingan kanal/guruhlarga obuna tekshiriladi. Vaqt tugaganda g'oliblar tasodifiy tanlanadi (obunadan chiqqanlar o'tkazib yuboriladi), natija javob tariqasida e'lon qilinadi va g'oliblarga shaxsan xabar boradi. Konkursni oldinroq yakunlash yoki bekor qilish mumkin.
+
+**🌙 Ramazon** — Namoz xabarnomalarida «Saharlik» (Bomdoddan 10 daqiqa oldin, niyat duosi bilan) va «Iftorlik» (Shom vaqtida, iftorlik duosi bilan) turlari bor. Faqat Ramazon oyida yoqing.
+
+**📅 Hijriy sana** — tongi xabar matnida `{sana}` va `{hijriy}` o'zgaruvchilari ishlaydi. Hijriy sana API'dan olinadi; API bo'lmasa, arifmetik hisoblanadi (1 kun farq qilishi mumkin). Juma tongi uchun alohida matn tongi xabarda allaqachon bor.
+
+**Yangi jadvallar** (avtomatik yaratiladi): `guard_captcha`, `guard_warns`, `guard_tmp`, `guard_members`, `chat_stats`, `sched_posts`, `ref_links`, `ref_joins`, `giveaways`, `gw_users`. Yangi ustunlar: `group_guard.cfg`, `guard_log.txt/uname`, `chats.ref_on`.
