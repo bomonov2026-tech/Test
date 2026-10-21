@@ -90,3 +90,21 @@ Menyu → **🛡 Guruh himoyasi**: guruh egasi o'z guruhlarida himoyani va har b
 - **Talab:** guruh «Guruh qo'shish» orqali ro'yxatda bo'lishi kerak. Bot guruhda **administrator** bo'lib, unda **«Удаление сообщений» (Xabarlarni o'chirish)** huquqi bo'lishi kerak. Huquq yetmasa, panelda qizil ogohlantirish chiqadi.
 - Hammasi mavjud webhook orqali ishlaydi, alohida cron kerak emas.
 - Jadvallar avtomatik yaratiladi: `group_guard`, `guard_log` (30 kun saqlanadi), `guard_admins`, `guard_seen`.
+
+### AI himoya (Claude API)
+
+| Qoida | Qanday ishlaydi |
+|---|---|
+| 🔞 Porno media va stickerlar (AI) | rasm, oddiy sticker, animatsion yoki video sticker muqovasi, GIF va video muqovasi Telegram'dan yuklanib (800 px gacha), Claude'ga yuboriladi. Javob `porn` bo'lsa o'chiriladi. Model rasmni ko'rishdan bosh tortsa (`refusal`), bu ham porno deb hisoblanadi |
+| 📣 Spam va reklamalar (AI) | oddiy qoidalardan o'tib ketgan, 15 belgidan uzun matnlar Claude'ga yuboriladi. Javob `spam` bo'lsa o'chiriladi |
+| 📦 Zararli fayllar | AI'siz: `.apk .xapk .apks .apkm .exe .msi .bat .cmd .scr .com .jar .vbs .ps1` va APK MIME turi |
+
+- **Sozlash:** `index.php` boshidagi `AI_KEY` ga Anthropic API kalitini yozing (console.anthropic.com → API Keys). Kalit faqat serverda saqlanadi. `AI_MODEL` standart holatda `claude-opus-5-5`; arzonroq variant `claude-haiku-5-5`.
+- **Narx (taxminiy):** 800×800 rasm taxminan 841 token. Opus 5.5 ($4 / 1M kirish tokeni) bilan bir rasm taxminan $0.004–0.006 turadi, Haiku 5.5 ($0.10 / 1M) bilan taxminan 40 marta arzon. Narxlar o'zgarishi mumkin.
+- **Sarf nazorati:**
+  - **Kunlik limit:** admin panelda o'rnatiladi (standart 300 so'rov, 0 = AI o'chiq). Limit tugasa, AI qoidalari ertagacha to'xtaydi, qolgan qoidalar ishlayveradi.
+  - **Kesh:** bir xil sticker yoki rasm (`file_unique_id`) va bir xil matn 30 kun keshlanadi, qayta pul sarflanmaydi.
+  - **Adminlar:** guruh adminlarining xabarlari AI'ga yuborilmaydi.
+- **So'rov:** `output_config.format` (JSON schema) va `effort: low` bilan yuboriladi. Opus/Sonnet modellarida `fallbacks: "default"` (`server-side-fallback-2026-07-01`) yoqilgan.
+- **Xatolar:** AI javob bermasa yoki xato qilsa, xabar o'chirilmaydi. Oxirgi xato admin panelda ko'rinadi, u yerda matnni sinab ko'rish tugmasi ham bor.
+- **Cheklov:** AI 100% aniq emas. Ba'zi porno rasmlar o'tib ketishi yoki oddiy rasm o'chib ketishi mumkin. Kesh jadvali: `ai_cache`.
