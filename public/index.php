@@ -141,7 +141,7 @@ function tg_error(Throwable $e): string {
         'BOT_GROUPS_BLOCKED' => 'Botni guruhga qo‘shib bo‘lmaydi: BotFather → /mybots → bot → Bot Settings → Allow Groups → Turn on.',
         'BOT_CHANNELS_NA' => 'Botni bu kanalga qo‘shib bo‘lmadi (BOT_CHANNELS_NA).',
         'BOTS_TOO_MUCH' => 'Bu chatda botlar limiti to‘lgan.',
-        'ADMIN_RIGHTS_EMPTY' => 'Admin uchun kamida bitta huquq belgilang (👤 Admin bo‘limi).',
+        'ADMIN_RIGHTS_EMPTY' => 'Admin uchun kamida bitta huquq belgilang ([@] Admin bo‘limi).',
         'USER_BLOCKED' => 'Foydalanuvchi/bot bu akkauntni bloklagan.',
         'PEER_ID_INVALID' => 'Bot/foydalanuvchi topilmadi (username’ni tekshiring).',
     ];
