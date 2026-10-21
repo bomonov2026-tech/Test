@@ -4,7 +4,8 @@
    Cron (cPanel): har 5 daqiqada:   curl -s "APP_URL?cron=KALIT&job=watch"
    (watch = kursni yangilaydi + o'zgargan bo'lsa darrov yuboradi; aks holda chat tanlagan 3-12 soatda, oxirgi xabardan hisoblanadi; kurs yangilanmasa ham yuboradi)
    Ertalabki post: shu cron har chaqirilganda tekshiriladi — belgilangan vaqtdan (masalan 06:00) keyingi birinchi tickda
-   haftaning shu kuniga mos matn + video (baza kanaldan copyMessage) "🌅" yoqilgan kanallarga bir marta ketadi. */
+   haftaning shu kuniga mos matn + video (baza kanaldan copyMessage) "🌅" yoqilgan kanallarga bir marta ketadi.
+   Namoz xabarnomalari: har daqiqada  php /yo'l/index.php prayer   (yoki ?prayer_cron=KALIT — kalit admin panelda ko'rinadi) */
 define('BOT_TOKEN', '');      /* BotFather tokeni */
 define('BOT_USERNAME', 'KursPremiumBot');   /* @siz */
 define('ADMIN_IDS', '');      /* admin Telegram ID lari, vergul bilan */
@@ -86,6 +87,7 @@ function mig() {
         try { db()->exec('ALTER TABLE chats ADD COLUMN dp_on TINYINT NOT NULL DEFAULT 0, ADD COLUMN dp_date DATE NULL'); } catch (Exception $e) {}
         setset('mig_dp', '1');
     }
+    if (setting('mig_pr', '') !== '1') { pr_install(); setset('mig_pr', '1'); }
     if (setting('mig_send', '') === '1') return;
     try { db()->exec('ALTER TABLE chats ADD COLUMN send_a TINYINT NOT NULL DEFAULT 1, ADD COLUMN send_b TINYINT NOT NULL DEFAULT 0'); } catch (Exception $e) {}
     setset('mig_send', '1');
@@ -101,6 +103,7 @@ function install() {
         "settings (k VARCHAR(60) PRIMARY KEY, v TEXT)"
     );
     foreach ($t as $x) db()->exec('CREATE TABLE IF NOT EXISTS ' . $x . ' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+    pr_install();
 }
 
 /* ---------- KURS MANBALARI (adapterlar) ---------- */
@@ -525,7 +528,228 @@ function cron_daily() {
     return $n;
 }
 
+/* ---------- NAMOZ VAQTLARI: islomapi.uz (islom.uz taqvimi asosida) + kanal/guruhlarga xabarnoma ---------- */
+define('PR_API', 'https://islomapi.uz/api/');
+define('PR_KEY', 'pr_' . substr(md5(BOT_TOKEN . 'prayer-cron'), 0, 24));   /* namoz cron uchun alohida kalit */
+define('PR_RETRY_MIN', 15);    /* API javob bermasa, shu hudud uchun qayta urinish oralig'i (daqiqa) */
+define('PR_TRIES', 3);         /* Telegram xatosida bitta xabar uchun eng ko'p urinish */
+define('PR_WIN_MIN', 30);      /* namoz vaqti kirgach shu daqiqa ichida yuboriladi (cron to'xtab qolsa kech ketmasin) */
+define('PR_DAILY_WIN_MIN', 60);
+$PR_REG = array(   /* viloyat => array(API dagi nom => ko'rinadigan nom); faqat islomapi.uz qo'llab-quvvatlaydigan hududlar */
+    'Qoraqalpog\'iston Respublikasi' => array('Nukus' => 'Nukus', 'Mo\'ynоq' => 'Mo\'ynoq', 'Chimbоy' => 'Chimboy', 'Qo\'ng\'irоt' => 'Qo\'ng\'irot', 'Taxtako\'pir' => 'Taxtako\'pir', 'To\'rtko\'l' => 'To\'rtko\'l', 'Shumanay' => 'Shumanay'),
+    'Toshkent shahri' => array('Toshkent' => 'Toshkent'),
+    'Toshkent viloyati' => array('Angren' => 'Angren', 'Bekоbоd' => 'Bekobod', 'Burchmulla' => 'Burchmulla'),
+    'Andijon viloyati' => array('Andijon' => 'Andijon', 'Xоnоbоd' => 'Xonobod', 'Shahrixоn' => 'Shahrixon', 'Xo\'jaоbоd' => 'Xo\'jaobod', 'Bulоqbоshi' => 'Buloqboshi', 'Paxtaоbоd' => 'Paxtaobod', 'Оltinko\'l' => 'Oltinko\'l'),
+    'Namangan viloyati' => array('Namangan' => 'Namangan', 'Chust' => 'Chust', 'Chоrtоq' => 'Chortoq', 'Kоsоnsоy' => 'Kosonsoy', 'Mingbulоq' => 'Mingbuloq', 'Pоp' => 'Pop', 'Uchqo\'rg\'оn' => 'Uchqo\'rg\'on'),
+    'Farg\'ona viloyati' => array('Farg\'оna' => 'Farg\'ona', 'Qo\'qon' => 'Qo\'qon', 'Marg\'ilon' => 'Marg\'ilon', 'Quva' => 'Quva', 'Rishtоn' => 'Rishton', 'Оltiariq' => 'Oltiariq'),
+    'Sirdaryo viloyati' => array('Guliston' => 'Guliston'),
+    'Jizzax viloyati' => array('Jizzax' => 'Jizzax', 'Zоmin' => 'Zomin', 'G\'allaоrоl' => 'G\'allaorol', 'Do\'stlik' => 'Do\'stlik', 'Arnasоy' => 'Arnasoy', 'O\'smat' => 'O\'smat'),
+    'Samarqand viloyati' => array('Samarqand' => 'Samarqand', 'Kattaqo\'rg\'оn' => 'Kattaqo\'rg\'on', 'Urgut' => 'Urgut', 'Jоmbоy' => 'Jomboy'),
+    'Navoiy viloyati' => array('Navoiy' => 'Navoiy', 'Zarafshоn' => 'Zarafshon', 'Uchquduq' => 'Uchquduq', 'Nurоta' => 'Nurota', 'Kоnimex' => 'Konimex', 'Tоmdi' => 'Tomdi', 'Qiziltepa' => 'Qiziltepa'),
+    'Buxoro viloyati' => array('Buxoro' => 'Buxoro', 'Qоrako\'l' => 'Qorako\'l', 'Оlоt' => 'Olot', 'Gazli' => 'Gazli', 'Qоrоvulbоzоr' => 'Qorovulbozor'),
+    'Qashqadaryo viloyati' => array('Qarshi' => 'Qarshi', 'Mubоrak' => 'Muborak', 'G\'uzоr' => 'G\'uzor', 'Kоsоn' => 'Koson', 'Dehqоnоbоd' => 'Dehqonobod', 'Tallimarjоn' => 'Tallimarjon'),
+    'Surxondaryo viloyati' => array('Termiz' => 'Termiz', 'Denоv' => 'Denov', 'Sherоbоd' => 'Sherobod', 'Bоysun' => 'Boysun', 'Qumqo\'rg\'оn' => 'Qumqo\'rg\'on'),
+    'Xorazm viloyati' => array('Urganch' => 'Urganch', 'Xiva' => 'Xiva', 'Xоnqa' => 'Xonqa', 'Xazоrasp' => 'Xazorasp', 'Shоvоt' => 'Shovot', 'Yangibоzоr' => 'Yangibozor'),
+    'Boshqa hududlar' => array('Uchtepa' => 'Uchtepa', 'O\'g\'iz' => 'O\'g\'iz', 'Qo\'rg\'оntepa' => 'Qo\'rg\'ontepa', 'Uzunquduq' => 'Uzunquduq'),
+);
+$PR_K = array('bomdod' => array('Bomdod', '🌅', 'tong_saharlik'), 'quyosh' => array('Quyosh', '☀️', 'quyosh'), 'peshin' => array('Peshin', '🕛', 'peshin'),
+    'asr' => array('Asr', '🌤', 'asr'), 'shom' => array('Shom', '🌇', 'shom_iftor'), 'xufton' => array('Xufton', '🌙', 'hufton'));   /* kalit => nom, belgi, API maydoni */
+define('PR_TPL_DAILY', "🕌 BUGUNGI NAMOZ VAQTLARI\n\n📍 Hudud: {hudud}\n📅 Sana: {sana}\n\n🌅 Bomdod — {bomdod}\n☀️ Quyosh — {quyosh}\n🕛 Peshin — {peshin}\n🌤 Asr — {asr}\n🌇 Shom — {shom}\n🌙 Xufton — {xufton}\n\n🤲 Namozlaringiz qabul bo'lsin!");
+define('PR_TPL_ONE', "{belgi} {namoz} vaqti kirdi — {vaqt}\n\n📍 {hudud}\n\n🤲 Namozingiz qabul bo'lsin!");
+define('PR_TPL_SUN', "☀️ Quyosh chiqdi — {vaqt}\n\n📍 {hudud}\nBomdod vaqti tugadi.");
+function pr_install() {
+    $t = array(
+        "prayer_settings (k VARCHAR(60) PRIMARY KEY, v TEXT)",
+        "prayer_destinations (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(80) NOT NULL, chat_id BIGINT NOT NULL, chat_type VARCHAR(12) NOT NULL DEFAULT '', region VARCHAR(40) NOT NULL, active TINYINT NOT NULL DEFAULT 1, last_ok_at DATETIME NULL, last_err VARCHAR(255) NULL, last_err_at DATETIME NULL, created_at DATETIME NOT NULL, UNIQUE KEY u (chat_id))",
+        "prayer_schedules (id INT AUTO_INCREMENT PRIMARY KEY, dest_id INT NOT NULL, kind VARCHAR(10) NOT NULL, enabled TINYINT NOT NULL DEFAULT 0, at_time CHAR(5) NULL, body TEXT NULL, UNIQUE KEY u (dest_id,kind))",
+        "prayer_sent_log (id INT AUTO_INCREMENT PRIMARY KEY, uid VARCHAR(80) NOT NULL, dest_id INT NOT NULL, kind VARCHAR(10) NOT NULL, day DATE NOT NULL, status VARCHAR(10) NOT NULL, tries INT NOT NULL DEFAULT 1, msg_id BIGINT NULL, err VARCHAR(255) NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, UNIQUE KEY u (uid), KEY d (dest_id,id))",
+        "prayer_cache (region VARCHAR(40) NOT NULL, day DATE NOT NULL, times TEXT NULL, hijri VARCHAR(60) NULL, source VARCHAR(255) NULL, fetched_at DATETIME NULL, tried_at DATETIME NULL, err VARCHAR(255) NULL, PRIMARY KEY (region,day))"
+    );
+    foreach ($t as $x) db()->exec('CREATE TABLE IF NOT EXISTS ' . $x . ' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+}
+function pr_set($k, $d = '') { $v = q('SELECT v FROM prayer_settings WHERE k=?', array($k))->fetchColumn(); return $v === false ? $d : $v; }
+function pr_setset($k, $v) { q('INSERT INTO prayer_settings (k,v) VALUES (?,?) ON DUPLICATE KEY UPDATE v=VALUES(v)', array($k, (string)$v)); }
+function pr_ttl() { return max(15, min(1440, (int)pr_set('ttl_min', 360))); }   /* kesh necha daqiqada yangilanadi */
+function pr_region_name($r) {
+    global $PR_REG;
+    foreach ($PR_REG as $v => $list) if (isset($list[$r])) return $r === 'Toshkent' ? $v : $list[$r] . ' (' . $v . ')';
+    return '';
+}
+function pr_regions() {
+    global $PR_REG; $o = array();
+    foreach ($PR_REG as $v => $list) { $it = array(); foreach ($list as $k => $n) $it[] = array($k, $n); $o[] = array('name' => $v, 'items' => $it); }
+    return $o;
+}
+function pr_clean($s) { return trim(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', str_replace("\r", '', (string)$s))); }
+function pr_tpl_def($k) { return $k === 'daily' ? PR_TPL_DAILY : ($k === 'quyosh' ? PR_TPL_SUN : PR_TPL_ONE); }
+/* API so'rovi: array(json|null, url, xato matni) */
+function pr_api($path, $qs) {
+    $url = PR_API . $path . '?' . http_build_query($qs);
+    $c = curl_init($url);
+    curl_setopt_array($c, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_TIMEOUT => 8, CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_USERAGENT => 'Mozilla/5.0 KursPremium'));
+    $b = curl_exec($c); $no = curl_errno($c); $code = (int)curl_getinfo($c, CURLINFO_HTTP_CODE); curl_close($c);
+    if ($no) return array(null, $url, 'Namoz vaqtlari serveri (islomapi.uz) bilan aloqa yo\'q');
+    if ($code === 404 || trim((string)$b) === 'null') return array(null, $url, 'API bu hudud va sana uchun ma\'lumot bermadi');
+    if ($code >= 400) return array(null, $url, 'Namoz vaqtlari serveri xato qaytardi (HTTP ' . $code . ')');
+    $j = json_decode((string)$b, true);
+    return array(is_array($j) ? $j : null, $url, is_array($j) ? '' : 'API javobi kutilgan formatda emas');
+}
+/* Javobni tekshiradi: sana aynan $ymd bo'lsin va 6 ta vaqt HH:MM ko'rinishida bo'lsin */
+function pr_parse($j, $ymd) {
+    global $PR_K;
+    if (!is_array($j) || empty($j['times']) || !is_array($j['times']) || empty($j['date'])) return null;
+    $ts = strtotime((string)$j['date']);
+    if (!$ts || (gmdate('Y-m-d', $ts) !== $ymd && date('Y-m-d', $ts) !== $ymd)) return null;
+    $t = array();
+    foreach ($PR_K as $k => $x) {
+        $v = isset($j['times'][$x[2]]) ? trim((string)$j['times'][$x[2]]) : '';
+        if (!preg_match('/^(\d{1,2}):(\d{2})$/', $v, $m) || (int)$m[1] > 23 || (int)$m[2] > 59) return null;
+        $t[$k] = sprintf('%02d:%02d', $m[1], $m[2]);
+    }
+    return array('times' => $t, 'hijri' => isset($j['hijri_date']) ? mb_substr(trim((string)$j['hijri_date']), 0, 60) : '');
+}
+/* API dan bir kunlik vaqtlar: muvaffaqiyatda array, xatoda matn */
+function pr_fetch($region, $ymd) {
+    $p = explode('-', $ymd);
+    $r1 = pr_api('daily', array('region' => $region, 'month' => (int)$p[1], 'day' => (int)$p[2]));
+    $r = pr_parse($r1[0], $ymd);
+    if ($r) { $r['source'] = $r1[1]; return $r; }
+    $e = $r1[2];
+    if ($ymd === date('Y-m-d')) {
+        $r2 = pr_api('present/day', array('region' => $region));
+        $r = pr_parse($r2[0], $ymd);
+        if ($r) { $r['source'] = $r2[1]; return $r; }
+        if ($e === '') $e = $r2[2];
+    }
+    return $e !== '' ? $e : 'API da ' . date('d.m.Y', strtotime($ymd)) . ' sanasi uchun ma\'lumot yo\'q';
+}
+/* Keshdan oladi; eskirgan bo'lsa API dan yangilaydi (bitta hudud uchun PR_RETRY_MIN dan tez-tez emas) */
+function pr_get($region, $ymd, $fetch = true) {
+    $sel = 'SELECT * FROM prayer_cache WHERE region=? AND day=?';
+    $row = q($sel, array($region, $ymd))->fetch(); $now = time();
+    $fresh = $row && $row['times'] && strtotime($row['fetched_at']) >= $now - pr_ttl() * 60;
+    if (!$fresh && $fetch && (!$row || !$row['tried_at'] || strtotime($row['tried_at']) <= $now - PR_RETRY_MIN * 60)) {
+        $ts = date('Y-m-d H:i:s');
+        q('INSERT INTO prayer_cache (region,day,tried_at) VALUES (?,?,?) ON DUPLICATE KEY UPDATE tried_at=VALUES(tried_at)', array($region, $ymd, $ts));
+        $r = pr_fetch($region, $ymd);
+        if (is_array($r)) q('UPDATE prayer_cache SET times=?, hijri=?, source=?, fetched_at=?, err=NULL WHERE region=? AND day=?', array(json_encode($r['times']), $r['hijri'], mb_substr($r['source'], 0, 255), $ts, $region, $ymd));
+        else q('UPDATE prayer_cache SET err=? WHERE region=? AND day=?', array(mb_substr($r, 0, 255), $region, $ymd));
+        $row = q($sel, array($region, $ymd))->fetch();
+    }
+    if ($row && $row['times']) return array('ok' => true, 'times' => json_decode($row['times'], true), 'hijri' => (string)$row['hijri'], 'source' => (string)$row['source'],
+        'fetched_at' => $row['fetched_at'], 'stale' => strtotime($row['fetched_at']) < $now - pr_ttl() * 60, 'error' => (string)$row['err']);
+    return array('ok' => false, 'error' => $row && $row['err'] ? $row['err'] . '. ' . PR_RETRY_MIN . ' daqiqadan keyin qayta urinib ko\'ring.' : 'Namoz vaqtlari hali olinmadi, birozdan keyin qayta urinib ko\'ring.');
+}
+function pr_text($tpl, $kind, $region, $pt, $ymd) {
+    global $PR_K;
+    $rep = array('{hudud}' => pr_region_name($region), '{sana}' => date('d.m.Y', strtotime($ymd)), '{hijriy}' => $pt['hijri']);
+    foreach ($PR_K as $k => $x) $rep['{' . $k . '}'] = $pt['times'][$k];
+    if (isset($PR_K[$kind])) { $rep['{namoz}'] = $PR_K[$kind][0]; $rep['{vaqt}'] = $pt['times'][$kind]; $rep['{belgi}'] = $PR_K[$kind][1]; }
+    return mb_substr(strtr($tpl, $rep), 0, 4096);
+}
+/* Telegram: 4xx javobdagi "description" ham qaytadi (tg() uni yo'qotadi) */
+function pr_call($m, $p = array()) {
+    $c = curl_init('https://api.telegram.org/bot' . BOT_TOKEN . '/' . $m);
+    curl_setopt_array($c, array(CURLOPT_POST => 1, CURLOPT_POSTFIELDS => json_encode($p), CURLOPT_HTTPHEADER => array('Content-Type: application/json'), CURLOPT_RETURNTRANSFER => 1, CURLOPT_TIMEOUT => 15, CURLOPT_CONNECTTIMEOUT => 6));
+    $r = curl_exec($c); curl_close($c);
+    $j = $r ? json_decode($r, true) : null;
+    return is_array($j) ? $j : array('ok' => false, 'description' => 'Telegram bilan aloqa yo\'q');
+}
+function pr_tg_err($r) {
+    $d = isset($r['description']) ? (string)$r['description'] : 'yuborilmadi';
+    $map = array('chat not found' => 'Chat topilmadi: chat_id noto\'g\'ri yoki bot bu chatga qo\'shilmagan', 'bot was kicked' => 'Bot chatdan chiqarib yuborilgan',
+        'bot is not a member' => 'Bot bu chat a\'zosi emas', 'not enough rights' => 'Botda xabar yozish huquqi yo\'q', 'need administrator rights' => 'Bot kanalda administrator emas',
+        'have no rights to send' => 'Botda xabar yozish huquqi yo\'q', 'Too Many Requests' => 'Telegram cheklovi (juda ko\'p so\'rov), keyinroq qayta uriniladi');
+    foreach ($map as $k => $v) if (stripos($d, $k) !== false) return $v . ' (' . mb_substr($d, 0, 120) . ')';
+    return mb_substr($d, 0, 250);
+}
+/* Bitta xabar: uid bo'yicha bir marta. Ikkita cron bir vaqtda ishlasa ham INSERT IGNORE / UPDATE ... WHERE faqat bittasiga ruxsat beradi.
+   null — allaqachon yuborilgan yoki yuborilmoqda; '' — yuborildi; matn — xato */
+function pr_deliver($d, $kind, $ymd, $text, $uid = null) {
+    $now = date('Y-m-d H:i:s'); if ($uid === null) $uid = $d['id'] . ':' . $kind . ':' . $ymd;
+    $ins = q("INSERT IGNORE INTO prayer_sent_log (uid,dest_id,kind,day,status,tries,created_at,updated_at) VALUES (?,?,?,?,'sending',1,?,?)", array($uid, $d['id'], $kind, $ymd, $now, $now));
+    if ($ins->rowCount() !== 1) {
+        $up = q("UPDATE prayer_sent_log SET status='sending', tries=tries+1, updated_at=? WHERE uid=? AND status='failed' AND tries<? AND updated_at<=?", array($now, $uid, PR_TRIES, date('Y-m-d H:i:s', time() - 120)));
+        if ($up->rowCount() !== 1) return null;
+    }
+    $r = pr_call('sendMessage', array('chat_id' => $d['chat_id'], 'text' => $text, 'disable_web_page_preview' => true));
+    $now = date('Y-m-d H:i:s');
+    if (!empty($r['ok'])) {
+        q("UPDATE prayer_sent_log SET status='sent', msg_id=?, err=NULL, updated_at=? WHERE uid=?", array(isset($r['result']['message_id']) ? (int)$r['result']['message_id'] : null, $now, $uid));
+        q('UPDATE prayer_destinations SET last_ok_at=?, last_err=NULL, last_err_at=NULL WHERE id=?', array($now, $d['id']));
+        return '';
+    }
+    $e = pr_tg_err($r);
+    q("UPDATE prayer_sent_log SET status='failed', err=?, updated_at=? WHERE uid=?", array($e, $now, $uid));
+    q('UPDATE prayer_destinations SET last_err=?, last_err_at=? WHERE id=?', array($e, $now, $d['id']));
+    return $e;
+}
+function pr_sched($id) {
+    global $PR_K; $o = array();
+    foreach (array_merge(array('daily'), array_keys($PR_K)) as $k) $o[$k] = array('on' => false, 'time' => '04:30', 'text' => pr_tpl_def($k), 'custom' => false);
+    foreach (q('SELECT kind,enabled,at_time,body FROM prayer_schedules WHERE dest_id=?', array($id))->fetchAll() as $s) {
+        if (!isset($o[$s['kind']])) continue;
+        $cu = $s['body'] !== null && trim($s['body']) !== '';
+        $o[$s['kind']] = array('on' => (bool)$s['enabled'], 'time' => $s['at_time'] ?: '04:30', 'text' => $cu ? $s['body'] : pr_tpl_def($s['kind']), 'custom' => $cu);
+    }
+    return $o;
+}
+function cron_prayer() {
+    global $PR_K;
+    if (!db()->query("SELECT GET_LOCK('kp_prayer', 0)")->fetchColumn()) return 'boshqa cron ishlayapti';
+    $sent = 0; $fail = 0; $today = date('Y-m-d'); $now = time();
+    try {
+        foreach (q('SELECT * FROM prayer_destinations WHERE active=1 ORDER BY id')->fetchAll() as $d) {
+            $sc = array_filter(pr_sched($d['id']), function ($s) { return $s['on']; });
+            if (!$sc) continue;
+            $pt = pr_get($d['region'], $today);
+            if (!$pt['ok']) { q('UPDATE prayer_destinations SET last_err=?, last_err_at=? WHERE id=?', array(mb_substr('Namoz vaqtlari olinmadi: ' . $pt['error'], 0, 255), date('Y-m-d H:i:s'), $d['id'])); $fail++; continue; }
+            foreach ($sc as $k => $s) {
+                if ($k === 'daily') { if (!preg_match('/^\d{2}:\d{2}$/', $s['time'])) continue; $t = strtotime($today . ' ' . $s['time']); $w = PR_DAILY_WIN_MIN; }
+                else { $t = strtotime($today . ' ' . $pt['times'][$k]); $w = PR_WIN_MIN; }
+                if ($now < $t || $now > $t + $w * 60) continue;
+                $e = pr_deliver($d, $k, $today, pr_text($s['text'], $k, $d['region'], $pt, $today));
+                if ($e === '') $sent++; elseif ($e !== null) $fail++;
+            }
+        }
+        if (mt_rand(1, 60) === 1) {   /* eski yozuvlarni vaqti-vaqti bilan tozalash */
+            q('DELETE FROM prayer_sent_log WHERE created_at < ?', array(date('Y-m-d H:i:s', $now - 90 * 86400)));
+            q('DELETE FROM prayer_cache WHERE day < ?', array(date('Y-m-d', $now - 10 * 86400)));
+        }
+    } finally {
+        db()->query("SELECT RELEASE_LOCK('kp_prayer')");
+    }
+    return 'yuborildi ' . $sent . ', xato ' . $fail;
+}
+function pr_admin() {
+    global $PR_K;
+    $ds = q('SELECT id,title,chat_id,chat_type,region,active,last_ok_at,last_err,last_err_at FROM prayer_destinations ORDER BY id DESC')->fetchAll();
+    foreach ($ds as $i => $d) { $ds[$i]['chat_id'] = (string)$d['chat_id']; $ds[$i]['region_name'] = pr_region_name($d['region']); $ds[$i]['sch'] = pr_sched($d['id']); }
+    return array('ok' => true, 'dests' => $ds, 'ttl' => pr_ttl(), 'regions' => pr_regions(), 'now' => date('d.m.Y H:i'),
+        'logs' => q('SELECT l.dest_id,l.kind,l.day,l.status,l.tries,l.err,l.updated_at,d.title FROM prayer_sent_log l LEFT JOIN prayer_destinations d ON d.id=l.dest_id ORDER BY l.id DESC LIMIT 100')->fetchAll(),
+        'cron_cli' => 'php ' . __FILE__ . ' prayer', 'cron_url' => 'wget -q -O /dev/null "' . APP_URL . '?prayer_cron=' . PR_KEY . '"');
+}
+function pr_save_sched($id, $sch) {
+    global $PR_K; $rows = array();
+    foreach (array_merge(array('daily'), array_keys($PR_K)) as $k) {   /* avval hammasi tekshiriladi, keyin yoziladi */
+        if (!isset($sch[$k]) || !is_array($sch[$k])) continue;
+        $x = $sch[$k]; $tx = pr_clean(isset($x['text']) ? $x['text'] : '');
+        if (mb_strlen($tx) > 2000) return $PR_K[$k][0] . ': xabar matni 2000 belgidan oshmasin';
+        if ($tx === pr_tpl_def($k)) $tx = '';   /* standart matn o'zgartirilmagan bo'lsa saqlanmaydi */
+        $tm = $k === 'daily' ? (string)(isset($x['time']) ? $x['time'] : '') : null;
+        if ($k === 'daily' && !preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $tm)) return 'Kunlik jadval vaqti noto\'g\'ri (masalan 04:30)';
+        $rows[] = array($id, $k, !empty($x['on']) ? 1 : 0, $tm, $tx === '' ? null : $tx);
+    }
+    foreach ($rows as $r) q('INSERT INTO prayer_schedules (dest_id,kind,enabled,at_time,body) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE enabled=VALUES(enabled), at_time=VALUES(at_time), body=VALUES(body)', $r);
+    return '';
+}
+
 /* ---------- ROUTER ---------- */
+if (PHP_SAPI === 'cli' && isset($argv[1]) && $argv[1] === 'prayer') { mig(); echo date('Y-m-d H:i') . ' Namoz: ' . cron_prayer() . "\n"; exit; }
+if (isset($_GET['prayer_cron'])) {
+    if (!hash_equals(PR_KEY, (string)$_GET['prayer_cron'])) { http_response_code(403); exit; }
+    header('Content-Type: text/plain; charset=utf-8'); mig(); echo 'Namoz: ' . cron_prayer(); exit;
+}
 if (isset($_GET['setup'])) {
     if (!hash_equals(KEY, (string)$_GET['setup'])) { http_response_code(403); exit('Ruxsat yo\'q'); }
     try { install(); echo "Baza: OK\n"; } catch (Exception $e) { echo 'Baza: XATO ' . $e->getMessage() . "\n"; }
@@ -540,6 +764,8 @@ if (isset($_GET['diag'])) {
     echo 'curl: ' . (function_exists('curl_init') ? 'bor' : "YO'Q") . "\n";
     echo 'zlib: ' . (function_exists('gzcompress') ? 'bor' : "yo'q (zaxira usul ishlatiladi)") . "\n";
     $t = microtime(true); $png = png_card();
+    $p = pr_fetch('Toshkent', date('Y-m-d'));
+    echo 'Namoz API: ' . (is_array($p) ? 'OK (Toshkent, Bomdod ' . $p['times']['bomdod'] . ', ' . $p['source'] . ')' : 'XATO: ' . $p) . "\n";
     echo 'Rasm: ' . ($png ? 'OK (' . strlen($png) . ' bayt, ' . round((microtime(true) - $t) * 1000) . ' ms)' : 'XATO: ' . $CARD_ERR) . "\n";
     exit;
 }
@@ -550,6 +776,7 @@ if (isset($_GET['cron'])) {
     elseif (isset($_GET['job']) && $_GET['job'] === 'watch') { $e = fetch_all(); echo ($e ? implode('; ', $e) . ' | ' : '') . 'Yuborildi: ' . cron_post(); }
     else echo 'Yuborildi: ' . cron_post();
     echo ' | Ertalabki post: ' . cron_daily();
+    try { echo ' | Namoz: ' . cron_prayer(); } catch (Exception $e) { echo ' | Namoz: xato'; }
     exit;
 }
 if (isset($_GET['hook'])) {
@@ -597,6 +824,15 @@ if (isset($_GET['api'])) {
     $mf = menu_flags();
     if (!$adm && ((($a === 'wallet') && !$mf['bal'] && !$mf['ads']) || ($a === 'topup_new' && !$mf['bal']) || ($a === 'ad_order' && !$mf['ads']))) out(array('ok' => false, 'error' => 'Bu bo\'lim vaqtincha yopilgan'), 403);
     if ($a === 'rates') out(array('ok' => true, 'rates' => rates_data(), 'last_ok' => setting('last_ok'), 'last_err' => '', 'admin' => $adm));
+    if ($a === 'pr_times') {
+        $reg = isset($in['region']) ? (string)$in['region'] : '';
+        if (pr_region_name($reg) === '') $reg = 'Toshkent';
+        $pt = pr_get($reg, date('Y-m-d'));
+        $r = array('ok' => $pt['ok'], 'region' => $reg, 'name' => pr_region_name($reg), 'date' => date('d.m.Y'), 'now' => date('H:i'), 'msg' => $pt['ok'] ? '' : $pt['error']);
+        if ($pt['ok']) $r += array('times' => $pt['times'], 'hijri' => $pt['hijri'], 'upd' => date('d.m H:i', strtotime($pt['fetched_at'])), 'stale' => $pt['stale']);
+        if (!empty($in['meta'])) $r['regions'] = pr_regions();
+        out($r);
+    }
     if ($a === 'refresh') {
         $last = (int)setting('refresh_at', 0);
         if (time() - $last < 120) out(array('ok' => false, 'error' => 'Kurslar yaqinda yangilangan. ' . (120 - (time() - $last)) . ' soniyadan keyin urinib ko\'ring.'), 429);
@@ -686,6 +922,60 @@ if (isset($_GET['api'])) {
         out(array('ok' => true));
     }
     if (!$adm) out(array('ok' => false, 'error' => 'Ruxsat yo\'q'), 403);
+    if (strpos($a, 'adm_pr') === 0) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
+        $pid = (int)(isset($in['id']) ? $in['id'] : 0);
+        $pd = $pid ? q('SELECT * FROM prayer_destinations WHERE id=?', array($pid))->fetch() : null;
+        if ($a === 'adm_pr') out(pr_admin());
+        if ($a === 'adm_pr_add') {
+            $title = mb_substr(pr_clean(isset($in['title']) ? $in['title'] : ''), 0, 80); $cid = trim((string)(isset($in['chat_id']) ? $in['chat_id'] : '')); $reg = (string)(isset($in['region']) ? $in['region'] : '');
+            if ($title === '') out(array('ok' => false, 'error' => 'Kanal yoki guruh nomini kiriting'), 422);
+            if (!preg_match('/^(-?\d{5,20}|@[A-Za-z][A-Za-z0-9_]{4,31})$/', $cid)) out(array('ok' => false, 'error' => 'chat_id noto\'g\'ri. Masalan: -1001234567890 yoki @kanal_username'), 422);
+            if (pr_region_name($reg) === '') out(array('ok' => false, 'error' => 'Hudud tanlang'), 422);
+            $c = pr_call('getChat', array('chat_id' => $cid));
+            if (empty($c['ok'])) out(array('ok' => false, 'error' => pr_tg_err($c) . '. Botni avval kanal/guruhga administrator qilib qo\'shing.'), 422);
+            $type = (string)$c['result']['type']; $id = $c['result']['id'];
+            if ($type === 'private') out(array('ok' => false, 'error' => 'Bu shaxsiy chat. Kanal yoki guruh chat_id sini kiriting'), 422);
+            if (q('SELECT id FROM prayer_destinations WHERE chat_id=?', array($id))->fetchColumn()) out(array('ok' => false, 'error' => 'Bu chat allaqachon ro\'yxatda bor'), 409);
+            $me = pr_call('getMe'); $bm = !empty($me['ok']) ? pr_call('getChatMember', array('chat_id' => $id, 'user_id' => $me['result']['id'])) : array();
+            $st = isset($bm['result']['status']) ? $bm['result']['status'] : ''; $warn = '';
+            if ($type === 'channel' && $st !== 'creator' && !($st === 'administrator' && !empty($bm['result']['can_post_messages']))) $warn = 'Bot kanalda «Xabar joylash» huquqiga ega administrator emas — xabarlar ketmaydi';
+            elseif ($type !== 'channel' && (in_array($st, array('left', 'kicked', ''), true) || ($st === 'restricted' && empty($bm['result']['can_send_messages'])))) $warn = 'Bot guruhda xabar yoza olmaydi — botni guruhga qo\'shing yoki administrator qiling';
+            q('INSERT INTO prayer_destinations (title,chat_id,chat_type,region,active,created_at) VALUES (?,?,?,?,1,?)', array($title, $id, $type === 'channel' ? 'channel' : 'group', $reg, date('Y-m-d H:i:s')));
+            $nid = (int)db()->lastInsertId();
+            pr_save_sched($nid, array('daily' => array('on' => 1, 'time' => '04:30')));
+            $audit('pr_add', $nid . ' ' . $id . ' ' . $reg);
+            out(array('ok' => true, 'warn' => $warn, 'data' => pr_admin()));
+        }
+        if ($a === 'adm_pr_cfg') {
+            $ttl = (int)(isset($in['ttl']) ? $in['ttl'] : 0);
+            if ($ttl < 15 || $ttl > 1440) out(array('ok' => false, 'error' => 'Kesh oralig\'i 15 dan 1440 daqiqagacha bo\'lsin'), 422);
+            pr_setset('ttl_min', $ttl); $audit('pr_cfg', 'ttl ' . $ttl); out(array('ok' => true, 'data' => pr_admin()));
+        }
+        if (!$pd) out(array('ok' => false, 'error' => 'Kanal yoki guruh topilmadi'), 404);
+        if ($a === 'adm_pr_save') {
+            $title = mb_substr(pr_clean(isset($in['title']) ? $in['title'] : ''), 0, 80); $reg = (string)(isset($in['region']) ? $in['region'] : '');
+            if ($title === '') out(array('ok' => false, 'error' => 'Nomini kiriting'), 422);
+            if (pr_region_name($reg) === '') out(array('ok' => false, 'error' => 'Hudud noto\'g\'ri'), 422);
+            $e = pr_save_sched($pid, isset($in['sch']) && is_array($in['sch']) ? $in['sch'] : array());
+            if ($e !== '') out(array('ok' => false, 'error' => $e), 422);
+            q('UPDATE prayer_destinations SET title=?, region=? WHERE id=?', array($title, $reg, $pid));
+            $audit('pr_save', $pid . ' ' . $reg); out(array('ok' => true, 'data' => pr_admin()));
+        }
+        if ($a === 'adm_pr_toggle') { q('UPDATE prayer_destinations SET active=1-active WHERE id=?', array($pid)); $audit('pr_toggle', (string)$pid); out(array('ok' => true, 'data' => pr_admin())); }
+        if ($a === 'adm_pr_del') {
+            q('DELETE FROM prayer_schedules WHERE dest_id=?', array($pid)); q('DELETE FROM prayer_destinations WHERE id=?', array($pid));
+            $audit('pr_del', $pid . ' ' . $pd['chat_id']); out(array('ok' => true, 'data' => pr_admin()));
+        }
+        if ($a === 'adm_pr_test') {
+            $pt = pr_get($pd['region'], date('Y-m-d'));
+            if (!$pt['ok']) out(array('ok' => false, 'error' => 'Namoz vaqtlari olinmadi: ' . $pt['error'], 'data' => pr_admin()));
+            $s = pr_sched($pid);
+            $e = pr_deliver($pd, 'test', date('Y-m-d'), "🧪 TEST XABAR\n\n" . pr_text($s['daily']['text'], 'daily', $pd['region'], $pt, date('Y-m-d')), 'test:' . $pid . ':' . uniqid('', true));
+            out(array('ok' => $e === '', 'error' => (string)$e, 'data' => pr_admin()));
+        }
+        out(array('ok' => false, 'error' => 'Noma\'lum amal'), 404);
+    }
     if ($a === 'adm_stats') {
         $n = function ($s) { return (int)q($s)->fetchColumn(); };
         out(array('ok' => true, 'mn' => menu_flags(), 'azo' => azo_n(), 's' => array('Foydalanuvchilar' => $n('SELECT COUNT(*) FROM users'), 'Kanallar' => $n("SELECT COUNT(*) FROM chats WHERE ctype='Kanal'"), 'Guruhlar' => $n("SELECT COUNT(*) FROM chats WHERE ctype='Guruh'"),
@@ -952,6 +1242,7 @@ nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;p
 <div id="p-calc" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🧮 Kalkulyator</h1><div class="card"><select id="cc"></select><select id="cd"><option value="b">Olish kursi (bank sotib oladi)</option><option value="s">Sotish kursi (bank sotadi)</option></select><select id="cb"></select><input id="ca" type="number" inputmode="decimal" placeholder="Miqdor"><select id="cdir"><option value="1">Valyuta → UZS</option><option value="0">UZS → Valyuta</option></select><h2 id="cr" style="margin:6px 0 2px">—</h2><span class="sub">Natija taxminiy. Haqiqiy kurs bankda farq qilishi mumkin.</span></div></div>
 <div id="p-chats" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1 id="cht">➕ Kanal qo'shish</h1><div class="card"><b id="cb2">➕ Kanal qo'shish</b><input id="cu" placeholder="@kanal_username yoki -100... ID"><p class="sub" style="margin:8px 0 4px">Qancha vaqtda xabar yuborilsin:</p><select id="ci"><option value="3">Har 3 soatda</option><option value="4">Har 4 soatda</option><option value="5">Har 5 soatda</option><option value="6">Har 6 soatda</option><option value="7">Har 7 soatda</option><option value="8">Har 8 soatda</option><option value="9">Har 9 soatda</option><option value="10">Har 10 soatda</option><option value="11">Har 11 soatda</option><option value="12">Har 12 soatda</option></select><p class="sub">Kurs yangilansa, bu vaqtni kutmasdan darrov yuboriladi. Avval botni kanal/guruhga administrator qiling (xabar yuborish huquqi bilan). Bot huquqlarni o'zgartirmaydi.</p><button class="btn" id="ca2">Tekshirish va qo'shish</button></div><div id="chl"></div></div>
 <div id="p-dp" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🌅 Tongi xabar</h1><div id="dpb"></div></div>
+<div id="p-pr" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🕌 Namoz vaqtlari</h1><div class="card"><select id="prr" onchange="prl()" style="margin:0"></select></div><div id="prb"></div></div>
 <div id="p-bal" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>💰 Balans</h1><div id="balb"></div></div>
 <div id="p-ads" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>📢 E'lon</h1><div id="adsb"></div></div>
 <div id="p-soon" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1 id="sn"></h1><div class="card">Bu bo'lim tez orada ishga tushadi.</div></div>
@@ -998,11 +1289,11 @@ var MN={bal:false,ads:false},ST3={k:0,g:0,u:0},VM=[];
 function soon(t){$('sn').textContent=t;go('soon')}
 function mo(o){$('mo').classList.toggle('on',o);$('md').classList.toggle('on',o);if(o)api('menu').then(function(j){if(j.ok&&JSON.stringify([j.mn,j.st])!==JSON.stringify([MN,ST3])){MN=j.mn;ST3=j.st;dr()}})}
 function mnu(i){mo(false);VM[i][2]()}
-var IC={su:'<path d="M12 3v3M4.9 8.9l1.4 1.4M19.1 8.9l-1.4 1.4M3 17h18M7 17a5 5 0 0 1 10 0M8 21h8"/>',ch:'<path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>',gr:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 3-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.4c2.2.7 3.5 2.6 3.5 5.6"/>',us:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"/>',ca:'<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.5 7.5h7M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>',wa:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M6 6l9-3v3"/><circle cx="17" cy="14.5" r="1"/>',ad:'<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>'};
+var IC={mq:'<path d="M12 3.5c2.6 2 4 3.7 4 5.6a4 4 0 0 1-8 0c0-1.9 1.4-3.6 4-5.6z"/><path d="M4 21v-9M20 21v-9M3 21h18M9 21v-3a3 3 0 0 1 6 0v3"/>',su:'<path d="M12 3v3M4.9 8.9l1.4 1.4M19.1 8.9l-1.4 1.4M3 17h18M7 17a5 5 0 0 1 10 0M8 21h8"/>',ch:'<path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>',gr:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 3-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.4c2.2.7 3.5 2.6 3.5 5.6"/>',us:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"/>',ca:'<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.5 7.5h7M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>',wa:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M6 6l9-3v3"/><circle cx="17" cy="14.5" r="1"/>',ad:'<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>'};
 function sv2(k){return '<svg viewBox="0 0 24 24">'+IC[k]+'</svg>'}
 function nf(n){return String(+n||0).replace(/\B(?=(\d{3})+(?!\d))/g,'\u00a0')}
 function dr(){var u=(tg.initDataUnsafe||{}).user||{},nm=u.username?'@'+u.username:(((u.first_name||'')+' '+(u.last_name||'')).trim()||'Foydalanuvchi'),ini=esc((u.first_name||u.username||'?').charAt(0).toUpperCase());
-VM=[['ch','Kanal qo\'shish',function(){go('chats','Kanal')}],['gr','Guruh qo\'shish',function(){go('chats','Guruh')}],['su','Tongi xabar',function(){go('dp')}],['ca','Kalkulyator',function(){go('calc')}]];
+VM=[['ch','Kanal qo\'shish',function(){go('chats','Kanal')}],['gr','Guruh qo\'shish',function(){go('chats','Guruh')}],['mq','Namoz vaqtlari',function(){go('pr')}],['su','Tongi xabar',function(){go('dp')}],['ca','Kalkulyator',function(){go('calc')}]];
 if(MN.bal)VM.push(['wa','Balans',function(){go('bal')}]);
 if(MN.ads)VM.push(['ad','E\'lon',function(){go('ads')}]);
 $('md').innerHTML='<div class="dwh"><div class="dwb"><svg viewBox="0 0 24 24"><path d="M6.5 4.2c0-1 1.1-1.6 2-1.1l11 6.8c.8.5.8 1.7 0 2.2l-11 6.8c-.9.5-2-.1-2-1.1z" fill="#000"/></svg>Usd<span>Go24</span></div><button class="dwx" onclick="mo(false)" aria-label="Yopish"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg></button></div>'
@@ -1040,7 +1331,7 @@ function adsend(id){cf('E\'lon yuborilsinmi?',function(y){if(y)astep(id)})}
 function astep(id){var e=$('ast'+id);api('adm_ad_send',{id:id}).then(function(j){if(!j.ok){if(e)e.textContent='Xato: '+(j.error||'aloqa uzildi, «Davom ettirish» ni bosing');return}if(e)e.textContent='Yuborilmoqda: '+j.done+' / '+j.total+' (✅ '+j.sent+' · ❌ '+j.failed+')';if(j.finished){toast('Tugadi: ✅ '+j.sent+' · ❌ '+j.failed);admin()}else astep(id)})}
 function adrej(id){cf('Buyurtma rad etilib, pul foydalanuvchi balansiga qaytariladi. Davom etasizmi?',function(y){if(!y)return;api('adm_ad',{id:id,act:'reject'}).then(function(j){toast(j.ok?'Rad etildi, pul qaytarildi':(j.error||'Xato'));admin()})})}
 function pcs(){api('adm_paycfg',{card:$('pc_card').value,holder:$('pc_name').value,Kanal:$('pp_Kanal').value,Guruh:$('pp_Guruh').value,users:$('pp_users').value}).then(function(j){if(j.ok){toast('Saqlandi ✅');admin()}})}
-function go(p,w){if(w)CW=w;document.querySelectorAll('nav a,.pg').forEach(function(e){e.classList.remove('on')});var a=document.querySelector('nav a[data-p="'+p+'"]'+(w?'[data-w="'+w+'"]':''));if(a&&p!=='home')a.classList.add('on');$('p-'+p).classList.add('on');window.scrollTo(0,0);try{if(p==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(e){}if(p==='chats'){$('cht').textContent='➕ '+CW+' qo\'shish';$('cb2').textContent='➕ '+CW+' qo\'shish';$('cu').placeholder=(CW==='Kanal'?'@kanal_username yoki -100... ID':'@guruh_username yoki -100... ID');chats()}if(p==='bal'||p==='ads')wallet();if(p==='dp')dpl();if(p==='me'&&ADM){AV='home';MSG=null;admin()}}
+function go(p,w){if(w)CW=w;document.querySelectorAll('nav a,.pg').forEach(function(e){e.classList.remove('on')});var a=document.querySelector('nav a[data-p="'+p+'"]'+(w?'[data-w="'+w+'"]':''));if(a&&p!=='home')a.classList.add('on');$('p-'+p).classList.add('on');window.scrollTo(0,0);try{if(p==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(e){}if(p==='chats'){$('cht').textContent='➕ '+CW+' qo\'shish';$('cb2').textContent='➕ '+CW+' qo\'shish';$('cu').placeholder=(CW==='Kanal'?'@kanal_username yoki -100... ID':'@guruh_username yoki -100... ID');chats()}if(p==='bal'||p==='ads')wallet();if(p==='dp')dpl();if(p==='pr')prl();if(p==='me'&&ADM){AV='home';MSG=null;admin()}}
 document.querySelectorAll('nav a').forEach(function(a){a.onclick=function(){go(a.dataset.p,a.dataset.w)}});
 try{tg.BackButton.onClick(function(){go('home')})}catch(e){}
 var ST={pending:'🟡 Tekshirilmoqda',approved:'✅ Tasdiqlangan',rejected:'❌ Rad etilgan',noperm:'⚠️ Bot administrator emas'},CS=['USD','EUR','RUB','GBP','CNY'];
@@ -1052,7 +1343,7 @@ function admin(){api('adm_stats').then(function(j){if(!j.ok)return;AD=j;av(AV)})
 function cc(t){return AD.chats.filter(function(c){return c.ctype===t})}
 function av(v){AV=v;if(!AD)return;var s=v==='home'?'':'<button class="bkb" onclick="av(\'home\')">‹ Admin panel</button>';
 if(MSG){s+='<div class="card"><b>✉️ Xabar: '+esc(MSG.n)+'</b><textarea id="mtx" rows="4" placeholder="Xabar matni..."></textarea><div class="sub" id="mst"></div><div style="display:flex;gap:8px"><button class="btn" onclick="sm()">Yuborish</button><button class="btn s" onclick="MSG=null;av(AV)">Bekor</button></div></div>'}
-if(v==='home'){var st=AD.s;s+='<div class="agrid"><button class="at" onclick="av(\'stat\')"><b>📊</b>Statistika<small>'+st['Bugun yuborilgan']+' ta bugun</small></button><button class="at" onclick="av(\'Kanal\')"><b>📢</b>Kanallar<small>'+cc('Kanal').length+' ta</small></button><button class="at" onclick="av(\'Guruh\')"><b>👥</b>Guruhlar<small>'+cc('Guruh').length+' ta</small></button><button class="at" onclick="av(\'users\')"><b>👤</b>Foydalanuvchilar<small>'+AD.users.length+' ta</small></button><button class="at" onclick="av(\'manual\')"><b>✍️</b>Qo\'lda kurs<small>bank kursi</small></button><button class="at" onclick="av(\'auto\')"><b>📨</b>Avto xabar<small>2 ta rasm · matn</small></button><button class="at" onclick="av(\'dp\')"><b>🌅</b>Tongi xabar<small>video · matn · vaqt</small></button><button class="at" onclick="av(\'topups\')"><b>💰</b>To\'lovlar<small>'+AD.pay.topups.filter(function(t){return t.status==="pending"}).length+' ta kutilmoqda</small></button><button class="at" onclick="av(\'orders\')"><b>📋</b>E\'lon buyurtmalari<small>'+AD.pay.orders.filter(function(t){return t.status==="pending"||t.status==="sending"}).length+' ta kutilmoqda</small></button><button class="at" onclick="av(\'menu\')"><b>🧩</b>Menyu<small>Balans · E\'lon</small></button><button class="at" onclick="av(\'paycfg\')"><b>💳</b>Karta va narxlar<small>sozlamalar</small></button></div>'}
+if(v==='home'){var st=AD.s;s+='<div class="agrid"><button class="at" onclick="av(\'stat\')"><b>📊</b>Statistika<small>'+st['Bugun yuborilgan']+' ta bugun</small></button><button class="at" onclick="av(\'Kanal\')"><b>📢</b>Kanallar<small>'+cc('Kanal').length+' ta</small></button><button class="at" onclick="av(\'Guruh\')"><b>👥</b>Guruhlar<small>'+cc('Guruh').length+' ta</small></button><button class="at" onclick="av(\'users\')"><b>👤</b>Foydalanuvchilar<small>'+AD.users.length+' ta</small></button><button class="at" onclick="av(\'manual\')"><b>✍️</b>Qo\'lda kurs<small>bank kursi</small></button><button class="at" onclick="av(\'auto\')"><b>📨</b>Avto xabar<small>2 ta rasm · matn</small></button><button class="at" onclick="av(\'dp\')"><b>🌅</b>Tongi xabar<small>video · matn · vaqt</small></button><button class="at" onclick="pra()"><b>🕌</b>Namoz xabarnomalari<small>kanal · guruh</small></button><button class="at" onclick="av(\'topups\')"><b>💰</b>To\'lovlar<small>'+AD.pay.topups.filter(function(t){return t.status==="pending"}).length+' ta kutilmoqda</small></button><button class="at" onclick="av(\'orders\')"><b>📋</b>E\'lon buyurtmalari<small>'+AD.pay.orders.filter(function(t){return t.status==="pending"||t.status==="sending"}).length+' ta kutilmoqda</small></button><button class="at" onclick="av(\'menu\')"><b>🧩</b>Menyu<small>Balans · E\'lon</small></button><button class="at" onclick="av(\'paycfg\')"><b>💳</b>Karta va narxlar<small>sozlamalar</small></button></div>'}
 else if(v==='stat'){s+='<h1>📊 Statistika</h1>'+Object.keys(AD.s).map(function(k){return '<div class="card row"><span class="sub">'+k+'</span><b>'+AD.s[k]+'</b></div>'}).join('')+'<div class="card row"><span class="sub">Kurs yangilangan</span><b>'+esc(AD.last_ok||'—')+'</b></div>'}
 else if(v==='Kanal'||v==='Guruh'){s+='<h1>'+(v==='Kanal'?'📢 Kanallar':'👥 Guruhlar')+'</h1><button class="btn" style="margin-bottom:12px" onclick="ma(\''+v+'\')">📣 Hammasiga xabar</button>'+(cc(v).map(function(c){return '<div class="card"><div class="row"><b>'+esc(c.username)+'</b><span class="sub">@'+esc(c.owner)+'</span></div><div class="sub">'+ST[c.status]+(c.blocked==1?' · 🚫':'')+(c.auto_on==1?' · avto/'+c.interval_h+'s':'')+(c.dp_on==1?' · 🌅':'')+'</div><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">'+['approve|✅','reject|❌','auto|🔁','block|🚫','dp|🌅','test|🧪','send|📤'].map(function(x){x=x.split('|');return '<button class="btn s" onclick="ac('+c.id+',\''+x[0]+'\')">'+x[1]+'</button>'}).join('')+'<button class="btn s" onclick="mg(\'chat\','+c.id+')">✉️ Xabar</button></div></div>'}).join('')||'<p class="sub">Hali yo\'q.</p>')}
 else if(v==='users'){s+='<h1>👤 Foydalanuvchilar</h1><button class="btn" style="margin-bottom:12px" onclick="ma(\'users\')">📣 Hammasiga xabar</button>'+(AD.users.map(function(u){return '<div class="card"><div class="row"><b>'+esc(u.name||u.username||u.id)+'</b><span class="sub">'+(u.username?'@'+esc(u.username):'ID '+esc(u.id))+'</span></div><div class="sub">'+(u.phone?'📱 '+esc(u.phone)+' · ':'')+'Oxirgi kirish: '+esc(u.last_seen)+(u.blocked==1?' · 🚫':'')+'</div><div style="margin-top:8px"><button class="btn s" onclick="mg(\'user\','+u.id+')">✉️ Xabar</button></div></div>'}).join('')||'<p class="sub">Hali yo\'q.</p>')}
@@ -1062,6 +1353,7 @@ else if(v==='orders'){s+='<h1>📋 E\'lon buyurtmalari</h1>'+(AD.pay.orders.leng
 else if(v==='paycfg'){var P=AD.pay;s+='<h1>💳 Karta va narxlar</h1><div class="card"><b>Karta ma\'lumotlari</b><input id="pc_card" inputmode="numeric" placeholder="Karta raqami (16 xonali)" value="'+esc(P.card)+'"><input id="pc_name" placeholder="Karta egasi (ism familiya)" value="'+esc(P.holder)+'"></div><div class="card"><b>E\'lon narxlari (so\'m)</b><p class="sub" style="font-size:12px;margin:8px 0 0">Kanalga e\'lon</p><input id="pp_Kanal" type="number" inputmode="numeric" value="'+P.prices.Kanal+'"><p class="sub" style="font-size:12px;margin:0">Guruhga e\'lon</p><input id="pp_Guruh" type="number" inputmode="numeric" value="'+P.prices.Guruh+'"><p class="sub" style="font-size:12px;margin:0">Foydalanuvchilarga e\'lon</p><input id="pp_users" type="number" inputmode="numeric" value="'+P.prices.users+'"><p class="sub" style="font-size:12px">Narx 0 bo\'lsa, xizmat «Tez orada» ko\'rinadi.</p></div><button class="btn" onclick="pcs()">Saqlash</button>'}
 else if(v==='menu'){var MM=AD.mn||{};s+='<h1>🧩 Menyu bo\'limlari</h1><p class="sub" style="margin-bottom:12px">O\'chirilsa bo\'lim hech kimga ko\'rinmaydi. Yoqilsa menyuda hammaga ko\'rinadi.</p>'+[['bal','💰','Balans'],['ads','📢','E\'lon']].map(function(x){var on=!!MM[x[0]];return '<div class="card row"><div><b>'+x[1]+' '+x[2]+'</b><div class="sub">'+(on?'✅ Yoqilgan — hammaga ko\'rinadi':'⛔ O\'chirilgan — hech kimga ko\'rinmaydi')+'</div></div><button class="btn s" onclick="mt(\''+x[0]+'\','+(on?0:1)+')">'+(on?'O\'chirish':'Yoqish')+'</button></div>'}).join('')+'<div class="card"><b>📥 A\'zolar bazasi</b><div class="sub" style="margin:4px 0 10px">Bazada: '+nf(AD.azo||0)+' ta ID. azo_dat.txt fayli index.php bilan bir papkada bo\'lsin. Yuklangach, Obunachilar soniga qo\'shiladi; yangi kelganlar avtomatik ustiga qo\'shilib boradi.</div><button class="btn s" onclick="az()">📥 Yuklash</button></div>'}
 else if(v==='dp'){var D=AD.dp;s+='<h1>🌅 Tongi xabar</h1><p class="sub" style="margin-bottom:12px">Video baza kanaldan olinadi: botni baza kanalga administrator qiling, videoni joylang va post havolasini (Копировать ссылку) kiriting. Matnda {kun} — hafta kuni nomi. Qalin: &lt;b&gt;...&lt;/b&gt;. Yoqish/o\'chirish — Menyu → 🌅 Tongi xabar.</p><div class="card"><b>⏰ Yuborish vaqti (Toshkent)</b><input id="dp_time" type="time" value="'+esc(D.time)+'"><div class="sub">'+(D.on?'✅ Yoqilgan':'⛔ O\'chirilgan')+' · '+D.n+' ta kanal · oxirgi: '+esc(D.last||'—')+'</div></div>'+D.days.map(function(x){return '<div class="card"><div class="row"><b>'+esc(x.name)+'</b><span class="sub">'+(x.o?'✅':'⬜')+'</span></div><input id="dp_v'+x.d+'" placeholder="Video: https://t.me/c/1234567890/45" value="'+esc(x.v)+'"><textarea id="dp_t'+x.d+'" rows="7" maxlength="1024" placeholder="Matn...">'+esc(x.t)+'</textarea><button class="btn s" onclick="dpt('+x.d+')">🧪 Menga yuborish</button></div>'}).join('')+'<button class="btn" onclick="dps()">Saqlash</button>'}
+else if(v==='pr'){var P=PRA;s+='<h1>🕌 Namoz xabarnomalari</h1><div class="card"><b>➕ Kanal yoki guruh qo\'shish</b><input id="pr_t" maxlength="80" placeholder="Nomi (masalan: UsdGo24 kanali)"><input id="pr_c" placeholder="chat_id: -1001234567890 yoki @username"><select id="pr_r">'+rgo(P.regions,'Toshkent')+'</select><button class="btn" onclick="prad()">Qo\'shish</button><p class="sub" style="margin:8px 0 0">Avval botni kanal/guruhga administrator qiling (kanalda «Xabar joylash» huquqi bilan).</p></div>'+(P.dests.length?P.dests.map(prd).join(''):'<div class="card sub">Hali kanal yoki guruh qo\'shilmagan.</div>')+'<h1 style="font-size:18px;margin-top:18px">📜 Oxirgi xabarlar</h1>'+prlg(P.logs.slice(0,20))+'<div class="card"><b>⚙️ Sozlamalar</b><p class="sub" style="margin:8px 0 0">API keshini yangilash oralig\'i (daqiqa, 15–1440)</p><input id="pr_ttl" type="number" inputmode="numeric" min="15" max="1440" value="'+P.ttl+'"><button class="btn s" onclick="prttl()">Saqlash</button><p class="sub" style="margin:12px 0 4px">Cron buyrug\'i (har daqiqada):</p><div class="sub" style="word-break:break-all;-webkit-user-select:all;user-select:all;background:#eef1f6;border-radius:10px;padding:10px">'+esc(P.cron_cli)+'</div><p class="sub" style="margin:8px 0 4px">yoki URL orqali:</p><div class="sub" style="word-break:break-all;-webkit-user-select:all;user-select:all;background:#eef1f6;border-radius:10px;padding:10px">'+esc(P.cron_url)+'</div><p class="sub" style="margin:8px 0 0">Manba: islomapi.uz (islom.uz taqvimi asosida). Server vaqti: '+esc(P.now)+' (Asia/Tashkent)</p></div>'}
 else if(v==='manual'){s+='<h1>✍️ Qo\'lda kurs</h1><div class="card"><select id="mc">'+CS.map(function(x){return '<option>'+x+'</option>'}).join('')+'</select><input id="mb" placeholder="Bank nomi"><input id="mbu" type="number" placeholder="Olish"><input id="ms" type="number" placeholder="Sotish"><button class="btn" onclick="mn()">Saqlash</button></div>'}
 $('adm').innerHTML=s}
 function mg(t,id){var n='';if(t==='chat'){AD.chats.forEach(function(c){if(c.id==id)n=c.username})}else{AD.users.forEach(function(u){if(u.id==id)n=u.name||(u.username?'@'+u.username:'ID '+u.id)})}MSG={t:t,id:id,n:n};av(AV);window.scrollTo(0,0)}
@@ -1072,6 +1364,29 @@ function sm(){var x=$('mtx').value.trim();if(!x){toast('Matn yozing');return}if(
 function ac(id,a){api('adm_chat',{id:id,act:a}).then(function(j){toast(j.ok?'Bajarildi':(j.error||'Xato'));admin()})}
 function fs(k){var c=$('fc_'+k).value,o=$('fo_'+k).checked;api('adm_cap',{k:k,cap:c,on:o}).then(function(j){if(j.ok){AD.frames[k].cap=c;AD.frames[k].on=o;toast('Saqlandi ✅')}})}
 function ft(k){var c=$('fc_'+k).value,o=$('fo_'+k).checked;api('adm_cap',{k:k,cap:c,on:o}).then(function(j){if(!j.ok)return;AD.frames[k].cap=c;AD.frames[k].on=o;api('adm_cap_test',{k:k}).then(function(j){toast(j.ok?'Sizga yuborildi ✅':(j.error||'Xato'))})})}
+var PRA=null,PRE=0,PRH=0,PRR=null,PRK=[['daily','🕌','Kunlik jadval'],['bomdod','🌅','Bomdod'],['quyosh','☀️','Quyosh'],['peshin','🕛','Peshin'],['asr','🌤','Asr'],['shom','🌇','Shom'],['xufton','🌙','Xufton']],PST={sent:'✅',failed:'❌',sending:'⏳'};
+function rgo(L,sel){return L.map(function(g){return '<optgroup label="'+esc(g.name)+'">'+g.items.map(function(x){return '<option value="'+esc(x[0])+'"'+(x[0]===sel?' selected':'')+'>'+esc(x[1])+'</option>'}).join('')+'</optgroup>'}).join('')}
+function prl(){var r=$('prr'),reg=r.value;if(!reg)try{reg=localStorage.getItem('pr_reg')}catch(e){}reg=reg||'Toshkent';$('prb').innerHTML='<div class="sk"></div>';
+api('pr_times',{region:reg,meta:PRR?0:1}).then(function(j){if(j.regions){PRR=j.regions;r.innerHTML=rgo(PRR,j.region)}
+if(!j.region){$('prb').innerHTML='<div class="card"><b>⚠️ Aloqa xatosi</b><button class="btn s" style="margin-top:10px" onclick="prl()">⟳ Qayta urinish</button></div>';return}
+r.value=j.region;try{localStorage.setItem('pr_reg',j.region)}catch(e){}
+if(!j.ok){$('prb').innerHTML='<div class="card"><b>⚠️ Namoz vaqtlarini olib bo\'lmadi</b><div class="sub" style="margin-top:6px">'+esc(j.msg)+'</div><button class="btn s" style="margin-top:10px" onclick="prl()">⟳ Qayta urinish</button></div>';return}
+var nx='';PRK.slice(1).forEach(function(k){if(!nx&&j.times[k[0]]>j.now)nx=k[0]});
+$('prb').innerHTML='<div class="card"><b>📍 '+esc(j.name)+'</b><div class="sub" style="margin-top:4px">📅 '+esc(j.date)+(j.hijri?' · '+esc(j.hijri):'')+'</div></div><div class="card" style="padding:8px 16px">'+PRK.slice(1).map(function(k){var a=k[0]===nx;return '<div class="row" style="padding:12px '+(a?'10px;margin:0 -10px;border-radius:12px;background:var(--soft)':'0')+'"><span>'+k[1]+' '+(a?'<b>'+k[2]+'</b> <span class="sub">· keyingi</span>':k[2])+'</span><b style="font-size:20px">'+esc(j.times[k[0]])+'</b></div>'}).join('')+'</div><p class="sub" style="margin:0 4px 12px">Manba: islomapi.uz (islom.uz taqvimi asosida) · yangilangan '+esc(j.upd)+(j.stale?' · ⚠️ server hozir javob bermadi, oxirgi saqlangan ma\'lumot ko\'rsatilmoqda':'')+'. Masjiddagi jamoat namozi vaqti farq qilishi mumkin.</p>'})}
+function pra(){api('adm_pr').then(function(j){if(j.ok){PRA=j;av('pr')}})}
+function prd(d){var on=d.active==1,ks=PRK.filter(function(k){return d.sch[k[0]].on}).map(function(k){return k[1]+' '+k[2]+(k[0]==='daily'?' '+d.sch.daily.time:'')}).join(' · ');
+var h='<div class="card"><div class="row"><b>'+esc(d.title)+'</b><span class="tag">'+(on?'✅ Faol':'⛔ O\'chiq')+'</span></div><div class="sub">'+(d.chat_type==='channel'?'📢 Kanal':'👥 Guruh')+' · '+esc(d.chat_id)+'</div><div class="sub">📍 '+esc(d.region_name)+'</div><div class="sub">'+(ks||'Hech qanday xabar yoqilmagan')+'</div>'+(d.last_ok_at?'<div class="sub">✅ Oxirgi yuborilgan: '+esc(d.last_ok_at)+'</div>':'')+(d.last_err?'<div class="sub" style="color:var(--r)">⚠️ '+esc(d.last_err)+(d.last_err_at?' ('+esc(d.last_err_at)+')':'')+'</div>':'')
++'<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"><button class="btn s" onclick="PRE=PRE=='+d.id+'?0:'+d.id+';av(\'pr\')">⚙️ Sozlash</button><button class="btn s" onclick="prq(\'adm_pr_toggle\','+d.id+')">'+(on?'⛔ O\'chirish':'✅ Yoqish')+'</button><button class="btn s" onclick="prts('+d.id+')">🧪 Test</button><button class="btn s" onclick="PRH=PRH=='+d.id+'?0:'+d.id+';av(\'pr\')">📜 Tarix</button><button class="btn s" onclick="prdl('+d.id+')">🗑</button></div>';
+if(PRH==d.id)h+='<div style="margin-top:10px">'+prlg(PRA.logs.filter(function(l){return l.dest_id==d.id}))+'</div>';
+if(PRE==d.id)h+='<div style="margin-top:12px"><p class="sub" style="margin:0">Nomi</p><input id="pe_t" maxlength="80" value="'+esc(d.title)+'"><p class="sub" style="margin:0">Hudud</p><select id="pe_r">'+rgo(PRA.regions,d.region)+'</select>'+PRK.map(function(k){var x=d.sch[k[0]];return '<div style="border-top:1px solid var(--ln);padding-top:10px;margin-top:10px"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" style="width:auto;margin:0" id="pe_o_'+k[0]+'" '+(x.on?'checked':'')+'><b>'+k[1]+' '+k[2]+'</b></label>'+(k[0]==='daily'?'<p class="sub" style="margin:6px 0 0">Yuborish vaqti</p><input id="pe_tm" type="time" value="'+esc(x.time)+'">':'<div class="sub">'+(k[0]==='quyosh'?'Quyosh chiqqanda (ixtiyoriy)':'Namoz vaqti kirganda')+' yuboriladi</div>')+'<details><summary class="sub">Xabar matni'+(x.custom?' (o\'zgartirilgan)':'')+'</summary><textarea id="pe_x_'+k[0]+'" rows="'+(k[0]==='daily'?12:5)+'" maxlength="2000">'+esc(x.text)+'</textarea></details></div>'}).join('')+'<p class="sub">O\'zgaruvchilar: {hudud} {sana} {hijriy} {bomdod} {quyosh} {peshin} {asr} {shom} {xufton}; alohida xabarda: {namoz} {vaqt} {belgi}. Matnni bo\'shatsangiz standart matn ishlatiladi.</p><button class="btn" onclick="prsv('+d.id+')">Saqlash</button></div>';
+return h+'</div>'}
+function prlg(L){var KN={test:'🧪 Test'};PRK.forEach(function(k){KN[k[0]]=k[1]+' '+k[2]});return L.length?'<div class="card">'+L.map(function(l){return '<div style="padding:6px 0;border-bottom:1px solid var(--ln)"><div class="row"><span>'+(PST[l.status]||'')+' '+esc(KN[l.kind]||l.kind)+'</span><span class="sub">'+esc(l.updated_at)+'</span></div><div class="sub">'+esc(l.title||'(o\'chirilgan)')+(+l.tries>1?' · '+l.tries+' urinish':'')+'</div>'+(l.err?'<div class="sub" style="color:var(--r)">'+esc(l.err)+'</div>':'')+'</div>'}).join('')+'</div>':'<div class="card sub">Hali xabar yuborilmagan.</div>'}
+function prq(a,id,b,m){var o=b||{};o.id=id;return api(a,o).then(function(j){if(j.data)PRA=j.data;if(j.ok||j.data)av('pr');if(j.ok&&m)toast(m);return j})}
+function prad(){api('adm_pr_add',{title:$('pr_t').value,chat_id:$('pr_c').value,region:$('pr_r').value}).then(function(j){if(j.ok){PRA=j.data;av('pr');toast(j.warn?'⚠️ '+j.warn:'Qo\'shildi ✅')}})}
+function prsv(id){var o={title:$('pe_t').value,region:$('pe_r').value,sch:{}};PRK.forEach(function(k){o.sch[k[0]]={on:$('pe_o_'+k[0]).checked,text:$('pe_x_'+k[0]).value};if(k[0]==='daily')o.sch.daily.time=$('pe_tm').value});prq('adm_pr_save',id,o).then(function(j){if(j.ok){PRE=0;av('pr');toast('Saqlandi ✅')}})}
+function prts(id){toast('Yuborilmoqda...');prq('adm_pr_test',id,null,'Test xabari yuborildi ✅')}
+function prdl(id){cf('Ro\'yxatdan o\'chirilsinmi? Bu chatga namoz xabarlari yuborilmaydi.',function(y){if(y)prq('adm_pr_del',id,null,'O\'chirildi')})}
+function prttl(){api('adm_pr_cfg',{ttl:$('pr_ttl').value}).then(function(j){if(j.ok){PRA=j.data;av('pr');toast('Saqlandi ✅')}})}
 var DPC=null;
 function dpl(){$('dpb').innerHTML='<div class="sk"></div>';api('dp_my').then(function(j){if(j.ok){DPC=j;dpr()}})}
 function ck(on){return '<span style="font-size:22px;line-height:1">'+(on?'✅':'⬜')+'</span>'}
