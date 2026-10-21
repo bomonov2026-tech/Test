@@ -155,10 +155,13 @@ Bu xizmatlar uchun **har daqiqalik cron** kerak: `php /yo'l/index.php prayer` (y
 
 **Yangi jadvallar** (avtomatik yaratiladi): `guard_captcha`, `guard_warns`, `guard_tmp`, `guard_members`, `chat_stats`, `sched_posts`, `ref_links`, `ref_joins`, `giveaways`, `gw_users`. Yangi ustunlar: `group_guard.cfg`, `guard_log.txt/uname`, `chats.ref_on`.
 
-## Bosh sahifadagi namoz vaqtlari va tongi xabarga namoz vaqtlari
+## Bosh sahifadagi namoz vaqtlari va namoz vaqtlari rasmi
 - **Bosh sahifa:** kurslar ostida 13 ta hudud (12 viloyat markazi + Toshkent va Nukus) uchun **bitta namoz** vaqti chiqadi. Qaysi namoz ekani Toshkent vaqti bo'yicha aniqlanadi: namoz kirganidan 30 daqiqa o'tgach keyingisi ko'rsatiladi (Bomdod → Peshin → Asr → Shom → Xufton). Xuftondan 30 daqiqa o'tgach ertangi Bomdod chiqadi. Foydalanuvchining «Namoz vaqtlari» sahifasida tanlagan hududi ro'yxat boshida ajratib ko'rsatiladi. Ma'lumot 2 daqiqada bir yangilanadi, kesh esa har daqiqalik cron orqali oldindan tayyorlanadi.
-- **Tongi xabar:** «Tongi xabar → Kanallarim» bo'limida kanal egasi har bir kanal uchun o'z hududini tanlaydi (`chats.dp_region`). Shunda 6:00 dagi ertalabki xabar oxiriga shu hududning 6 ta vaqti qo'shiladi. Video posti tagidagi matn 1024 belgiga sig'masa, vaqtlar qo'shilmaydi. Hudud tanlanmasa, xabar avvalgidek ketadi.
-- Tongi xabar endi har daqiqalik cron orqali ham yuboriladi (takroriy yuborishdan himoyalangan). Kurs xabarlari o'zgarmagan.
+- **Namoz vaqtlari rasmi (kanal/guruhga):** har bir namoz kirganidan 30 daqiqa o'tgach (Toshkent vaqti bo'yicha) bosh sahifadagi kabi rasm yuboriladi. Rasmda keyingi namoz va 13 hudud vaqtlari bor.
+  - Kanal yoki guruh egasi «Kanal/Guruh qo'shish» bo'limida chat kartasidagi «🕌 Namoz vaqtlari (har namozdan 30 daqiqa keyin)» belgisini yoqadi (`chats.send_c`).
+  - Rasm tagidagi matn admin panelda tahrirlanadi: «Avto xabarlar → 3-xabar». `{namoz}` va `{sana}` o'zgaruvchilari ishlaydi, «🧪 Sinov» tugmasi rasmni adminga yuboradi.
+  - Har bir chatga har bir namoz uchun faqat bir marta yuboriladi (`chats.pi_key`). Rasm bir marta yuklanadi, qolgan chatlarga Telegram `file_id` orqali ketadi. Cron 20 daqiqadan ko'p kechiksa, o'sha namoz rasmi o'tkazib yuboriladi.
+- **Tongi xabar** (6:00) endi namoz vaqtlarisiz yuboriladi: faqat kunlik matn va video. Har daqiqalik cron orqali ham yuboriladi va takroriy yuborishdan himoyalangan.
 
 ## Avtomatik ulanish
 - **Bot admin qilinganda:** Telegram `my_chat_member` yangilanishini yuboradi. Kanalda «Xabar joylash» huquqi bilan, guruhda istalgan administrator huquqi bilan admin qilingan chat darhol **tasdiqlangan** holda ro'yxatga qo'shiladi.
