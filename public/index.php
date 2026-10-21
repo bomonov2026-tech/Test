@@ -138,6 +138,12 @@ function tg_error(Throwable $e): string {
         'PHONE_CODE_EXPIRED' => 'Kod muddati tugadi. Qaytadan so‘rang.',
         'PASSWORD_HASH_INVALID' => '2FA paroli noto‘g‘ri.',
         'PHONE_NUMBER_INVALID' => 'Telefon raqami noto‘g‘ri (+998... formatida).',
+        'BOT_GROUPS_BLOCKED' => 'Botni guruhga qo‘shib bo‘lmaydi: BotFather → /mybots → bot → Bot Settings → Allow Groups → Turn on.',
+        'BOT_CHANNELS_NA' => 'Botni bu kanalga qo‘shib bo‘lmadi (BOT_CHANNELS_NA).',
+        'BOTS_TOO_MUCH' => 'Bu chatda botlar limiti to‘lgan.',
+        'ADMIN_RIGHTS_EMPTY' => 'Admin uchun kamida bitta huquq belgilang (👤 Admin bo‘limi).',
+        'USER_BLOCKED' => 'Foydalanuvchi/bot bu akkauntni bloklagan.',
+        'PEER_ID_INVALID' => 'Bot/foydalanuvchi topilmadi (username’ni tekshiring).',
     ];
     foreach ($map as $k => $v) if (str_contains($m, $k)) return $v;
     return 'Telegram xatosi: ' . mb_substr($m, 0, 200);
@@ -467,6 +473,7 @@ if ($post) {
             if ($t !== '' && !valid_target($t)) throw new InvalidArgumentException('Username (@nom) yoki raqamli ID noto‘g‘ri.');
             set_setting('admin_target', $t);
             $sel = array_values(array_intersect(array_keys(RIGHTS), (array)($_POST['rights'] ?? [])));
+            if ($t !== '' && !$sel) throw new InvalidArgumentException('Kamida bitta huquqni belgilang — huquqsiz admin tayinlanmaydi.');
             set_setting('admin_rights', json_encode($sel));
             set_setting('send_link', isset($_POST['send_link']) ? '1' : '0');
             flash('ok', 'Saqlandi.');
