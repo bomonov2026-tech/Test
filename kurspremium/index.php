@@ -553,6 +553,9 @@ $PR_REG = array(   /* viloyat => array(API dagi nom => ko'rinadigan nom); faqat 
 );
 $PR_K = array('bomdod' => array('Bomdod', '🌅', 'tong_saharlik'), 'quyosh' => array('Quyosh', '☀️', 'quyosh'), 'peshin' => array('Peshin', '🕛', 'peshin'),
     'asr' => array('Asr', '🌤', 'asr'), 'shom' => array('Shom', '🌇', 'shom_iftor'), 'xufton' => array('Xufton', '🌙', 'hufton'));   /* kalit => nom, belgi, API maydoni */
+$PR_GEO = array(   /* hudud => array(kenglik, uzunlik) — zaxira hisob uchun */
+    'Nukus' => array(42.4600, 59.6100), 'Qo\'ng\'irоt' => array(43.0583, 58.9000), 'To\'rtko\'l' => array(41.5500, 61.0000), 'Chimbоy' => array(42.9311, 59.7708), 'Toshkent' => array(41.3111, 69.2797), 'Angren' => array(41.0167, 70.1436), 'Bekоbоd' => array(40.2214, 69.2697), 'Andijon' => array(40.7821, 72.3442), 'Shahrixоn' => array(40.7136, 72.0569), 'Xоnоbоd' => array(40.8036, 72.9811), 'Namangan' => array(40.9983, 71.6726), 'Chust' => array(41.0033, 71.2386), 'Kоsоnsоy' => array(41.2564, 71.5469), 'Pоp' => array(40.8736, 71.1089), 'Farg\'оna' => array(40.3864, 71.7864), 'Qo\'qon' => array(40.5286, 70.9425), 'Marg\'ilon' => array(40.4711, 71.7247), 'Quva' => array(40.5220, 72.0700), 'Rishtоn' => array(40.3567, 71.2847), 'Guliston' => array(40.4897, 68.7842), 'Jizzax' => array(40.1158, 67.8422), 'Zоmin' => array(39.9603, 68.3958), 'G\'allaоrоl' => array(40.0231, 67.5964), 'Do\'stlik' => array(40.5247, 68.0358), 'Samarqand' => array(39.6542, 66.9597), 'Kattaqo\'rg\'оn' => array(39.8989, 66.2561), 'Urgut' => array(39.4022, 67.2431), 'Navoiy' => array(40.0844, 65.3792), 'Zarafshоn' => array(41.5747, 64.2014), 'Uchquduq' => array(42.1567, 63.5556), 'Nurоta' => array(40.5614, 65.6886), 'Buxoro' => array(39.7747, 64.4286), 'Qоrako\'l' => array(39.5014, 63.8536), 'Оlоt' => array(39.4144, 63.8022), 'Qarshi' => array(38.8606, 65.7891), 'Kоsоn' => array(39.0375, 65.5850), 'Mubоrak' => array(39.2553, 65.1528), 'G\'uzоr' => array(38.6206, 66.2481), 'Termiz' => array(37.2242, 67.2783), 'Denоv' => array(38.2672, 67.8989), 'Sherоbоd' => array(37.6667, 67.0000), 'Bоysun' => array(38.2061, 67.2083), 'Urganch' => array(41.5500, 60.6333), 'Xiva' => array(41.3783, 60.3639), 'Xazоrasp' => array(41.3194, 61.0742), 'Shоvоt' => array(41.6556, 60.3025)
+);
 define('PR_TPL_DAILY', "🕌 BUGUNGI NAMOZ VAQTLARI\n\n📍 Hudud: {hudud}\n📅 Sana: {sana}\n\n🌅 Bomdod — {bomdod}\n☀️ Quyosh — {quyosh}\n🕛 Peshin — {peshin}\n🌤 Asr — {asr}\n🌇 Shom — {shom}\n🌙 Xufton — {xufton}\n\n🤲 Namozlaringiz qabul bo'lsin!");
 define('PR_TPL_ONE', "{belgi} {namoz} vaqti kirdi — {vaqt}\n\n📍 {hudud}\n\n🤲 Namozingiz qabul bo'lsin!");
 define('PR_TPL_SUN', "☀️ Quyosh chiqdi — {vaqt}\n\n📍 {hudud}\nBomdod vaqti tugadi.");
@@ -565,6 +568,39 @@ function pr_install() {
         "prayer_cache (region VARCHAR(40) NOT NULL, day DATE NOT NULL, times TEXT NULL, hijri VARCHAR(60) NULL, source VARCHAR(255) NULL, fetched_at DATETIME NULL, tried_at DATETIME NULL, err VARCHAR(255) NULL, PRIMARY KEY (region,day))"
     );
     foreach ($t as $x) db()->exec('CREATE TABLE IF NOT EXISTS ' . $x . ' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+}
+/* Zaxira: API ishlamasa vaqtlar shu yerda hisoblanadi — islom.uz uslubi: Bomdod va Xufton 15,5°, Asr Hanafiy, Shom = quyosh botishi + 4 daqiqa.
+   Toshkent uchun 01.10.2026 va 20.10.2026 rasmiy jadvali bilan 6 ta vaqt daqiqasigacha mos keldi. Boshqa shaharlarda 1–2 daqiqa farq bo'lishi mumkin. */
+function pr_sun($j) {
+    $D = $j - 2451545.0; $g = deg2rad(fmod(357.529 + 0.98560028 * $D, 360)); $q = fmod(280.459 + 0.98564736 * $D, 360);
+    $L = deg2rad(fmod($q + 1.915 * sin($g) + 0.020 * sin(2 * $g), 360)); $e = deg2rad(23.439 - 0.00000036 * $D);
+    $ra = fmod(rad2deg(atan2(cos($e) * sin($L), cos($L))) / 15 + 24, 24); $eqt = $q / 15 - $ra;
+    $eqt -= 24 * round($eqt / 24);
+    return array(rad2deg(asin(sin($e) * sin($L))), $eqt);
+}
+function pr_calc($region, $ymd) {
+    global $PR_GEO, $PR_K;
+    if (!isset($PR_GEO[$region])) return null;
+    list($lat, $lng) = $PR_GEO[$region]; list($y, $m, $d) = array_map('intval', explode('-', $ymd));
+    if ($m <= 2) { $y--; $m += 12; }
+    $A = (int)floor($y / 100); $J = floor(365.25 * ($y + 4716)) + floor(30.6001 * ($m + 1)) + $d + 2 - $A + (int)floor($A / 4) - 1524.5 - $lng / 360;
+    $mid = function ($t) use ($J) { $s = pr_sun($J + $t); return fmod(12 - $s[1] + 24, 24); };
+    $ang = function ($a, $t, $ccw) use ($J, $lat, $mid) {
+        $s = pr_sun($J + $t); $dc = deg2rad($s[0]); $la = deg2rad($lat);
+        $v = (-sin(deg2rad($a)) - sin($dc) * sin($la)) / (cos($dc) * cos($la));
+        $h = rad2deg(acos(max(-1, min(1, $v)))) / 15;
+        return $mid($t) + ($ccw ? -$h : $h);
+    };
+    $asr = function ($t) use ($J, $lat, $ang) { $s = pr_sun($J + $t); return $ang(-rad2deg(atan(1 / (2 + tan(deg2rad(abs($lat - $s[0])))))), $t, false); };
+    $t = array('bomdod' => 5, 'quyosh' => 6, 'peshin' => 12, 'asr' => 13, 'shom' => 18, 'xufton' => 18);
+    for ($i = 0; $i < 2; $i++) {
+        foreach ($t as $k => $v) $t[$k] /= 24;
+        $t = array('bomdod' => $ang(15.5, $t['bomdod'], true), 'quyosh' => $ang(0.833, $t['quyosh'], true), 'peshin' => $mid($t['peshin']),
+            'asr' => $asr($t['asr']), 'shom' => $ang(0.833, $t['shom'], false), 'xufton' => $ang(15.5, $t['xufton'], false));
+    }
+    $t['shom'] += 4 / 60; $o = array();
+    foreach ($PR_K as $k => $x) { $h = fmod($t[$k] + 5 - $lng / 15 + 1 / 120 + 24, 24); $o[$k] = sprintf('%02d:%02d', (int)$h, (int)(($h - (int)$h) * 60)); }
+    return $o;
 }
 function pr_set($k, $d = '') { $v = q('SELECT v FROM prayer_settings WHERE k=?', array($k))->fetchColumn(); return $v === false ? $d : $v; }
 function pr_setset($k, $v) { q('INSERT INTO prayer_settings (k,v) VALUES (?,?) ON DUPLICATE KEY UPDATE v=VALUES(v)', array($k, (string)$v)); }
@@ -585,13 +621,13 @@ function pr_tpl_def($k) { return $k === 'daily' ? PR_TPL_DAILY : ($k === 'quyosh
 function pr_api($path, $qs) {
     $url = PR_API . $path . '?' . http_build_query($qs);
     $c = curl_init($url);
-    curl_setopt_array($c, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_TIMEOUT => 8, CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_USERAGENT => 'Mozilla/5.0 KursPremium'));
+    curl_setopt_array($c, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_TIMEOUT => 6, CURLOPT_CONNECTTIMEOUT => 4, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_USERAGENT => 'Mozilla/5.0 KursPremium'));
     $b = curl_exec($c); $no = curl_errno($c); $code = (int)curl_getinfo($c, CURLINFO_HTTP_CODE); curl_close($c);
-    if ($no) return array(null, $url, 'Namoz vaqtlari serveri (islomapi.uz) bilan aloqa yo\'q');
-    if ($code === 404 || trim((string)$b) === 'null') return array(null, $url, 'API bu hudud va sana uchun ma\'lumot bermadi');
-    if ($code >= 400) return array(null, $url, 'Namoz vaqtlari serveri xato qaytardi (HTTP ' . $code . ')');
+    if ($no) return array(null, $url, 'Namoz vaqtlari serveri (islomapi.uz) bilan aloqa yo\'q', true);
+    if ($code === 404 || trim((string)$b) === 'null') return array(null, $url, 'API bu hudud va sana uchun ma\'lumot bermadi', false);
+    if ($code >= 400) return array(null, $url, 'Namoz vaqtlari serveri xato qaytardi (HTTP ' . $code . ')', $code >= 500);
     $j = json_decode((string)$b, true);
-    return array(is_array($j) ? $j : null, $url, is_array($j) ? '' : 'API javobi kutilgan formatda emas');
+    return array(is_array($j) ? $j : null, $url, is_array($j) ? '' : 'API javobi kutilgan formatda emas', !is_array($j));
 }
 /* Diagnostika: hostingdan API ga so'rov natijasi (xom holda, admin uchun) */
 function pr_probe($path, $qs) {
@@ -625,6 +661,7 @@ function pr_fetch($region, $ymd) {
     $r = pr_parse($r1[0], $ymd);
     if ($r) { $r['source'] = $r1[1]; return $r; }
     $e = $r1[2];
+    if ($r1[3]) { $GLOBALS['PR_DOWN'] = true; return $e; }   /* server umuman javob bermasa ikkinchi so'rov yuborilmaydi */
     if ($ymd === date('Y-m-d')) {
         $r2 = pr_api('present/day', array('region' => $region));
         $r = pr_parse($r2[0], $ymd);
@@ -633,21 +670,32 @@ function pr_fetch($region, $ymd) {
     }
     return $e !== '' ? $e : 'API da ' . date('d.m.Y', strtotime($ymd)) . ' sanasi uchun ma\'lumot yo\'q';
 }
-/* Keshdan oladi; eskirgan bo'lsa API dan yangilaydi (bitta hudud uchun PR_RETRY_MIN dan tez-tez emas) */
+/* Keshdan oladi; eskirgan bo'lsa API dan yangilaydi (bitta hudud uchun PR_RETRY_MIN dan tez-tez emas).
+   API ishlamasa — zaxira hisob (pr_calc), API tiklangach o'zi yana API ma'lumotiga qaytadi. */
 function pr_get($region, $ymd, $fetch = true) {
     $sel = 'SELECT * FROM prayer_cache WHERE region=? AND day=?';
     $row = q($sel, array($region, $ymd))->fetch(); $now = time();
-    $fresh = $row && $row['times'] && strtotime($row['fetched_at']) >= $now - pr_ttl() * 60;
-    if (!$fresh && $fetch && (!$row || !$row['tried_at'] || strtotime($row['tried_at']) <= $now - PR_RETRY_MIN * 60)) {
-        $ts = date('Y-m-d H:i:s');
-        q('INSERT INTO prayer_cache (region,day,tried_at) VALUES (?,?,?) ON DUPLICATE KEY UPDATE tried_at=VALUES(tried_at)', array($region, $ymd, $ts));
-        $r = pr_fetch($region, $ymd);
-        if (is_array($r)) q('UPDATE prayer_cache SET times=?, hijri=?, source=?, fetched_at=?, err=NULL WHERE region=? AND day=?', array(json_encode($r['times']), $r['hijri'], mb_substr($r['source'], 0, 255), $ts, $region, $ymd));
-        else q('UPDATE prayer_cache SET err=? WHERE region=? AND day=?', array(mb_substr($r, 0, 255), $region, $ymd));
+    $calc = $row && $row['source'] === 'calc';
+    $fresh = $row && $row['times'] && strtotime($row['fetched_at']) >= $now - ($calc ? PR_RETRY_MIN : pr_ttl()) * 60;
+    if (!$fresh) {
+        $r = null; $ts = date('Y-m-d H:i:s');
+        $try = $fetch && (!$row || !$row['tried_at'] || strtotime($row['tried_at']) <= $now - PR_RETRY_MIN * 60) && (int)pr_set('api_down_at', 0) <= $now - PR_RETRY_MIN * 60;
+        if ($try) {
+            q('INSERT INTO prayer_cache (region,day,tried_at) VALUES (?,?,?) ON DUPLICATE KEY UPDATE tried_at=VALUES(tried_at)', array($region, $ymd, $ts));
+            $GLOBALS['PR_DOWN'] = false; $r = pr_fetch($region, $ymd);
+            if (is_array($r)) q('UPDATE prayer_cache SET times=?, hijri=?, source=?, fetched_at=?, err=NULL WHERE region=? AND day=?', array(json_encode($r['times']), $r['hijri'], mb_substr($r['source'], 0, 255), $ts, $region, $ymd));
+            else { q('UPDATE prayer_cache SET err=? WHERE region=? AND day=?', array(mb_substr($r, 0, 255), $region, $ymd)); if ($GLOBALS['PR_DOWN']) pr_setset('api_down_at', $now); }
+        }
+        if (!is_array($r) && (!$row || !$row['times'] || $calc) && ($c = pr_calc($region, $ymd))) {
+            q("INSERT INTO prayer_cache (region,day,times,hijri,source,fetched_at) VALUES (?,?,?,'','calc',?) ON DUPLICATE KEY UPDATE times=VALUES(times), hijri='', source='calc', fetched_at=VALUES(fetched_at)", array($region, $ymd, json_encode($c), $ts));
+        }
         $row = q($sel, array($region, $ymd))->fetch();
     }
-    if ($row && $row['times']) return array('ok' => true, 'times' => json_decode($row['times'], true), 'hijri' => (string)$row['hijri'], 'source' => (string)$row['source'],
-        'fetched_at' => $row['fetched_at'], 'stale' => strtotime($row['fetched_at']) < $now - pr_ttl() * 60, 'error' => (string)$row['err']);
+    if ($row && $row['times']) {
+        $calc = $row['source'] === 'calc';
+        return array('ok' => true, 'times' => json_decode($row['times'], true), 'hijri' => (string)$row['hijri'], 'source' => (string)$row['source'], 'calc' => $calc,
+            'fetched_at' => $row['fetched_at'], 'stale' => !$calc && strtotime($row['fetched_at']) < $now - pr_ttl() * 60, 'error' => (string)$row['err']);
+    }
     return array('ok' => false, 'error' => $row && $row['err'] ? $row['err'] . '. ' . PR_RETRY_MIN . ' daqiqadan keyin qayta urinib ko\'ring.' : 'Namoz vaqtlari hali olinmadi, birozdan keyin qayta urinib ko\'ring.');
 }
 function pr_text($tpl, $kind, $region, $pt, $ymd) {
@@ -839,7 +887,7 @@ if (isset($_GET['api'])) {
         if (pr_region_name($reg) === '') $reg = 'Toshkent';
         $pt = pr_get($reg, date('Y-m-d'));
         $r = array('ok' => $pt['ok'], 'region' => $reg, 'name' => pr_region_name($reg), 'date' => date('d.m.Y'), 'now' => date('H:i'), 'msg' => $pt['ok'] ? '' : $pt['error']);
-        if ($pt['ok']) $r += array('times' => $pt['times'], 'hijri' => $pt['hijri'], 'upd' => date('d.m H:i', strtotime($pt['fetched_at'])), 'stale' => $pt['stale']);
+        if ($pt['ok']) $r += array('times' => $pt['times'], 'hijri' => $pt['hijri'], 'upd' => date('d.m H:i', strtotime($pt['fetched_at'])), 'stale' => $pt['stale'], 'calc' => $pt['calc']);
         if (!empty($in['meta'])) $r['regions'] = pr_regions();
         out($r);
     }
@@ -962,7 +1010,7 @@ if (isset($_GET['api'])) {
             $d = date('Y-m-d'); $p = explode('-', $d);
             $f = pr_fetch($reg, $d);
             out(array('ok' => true, 'region' => pr_region_name($reg), 'now' => date('d.m.Y H:i:s'), 'php' => PHP_VERSION,
-                'result' => is_array($f) ? 'OK: ' . json_encode($f['times']) : 'XATO: ' . $f,
+                'result' => is_array($f) ? 'OK: ' . json_encode($f['times']) : 'XATO: ' . $f, 'calc' => json_encode(pr_calc($reg, $d)),
                 'probes' => array(pr_probe('daily', array('region' => $reg, 'month' => (int)$p[1], 'day' => (int)$p[2])), pr_probe('present/day', array('region' => $reg)))));
         }
         if ($a === 'adm_pr_cfg') {
@@ -1390,7 +1438,7 @@ if(!j.region){$('prb').innerHTML='<div class="card"><b>⚠️ Aloqa xatosi</b><b
 r.value=j.region;try{localStorage.setItem('pr_reg',j.region)}catch(e){}
 if(!j.ok){$('prb').innerHTML='<div class="card"><b>⚠️ Namoz vaqtlarini olib bo\'lmadi</b><div class="sub" style="margin-top:6px">'+esc(j.msg)+'</div><button class="btn s" style="margin-top:10px" onclick="prl()">⟳ Qayta urinish</button></div>';return}
 var nx='';PRK.slice(1).forEach(function(k){if(!nx&&j.times[k[0]]>j.now)nx=k[0]});
-$('prb').innerHTML='<div class="card"><b>📍 '+esc(j.name)+'</b><div class="sub" style="margin-top:4px">📅 '+esc(j.date)+(j.hijri?' · '+esc(j.hijri):'')+'</div></div><div class="card" style="padding:8px 16px">'+PRK.slice(1).map(function(k){var a=k[0]===nx;return '<div class="row" style="padding:12px '+(a?'10px;margin:0 -10px;border-radius:12px;background:var(--soft)':'0')+'"><span>'+k[1]+' '+(a?'<b>'+k[2]+'</b> <span class="sub">· keyingi</span>':k[2])+'</span><b style="font-size:20px">'+esc(j.times[k[0]])+'</b></div>'}).join('')+'</div><p class="sub" style="margin:0 4px 12px">Manba: islomapi.uz (islom.uz taqvimi asosida) · yangilangan '+esc(j.upd)+(j.stale?' · ⚠️ server hozir javob bermadi, oxirgi saqlangan ma\'lumot ko\'rsatilmoqda':'')+'. Masjiddagi jamoat namozi vaqti farq qilishi mumkin.</p>'})}
+$('prb').innerHTML='<div class="card"><b>📍 '+esc(j.name)+'</b><div class="sub" style="margin-top:4px">📅 '+esc(j.date)+(j.hijri?' · '+esc(j.hijri):'')+'</div></div><div class="card" style="padding:8px 16px">'+PRK.slice(1).map(function(k){var a=k[0]===nx;return '<div class="row" style="padding:12px '+(a?'10px;margin:0 -10px;border-radius:12px;background:var(--soft)':'0')+'"><span>'+k[1]+' '+(a?'<b>'+k[2]+'</b> <span class="sub">· keyingi</span>':k[2])+'</span><b style="font-size:20px">'+esc(j.times[k[0]])+'</b></div>'}).join('')+'</div><p class="sub" style="margin:0 4px 12px">'+(j.calc?'Manba: hisoblangan (islom.uz uslubi: Bomdod/Xufton 15,5°, Asr Hanafiy) — namoz vaqtlari serveri hozir javob bermayapti. Rasmiy jadvaldan 1–2 daqiqa farq qilishi mumkin':'Manba: islomapi.uz (islom.uz taqvimi asosida) · yangilangan '+esc(j.upd)+(j.stale?' · ⚠️ server hozir javob bermadi, oxirgi saqlangan ma\'lumot':''))+'. Masjiddagi jamoat namozi vaqti farq qilishi mumkin.</p>'})}
 function pra(){api('adm_pr').then(function(j){if(j.ok){PRA=j;av('pr')}})}
 function prd(d){var on=d.active==1,ks=PRK.filter(function(k){return d.sch[k[0]].on}).map(function(k){return k[1]+' '+k[2]+(k[0]==='daily'?' '+d.sch.daily.time:'')}).join(' · ');
 var h='<div class="card"><div class="row"><b>'+esc(d.title)+'</b><span class="tag">'+(on?'✅ Faol':'⛔ O\'chiq')+'</span></div><div class="sub">'+(d.chat_type==='channel'?'📢 Kanal':'👥 Guruh')+' · '+esc(d.chat_id)+'</div><div class="sub">📍 '+esc(d.region_name)+'</div><div class="sub">'+(ks||'Hech qanday xabar yoqilmagan')+'</div>'+(d.last_ok_at?'<div class="sub">✅ Oxirgi yuborilgan: '+esc(d.last_ok_at)+'</div>':'')+(d.last_err?'<div class="sub" style="color:var(--r)">⚠️ '+esc(d.last_err)+(d.last_err_at?' ('+esc(d.last_err_at)+')':'')+'</div>':'')
@@ -1404,7 +1452,7 @@ function prad(){api('adm_pr_add',{title:$('pr_t').value,chat_id:$('pr_c').value,
 function prsv(id){var o={title:$('pe_t').value,region:$('pe_r').value,sch:{}};PRK.forEach(function(k){o.sch[k[0]]={on:$('pe_o_'+k[0]).checked,text:$('pe_x_'+k[0]).value};if(k[0]==='daily')o.sch.daily.time=$('pe_tm').value});prq('adm_pr_save',id,o).then(function(j){if(j.ok){PRE=0;av('pr');toast('Saqlandi ✅')}})}
 function prts(id){toast('Yuborilmoqda...');prq('adm_pr_test',id,null,'Test xabari yuborildi ✅')}
 function prdl(id){cf('Ro\'yxatdan o\'chirilsinmi? Bu chatga namoz xabarlari yuborilmaydi.',function(y){if(y)prq('adm_pr_del',id,null,'O\'chirildi')})}
-function prdg(){var e=$('prdg');e.innerHTML='<p class="sub">Tekshirilmoqda...</p>';api('adm_pr_diag',{region:'Toshkent'}).then(function(j){if(!j.ok){e.innerHTML='<p class="sub" style="color:var(--r)">'+esc(j.error||'Aloqa xatosi')+'</p>';return}e.innerHTML='<div class="sub" style="margin-top:8px;word-break:break-all;background:#eef1f6;border-radius:10px;padding:10px;white-space:pre-wrap">'+esc('Natija: '+j.result+'\nHudud: '+j.region+' · '+j.now+' · PHP '+j.php+'\n\n'+j.probes.map(function(p){return p.url+'\nHTTP: '+p.http+(p.curl?' · cURL xato: '+p.curl:'')+' · '+p.ms+' ms · '+p.type+'\n'+p.body}).join('\n\n'))+'</div><p class="sub">Shu oynaning skrinshotini yuboring.</p>'})}
+function prdg(){var e=$('prdg');e.innerHTML='<p class="sub">Tekshirilmoqda...</p>';api('adm_pr_diag',{region:'Toshkent'}).then(function(j){if(!j.ok){e.innerHTML='<p class="sub" style="color:var(--r)">'+esc(j.error||'Aloqa xatosi')+'</p>';return}e.innerHTML='<div class="sub" style="margin-top:8px;word-break:break-all;background:#eef1f6;border-radius:10px;padding:10px;white-space:pre-wrap">'+esc('Natija: '+j.result+'\nZaxira hisob: '+j.calc+'\nHudud: '+j.region+' · '+j.now+' · PHP '+j.php+'\n\n'+j.probes.map(function(p){return p.url+'\nHTTP: '+p.http+(p.curl?' · cURL xato: '+p.curl:'')+' · '+p.ms+' ms · '+p.type+'\n'+p.body}).join('\n\n'))+'</div><p class="sub">Shu oynaning skrinshotini yuboring.</p>'})}
 function prttl(){api('adm_pr_cfg',{ttl:$('pr_ttl').value}).then(function(j){if(j.ok){PRA=j.data;av('pr');toast('Saqlandi ✅')}})}
 var DPC=null;
 function dpl(){$('dpb').innerHTML='<div class="sk"></div>';api('dp_my').then(function(j){if(j.ok){DPC=j;dpr()}})}

@@ -34,6 +34,7 @@ curl -s "https://DOMEN/KursPremium/?cron=KALIT&job=watch"
   - Bu islom.uz ning rasmiy API'si emas, uchinchi tomon xizmati. Kafolat yo'q, vaqti-vaqti bilan ishlamay qolishi mumkin.
   - Ro'yxatda har bir viloyatning faqat katta shaharlari va tuman markazlari bor (jami 46 ta, hammasi API'da mavjud). API'da yo'q hududlar uchun vaqt hisoblanmaydi va to'qib chiqarilmaydi (masalan, Sirdaryodan faqat Guliston bor).
   - Javobdagi sana so'ralgan sana bilan solishtiriladi. Boshqa yil yoki boshqa kun ma'lumoti qabul qilinmaydi.
+- **Zaxira hisob:** API ishlamasa (server o'chiq, hosting ulana olmaydi, 5xx yoki noto'g'ri javob), vaqtlar botning o'zida hisoblanadi. Hisob islom.uz uslubida: Bomdod va Xufton 15,5°, Asr Hanafiy, Shom = quyosh botishi + 4 daqiqa. Toshkent uchun 01.10.2026 va 20.10.2026 dagi rasmiy jadval bilan 6 ta vaqt daqiqasigacha mos keldi; boshqa shaharlarda 1–2 daqiqa farq bo'lishi mumkin. Bunday holatda sahifada «hisoblangan» deb yoziladi. API tiklangach, 15 daqiqa ichida bot o'zi yana API ma'lumotiga qaytadi.
 - Kesh: `prayer_cache` jadvali, standart holatda 360 daqiqa saqlanadi (admin panelda 15–1440 oralig'ida o'zgartiriladi). API xato bersa, o'sha hududga 15 daqiqadan keyin qayta uriniladi. Shu orada oxirgi saqlangan ma'lumot ⚠️ belgisi bilan ko'rsatiladi.
 
 ### Cron (myxvest panel → Cron, har daqiqada)
