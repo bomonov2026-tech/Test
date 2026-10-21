@@ -3242,6 +3242,11 @@ if (isset($_GET['hook'])) {
         exit('ok');
     }
     if (isset($u['message']['text']) && strpos($u['message']['text'], '/start') === 0) {
+        if (isset($u['message']['chat']['type']) && $u['message']['chat']['type'] === 'private' && !empty($u['message']['from']['id']) && empty($u['message']['from']['is_bot'])) {   /* /start bosgan foydalanuvchi obunachilar ro'yxatiga yoziladi */
+            $fu = $u['message']['from']; $now = date('Y-m-d H:i:s');
+            q('INSERT INTO users (id,username,name,created_at,last_seen) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE username=VALUES(username), name=VALUES(name), last_seen=VALUES(last_seen)',
+                array((int)$fu['id'], isset($fu['username']) ? $fu['username'] : '', uname($fu), $now, $now));
+        }
         tg('sendMessage', array('chat_id' => $u['message']['chat']['id'], 'text' => "💱 <b>USD/UZS Premium</b>\nValyuta kurslari va kanalga avtomatik post.", 'parse_mode' => 'HTML',
             'reply_markup' => json_encode(array('inline_keyboard' => array(array(array('text' => '📈 Kurslarni ochish', 'web_app' => array('url' => APP_URL))))))));
     }
