@@ -4,5 +4,5 @@ set -euo pipefail
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
 install -m 644 -o root -g www-data "$SRC/public/index.php" /var/www/tgm/public/index.php
 php -l /var/www/tgm/public/index.php
-systemctl reload php8.3-fpm
+systemctl reload "php$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')-fpm"
 echo "Yangilandi."

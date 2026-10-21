@@ -7,7 +7,6 @@ DOMAIN="${1:?Domen kerak: sudo bash deploy/setup.sh panel.example.com email@exam
 EMAIL="${2:?LetsEncrypt uchun email kerak}"
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
 DST=/var/www/tgm
-PHPV=8.3
 
 [ "$(id -u)" = 0 ] || { echo "root sifatida ishga tushiring (sudo)"; exit 1; }
 
@@ -20,9 +19,11 @@ fi
 echo ">>> Paketlar"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
+# Ubuntu versiyasidagi standart PHP (24.04 -> 8.3, 26.04 -> yangiroq) o'rnatiladi
 apt-get install -y nginx certbot python3-certbot-nginx ufw unzip git curl \
-  php$PHPV-fpm php$PHPV-cli php$PHPV-sqlite3 php$PHPV-mbstring php$PHPV-xml \
-  php$PHPV-curl php$PHPV-gmp php$PHPV-intl php$PHPV-zip php$PHPV-bcmath
+  php-fpm php-cli php-sqlite3 php-mbstring php-xml php-curl php-gmp php-intl php-zip php-bcmath
+PHPV="$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')"
+echo "PHP versiyasi: $PHPV"
 # MadelineProto uchun FFI (ixtiyoriy, tezlik uchun) — CLI da yoqiladi
 echo "ffi.enable=true" > /etc/php/$PHPV/cli/conf.d/99-tgm.ini
 
