@@ -57,6 +57,8 @@ php -r 'require "'"$DST"'/app/vendor/autoload.php"; exit(class_exists(danog\Made
   && echo "MadelineProto: OK" || { echo "MadelineProto yuklanmadi"; exit 1; }
 
 chown -R root:www-data "$DST/public"
+# MadelineProto standart logi skript papkasiga yoziladi (nginx uni tashqariga bermaydi)
+touch "$DST/public/MadelineProto.log"; chown www-data:www-data "$DST/public/MadelineProto.log"; chmod 600 "$DST/public/MadelineProto.log"
 chown -R www-data:www-data "$DST/app"
 chmod 750 "$DST/app"; chmod 700 "$DST/app/data"
 chmod 640 "$DST/app/config.php"; chown root:www-data "$DST/app/config.php"
