@@ -69,3 +69,24 @@ CREATE TABLE IF NOT EXISTS prayer_cache (region VARCHAR(40) NOT NULL, day DATE N
 
 ### Tekshirish
 `?diag=KALIT` sahifasida endi `Namoz API: OK …` yoki xato matni ko'rinadi. Shu bilan API hostingdan ochilishini tekshirasiz.
+
+## Guruh himoyasi (🛡)
+
+Menyu → **🛡 Guruh himoyasi**: guruh egasi o'z guruhlarida himoyani va har bir qoidani ✅/⬜ qiladi. Admin panel → **🛡 Guruh himoyasi**: barcha guruhlar, statistika va qo'shimcha so'kinish so'zlari.
+
+| Qoida | Nima o'chiriladi |
+|---|---|
+| 🖇 Reklama havolalari | `http`, `www`, `t.me` havolalari, yashirin havola (text_link), kanaldan forward, tugmali yoki inline-bot xabarlari |
+| 🔞 So'kingan xabarlar | o'zbekcha va ruscha so'kinish ildizlari (52 ta). Kirill harflar lotinga o'giriladi, `h`/`x` bir xil o'qiladi, takrorlangan harflar qisqartiriladi. Ro'yxatni admin panelda kengaytirish mumkin |
+| 🔊 Ovozli xabarlar | **barcha** ovozli va dumaloq video xabarlar. Bot ovozni tinglay olmaydi, shuning uchun faqat so'kinganlarini ajratib o'chirib bo'lmaydi |
+| 🇸🇦 Arabcha xabarlar | harflarining kamida 30% arab yozuvida bo'lgan xabarlar (kamida 4 ta arab harfi) |
+| 🚫 Spam | 10 soniyada 6 tadan ortiq xabar, 2 daqiqada bir xil matn 3 marta, bitta xabarda 5 ta va undan ko'p @mention. Albomlar spam hisoblanmaydi |
+| 🧹 Arabcha reklamalar | arabcha matn + havola, @mention yoki telefon raqami |
+| 🗑 Kirdi-chiqdilar | «… qo'shildi» va «… chiqib ketdi» xizmat xabarlari |
+
+- Guruh adminlari, anonim admin va bog'langan kanal postlariga tegilmaydi. Adminlar ro'yxati 10 daqiqa keshlanadi.
+- Tahrirlangan xabarlar ham tekshiriladi.
+- Bot guruhga qo'shilganda yoki guruhda `/himoya` (yoki `/start`) yozilganda vazifalar ro'yxatini yuboradi. Bu xabar daqiqasiga ko'pi bilan bir marta chiqadi.
+- **Talab:** guruh «Guruh qo'shish» orqali ro'yxatda bo'lishi kerak. Bot guruhda **administrator** bo'lib, unda **«Удаление сообщений» (Xabarlarni o'chirish)** huquqi bo'lishi kerak. Huquq yetmasa, panelda qizil ogohlantirish chiqadi.
+- Hammasi mavjud webhook orqali ishlaydi, alohida cron kerak emas.
+- Jadvallar avtomatik yaratiladi: `group_guard`, `guard_log` (30 kun saqlanadi), `guard_admins`, `guard_seen`.
