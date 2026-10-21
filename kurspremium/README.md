@@ -166,7 +166,8 @@ Bu xizmatlar uchun **har daqiqalik cron** kerak: `php /yo'l/index.php prayer` (y
 ## Avtomatik ulanish
 - **Bot admin qilinganda:** Telegram `my_chat_member` yangilanishini yuboradi. Kanalda «Xabar joylash» huquqi bilan, guruhda istalgan administrator huquqi bilan admin qilingan chat darhol **tasdiqlangan** holda ro'yxatga qo'shiladi.
   - Egasi — botni admin qilgan odam. Anonim admin qo'shgan bo'lsa, chat yaratuvchisi (creator) egasi hisoblanadi.
-  - Kurs xabarlari yoqiladi, guruhda himoya ham yoqiladi.
+  - Yangi ulangan chatda **barcha xabarlar avtomatik yoqiladi**: dollar kursi + Markaziy bank kurslari (har 3 soatda), namoz vaqtlari rasmi (har namozdan 30 daqiqa keyin), ertalabki post (6:00). Guruhda himoya ham yoqiladi. Keraksizini egasi ilovada o'chiradi.
+  - Ilgari qo'lda qo'shilgan chatning sozlamalari o'zgartirilmaydi. Qo'lda qo'shish usuli avvalgidek ishlaydi.
   - Egasiga «⚙️ Sozlash» tugmasi bilan xabar boradi, adminga esa bildirishnoma.
 - **Bot chiqarilganda yoki huquqi olinganda:** chat `noperm` holatiga o'tadi, avto xabarlar va himoya to'xtaydi. Bot qayta admin qilinsa, yana tasdiqlanadi.
 - **Admin rad etgan yoki bloklagan chat** avtomatik tasdiqlanmaydi.

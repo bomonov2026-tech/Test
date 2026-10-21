@@ -3151,10 +3151,10 @@ function bot_member($cm) {
     $old = q('SELECT id, status, blocked FROM chats WHERE chat_id=?', array($cid))->fetchAll();
     foreach ($old as $o) if ($o['status'] === 'rejected' || $o['blocked']) return;   /* admin rad etgan yoki bloklagan bo'lsa — avtomatik tasdiqlanmaydi */
     if ($old) q("UPDATE chats SET status='approved', username=?, auto_on=IF(last_post_at IS NULL,1,auto_on) WHERE chat_id=?", array($title, $cid));
-    else q("INSERT INTO chats (owner,chat_id,username,ctype,status,auto_on,interval_h,created_at) VALUES (?,?,?,?,'approved',1,3,NOW())", array($uid, $cid, $title, $ctype));
+    else q("INSERT INTO chats (owner,chat_id,username,ctype,status,auto_on,interval_h,send_a,send_b,send_c,dp_on,created_at) VALUES (?,?,?,?,'approved',1,3,1,1,1,1,NOW())", array($uid, $cid, $title, $ctype));   /* faqat admin qilish orqali ulangan yangi chat — barcha xabarlar yoqiq */
     if ($ctype === 'Guruh') q('INSERT INTO group_guard (chat_id,enabled,opts,noad,updated_at) VALUES (?,1,?,1,?) ON DUPLICATE KEY UPDATE enabled=1', array($cid, json_encode(guard_def()), date('Y-m-d H:i:s')));
     if (!$old) {
-        pr_call('sendMessage', array('chat_id' => $uid, 'text' => '✅ ' . ($ctype === 'Kanal' ? 'Kanal' : 'Guruh') . ' ' . $title . " botga ulandi va tasdiqlandi!\n\n" . ($ctype === 'Kanal' ? "📈 Kurs xabarlari avtomatik yuboriladi. Ertalabki xabar, namoz vaqtlari va boshqa sozlamalar — ilovada." : "🛡 Guruh himoyasi yoqildi. Kurs xabarlari, kapcha va boshqa sozlamalar — ilovada."),
+        pr_call('sendMessage', array('chat_id' => $uid, 'text' => '✅ ' . ($ctype === 'Kanal' ? 'Kanal' : 'Guruh') . ' ' . $title . " botga ulandi va tasdiqlandi!\n\n" . "Avtomatik yoqildi:\n🏛 Dollar kursi + 📋 Markaziy bank kurslari (har 3 soatda)\n🕌 Namoz vaqtlari (har namozdan 30 daqiqa keyin)\n🌅 Ertalabki post (har kuni 6:00)" . ($ctype === 'Kanal' ? '' : "\n🛡 Guruh himoyasi") . "\n\nKeraksizini o'chirish yoki oraliqni o'zgartirish — ilovada «⚙️ Sozlash».",
             'reply_markup' => array('inline_keyboard' => array(array(array('text' => '⚙️ Sozlash', 'web_app' => array('url' => APP_URL)))))));
         notify_admins('🆕 Yangi ' . mb_strtolower($ctype) . ' avtomatik ulandi: ' . $title . "\n👤 " . uname($fu) . (isset($fu['username']) ? ' (@' . $fu['username'] . ')' : '') . ' · ID ' . $uid);
     }
