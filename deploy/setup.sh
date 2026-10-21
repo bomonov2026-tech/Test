@@ -28,10 +28,8 @@ echo "PHP versiyasi: $PHPV"
 echo "ffi.enable=true" > /etc/php/$PHPV/cli/conf.d/99-tgm.ini
 
 if ! command -v composer >/dev/null; then
-  echo ">>> Composer"
-  curl -fsSL https://getcomposer.org/installer -o /tmp/composer-setup.php
-  php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
-  rm -f /tmp/composer-setup.php
+  echo ">>> Composer (Ubuntu paketidan)"
+  apt-get install -y composer
 fi
 
 echo ">>> Fayllar -> $DST"
