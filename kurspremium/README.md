@@ -159,3 +159,12 @@ Bu xizmatlar uchun **har daqiqalik cron** kerak: `php /yo'l/index.php prayer` (y
 - **Bosh sahifa:** kurslar ostida 13 ta hudud (12 viloyat markazi + Toshkent va Nukus) uchun **bitta namoz** vaqti chiqadi. Qaysi namoz ekani Toshkent vaqti bo'yicha aniqlanadi: namoz kirganidan 30 daqiqa o'tgach keyingisi ko'rsatiladi (Bomdod → Peshin → Asr → Shom → Xufton). Xuftondan 30 daqiqa o'tgach ertangi Bomdod chiqadi. Foydalanuvchining «Namoz vaqtlari» sahifasida tanlagan hududi ro'yxat boshida ajratib ko'rsatiladi. Ma'lumot 2 daqiqada bir yangilanadi, kesh esa har daqiqalik cron orqali oldindan tayyorlanadi.
 - **Tongi xabar:** «Tongi xabar → Kanallarim» bo'limida kanal egasi har bir kanal uchun o'z hududini tanlaydi (`chats.dp_region`). Shunda 6:00 dagi ertalabki xabar oxiriga shu hududning 6 ta vaqti qo'shiladi. Video posti tagidagi matn 1024 belgiga sig'masa, vaqtlar qo'shilmaydi. Hudud tanlanmasa, xabar avvalgidek ketadi.
 - Tongi xabar endi har daqiqalik cron orqali ham yuboriladi (takroriy yuborishdan himoyalangan). Kurs xabarlari o'zgarmagan.
+
+## Avtomatik ulanish
+- **Bot admin qilinganda:** Telegram `my_chat_member` yangilanishini yuboradi. Kanalda «Xabar joylash» huquqi bilan, guruhda istalgan administrator huquqi bilan admin qilingan chat darhol **tasdiqlangan** holda ro'yxatga qo'shiladi.
+  - Egasi — botni admin qilgan odam. Anonim admin qo'shgan bo'lsa, chat yaratuvchisi (creator) egasi hisoblanadi.
+  - Kurs xabarlari yoqiladi, guruhda himoya ham yoqiladi.
+  - Egasiga «⚙️ Sozlash» tugmasi bilan xabar boradi, adminga esa bildirishnoma.
+- **Bot chiqarilganda yoki huquqi olinganda:** chat `noperm` holatiga o'tadi, avto xabarlar va himoya to'xtaydi. Bot qayta admin qilinsa, yana tasdiqlanadi.
+- **Admin rad etgan yoki bloklagan chat** avtomatik tasdiqlanmaydi.
+- **Ilova orqali qo'lda qo'shish:** bot admin bo'lsa, chat endi darhol tasdiqlanadi (admin tasdig'i kutilmaydi).

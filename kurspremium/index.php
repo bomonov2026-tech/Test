@@ -1416,6 +1416,37 @@ function dp_with_pr($p, $region) {
     return $p;
 }
 /* Har daqiqalik cron: namoz + postlar + kapcha + vaqtinchalik xabarlar + statistika + hisobot + konkurslar */
+/* Bot kanal/guruhga administrator qilinsa — avtomatik ro'yxatga olinadi va tasdiqlanadi; chiqarilsa — to'xtatiladi */
+function bot_member($cm) {
+    $ch = $cm['chat']; $type = isset($ch['type']) ? $ch['type'] : '';
+    if (!in_array($type, array('channel', 'group', 'supergroup'), true)) return;
+    $cid = $ch['id']; $ctype = $type === 'channel' ? 'Kanal' : 'Guruh';
+    $st = isset($cm['new_chat_member']['status']) ? $cm['new_chat_member']['status'] : ''; $nm = $cm['new_chat_member'];
+    $title = !empty($ch['username']) ? '@' . $ch['username'] : mb_substr(trim(isset($ch['title']) ? (string)$ch['title'] : ''), 0, 40) . ' (' . $cid . ')';
+    if (in_array($st, array('left', 'kicked'), true) || ($st === 'administrator' && $ctype === 'Kanal' && empty($nm['can_post_messages']))) {
+        q("UPDATE chats SET status='noperm', auto_on=0 WHERE chat_id=? AND status IN ('approved','pending')", array($cid));
+        q('UPDATE group_guard SET enabled=0 WHERE chat_id=?', array($cid));
+        return;
+    }
+    if ($st !== 'administrator') return;   /* oddiy a'zo qilib qo'shilsa — kutiladi */
+    $uid = isset($cm['from']['id']) ? (int)$cm['from']['id'] : 0; $fu = isset($cm['from']) ? $cm['from'] : array();
+    if (!$uid || !empty($fu['is_bot'])) {   /* anonim admin qo'shgan bo'lsa — egasi (creator) olinadi */
+        $ad = pr_call('getChatAdministrators', array('chat_id' => $cid)); $uid = 0;
+        foreach (!empty($ad['ok']) ? $ad['result'] : array() as $x) if ($x['status'] === 'creator' && empty($x['user']['is_bot'])) { $uid = (int)$x['user']['id']; $fu = $x['user']; }
+        if (!$uid) return;
+    }
+    q('INSERT IGNORE INTO users (id,username,name,created_at,last_seen) VALUES (?,?,?,NOW(),NOW())', array($uid, isset($fu['username']) ? $fu['username'] : '', uname($fu)));
+    $old = q('SELECT id, status, blocked FROM chats WHERE chat_id=?', array($cid))->fetchAll();
+    foreach ($old as $o) if ($o['status'] === 'rejected' || $o['blocked']) return;   /* admin rad etgan yoki bloklagan bo'lsa — avtomatik tasdiqlanmaydi */
+    if ($old) q("UPDATE chats SET status='approved', username=?, auto_on=IF(last_post_at IS NULL,1,auto_on) WHERE chat_id=?", array($title, $cid));
+    else q("INSERT INTO chats (owner,chat_id,username,ctype,status,auto_on,interval_h,created_at) VALUES (?,?,?,?,'approved',1,3,NOW())", array($uid, $cid, $title, $ctype));
+    if ($ctype === 'Guruh') q('INSERT INTO group_guard (chat_id,enabled,opts,noad,updated_at) VALUES (?,1,?,1,?) ON DUPLICATE KEY UPDATE enabled=1', array($cid, json_encode(guard_def()), date('Y-m-d H:i:s')));
+    if (!$old) {
+        pr_call('sendMessage', array('chat_id' => $uid, 'text' => '✅ ' . ($ctype === 'Kanal' ? 'Kanal' : 'Guruh') . ' ' . $title . " botga ulandi va tasdiqlandi!\n\n" . ($ctype === 'Kanal' ? "📈 Kurs xabarlari avtomatik yuboriladi. Ertalabki xabar, namoz vaqtlari va boshqa sozlamalar — ilovada." : "🛡 Guruh himoyasi yoqildi. Kurs xabarlari, kapcha va boshqa sozlamalar — ilovada."),
+            'reply_markup' => array('inline_keyboard' => array(array(array('text' => '⚙️ Sozlash', 'web_app' => array('url' => APP_URL)))))));
+        notify_admins('🆕 Yangi ' . mb_strtolower($ctype) . ' avtomatik ulandi: ' . $title . "\n👤 " . uname($fu) . (isset($fu['username']) ? ' (@' . $fu['username'] . ')' : '') . ' · ID ' . $uid);
+    }
+}
 function cb_handle($cq) {
     $d = isset($cq['data']) ? (string)$cq['data'] : ''; $uid = (int)$cq['from']['id'];
     $ans = function ($t, $alert = false) use ($cq) { pr_call('answerCallbackQuery', array('callback_query_id' => $cq['id'], 'text' => $t, 'show_alert' => $alert)); };
@@ -1478,6 +1509,7 @@ if (isset($_GET['hook'])) {
     $u = json_decode(file_get_contents('php://input'), true); mig();
     if (isset($u['callback_query'])) { try { cb_handle($u['callback_query']); } catch (Exception $e) {} exit('ok'); }
     if (isset($u['chat_member'])) { try { ext_member($u['chat_member']); } catch (Exception $e) {} exit('ok'); }
+    if (isset($u['my_chat_member'])) { try { bot_member($u['my_chat_member']); } catch (Exception $e) {} exit('ok'); }
     $gm = isset($u['message']) ? $u['message'] : (isset($u['edited_message']) ? $u['edited_message'] : null);
     if ($gm && isset($gm['chat']['type']) && ($gm['chat']['type'] === 'group' || $gm['chat']['type'] === 'supergroup')) {   /* guruh xabarlari — faqat himoya */
         try { guard_handle($gm, isset($u['edited_message'])); } catch (Exception $e) {}
@@ -1712,9 +1744,10 @@ if (isset($_GET['api'])) {
         if (empty($um['ok']) || !in_array($um['result']['status'], array('creator', 'administrator'), true)) out(array('ok' => false, 'error' => 'Siz bu chatning administratori emassiz'), 403);
         $okBot = !empty($bm['ok']) && in_array($bm['result']['status'], array('administrator', 'creator'), true) && ($type === 'Guruh' || !empty($bm['result']['can_post_messages']) || $bm['result']['status'] === 'creator');
         $iv = max(3, min(12, (int)(isset($in['interval']) ? $in['interval'] : 3)));
-        q('INSERT INTO chats (owner,chat_id,username,ctype,status,interval_h,created_at) VALUES (?,?,?,?,?,?,NOW()) ON DUPLICATE KEY UPDATE username=VALUES(username), interval_h=VALUES(interval_h), status=IF(status="approved",status,VALUES(status))', array($u['id'], $cid, $un, $type, $okBot ? 'pending' : 'noperm', $iv));
+        q('INSERT INTO chats (owner,chat_id,username,ctype,status,interval_h,created_at) VALUES (?,?,?,?,?,?,NOW()) ON DUPLICATE KEY UPDATE username=VALUES(username), interval_h=VALUES(interval_h), status=IF(status IN ("approved","rejected"),status,VALUES(status))', array($u['id'], $cid, $un, $type, $okBot ? 'approved' : 'noperm', $iv));
+        if ($okBot) q("UPDATE chats SET auto_on=1 WHERE owner=? AND chat_id=? AND status='approved' AND last_post_at IS NULL", array($u['id'], $cid));
         if ($type === 'Guruh') q('INSERT IGNORE INTO group_guard (chat_id,enabled,opts,noad,updated_at) VALUES (?,1,?,1,?)', array($cid, json_encode(guard_def()), date('Y-m-d H:i:s')));
-        out(array('ok' => true, 'status' => $okBot ? 'pending' : 'noperm', 'msg' => $okBot ? 'Tekshiruvdan o\'tdi. Administrator tasdig\'i kutilmoqda.' : 'Botni ' . $type . 'ga administrator qilib qo\'shing (xabar yuborish huquqi bilan), keyin qayta urining.'));
+        out(array('ok' => true, 'status' => $okBot ? 'approved' : 'noperm', 'msg' => $okBot ? '✅ Ulandi va tasdiqlandi!' : 'Botni ' . $type . 'ga administrator qilib qo\'shing (xabar yuborish huquqi bilan), keyin qayta urining.'));
     }
     if ($a === 'chat_set') {
         $c = q('SELECT * FROM chats WHERE id=? AND owner=?', array((int)$in['id'], $u['id']))->fetch();
