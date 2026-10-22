@@ -4737,7 +4737,24 @@ input[type=checkbox]:checked{background:var(--ac)}input[type=checkbox]:checked:a
 .sw.on{background:var(--ac)}
 #toast{top:auto;bottom:calc(86px + env(safe-area-inset-bottom))}
 .bh{flex-wrap:nowrap}.bh b{white-space:nowrap}.bh .chip{width:auto;flex:none;flex-direction:row;margin-left:auto;padding:6px 10px;font-size:12px}
-.br .bn span{white-space:nowrap}
+/* v2: bosh sahifa */
+.hero{padding:18px 16px 14px}
+.hero .hb{margin:4px 0 2px}.hero .hb .hdc{font-size:.5em;font-weight:700;color:var(--sub)}
+.hdl{font-size:12.5px;font-weight:600;margin-bottom:12px}
+.hmk{background:var(--cd);border-radius:18px;padding:12px;margin-top:12px;text-align:left}
+.hmh{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px;color:var(--tx);margin-bottom:10px}.hmh span{font-weight:500;font-size:12px;color:var(--sub)}
+.hpills div{border-radius:14px;padding:9px 8px;font-size:20px;font-weight:800;text-align:center}
+.hpills small{display:block;font-size:12px;font-weight:600;opacity:.8;margin-bottom:2px}
+.hpills .hg{background:#dcf7e6;color:#13803d}.hpills .hr{background:#fde4e4;color:#c81e1e}
+html.dark .hpills .hg{background:#173726;color:#7ee2a2}html.dark .hpills .hr{background:#3d1b1e;color:#ff9a9a}
+.cu{padding:11px 0;border-top:1px solid var(--ln)}.sh2+.cu{border-top:0;padding-top:4px}
+.fl2{width:38px;height:38px;border-radius:50%;background:var(--in);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none;overflow:hidden}
+.cu .cn{display:flex;flex-direction:column;font-size:12px}.cu .cn b{font-size:15px;color:var(--tx)}
+.pgr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pgr>div{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:10px 12px;border-radius:14px;background:var(--in);font-size:14px;color:var(--tx)}
+.pgr>div span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pgr>div b{font-size:16px;font-weight:700}
+.pgr>.me{background:var(--soft);box-shadow:inset 0 0 0 1.5px var(--ac)}.pgr>.me span{color:var(--ac);font-weight:700}
+.wgr{grid-template-columns:repeat(3,minmax(0,1fr))}.wgr .wn{font-size:12px}.wgr .wt{font-size:14px}
 
 </style></head><body>
 <div id="toast"></div>
@@ -4805,11 +4822,11 @@ function draw(j){if(j.rates)R=j.rates;if(j.last_ok!==undefined){LU=j.last_ok||''
 cur=Math.max(0,R.map(function(x){return x.code}).indexOf('USD'));
 var U=null,UM=null;R.forEach(function(x){if(x.code==='USD'){U=x.official;x.banks.forEach(function(b){if(/mikrokredit|mkb/i.test(b.bank))UM=b})}});
 var t='<div class="hero"><button class="rfi" id="rf" aria-label="Yangilash"><span id="rft">⟳</span></button>';
-if(UM)t+='<div class="hl1">1 AQSH dollari · sotish</div><div class="hb">'+f(UM.sell)+' <small>so\'m</small></div><div class="hpills"><div class="hg">Olish '+f(UM.buy)+'</div>'+(U?'<div>MB '+f(U.official)+'</div>':'')+'</div><div class="hs">Mikrokreditbank · yangilangan '+esc(hm(UM.at))+(UM.stale?' · ⚠️ eskirgan':'')+'</div>';
-else if(U)t+='<div class="hl1">1 AQSH dollari · Markaziy bank</div><div class="hb">'+f2(U.official)+' <small>so\'m</small></div><div class="hpills"><div class="hg">'+(U.d==null||+U.d==0?'O\'zgarmagan':(U.d>0?'▲ ':'▼ ')+f2(Math.abs(U.d)))+'</div>'+(U.yest!=null?'<div>Kecha '+f2(U.yest)+'</div>':'')+'</div>';
-else t+='<div class="hl1">Kurslar hali yuklanmagan</div>';
-t+='</div><div class="qk">'+[['pl','c1','Post',"go('po')"],['pl2','c5','Kanal qo\'shish',"go('chats','Kanal')"],['bk','c3','Banklar','bnk()'],['ca','c4','Kalkulyator',"go('calc')"]].map(function(q){return '<button onclick="'+q[3]+'"><span class="ti '+q[1]+'">'+sv2(q[0])+'</span>'+q[2]+'</button>'}).join('')+'</div>';
-t+='<div class="sc"><div class="sh2">Valyutalar</div>'+R.map(function(x){var w=x.official;if(!w)return '';var d=+w.d||0,b=w.official-d,p=b?d/b*100:0;return '<div class="cu"><span class="cb3" style="background:'+(CC[x.code]||'#64748b')+'">'+esc(x.code)+'</span><span class="cn">'+esc(x.name)+'</span><span class="cv">'+fv(w.official)+'</span><span class="cd2 '+(d>0?'up2':d<0?'dn2':'sub')+'">'+(d?(d>0?'▲ +':'▼ ')+p.toFixed(2)+'%':'—')+'</span></div>'}).join('')+'</div>';
+if(U)t+='<div class="hl1">🏛 Markaziy bank · 1 AQSH dollari</div><div class="hb">'+f2(U.official).split(',')[0]+'<small class="hdc">,'+f2(U.official).split(',')[1]+'</small> <small>so\'m</small></div>'+(U.d==null||+U.d==0?'':'<div class="hdl '+(U.d>0?'up2':'dn2')+'">'+(U.d>0?'▲ +':'▼ −')+f2(Math.abs(U.d))+' kechagiga nisbatan</div>');else t+='<div class="hl1">Kurslar hali yuklanmagan</div>';if(UM)t+='<div class="hmk"><div class="hmh">Mikrokreditbank<span>'+esc(hm(UM.at))+(UM.stale?' · ⚠️ eskirgan':'')+'</span></div><div class="hpills"><div class="hg"><small>Olish</small>'+f(UM.buy)+'</div><div class="hr"><small>Sotish</small>'+f(UM.sell)+'</div></div></div>';
+
+
+t+='</div>';
+t+='<div class="sc"><div class="sh2">Valyutalar</div>'+R.map(function(x){var w=x.official;if(!w)return '';var d=+w.d||0,b=w.official-d,p=b?d/b*100:0;return '<div class="cu"><span class="fl2">'+(FL[x.code]||'💱')+'</span><span class="cn"><b>'+esc(x.code)+'</b>'+esc(x.name)+'</span><span class="cv">'+fv(w.official)+'</span><span class="cd2 '+(d>0?'up2':d<0?'dn2':'sub')+'">'+(d?(d>0?'▲ +':'▼ ')+p.toFixed(2)+'%':'—')+'</span></div>'}).join('')+'</div>';
 $('top').innerHTML=t;
 var c=R[cur];if(!c){$('cards').innerHTML='<p class="sub">Kurslar hali yuklanmagan.</p>';return}
 var B=c.banks.slice(),bb=null,bs=null,o=c.official,mk=null,L=[];B.forEach(function(b){if(!bb||+b.buy>+bb.buy)bb=b;if(!bs||+b.sell<+bs.sell)bs=b});
@@ -5050,7 +5067,7 @@ function dpf(d,on){var D=DPC.cfg;if(on==null)on=d?!D.days[d-1].o:!D.on;return ap
 function dpa(){var p=Promise.resolve();DPC.cfg.days.forEach(function(x){if(!x.o)p=p.then(function(){return dpf(x.d,true)})});p.then(function(){toast('7 kun yoqildi ✅')})}
 function hm2(m){return m<60?m+' daqiqa':Math.floor(m/60)+' soat'+(m%60?' '+m%60+' daq':'')}
 function prh(){api('pr_home').then(function(j){var e=$('prh');if(!e)return;if(!j.ok){e.innerHTML='';return}var my='';try{my=localStorage.getItem('pr_reg')||''}catch(x){}
-e.innerHTML='<div class="sc" style="cursor:pointer" onclick="go(\'pr\')"><div class="sh2">Namoz vaqtlari <span class="sub">· '+j.icon+' '+(j.tomorrow?'Ertaga ':'')+esc(j.name)+' · '+(j.started?'vaqti kirdi':hm2(j.mins)+' qoldi')+'</span><span class="chv2">›</span></div><div class="ptb">'+j.rows.map(function(x){return '<div'+(x.r===my?' class="me"':'')+'><span>'+esc(x.n)+'</span><b>'+esc(x.t)+'</b></div>'}).join('')+'</div></div>'})}
+e.innerHTML='<div class="sc" style="cursor:pointer" onclick="go(\'pr\')"><div class="sh2">Namoz vaqtlari <span class="sub">· '+j.icon+' '+(j.tomorrow?'Ertaga ':'')+esc(j.name)+' · '+(j.started?'vaqti kirdi':hm2(j.mins)+' qoldi')+'</span><span class="chv2">›</span></div><div class="pgr">'+j.rows.map(function(x){return '<div'+(x.r===my?' class="me"':'')+'><span>'+esc(x.n)+'</span><b>'+esc(x.t)+'</b></div>'}).join('')+'</div></div>'})}
 setInterval(function(){var p=$('p-home');if(p&&p.classList.contains('on'))prh()},120000);
 function dpc(i){var c=DPC.chats[i],on=c.dp_on==1?0:1;api('dp_my_set',{id:c.id,on:on}).then(function(j){if(j.ok){c.dp_on=on;dpr();toast(on?'Yoqildi ✅':'O\'chirildi')}})}
 function dpv(){var o={time:$('dp_time').value,days:{}};AD.dp.days.forEach(function(x){o.days[x.d]={v:$('dp_v'+x.d).value.trim(),t:$('dp_t'+x.d).value}});return o}
