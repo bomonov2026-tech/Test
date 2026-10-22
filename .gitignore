@@ -3,3 +3,4 @@ app/vendor/
 app/data/
 app/composer.lock
 *.zip
+tartibon/config.php
