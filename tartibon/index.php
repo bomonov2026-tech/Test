@@ -4755,6 +4755,12 @@ html.dark .hpills .hg{background:#173726;color:#7ee2a2}html.dark .hpills .hr{bac
 .pgr>div span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pgr>div b{font-size:16px;font-weight:700}
 .pgr>.me{background:var(--soft);box-shadow:inset 0 0 0 1.5px var(--ac)}.pgr>.me span{color:var(--ac);font-weight:700}
 .wgr{grid-template-columns:repeat(3,minmax(0,1fr))}.wgr .wn{font-size:12px}.wgr .wt{font-size:14px}
+/* v3: Telegram uslubidagi och ko'k kartalar (yorug' tema) */
+html:not(.dark){--bg:#f7fafd;--cd:#e9f4fe;--in:#fff;--ln:#d6e8fa;--soft:#d3e9fd;--sh:0 1px 2px rgba(29,132,242,.05),0 6px 18px rgba(29,132,242,.07)}
+html:not(.dark) .hero{background:linear-gradient(180deg,#d6ebff,#e9f4fe)}
+html:not(.dark) .hmk,html:not(.dark) .hero .rfi,html:not(.dark) .fl2{background:#fff}
+html:not(.dark) nav.tbar{background:rgba(255,255,255,.94);border-top-color:#e6eef7}
+html:not(.dark) .wgr>div{background:#fff;border-color:#fff}
 
 </style></head><body>
 <div id="toast"></div>
