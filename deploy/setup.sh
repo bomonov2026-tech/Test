@@ -36,6 +36,7 @@ echo ">>> Fayllar -> $DST"
 mkdir -p "$DST/public" "$DST/app/data/php_sessions"
 install -m 644 "$SRC/public/index.php" "$DST/public/index.php"
 install -m 644 "$SRC/app/composer.json" "$DST/app/composer.json"
+install -m 644 "$SRC/app/splash.php" "$DST/app/splash.php"
 install -m 644 "$SRC/app/config.example.php" "$DST/app/config.example.php"
 if [ ! -f "$DST/app/config.php" ]; then
   cp "$DST/app/config.example.php" "$DST/app/config.php"

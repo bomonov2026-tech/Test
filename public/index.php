@@ -16,6 +16,8 @@ use danog\MadelineProto\RPCErrorException;
 define('APP_DIR', rtrim((string)(getenv('TGM_APP_DIR') ?: dirname(__DIR__) . '/app'), '/'));
 if (!is_file(APP_DIR . '/config.php')) { http_response_code(500); exit('config.php topilmadi: ' . APP_DIR . '/config.php (config.example.php dan nusxa oling).'); }
 $CFG = (array)require APP_DIR . '/config.php';
+// TartibOn intro (splash) — alohida komponent; fayl bo'lmasa panel introsiz ishlaydi
+if (is_file(APP_DIR . '/splash.php')) require APP_DIR . '/splash.php';
 /* ============================================================= */
 
 if (PHP_VERSION_ID < 80200) { http_response_code(500); exit('PHP 8.2+ kerak (8.3 tavsiya etiladi).'); }
@@ -439,7 +441,7 @@ if (!isset($_SESSION['auth'])) {
     echo '<div id="mini-status" class="msg"' . ($miniError !== '' ? ' style="display:none"' : '') . '>Telegram bilan xavfsiz ulanish tekshirilmoqda…</div>';
     echo '<form id="mini-auth-form" method="post" action=""><input type="hidden" name="action" value="mini_auth"><input type="hidden" name="init_data" id="init-data" value="">' . ($miniError !== '' ? '<button>Qayta urinish</button>' : '') . '</form>';
     echo '<p><small>Agar bu oynani Telegramdan tashqarida ochgan bo‘lsangiz, botga qayting va “TG Menejer” tugmasini bosing.</small></p></div>';
-    echo '<script src="https://telegram.org/js/telegram-web-app.js"></script><script>(function(){var s=document.getElementById("mini-status");var d="";try{if(window.Telegram&&Telegram.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand();try{Telegram.WebApp.setHeaderColor("#000000");Telegram.WebApp.setBackgroundColor("#030603");}catch(e){}d=Telegram.WebApp.initData||"";}}catch(e){} if(d){document.getElementById("init-data").value=d;if(' . $auto . ')document.getElementById("mini-auth-form").submit();}else{s.style.display="";s.textContent="Telegram initData olinmadi. Bot ichidagi Web App tugmasidan oching.";s.className="msg err";}})();</script>';
+    echo '<script src="https://telegram.org/js/telegram-web-app.js"></script><script>(function(){var s=document.getElementById("mini-status");var d="";try{if(window.Telegram&&Telegram.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand();try{var sp=/\bsp-wait\b/.test(document.documentElement.className);Telegram.WebApp.setHeaderColor(sp?"#0789F9":"#000000");Telegram.WebApp.setBackgroundColor(sp?"#0789F9":"#030603");}catch(e){}d=Telegram.WebApp.initData||"";}}catch(e){} if(!d)document.documentElement.classList.remove("sp-wait"); if(d){document.getElementById("init-data").value=d;if(' . $auto . ')document.getElementById("mini-auth-form").submit();}else{s.style.display="";s.textContent="Telegram initData olinmadi. Bot ichidagi Web App tugmasidan oching.";s.className="msg err";}})();</script>';
     page_foot(); exit;
 }
 
@@ -514,6 +516,10 @@ if ($post) {
 function page_head(string $t): void {
     $cur = (string)($GLOBALS['p'] ?? 'home');
     $nav = '';
+    // intro: tasdiqlangan sahifada o'ynaladi; kirish sahifasida (xatosiz) faqat ko'k fon ushlab turiladi
+    $sp = isset($_SESSION['auth']) ? 'play' : ((string)($GLOBALS['miniError'] ?? '') === '' ? 'wait' : '');
+    $spHead = function_exists('splash_head') ? splash_head($sp) : '';
+    $spBody = function_exists('splash_body') ? splash_body($sp) : '';
     if (isset($_SESSION['auth'])) {
         if ($cur === 'home' || !isset(MENU[$cur]) && $cur !== 'confirm') {
             $nm = trim((string)($_SESSION['tg_first_name'] ?? ''));
@@ -589,13 +595,13 @@ label.ck input{width:18px;height:18px;flex:none;margin:0;accent-color:var(--a)}
 .on{color:var(--a);text-shadow:var(--glow);animation:blink 1.2s steps(1) infinite}
 .boot{margin:0 0 10px;padding:10px;background:#000;border:1px solid var(--b);color:var(--a);font:inherit;font-size:12px;white-space:pre-wrap;text-shadow:var(--glow)}
 small{color:var(--m);font-size:11px}b{font-weight:700}
-</style></head><body>' . $nav;
+</style>' . $spHead . '</head><body>' . $spBody . $nav;
     foreach ($_SESSION['flash'] ?? [] as [$ty, $m]) echo '<div class="msg ' . ($ty === 'ok' ? 'ok' : 'err') . '">' . h($m) . '</div>';
     unset($_SESSION['flash']);
 }
 function page_foot(): void {
     $home = (($GLOBALS['p'] ?? 'home') === 'home') ? 'true' : 'false';
-    if (isset($_SESSION['auth'])) echo '<script src="https://telegram.org/js/telegram-web-app.js"></script><script>try{var w=Telegram.WebApp;w.ready();w.expand();try{w.setHeaderColor("#000000");w.setBackgroundColor("#030603");}catch(e){}if(!' . $home . '){var bb=document.querySelector(".hdr .back");if(bb&&w.isVersionAtLeast&&w.isVersionAtLeast("6.1"))bb.style.display="none";w.BackButton.show();w.BackButton.onClick(function(){location.href="?p=home";});}else{w.BackButton.hide();}}catch(e){}</script>';
+    if (isset($_SESSION['auth'])) echo '<script src="https://telegram.org/js/telegram-web-app.js"></script><script>try{var w=Telegram.WebApp;w.ready();w.expand();try{var sp=/\bsp-intro\b/.test(document.documentElement.className);w.setHeaderColor(sp?"#0789F9":"#000000");w.setBackgroundColor(sp?"#0789F9":"#030603");}catch(e){}if(!' . $home . '){var bb=document.querySelector(".hdr .back");if(bb&&w.isVersionAtLeast&&w.isVersionAtLeast("6.1"))bb.style.display="none";w.BackButton.show();w.BackButton.onClick(function(){location.href="?p=home";});}else{w.BackButton.hide();}}catch(e){}</script>';
     echo '</body></html>';
 }
 

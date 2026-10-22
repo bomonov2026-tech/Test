@@ -6,6 +6,7 @@ Telegram Mini App panel (MadelineProto), hacker uslubida.
 ```
 public/index.php          -> /var/www/tgm/public/index.php  (nginx root, yagona ochiq fayl)
 app/config.example.php    -> /var/www/tgm/app/config.php    (maxfiy sozlamalar, gitga kirmaydi)
+app/splash.php            -> /var/www/tgm/app/splash.php    (TartibOn animatsion intro; ?p=home&intro=1 — qayta ko'rish)
 app/composer.json         -> MadelineProto
 deploy/setup.sh           -> bir martalik o'rnatish (nginx, php8.3-fpm, composer, HTTPS, cron, ufw)
 deploy/update.sh          -> kodni yangilash
