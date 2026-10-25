@@ -135,6 +135,11 @@ function mig() {
     if (setting('mig_quiz', '') !== '1') { quiz_install(); setset('mig_quiz', '1'); }
     if (setting('mig_quiz2', '') !== '1') { quiz_install2(); setset('mig_quiz2', '1'); }
     if (setting('mig_qz3', '') !== '1') { quiz_install3(); setset('mig_qz3', '1'); }   /* savol-javob: bo'limlar daraxti, baza noldan */
+    if (setting('mig_qz4', '') !== '1') {   /* YHQ (haydovchilik) savollari olib tashlandi */
+        q("UPDATE quiz_sessions SET status='finished', act=NULL, finished_at=? WHERE status='active' AND question_id IN (SELECT id FROM quiz_questions WHERE cat LIKE 'imtihon/malaka/yhq%')", array(time()));
+        q("DELETE FROM quiz_questions WHERE cat LIKE 'imtihon/malaka/yhq%'"); q("UPDATE quiz_settings SET cat='imtihon/malaka' WHERE cat LIKE 'imtihon/malaka/yhq%'");
+        setset('mig_qz4', '1');
+    }
     if (setting('mig_pr', '') !== '1') { pr_install(); setset('mig_pr', '1'); }
     if (setting('mig_guard2', '') !== '1') { guard_install(); setset('mig_guard', '1'); setset('mig_guard2', '1'); }
     if (setting('mig_pimg', '') !== '1') { try { db()->exec('ALTER TABLE chats ADD COLUMN send_c TINYINT NOT NULL DEFAULT 0, ADD COLUMN pi_key VARCHAR(20) NULL'); } catch (Exception $e) {} setset('mig_pimg', '1'); }
@@ -3363,9 +3368,6 @@ imtihon/malaka/oqituvchi¦Dars tahlilining asosiy maqsadi?¦Dars sifatini oshiri
 imtihon/malaka/oqituvchi¦Inklyuziv ta'lim nima?¦Alohida ehtiyojli bolalarni boshqalar bilan birga o'qitish¦Faqat iqtidorlilarni o'qitish|Masofaviy o'qitish|Pullik ta'lim¦
 imtihon/malaka/tibbiyot¦Yurak-o'pka reanimatsiyasida ko'krakni bosish chastotasi (daqiqada)?¦100–120¦40–60|60–80|150–180¦
 imtihon/malaka/buxgalteriya¦Schyotda debet qaysi tomonda yoziladi?¦Chap¦O'ng|Pastda|Tepada¦
-imtihon/malaka/yhq¦Svetoforning qizil chirog'i nimani bildiradi?¦Harakat taqiqlanadi¦Harakatga ruxsat|Ehtiyot bo'ling|To'xtash shart emas¦
-imtihon/malaka/yhq¦O'zbekistonda aholi punktlarida ruxsat etilgan eng yuqori tezlik?¦70 km/soat¦60 km/soat|90 km/soat|50 km/soat¦
-imtihon/malaka/yhq¦Tartibga solinmagan piyodalar o'tish joyida kimga yo'l berish shart?¦Piyodalarga¦Velosipedchilarga|Yuk mashinalariga|Hech kimga¦
 QZSEED
     ) as $ln) { $x = explode('¦', trim($ln)); if (count($x) >= 4) $L[] = array($x[0], $x[1], $x[2], $x[3], isset($x[4]) ? $x[4] : ''); }
     return $L;
@@ -3423,7 +3425,7 @@ function quiz_tree() {
         'imtihon' => array('t' => '📚 Boshqa imtihonlar', 'd' => 'Milliy sertifikat, til sertifikatlari va malaka imtihonlari', 'k' => array(
             'sertifikat' => array('t' => 'Milliy sertifikat', 'k' => $lv(array('matematika' => 'Matematika', 'ona_tili' => 'Ona tili va adabiyot', 'tarix' => 'Tarix', 'ingliz' => 'Ingliz tili', 'kimyo' => 'Kimyo', 'biologiya' => 'Biologiya', 'fizika' => 'Fizika'))),
             'til' => array('t' => 'Til sertifikatlari', 'k' => $lv(array('ielts' => 'IELTS', 'cefr_ingliz' => 'CEFR · ingliz tili', 'cefr_rus' => 'CEFR · rus tili', 'nemis' => 'Nemis tili', 'koreys' => 'Koreys tili (TOPIK)', 'turk' => 'Turk tili'))),
-            'malaka' => array('t' => 'Malaka imtihonlari', 'k' => $lv(array('oqituvchi' => "O'qituvchilar attestatsiyasi", 'tibbiyot' => 'Tibbiyot xodimlari', 'buxgalteriya' => 'Buxgalteriya', 'yhq' => 'Haydovchilik (YHQ)'))))));
+            'malaka' => array('t' => 'Malaka imtihonlari', 'k' => $lv(array('oqituvchi' => "O'qituvchilar attestatsiyasi", 'tibbiyot' => 'Tibbiyot xodimlari', 'buxgalteriya' => 'Buxgalteriya'))))));
     return $T;
 }
 function quiz_path($path) {   /* yo'l bo'yicha sarlavhalar ro'yxati; noto'g'ri bo'lsa null. Bo'sh yo'l — barcha bo'limlar */
