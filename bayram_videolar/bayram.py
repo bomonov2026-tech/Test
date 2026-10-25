@@ -141,12 +141,13 @@ def text_img(text, path, size, fill, glow=None, maxw=940, gradient=None, shadow=
 
 
 # ---------------------------------------------------------------- backgrounds
-def gradient_bg(top, bot, glow_col, glow_y=430):
+def gradient_bg(top, bot, glow_col, glow_y=430, glow_x=None):
+    gx = W / 2 if glow_x is None else glow_x
     y = np.linspace(0, 1, H)[:, None, None]
     col = np.array(top) * (1 - y) + np.array(bot) * y
     col = np.repeat(col, W, axis=1).astype(np.float32)
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    d = np.sqrt((xx - W / 2) ** 2 + ((yy - glow_y) * 0.85) ** 2)
+    d = np.sqrt((xx - gx) ** 2 + ((yy - glow_y) * 0.85) ** 2)
     g = np.exp(-(d / 520) ** 2)[..., None] * 0.55
     col = col * (1 - g) + np.array(glow_col) * g * 0.75 + col * g * 0.25
     # vignette
@@ -192,8 +193,8 @@ def ornament_frame(color=GOLD):
     return down(img, 2)
 
 
-def mosque_silhouette(col, win=(255, 200, 110)):
-    top = 1540
+def mosque_silhouette(col, win=(255, 200, 110), cx=540, mo=350):
+    top = H - 380
     img, d = hi_canvas(W, H - top, 2)
     k = 2
     h = (H - top) * k
@@ -215,18 +216,18 @@ def mosque_silhouette(col, win=(255, 200, 110)):
 
     hb = H - top
     d.rectangle((0, (hb - 90) * k, W * k, h), fill=c)
-    d.rectangle((300 * k, (hb - 170) * k, 780 * k, h), fill=c)
-    dome(540, hb - 165, 185, 150)
-    dome(330, hb - 88, 95, 80)
-    dome(750, hb - 88, 95, 80)
-    for mx in (190, 890):
+    d.rectangle(((cx - 240) * k, (hb - 170) * k, (cx + 240) * k, h), fill=c)
+    dome(cx, hb - 165, 185, 150)
+    dome(cx - 210, hb - 88, 95, 80)
+    dome(cx + 210, hb - 88, 95, 80)
+    for mx in (cx - mo, cx + mo):
         d.rectangle(((mx - 22) * k, (hb - 300) * k, (mx + 22) * k, h), fill=c)
         d.rectangle(((mx - 32) * k, (hb - 230) * k, (mx + 32) * k, (hb - 218) * k), fill=c)
         d.polygon([((mx - 24) * k, (hb - 300) * k), (mx * k, (hb - 360) * k), ((mx + 24) * k, (hb - 300) * k)], fill=c)
     # windows
-    for wx in range(360, 740, 70):
+    for wx in range(cx - 180, cx + 200, 70):
         d.rounded_rectangle(((wx - 14) * k, (hb - 130) * k, (wx + 14) * k, (hb - 70) * k), radius=14 * k, fill=win + (200,))
-    for wx in (110, 250, 830, 970):
+    for wx in (cx - 430, cx - 290, cx + 290, cx + 430):
         d.rounded_rectangle(((wx - 10) * k, (hb - 65) * k, (wx + 10) * k, (hb - 25) * k), radius=10 * k, fill=win + (170,))
     out = down(img, 2)
     full = Image.new("RGBA", (W, H), (0, 0, 0, 0))
@@ -819,14 +820,18 @@ def divider(color=GOLD, w=560):
 def render(name, out_dir, tmp_dir):
     th = THEMES[name]
     top, bot, gl = th["bg"]
-    bg = gradient_bg(top, bot, gl)
+    wide = W > H
+    EX, TX = (520, 1250) if wide else (W / 2, W / 2)
+    em_y = (340 if th.get("mosque") else 420) if wide else 430
+    bg = gradient_bg(top, bot, gl, glow_y=em_y, glow_x=EX)
     if th.get("pattern"):
         bg.alpha_composite(geometric_pattern())
     if th.get("mosque"):
         mcol = tuple(max(0, int(v * 0.45)) for v in bot)
-        bg.alpha_composite(mosque_silhouette(mcol))
+        bg.alpha_composite(mosque_silhouette(mcol, cx=480, mo=300) if wide else mosque_silhouette(mcol))
     if th.get("lanterns"):
-        for x, length, s in ((150, 120, 0.9), (250, 40, 0.7), (W - 150, 120, 0.9), (W - 250, 40, 0.7)):
+        lx = (90, 200) if wide else (150, 250)
+        for x, length, s in ((lx[0], 120, 0.9), (lx[1], 40, 0.7), (W - lx[0], 120, 0.9), (W - lx[1], 40, 0.7)):
             ImageDraw.Draw(bg).line([(x, 48), (x, 48 + length)], fill=GOLD + (200,), width=3)
             ln = lantern(s)
             bg.alpha_composite(ln, (int(x - ln.width / 2), int(48 + length - 24 * s)))
@@ -837,26 +842,35 @@ def render(name, out_dir, tmp_dir):
     flag = make_flag() if em_kind == "flag" else None
 
     # text layers
-    title_imgs = [text_img(t, F_TITLE, 104, GOLD, glow=(255, 190, 90), gradient=((255, 236, 170), (220, 160, 60)), maxw=900) for t in th["title"]]
-    sub_img = text_img(th["sub"], F_SUB, 48, CREAM, maxw=860)
-    body_imgs = [text_img(t, F_BODY, 52, CREAM, maxw=900) for t in th["body"]]
-    final_img = text_img(th["final"], F_FINAL, 66, GOLD, glow=(255, 200, 100), gradient=((255, 240, 180), (235, 175, 70)), maxw=900)
+    ts, ss, bs, fs, mw = (92, 42, 42, 58, 800) if wide else (104, 48, 52, 66, 900)
+    title_imgs = [text_img(t, F_TITLE, ts, GOLD, glow=(255, 190, 90), gradient=((255, 236, 170), (220, 160, 60)), maxw=mw - 20) for t in th["title"]]
+    sub_img = text_img(th["sub"], F_SUB, ss, CREAM, maxw=mw - 40)
+    body_imgs = [text_img(t, F_BODY, bs, CREAM, maxw=mw) for t in th["body"]]
+    final_img = text_img(th["final"], F_FINAL, fs, GOLD, glow=(255, 200, 100), gradient=((255, 240, 180), (235, 175, 70)), maxw=mw)
     div = divider()
     shimmer_mask = None
 
     parts = Particles(th["particles"], th["palette"], seed=sum(map(ord, name)))
 
     # layout
-    em_y = 430
-    ty0 = 760 if len(title_imgs) == 2 else 800
-    title_ys = [ty0 + i * 112 for i in range(len(title_imgs))]
-    sub_y = title_ys[-1] + 100
-    div_y = sub_y + 70
-    body_y0 = div_y + 85
-    body_ys = [body_y0 + i * 80 for i in range(len(body_imgs))]
-    final_y = body_ys[-1] + 140
-    if th.get("mosque"):
-        final_y = min(final_y, 1510)
+    if wide:
+        ty0 = 190 if len(title_imgs) == 2 else 240
+        title_ys = [ty0 + i * 100 for i in range(len(title_imgs))]
+        sub_y = title_ys[-1] + 88
+        div_y = sub_y + 58
+        body_y0 = div_y + 68
+        body_ys = [body_y0 + i * 64 for i in range(len(body_imgs))]
+        final_y = body_ys[-1] + 108
+    else:
+        ty0 = 760 if len(title_imgs) == 2 else 800
+        title_ys = [ty0 + i * 112 for i in range(len(title_imgs))]
+        sub_y = title_ys[-1] + 100
+        div_y = sub_y + 70
+        body_y0 = div_y + 85
+        body_ys = [body_y0 + i * 80 for i in range(len(body_imgs))]
+        final_y = body_ys[-1] + 140
+        if th.get("mosque"):
+            final_y = min(final_y, 1510)
 
     # audio
     wav = os.path.join(tmp_dir, name + ".wav")
@@ -884,15 +898,15 @@ def render(name, out_dir, tmp_dir):
             fy = em_y + 8 * math.sin(t * 1.6)
             if flag is not None:
                 im = wave_flag(flag, t)
-                cx = W / 2 + 10
+                cx = EX + 10
             elif em_kind == "flame":
                 im = emblem.copy()
                 fl = draw_flame(t)
                 im.alpha_composite(fl, (int(S / 2 - fl.width / 2), int(380 - fl.height + 25)))
-                cx = W / 2
+                cx = EX
             else:
                 im = emblem
-                cx = W / 2
+                cx = EX
             if sc < 0.999:
                 im = im.resize((max(1, int(im.width * sc)), max(1, int(im.height * sc))), Image.BILINEAR)
             # pulse glow halo
@@ -908,19 +922,19 @@ def render(name, out_dir, tmp_dir):
                     sp = (t - s0 - i * 0.15) / 1.0
                     if 0 < sp < 1:
                         img = shimmer(ti, sp)
-                put(frame, img, W / 2, ty + (1 - ease_out(p)) * 50, ease_out(p))
+                put(frame, img, TX, ty + (1 - ease_out(p)) * 50, ease_out(p))
         p = (t - 3.2) / 0.8
         if p > 0:
-            put(frame, sub_img, W / 2, sub_y + (1 - ease_out(p)) * 30, ease_out(p) * 0.95)
+            put(frame, sub_img, TX, sub_y + (1 - ease_out(p)) * 30, ease_out(p) * 0.95)
         p = (t - 3.8) / 1.0
         if p > 0:
             dv = div.resize((max(1, int(div.width * ease_out(p))), div.height), Image.BILINEAR)
-            put(frame, dv, W / 2, div_y, 1)
+            put(frame, dv, TX, div_y, 1)
         for i, (bi, by) in enumerate(zip(body_imgs, body_ys)):
             st = 5.2 + i * 1.3
             p = (t - st) / 1.0
             if p > 0:
-                put(frame, bi, W / 2 + (1 - ease_out(p)) * (-60 if i % 2 == 0 else 60), by, ease_out(p))
+                put(frame, bi, TX + (1 - ease_out(p)) * (-60 if i % 2 == 0 else 60), by, ease_out(p))
         p = (t - 11.5) / 1.2
         if p > 0:
             sc = 0.8 + 0.2 * ease_back(p)
@@ -931,7 +945,7 @@ def render(name, out_dir, tmp_dir):
             if 0 < sp < 1:
                 fi_img = shimmer(final_img, sp)
             fi_img = fi_img.resize((int(fi_img.width * sc), int(fi_img.height * sc)), Image.BILINEAR)
-            put(frame, fi_img, W / 2, final_y, ease_out(p))
+            put(frame, fi_img, TX, final_y, ease_out(p))
         # global fades
         fade = min(1, t / 0.7, (DUR - t) / 0.8)
         rgb = frame.convert("RGB")
@@ -956,7 +970,11 @@ def shimmer(img, p):
 
 
 if __name__ == "__main__":
-    out_dir, tmp_dir = sys.argv[1], sys.argv[2]
-    names = sys.argv[3:] or list(THEMES)
+    args = sys.argv[1:]
+    if "--16x9" in args:
+        args.remove("--16x9")
+        W, H = 1920, 1080
+    out_dir, tmp_dir = args[0], args[1]
+    names = args[2:] or list(THEMES)
     for n in names:
         render(n, out_dir, tmp_dir)

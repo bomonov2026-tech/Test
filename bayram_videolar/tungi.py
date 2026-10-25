@@ -41,7 +41,7 @@ def hills():
         h = rng.uniform(50, 95)
         d.polygon([((x - h * 0.28) * k, (base + 6) * k), (x * k, (base - h) * k), ((x + h * 0.28) * k, (base + 6) * k)], fill=(4, 6, 18, 255))
     # small house with a warm window
-    hx = 1560
+    hx = 1380
     hb = 975 - 35 * math.sin(hx * 0.009 + 4.1) - 17 * math.sin(hx * 0.009 * 2.7 + 8.2)
     d.rectangle(((hx - 45) * k, (hb - 60) * k, (hx + 45) * k, (hb + 10) * k), fill=(4, 6, 18, 255))
     d.polygon([((hx - 58) * k, (hb - 58) * k), (hx * k, (hb - 105) * k), ((hx + 58) * k, (hb - 58) * k)], fill=(4, 6, 18, 255))
