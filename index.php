@@ -134,6 +134,7 @@ function mig() {
     }
     if (setting('mig_quiz', '') !== '1') { quiz_install(); setset('mig_quiz', '1'); }
     if (setting('mig_quiz2', '') !== '1') { quiz_install2(); setset('mig_quiz2', '1'); }
+    if (setting('mig_qz3', '') !== '1') { quiz_install3(); setset('mig_qz3', '1'); }   /* savol-javob: bo'limlar daraxti, baza noldan */
     if (setting('mig_pr', '') !== '1') { pr_install(); setset('mig_pr', '1'); }
     if (setting('mig_guard2', '') !== '1') { guard_install(); setset('mig_guard', '1'); setset('mig_guard2', '1'); }
     if (setting('mig_pimg', '') !== '1') { try { db()->exec('ALTER TABLE chats ADD COLUMN send_c TINYINT NOT NULL DEFAULT 0, ADD COLUMN pi_key VARCHAR(20) NULL'); } catch (Exception $e) {} setset('mig_pimg', '1'); }
@@ -3156,12 +3157,12 @@ function cron_weather() {
 
 /* ---------- KROSSVORD VIKTORINA: guruhga savol + javob kataklari, birinchi to'g'ri javobga ochko, reyting ---------- */
 /* Vaqtlar unix soniyada saqlanadi (PHP va MySQL vaqt zonalari farq qilsa ham hisob buzilmaydi). Bir guruhda bir vaqtda bitta faol savol: UNIQUE(chat_id, act). */
-$QZ_SUBJ = array('Matematika', 'Fizika', 'Kimyo', 'Biologiya', 'Tarix', 'Geografiya', 'Ona tili va adabiyot', 'Informatika', 'Xorijiy tillar', 'Huquq va iqtisodiyot');
+$QZ_SUBJ = array();   /* eski tekis fanlar ro'yxati — endi bo'limlar daraxti: quiz_tree() */
 define('QZ_ANS_MAX', 64);   /* bundan uzun xabarlar javob sifatida ko'rilmaydi */
 function quiz_install() {
-    db()->exec("CREATE TABLE IF NOT EXISTS quiz_questions (id INT AUTO_INCREMENT PRIMARY KEY, subject VARCHAR(40) NOT NULL, level TINYINT NOT NULL DEFAULT 1, question TEXT NOT NULL, answer VARCHAR(100) NOT NULL,
+    db()->exec("CREATE TABLE IF NOT EXISTS quiz_questions (id INT AUTO_INCREMENT PRIMARY KEY, cat VARCHAR(80) NOT NULL DEFAULT '', subject VARCHAR(120) NOT NULL, level TINYINT NOT NULL DEFAULT 1, question TEXT NOT NULL, answer VARCHAR(100) NOT NULL,
         alts TEXT NULL, opts TEXT NULL, note VARCHAR(500) NOT NULL DEFAULT '', letters SMALLINT NOT NULL DEFAULT 0, qhash CHAR(32) NOT NULL, used INT NOT NULL DEFAULT 0, created_at INT NOT NULL DEFAULT 0,
-        UNIQUE KEY uq_hash (qhash), KEY k_subj (subject)) DEFAULT CHARSET=utf8mb4");
+        UNIQUE KEY uq_hash (qhash), KEY k_subj (subject), KEY k_cat (cat)) DEFAULT CHARSET=utf8mb4");
     db()->exec("CREATE TABLE IF NOT EXISTS quiz_settings (chat_id BIGINT NOT NULL PRIMARY KEY, enabled TINYINT NOT NULL DEFAULT 0, subject VARCHAR(40) NOT NULL DEFAULT '', interval_min INT NOT NULL DEFAULT 10,
         answer_sec INT NOT NULL DEFAULT 60, points INT NOT NULL DEFAULT 10, next_at INT NOT NULL DEFAULT 0, last_err VARCHAR(255) NOT NULL DEFAULT '', updated_at INT NOT NULL DEFAULT 0) DEFAULT CHARSET=utf8mb4");
     db()->exec("CREATE TABLE IF NOT EXISTS quiz_sessions (id INT AUTO_INCREMENT PRIMARY KEY, chat_id BIGINT NOT NULL, question_id INT NOT NULL, subject VARCHAR(40) NOT NULL, message_id BIGINT NULL, points INT NOT NULL,
@@ -3175,51 +3176,278 @@ function quiz_install() {
         UNIQUE KEY uq_su (session_id, user_id), KEY k_chat_at (chat_id, at), KEY k_at (at), KEY k_user (user_id)) DEFAULT CHARSET=utf8mb4");
     if (!(int)q('SELECT COUNT(*) FROM quiz_questions')->fetchColumn()) quiz_seed();
 }
-function quiz_seed_list() {   /* fan, savol, javob, muqobil javoblar, izoh, noto'g'ri variantlar */
-    return array(
-        array('Geografiya', "O'zbekiston poytaxti qaysi shahar?", 'Toshkent', '', '', 'Samarqand|Buxoro|Andijon'),
-        array('Geografiya', 'Yaponiya poytaxti qaysi shahar?', 'Tokio', 'Tokyo', '', 'Pekin|Seul|Bangkok'),
-        array('Geografiya', 'Dunyodagi eng katta okean?', 'Tinch', 'Tinch okeani', '', 'Atlantika|Hind|Shimoliy Muz'),
-        array('Geografiya', "Dunyodagi eng baland cho'qqi?", 'Everest', 'Jomolungma|Chomolungma', '8848 metr', 'Elbrus|Monblan|Kilimanjaro'),
-        array('Geografiya', 'Fransiya poytaxti qaysi shahar?', 'Parij', 'Paris', '', 'London|Rim|Berlin'),
-        array('Matematika', '7 ni 8 ga ko\'paytirsak nechchi bo\'ladi?', '56', '', '', '54|48|64'),
-        array('Matematika', '144 ning kvadrat ildizi nechaga teng?', '12', '', '', '14|11|16'),
-        array('Matematika', 'Uchburchak ichki burchaklari yig\'indisi necha gradus?', '180', '', '', '90|360|270'),
-        array('Matematika', 'Eng kichik tub son qaysi?', '2', 'ikki', '', '1|3|5'),
-        array('Fizika', 'Kuchning SI tizimidagi o\'lchov birligi?', 'Nyuton', 'Nyuton N|N', '', 'Joul|Vatt|Paskal'),
-        array('Fizika', 'Elektr qarshilikning o\'lchov birligi?', 'Om', '', '', 'Volt|Amper|Vatt'),
-        array('Fizika', 'Yorug\'likning vakuumdagi tezligi taxminan necha km/s?', '300000', '300 000|300000 km/s', 'Aniqrog\'i 299 792 km/s', '150000|30000|3000000'),
-        array('Kimyo', 'Suvning kimyoviy formulasi?', 'H2O', '', '', 'CO2|O2|H2O2'),
-        array('Kimyo', 'Kimyoviy elementlar davriy jadvalini kim yaratgan?', 'Mendeleyev', 'Dmitriy Mendeleyev', '', 'Lomonosov|Nyuton|Eynshteyn'),
-        array('Kimyo', 'Kislorodning kimyoviy belgisi?', 'O', '', '', 'N|C|H'),
-        array('Kimyo', 'Osh tuzining kimyoviy nomi?', 'Natriy xlorid', 'NaCl', '', 'Kaliy xlorid|Natriy karbonat|Kalsiy xlorid'),
-        array('Biologiya', 'Odam yuragi necha kamerali?', '4', 'to\'rt|tort', '', '2|3|5'),
-        array('Biologiya', 'Fotosintez o\'simlik hujayrasining qaysi organoidida boradi?', 'Xloroplast', 'Xloroplastlar', '', 'Mitoxondriya|Yadro|Ribosoma'),
-        array('Biologiya', 'Yer yuzidagi eng katta sutemizuvchi?', 'Ko\'k kit', 'Kit|Havorang kit', '', 'Afrika fili|Kashalot|Jirafa'),
-        array('Tarix', 'Amir Temur qaysi yilda tug\'ilgan?', '1336', '', '', '1370|1405|1320'),
-        array('Tarix', '«Boburnoma» asarining muallifi?', 'Bobur', 'Zahiriddin Muhammad Bobur|Zahiriddin Bobur', '', 'Alisher Navoiy|Amir Temur|Mirzo Ulug\'bek'),
-        array('Tarix', 'O\'zbekiston qaysi yilda mustaqillikka erishgan?', '1991', '', '1991-yil 31-avgust', '1990|1992|1989'),
-        array('Tarix', 'Mirzo Ulug\'bek rasadxonasi qaysi shaharda joylashgan?', 'Samarqand', '', '', 'Buxoro|Xiva|Toshkent'),
-        array('Ona tili va adabiyot', '«O\'tkan kunlar» romanining muallifi?', 'Abdulla Qodiriy', 'Qodiriy', '', 'Cho\'lpon|Oybek|G\'afur G\'ulom'),
-        array('Ona tili va adabiyot', '«Xamsa» asarini yozgan buyuk o\'zbek shoiri?', 'Alisher Navoiy', 'Navoiy', '', 'Bobur|Lutfiy|Ogahiy'),
-        array('Ona tili va adabiyot', 'O\'zbek lotin alifbosida nechta harf bor?', '29', '', '', '26|32|35'),
-        array('Informatika', '1 bayt necha bitga teng?', '8', 'sakkiz', '', '4|16|10'),
-        array('Informatika', 'Kompyuterning asosiy hisoblash qurilmasi nima deb ataladi?', 'Protsessor', 'CPU|Markaziy protsessor', '', 'Monitor|Klaviatura|Operativ xotira'),
-        array('Xorijiy tillar', '«Apple» so\'zining o\'zbekcha tarjimasi?', 'Olma', '', '', 'Nok|Uzum|Shaftoli'),
-        array('Xorijiy tillar', '«Book» so\'zining o\'zbekcha tarjimasi?', 'Kitob', '', '', 'Daftar|Qalam|Maktab'),
-        array('Xorijiy tillar', 'Ingliz alifbosida nechta harf bor?', '26', '', '', '24|28|33'),
-        array('Huquq va iqtisodiyot', 'O\'zbekistonning milliy valyutasi?', 'So\'m', 'Som|Sum', '', 'Tenge|Rubl|Dollar'),
-        array('Huquq va iqtisodiyot', 'O\'zbekistonning birinchi Konstitutsiyasi qaysi yilda qabul qilingan?', '1992', '', '1992-yil 8-dekabr', '1991|1993|1995'),
-        array('Huquq va iqtisodiyot', 'Narxlarning umumiy darajasi uzoq vaqt o\'sib borishi nima deyiladi?', 'Inflyatsiya', '', '', 'Deflyatsiya|Devalvatsiya|Stagnatsiya'));
+function quiz_seed_list() {   /* bo'lim yo'li ¦ savol ¦ to'g'ri javob ¦ noto'g'ri variantlar (|) ¦ izoh */
+    $L = array();
+    foreach (explode("\n", <<<'QZSEED'
+maktab/1/matematika¦3 + 4 = ?¦7¦6|8|5¦
+maktab/1/matematika¦10 − 6 = ?¦4¦5|3|6¦
+maktab/1/matematika¦Uchburchakning nechta burchagi bor?¦3¦4|2|5¦
+maktab/2/matematika¦5 × 2 = ?¦10¦7|12|15¦
+maktab/2/matematika¦36 + 8 = ?¦44¦42|46|54¦
+maktab/3/matematika¦7 × 8 = ?¦56¦54|48|64¦
+maktab/3/matematika¦81 : 9 = ?¦9¦8|7|11¦
+maktab/3/matematika¦1 metr necha santimetr?¦100¦10|1000|50¦
+maktab/4/matematika¦1 soat necha daqiqa?¦60¦100|30|24¦
+maktab/4/matematika¦Kvadratning perimetri 20 sm. Uning tomoni necha sm?¦5¦4|10|6¦Kvadratning 4 ta teng tomoni bor: 20 : 4 = 5
+maktab/4/matematika¦1000 − 1 = ?¦999¦990|909|899¦
+maktab/1/ona_tili¦O'zbek lotin alifbosida nechta harf bor?¦29¦26|32|35¦
+maktab/2/ona_tili¦«Kitob» so'zida nechta bo'g'in bor?¦2¦3|1|4¦ki-tob
+maktab/3/ona_tili¦Harakatni bildiruvchi so'z turkumi?¦Fe'l¦Ot|Sifat|Son¦
+maktab/3/ona_tili¦Narsa-buyum nomini bildiruvchi so'z turkumi?¦Ot¦Fe'l|Sifat|Ravish¦
+maktab/4/ona_tili¦Belgini bildiruvchi so'z turkumi?¦Sifat¦Ot|Fe'l|Olmosh¦
+maktab/4/ona_tili¦«Men, sen, u» qaysi so'z turkumiga kiradi?¦Olmosh¦Ot|Son|Ko'makchi¦
+maktab/2/oqish¦«Zumrad va Qimmat» ertagidagi mehnatkash qiz kim?¦Zumrad¦Qimmat|Oydin|Gulnor¦
+maktab/3/oqish¦«Bo'g'irsoq» ertagida bo'g'irsoqni kim yeb qo'ydi?¦Tulki¦Bo'ri|Ayiq|Quyon¦
+maktab/1/tabiiy¦Yilning nechta fasli bor?¦4¦3|12|2¦
+maktab/1/tabiiy¦Qishdan keyin qaysi fasl keladi?¦Bahor¦Yoz|Kuz|Qish¦
+maktab/3/tabiiy¦Yer Quyosh atrofini taxminan necha kunda aylanib chiqadi?¦365¦30|24|100¦Kabisa yilda 366 kun
+maktab/3/tabiiy¦Toza suv necha gradusda muzlaydi?¦0¦100|10|−10¦
+maktab/4/tabiiy¦O'simliklar havodan qaysi gazni yutadi?¦Karbonat angidrid¦Kislorod|Azot|Vodorod¦
+maktab/4/tabiiy¦Quyosh tizimidagi eng katta sayyora?¦Yupiter¦Saturn|Yer|Mars¦
+maktab/1/ingliz¦«Cat» so'zining tarjimasi?¦Mushuk¦It|Sichqon|Ot¦
+maktab/1/ingliz¦«Red» qaysi rang?¦Qizil¦Ko'k|Sariq|Yashil¦
+maktab/3/ingliz¦«Book» so'zining tarjimasi?¦Kitob¦Daftar|Qalam|Maktab¦
+maktab/3/ingliz¦«Apple» so'zining tarjimasi?¦Olma¦Nok|Uzum|Anor¦
+maktab/5/matematika¦Eng kichik tub son qaysi?¦2¦1|3|5¦
+maktab/5/matematika¦Uchburchak ichki burchaklarining yig'indisi necha gradus?¦180¦90|360|270¦
+maktab/5/matematika¦3/4 kasrning o'nli ko'rinishi?¦0,75¦0,34|0,25|0,7¦
+maktab/6/matematika¦−5 + 8 = ?¦3¦−3|13|−13¦
+maktab/6/matematika¦12 va 18 sonlarining EKUBi?¦6¦3|36|12¦
+maktab/6/matematika¦Aylana uzunligi formulasi?¦C = 2πr¦C = πr²|C = πd²|C = 2r¦
+maktab/5/ona_tili¦Gapning ikki bosh bo'lagi?¦Ega va kesim¦Aniqlovchi va to'ldiruvchi|Ega va hol|Kesim va hol¦
+maktab/5/ona_tili¦O'zbek tilida nechta unli tovush bor?¦6¦5|8|10¦a, o, u, e, i, o'
+maktab/5/adabiyot¦«O'tkan kunlar» romanining muallifi?¦Abdulla Qodiriy¦Cho'lpon|Oybek|G'afur G'ulom¦
+maktab/5/adabiyot¦«Xamsa» asarining muallifi?¦Alisher Navoiy¦Bobur|Lutfiy|Ogahiy¦
+maktab/7/adabiyot¦«Boburnoma» asarining muallifi?¦Zahiriddin Muhammad Bobur¦Alisher Navoiy|Amir Temur|Mirzo Ulug'bek¦
+maktab/7/adabiyot¦«Shum bola» qissasining muallifi?¦G'afur G'ulom¦Abdulla Qahhor|Oybek|Hamza¦
+maktab/5/tarix¦Amir Temur qaysi yilda tug'ilgan?¦1336¦1370|1405|1320¦
+maktab/6/tarix¦Qadimgi Misr hukmdorlari qanday atalgan?¦Fir'avn¦Imperator|Xon|Shoh¦
+maktab/9/uzb_tarix¦O'zbekiston mustaqilligi qachon e'lon qilingan?¦1991-yil 31-avgust¦1991-yil 1-sentabr|1992-yil 8-dekabr|1990-yil 20-iyun¦
+maktab/9/uzb_tarix¦Mirzo Ulug'bek rasadxonasi qaysi shaharda?¦Samarqand¦Buxoro|Xiva|Toshkent¦
+maktab/10/uzb_tarix¦O'zbekistonning birinchi Konstitutsiyasi qachon qabul qilingan?¦1992-yil 8-dekabr¦1991-yil 31-avgust|1993-yil 8-dekabr|1992-yil 1-sentabr¦
+maktab/10/uzb_tarix¦Amir Temur davlatining poytaxti?¦Samarqand¦Hirot|Buxoro|Shahrisabz¦
+maktab/7/jahon_tarix¦1492-yilda Amerikani kashf etgan dengizchi?¦Xristofor Kolumb¦Vasko da Gama|Fernan Magellan|Marko Polo¦
+maktab/9/jahon_tarix¦Birinchi jahon urushi qaysi yilda boshlangan?¦1914¦1918|1939|1905¦
+maktab/9/jahon_tarix¦Ikkinchi jahon urushi qaysi yilda tugagan?¦1945¦1941|1939|1950¦
+maktab/5/biologiya¦Fotosintez hujayraning qaysi organoidida boradi?¦Xloroplast¦Mitoxondriya|Yadro|Ribosoma¦
+maktab/5/biologiya¦Ildizning asosiy vazifasi?¦Suv va mineral moddalarni shimish¦Fotosintez|Urug' hosil qilish|Changlanish¦
+maktab/6/biologiya¦Qaysi daraxt ignabargli?¦Qarag'ay¦Olma|Tol|Terak¦
+maktab/8/biologiya¦Odam yuragi necha kamerali?¦4¦2|3|5¦
+maktab/8/biologiya¦Katta yoshdagi odam skeletida nechta suyak bor?¦206¦150|300|186¦
+maktab/9/biologiya¦Irsiy belgini belgilovchi birlik?¦Gen¦Hujayra|To'qima|Organ¦
+maktab/11/biologiya¦DNK molekulasi necha zanjirdan iborat?¦2¦1|3|4¦
+maktab/5/geografiya¦Dunyodagi eng katta okean?¦Tinch okeani¦Atlantika okeani|Hind okeani|Shimoliy Muz okeani¦
+maktab/5/geografiya¦Yer yuzidagi eng baland cho'qqi?¦Everest¦Elbrus|Monblan|Kilimanjaro¦8848 metr
+maktab/6/geografiya¦Dunyodagi eng uzun daryo?¦Nil¦Volga|Amudaryo|Dunay¦Ba'zi manbalarda Amazonka ham ko'rsatiladi
+maktab/8/geografiya¦O'zbekistonning eng baland nuqtasi?¦Hazrati Sulton cho'qqisi¦Chimyon|Bobotog'|Ugom¦4643 metr
+maktab/8/geografiya¦O'zbekistonda nechta viloyat bor?¦12¦14|13|11¦Yana Qoraqalpog'iston Respublikasi va Toshkent shahri
+maktab/6/fizika¦Kuchning SI tizimidagi birligi?¦Nyuton¦Joul|Vatt|Paskal¦
+maktab/6/fizika¦Normal bosimda suv necha gradusda qaynaydi?¦100¦90|80|120¦
+maktab/8/fizika¦Elektr qarshilik birligi?¦Om¦Volt|Amper|Vatt¦
+maktab/8/fizika¦Om qonuni (zanjir qismi uchun)?¦I = U/R¦I = U·R|U = I/R|R = U·I¦
+maktab/9/fizika¦Yorug'likning vakuumdagi tezligi taxminan necha km/s?¦300 000¦150 000|30 000|3 000 000¦Aniqrog'i 299 792 km/s
+maktab/9/fizika¦Erkin tushish tezlanishi taxminan?¦9,8 m/s²¦8,9 m/s²|10,8 m/s²|1,6 m/s²¦
+maktab/11/fizika¦Atom yadrosi qanday zarralardan iborat?¦Proton va neytronlar¦Elektron va protonlar|Faqat elektronlar|Faqat neytronlar¦
+maktab/7/kimyo¦Suvning kimyoviy formulasi?¦H2O¦CO2|O2|H2O2¦
+maktab/7/kimyo¦Kislorodning kimyoviy belgisi?¦O¦N|C|H¦
+maktab/8/kimyo¦Kimyoviy elementlar davriy jadvalini kim yaratgan?¦Mendeleyev¦Lomonosov|Nyuton|Butlerov¦
+maktab/8/kimyo¦Osh tuzining formulasi?¦NaCl¦KCl|Na2CO3|CaCl2¦
+maktab/10/kimyo¦Metanning formulasi?¦CH4¦C2H6|CO2|C2H4¦
+maktab/10/kimyo¦pH = 7 bo'lgan muhit qanday?¦Neytral¦Kislotali|Ishqoriy|Kuchli kislotali¦
+maktab/7/algebra¦(a + b)² = ?¦a² + 2ab + b²¦a² + b²|a² − 2ab + b²|2a + 2b¦
+maktab/7/algebra¦2x + 6 = 14 bo'lsa, x = ?¦4¦3|10|8¦
+maktab/9/algebra¦x² − 9 = 0 tenglamaning musbat ildizi?¦3¦9|−3|81¦
+maktab/9/algebra¦2, 5, 8, ... arifmetik progressiyaning 5-hadi?¦14¦11|17|13¦
+maktab/10/algebra¦log₂8 = ?¦3¦2|4|8¦
+maktab/10/algebra¦sin 30° = ?¦1/2¦√3/2|1|0¦
+maktab/11/algebra¦f(x) = x² funksiyaning hosilasi?¦2x¦x|x²/2|2¦
+maktab/11/algebra¦∫2x dx = ?¦x² + C¦2x² + C|x + C|2 + C¦
+maktab/7/geometriya¦To'g'ri burchak necha gradus?¦90¦180|45|60¦
+maktab/8/geometriya¦Pifagor teoremasi?¦c² = a² + b²¦c = a + b|c² = a² − b²|c = 2ab¦
+maktab/5/informatika¦1 bayt necha bitga teng?¦8¦4|16|10¦
+maktab/5/informatika¦Kompyuterning asosiy hisoblash qurilmasi?¦Protsessor¦Monitor|Sichqoncha|Printer¦
+maktab/9/informatika¦1 kilobayt necha bayt?¦1024¦1000|512|2048¦
+maktab/9/informatika¦5 soni ikkilik sanoq sistemasida?¦101¦110|111|100¦
+maktab/5/rus¦«Kitob» so'zining ruschasi?¦Книга¦Тетрадь|Ручка|Школа¦
+maktab/5/rus¦«Uy» so'zining ruschasi?¦Дом¦Сад|Двор|Окно¦
+maktab/8/huquq¦O'zbekiston Respublikasining Asosiy Qonuni?¦Konstitutsiya¦Fuqarolik kodeksi|Mehnat kodeksi|Soliq kodeksi¦
+maktab/8/huquq¦O'zbekistonda fuqaro necha yoshdan saylash huquqiga ega?¦18¦16|21|25¦
+maktab/9/huquq¦O'zbekiston Prezidenti necha yil muddatga saylanadi?¦7¦5|4|6¦2023-yilgi Konstitutsiya bo'yicha
+litsey/aniq/matematika¦√144 = ?¦12¦14|11|16¦
+litsey/aniq/matematika¦cos 60° = ?¦1/2¦√3/2|0|1¦
+litsey/aniq/fizika¦Quvvatning SI birligi?¦Vatt¦Joul|Nyuton|Amper¦
+litsey/aniq/fizika¦Mexanik ish formulasi?¦A = F·s¦A = F/s|A = m·g|A = F + s¦
+litsey/aniq/informatika¦HTML nima?¦Gipermatnni belgilash tili¦Dasturlash tili|Operatsion tizim|Ma'lumotlar bazasi¦
+litsey/aniq/informatika¦Python'da ro'yxat uzunligini qaysi funksiya beradi?¦len()¦size()|count()|length()¦
+litsey/tabiiy/kimyo¦Avogadro soni taxminan?¦6,02·10²³¦3,14·10²³|9,8·10²³|1,6·10⁻¹⁹¦
+litsey/tabiiy/kimyo¦Eng yengil kimyoviy element?¦Vodorod¦Geliy|Litiy|Kislorod¦
+litsey/tabiiy/biologiya¦Mitoxondriyaning asosiy vazifasi?¦Energiya (ATF) hosil qilish¦Oqsil sintezi|Fotosintez|Hujayra bo'linishi¦
+litsey/tabiiy/biologiya¦Odam somatik hujayrasida nechta xromosoma bor?¦46¦23|44|48¦
+litsey/gumanitar/ona_tili¦Miqdor va tartibni bildiruvchi so'z turkumi?¦Son¦Sifat|Ravish|Olmosh¦
+litsey/gumanitar/tarix¦Buyuk ipak yo'li qaysi qit'alarni bog'lagan?¦Osiyo va Yevropa¦Afrika va Amerika|Avstraliya va Osiyo|Amerika va Yevropa¦
+litsey/gumanitar/tarix¦Mirzo Ulug'bek kim bo'lgan?¦Olim va hukmdor¦Shoir|Sarkarda|Me'mor¦
+litsey/gumanitar/huquq¦O'zbekistonda qonun chiqaruvchi oliy organ?¦Oliy Majlis¦Vazirlar Mahkamasi|Oliy sud|Prezident Administratsiyasi¦
+litsey/tillar/ingliz¦Past simple of «go»?¦went¦goed|gone|going¦
+litsey/tillar/ingliz¦«Kitoblar» inglizcha?¦books¦bookes|book|booken¦
+litsey/tillar/rus¦«Rahmat» ruschasi?¦Спасибо¦Пожалуйста|Здравствуйте|Извините¦
+litsey/tillar/nemis¦«Salom» nemischa?¦Hallo¦Danke|Tschüss|Bitte¦
+litsey/kirish/mantiq¦2, 4, 8, 16, ... keyingi son?¦32¦24|20|30¦
+litsey/kirish/mantiq¦Barcha mushuklar hayvon. Barsik — mushuk. Demak, Barsik ...?¦Hayvon¦Qush|O'simlik|Aniqlab bo'lmaydi¦
+litsey/kirish/matematika¦200 ning 15 foizi?¦30¦15|20|35¦
+kollej/it/nazariy¦Ma'lumotni doimiy saqlovchi qurilma?¦Qattiq disk (HDD/SSD)¦Operativ xotira (RAM)|Protsessor|Videokarta¦
+kollej/it/nazariy¦IP-manzil nima uchun kerak?¦Tarmoqdagi qurilmani aniqlash uchun¦Faylni siqish uchun|Rasm chizish uchun|Ovoz yozish uchun¦
+kollej/it/amaliy¦Excel'da yig'indini hisoblovchi funksiya?¦SUM¦AVERAGE|COUNT|MAX¦
+kollej/it/amaliy¦Ctrl + C tugmalari nima qiladi?¦Nusxa oladi¦Qo'yadi|Kesadi|O'chiradi¦
+kollej/iqtisod/nazariy¦Buxgalteriya balansining asosiy tenglamasi?¦Aktiv = Passiv¦Aktiv = Daromad|Kapital = Xarajat|Aktiv = Foyda¦
+kollej/iqtisod/nazariy¦Inflyatsiya nima?¦Narxlarning umumiy o'sishi¦Narxlarning pasayishi|Ish haqining oshishi|Valyuta kursining tushishi¦
+kollej/iqtisod/amaliy¦O'zbekistonda QQS stavkasi (2023-yildan)?¦12%¦15%|20%|10%¦
+kollej/tibbiyot/nazariy¦Odamning normal tana harorati?¦36,6 °C¦38,5 °C|35,0 °C|37,9 °C¦
+kollej/tibbiyot/nazariy¦Kattalarda normal nafas olish soni (daqiqada)?¦16–20¦5–8|30–40|50–60¦
+kollej/tibbiyot/amaliy¦Arterial bosim qaysi asbob bilan o'lchanadi?¦Tonometr¦Termometr|Stetoskop|Glyukometr¦
+kollej/tibbiyot/amaliy¦Arterial qon ketishini to'xtatish uchun qo'yiladi?¦Jgut¦Shina|Gips|Plastir¦
+kollej/pedagogika/nazariy¦«Pedagogika» so'zi qaysi tildan olingan?¦Yunon tilidan¦Lotin tilidan|Arab tilidan|Fors tilidan¦
+kollej/pedagogika/nazariy¦Ta'limning asosiy tashkiliy shakli?¦Dars¦Ekskursiya|To'garak|Olimpiada¦
+kollej/qurilish/nazariy¦Beton tarkibidagi bog'lovchi modda?¦Sement¦Qum|Shag'al|Suv¦
+kollej/elektr/nazariy¦O'zbekiston elektr tarmog'ida tok chastotasi?¦50 Gs¦60 Gs|100 Gs|220 Gs¦
+kollej/elektr/nazariy¦Maishiy elektr tarmog'i kuchlanishi?¦220 V¦110 V|380 V|12 V¦
+kollej/transport/nazariy¦To'rt taktli dvigatel taktlarining tartibi?¦So'rish, siqish, ish yo'li, chiqarish¦Siqish, so'rish, chiqarish, ish yo'li|Ish yo'li, so'rish, siqish, chiqarish|So'rish, ish yo'li, siqish, chiqarish¦
+kollej/qishloq/nazariy¦O'zbekistonning asosiy texnik ekini?¦Paxta¦Bug'doy|Sholi|Makkajo'xori¦
+kollej/turizm/nazariy¦Samarqanddagi mashhur me'moriy ansambl?¦Registon¦Ichan qal'a|Ark|Chorsu¦
+kollej/umum/matematika¦25 × 4 = ?¦100¦90|125|80¦
+oliy/kirish/ona_tili¦So'zning lug'aviy ma'nosini o'rganadigan bo'lim?¦Leksikologiya¦Fonetika|Morfologiya|Sintaksis¦
+oliy/kirish/ona_tili¦Gap va gap bo'laklarini o'rganadigan bo'lim?¦Sintaksis¦Morfologiya|Fonetika|Leksikologiya¦
+oliy/kirish/matematika¦2³ · 2² = ?¦32¦64|10|12¦
+oliy/kirish/matematika¦log₁₀1000 = ?¦3¦2|10|100¦
+oliy/kirish/matematika¦Uchburchakning ikki burchagi 50° va 60°. Uchinchisi?¦70°¦80°|60°|90°¦
+oliy/kirish/tarix¦Temuriylar sulolasining asoschisi?¦Amir Temur¦Shohruh|Ulug'bek|Bobur¦
+oliy/kirish/tarix¦Xiva xonligining poytaxti?¦Xiva¦Urganch|Buxoro|Qo'qon¦
+oliy/kirish/fizika¦Impuls formulasi?¦p = m·v¦p = m·a|p = F·t²|p = m/v¦
+oliy/kirish/kimyo¦Natriyning tartib raqami?¦11¦12|19|23¦
+oliy/kirish/biologiya¦Oqsil sintezi qaysi organoidda boradi?¦Ribosoma¦Lizosoma|Mitoxondriya|Golji apparati¦
+oliy/kirish/ingliz¦She ___ a doctor.¦is¦are|am|be¦
+oliy/kirish/ingliz¦Synonym of «big»?¦large¦small|tiny|short¦
+oliy/kirish/geografiya¦Orol dengizi qaysi davlatlar hududida?¦O'zbekiston va Qozog'iston¦O'zbekiston va Turkmaniston|Qozog'iston va Rossiya|Tojikiston va Qirg'iziston¦
+oliy/kirish/huquq¦Fuqarolik kodeksi asosan qaysi munosabatlarni tartibga soladi?¦Mulkiy munosabatlarni¦Jinoyatlarni|Saylovlarni|Harbiy xizmatni¦
+oliy/majmua/aniq¦5! = ?¦120¦24|60|720¦
+oliy/majmua/tabiiy¦Fotosintezda qaysi gaz ajralib chiqadi?¦Kislorod¦Karbonat angidrid|Azot|Vodorod¦
+oliy/majmua/ijtimoiy¦BMT qaysi yilda tashkil topgan?¦1945¦1919|1950|1991¦
+oliy/majmua/tillar¦«Good morning» tarjimasi?¦Xayrli tong¦Xayrli kech|Xayr|Rahmat¦
+oliy/mutaxassislik/iqtisodiyot¦Talab qonuniga ko'ra narx oshsa, talab...?¦Kamayadi¦Oshadi|O'zgarmaydi|Ikki barobar oshadi¦
+oliy/mutaxassislik/iqtisodiyot¦YaIM qanday ataladi?¦Yalpi ichki mahsulot¦Yillik iqtisodiy marja|Yagona ish haqi miqdori|Yalpi import miqdori¦
+oliy/mutaxassislik/pedagogika¦«Yaqin rivojlanish zonasi» nazariyasi muallifi?¦Vigotskiy¦Pavlov|Piaje|Makarenko¦
+oliy/mutaxassislik/tibbiyot¦Insulin qaysi organda ishlab chiqariladi?¦Oshqozon osti bezi¦Jigar|Buyrak|Qalqonsimon bez¦
+oliy/mutaxassislik/tibbiyot¦Eritrotsitlarning asosiy vazifasi?¦Kislorod tashish¦Infeksiyaga qarshi kurash|Qon ivishi|Gormon ishlab chiqarish¦
+oliy/mutaxassislik/it¦O(n log n) murakkablikdagi saralash?¦Birlashtirib saralash (merge sort)¦Pufakcha saralash|Tanlab saralash|Kiritib saralash¦
+oliy/mutaxassislik/it¦SQL'da jadvaldan ma'lumot olish buyrug'i?¦SELECT¦INSERT|UPDATE|DELETE¦
+oliy/mutaxassislik/huquqshunoslik¦O'zbekistonda jinoiy javobgarlikning umumiy yoshi?¦16¦14|18|21¦Ayrim jinoyatlar uchun 14 yoshdan
+oliy/mutaxassislik/muhandislik¦Mexanik kuchlanish (bosim) birligi?¦Paskal¦Nyuton|Joul|Vatt¦
+oliy/mutaxassislik/filologiya¦«Devonu lug'otit turk» asarining muallifi?¦Mahmud Koshg'ariy¦Yusuf Xos Hojib|Ahmad Yassaviy|Alisher Navoiy¦
+imtihon/sertifikat/matematika¦3x − 7 = 11 bo'lsa, x = ?¦6¦4|5|8¦
+imtihon/sertifikat/matematika¦Doira yuzining formulasi?¦S = πr²¦S = 2πr|S = πd|S = r²¦
+imtihon/sertifikat/ona_tili¦Qaysi so'z to'g'ri yozilgan?¦Mo'jiza¦Mo'jizza|Mujiza|Mo'jisa¦
+imtihon/sertifikat/ona_tili¦«Ko'z» so'zi ko'chma ma'noda qaysi birikmada?¦Buloqning ko'zi¦Ko'zi og'ridi|Ko'z yoshi|Ko'zoynak¦
+imtihon/sertifikat/tarix¦«Temur tuzuklari» qaysi sohaga oid?¦Davlat boshqaruvi¦She'riyat|Tibbiyot|Astronomiya¦
+imtihon/sertifikat/ingliz¦If I ___ rich, I would travel.¦were¦am|will be|been¦
+imtihon/sertifikat/kimyo¦NaOH qanday modda?¦Ishqor¦Kislota|Tuz|Oksid¦
+imtihon/sertifikat/biologiya¦Qon guruhlarining asosiy tizimi?¦AB0¦RGB|XYZ|ABC¦
+imtihon/sertifikat/fizika¦1 kVt·soat necha joul?¦3 600 000¦1000|3600|360 000¦
+imtihon/til/ielts¦IELTS'dagi eng yuqori ball?¦9¦10|100|120¦
+imtihon/til/ielts¦Synonym of «important»?¦significant¦trivial|minor|weak¦
+imtihon/til/cefr_ingliz¦Opposite of «expensive»?¦cheap¦costly|rich|valuable¦
+imtihon/til/cefr_ingliz¦CEFR darajalari qaysi harflar bilan belgilanadi?¦A, B, C¦1, 2, 3|X, Y, Z|L, M, H¦
+imtihon/til/cefr_rus¦«Мне двадцать лет» tarjimasi?¦Men 20 yoshdaman¦Menda 20 ta bor|Men 20 yil ishladim|20 kun qoldi¦
+imtihon/til/nemis¦«Danke» tarjimasi?¦Rahmat¦Salom|Xayr|Iltimos¦
+imtihon/til/koreys¦«안녕하세요» tarjimasi?¦Assalomu alaykum¦Rahmat|Xayr|Kechirasiz¦
+imtihon/til/turk¦«Teşekkür ederim» tarjimasi?¦Rahmat¦Kechirasiz|Xayr|Marhamat¦
+imtihon/malaka/oqituvchi¦Dars tahlilining asosiy maqsadi?¦Dars sifatini oshirish¦Baho qo'yish|Jazolash|Dars vaqtini qisqartirish¦
+imtihon/malaka/oqituvchi¦Inklyuziv ta'lim nima?¦Alohida ehtiyojli bolalarni boshqalar bilan birga o'qitish¦Faqat iqtidorlilarni o'qitish|Masofaviy o'qitish|Pullik ta'lim¦
+imtihon/malaka/tibbiyot¦Yurak-o'pka reanimatsiyasida ko'krakni bosish chastotasi (daqiqada)?¦100–120¦40–60|60–80|150–180¦
+imtihon/malaka/buxgalteriya¦Schyotda debet qaysi tomonda yoziladi?¦Chap¦O'ng|Pastda|Tepada¦
+imtihon/malaka/yhq¦Svetoforning qizil chirog'i nimani bildiradi?¦Harakat taqiqlanadi¦Harakatga ruxsat|Ehtiyot bo'ling|To'xtash shart emas¦
+imtihon/malaka/yhq¦O'zbekistonda aholi punktlarida ruxsat etilgan eng yuqori tezlik?¦70 km/soat¦60 km/soat|90 km/soat|50 km/soat¦
+imtihon/malaka/yhq¦Tartibga solinmagan piyodalar o'tish joyida kimga yo'l berish shart?¦Piyodalarga¦Velosipedchilarga|Yuk mashinalariga|Hech kimga¦
+QZSEED
+    ) as $ln) { $x = explode('¦', trim($ln)); if (count($x) >= 4) $L[] = array($x[0], $x[1], $x[2], $x[3], isset($x[4]) ? $x[4] : ''); }
+    return $L;
 }
-function quiz_seed() {   /* boshlang'ich savollar — admin paneldan tahrirlanadi yoki CSV bilan to'ldiriladi */
-    foreach (quiz_seed_list() as $x) quiz_q_save(array('subject' => $x[0], 'question' => $x[1], 'answer' => $x[2], 'alts' => $x[3], 'note' => $x[4], 'opts' => $x[5]));
+function quiz_seed() {   /* boshlang'ich savollar — admin paneldan tahrirlanadi, CSV yoki AI bilan to'ldiriladi */
+    foreach (quiz_seed_list() as $x) quiz_q_save(array('cat' => $x[0], 'question' => $x[1], 'answer' => $x[2], 'opts' => $x[3], 'note' => $x[4]));
 }
 /* Test (variantli savol) uchun ustunlar; avval qo'shilgan namuna savollarga variantlar */
 function quiz_install2() {
     try { db()->exec("ALTER TABLE quiz_settings ADD COLUMN mode VARCHAR(8) NOT NULL DEFAULT 'test'"); } catch (Exception $e) {}
     try { db()->exec("ALTER TABLE quiz_sessions ADD COLUMN kind VARCHAR(8) NOT NULL DEFAULT 'cw', ADD COLUMN poll_id VARCHAR(64) NULL, ADD COLUMN correct_opt TINYINT NULL, ADD COLUMN opts TEXT NULL, ADD KEY k_poll (poll_id)"); } catch (Exception $e) {}
-    foreach (quiz_seed_list() as $x) q("UPDATE quiz_questions SET opts=? WHERE qhash=? AND (opts IS NULL OR opts='')", array($x[5], md5(quiz_norm($x[1]))));
+}
+function quiz_install3() {   /* bo'limlar daraxti: eski tekis fanlardagi savollar tozalanadi, yangi baza yoziladi */
+    foreach (array("ALTER TABLE quiz_questions ADD COLUMN cat VARCHAR(80) NOT NULL DEFAULT '', ADD KEY k_cat (cat)", 'ALTER TABLE quiz_questions MODIFY subject VARCHAR(120) NOT NULL',
+        "ALTER TABLE quiz_settings ADD COLUMN cat VARCHAR(80) NOT NULL DEFAULT ''", 'ALTER TABLE quiz_sessions MODIFY subject VARCHAR(120) NOT NULL') as $x) { try { db()->exec($x); } catch (Exception $e) {} }
+    q("UPDATE quiz_sessions SET status='finished', act=NULL, finished_at=? WHERE status='active'", array(time()));
+    q("DELETE FROM quiz_questions WHERE cat=''"); q("UPDATE quiz_settings SET subject='', cat=''");
+    if (!(int)q("SELECT COUNT(*) FROM quiz_questions")->fetchColumn()) quiz_seed();
+}
+/* Bo'limlar daraxti: bo'lim → sinf / yo'nalish → fan. Kod: maktab/5/matematika */
+function quiz_tree() {
+    static $T = null; if ($T !== null) return $T;
+    $F = array('matematika' => 'Matematika', 'ona_tili' => 'Ona tili', 'oqish' => "O'qish", 'tabiiy' => 'Tabiiy fanlar', 'ingliz' => 'Ingliz tili', 'adabiyot' => 'Adabiyot', 'tarix' => 'Tarix',
+        'biologiya' => 'Biologiya', 'geografiya' => 'Geografiya', 'informatika' => 'Informatika', 'rus' => 'Rus tili', 'fizika' => 'Fizika', 'algebra' => 'Algebra', 'geometriya' => 'Geometriya',
+        'uzb_tarix' => "O'zbekiston tarixi", 'jahon_tarix' => 'Jahon tarixi', 'kimyo' => 'Kimyo', 'huquq' => 'Huquq asoslari');
+    $pick = function ($ks) use ($F) { $o = array(); foreach ($ks as $k) $o[$k] = array('t' => $F[$k]); return $o; };
+    $lv = function ($a) { $o = array(); foreach ($a as $k => $t) $o[$k] = array('t' => $t); return $o; };
+    $M = array();
+    for ($g = 1; $g <= 11; $g++) {
+        if ($g <= 4) $k = array('matematika', 'ona_tili', 'oqish', 'tabiiy', 'ingliz');
+        elseif ($g <= 6) $k = array_merge(array('matematika', 'ona_tili', 'adabiyot', 'tarix', 'biologiya', 'geografiya'), $g === 6 ? array('fizika') : array(), array('informatika', 'ingliz', 'rus'));
+        else $k = array_merge(array('algebra', 'geometriya', 'ona_tili', 'adabiyot', 'uzb_tarix', 'jahon_tarix', 'biologiya', 'fizika', 'kimyo', 'geografiya', 'informatika', 'ingliz', 'rus'), $g >= 8 ? array('huquq') : array());
+        $M[(string)$g] = array('t' => $g . '-sinf', 'k' => $pick($k));
+    }
+    $na = array('nazariy' => 'Nazariy testlar', 'amaliy' => 'Amaliy testlar');
+    $T = array(
+        'maktab' => array('t' => '🏫 Maktab (1–11-sinf)', 'd' => 'Matematika, ona tili, adabiyot, tarix, biologiya, fizika, kimyo, geografiya va boshqa fanlar', 'k' => $M),
+        'litsey' => array('t' => '🎓 Litsey', 'd' => "Yo'nalish fanlari va kirish imtihonlariga tayyorgarlik", 'k' => array(
+            'aniq' => array('t' => 'Aniq fanlar', 'k' => $lv(array('matematika' => 'Matematika', 'fizika' => 'Fizika', 'informatika' => 'Informatika'))),
+            'tabiiy' => array('t' => 'Tabiiy fanlar', 'k' => $lv(array('kimyo' => 'Kimyo', 'biologiya' => 'Biologiya'))),
+            'gumanitar' => array('t' => 'Ijtimoiy-gumanitar', 'k' => $lv(array('ona_tili' => 'Ona tili va adabiyot', 'tarix' => 'Tarix', 'huquq' => 'Huquq'))),
+            'tillar' => array('t' => 'Xorijiy tillar', 'k' => $lv(array('ingliz' => 'Ingliz tili', 'rus' => 'Rus tili', 'nemis' => 'Nemis tili'))),
+            'kirish' => array('t' => 'Kirish imtihonlariga tayyorgarlik', 'k' => $lv(array('matematika' => 'Matematika', 'ona_tili' => 'Ona tili', 'ingliz' => 'Ingliz tili', 'mantiq' => 'Mantiqiy savollar'))))),
+        'kollej' => array('t' => '🏢 Kollej va texnikum', 'd' => 'Kasbiy fanlar, nazariy va amaliy testlar', 'k' => array(
+            'it' => array('t' => 'Informatika va AT', 'k' => $lv($na)), 'iqtisod' => array('t' => 'Iqtisodiyot va buxgalteriya', 'k' => $lv($na)), 'tibbiyot' => array('t' => 'Tibbiyot va hamshiralik', 'k' => $lv($na)),
+            'pedagogika' => array('t' => 'Pedagogika', 'k' => $lv($na)), 'qurilish' => array('t' => 'Qurilish', 'k' => $lv($na)), 'elektr' => array('t' => 'Elektrotexnika va energetika', 'k' => $lv($na)),
+            'transport' => array('t' => 'Avtomobil va transport', 'k' => $lv($na)), 'qishloq' => array('t' => "Qishloq xo'jaligi", 'k' => $lv($na)), 'turizm' => array('t' => 'Turizm va servis', 'k' => $lv($na)),
+            'umum' => array('t' => "Umumta'lim fanlari", 'k' => $lv(array('matematika' => 'Matematika', 'ona_tili' => 'Ona tili', 'ingliz' => 'Ingliz tili', 'tarix' => 'Tarix'))))),
+        'oliy' => array('t' => '🎓 Institut va universitet', 'd' => 'OTMga kirish testlari, fanlar majmuasi va mutaxassislik savollari', 'k' => array(
+            'kirish' => array('t' => 'OTMga kirish testlari', 'k' => $lv(array('ona_tili' => 'Ona tili va adabiyot', 'matematika' => 'Matematika', 'tarix' => "O'zbekiston tarixi", 'fizika' => 'Fizika', 'kimyo' => 'Kimyo',
+                'biologiya' => 'Biologiya', 'ingliz' => 'Ingliz tili', 'rus' => 'Rus tili', 'geografiya' => 'Geografiya', 'huquq' => 'Huquq'))),
+            'majmua' => array('t' => 'Fanlar majmuasi', 'k' => $lv(array('aniq' => 'Aniq fanlar bloki', 'tabiiy' => 'Tabiiy fanlar bloki', 'ijtimoiy' => 'Ijtimoiy fanlar bloki', 'tillar' => 'Tillar bloki'))),
+            'mutaxassislik' => array('t' => 'Mutaxassislik savollari', 'k' => $lv(array('iqtisodiyot' => 'Iqtisodiyot', 'pedagogika' => 'Pedagogika', 'tibbiyot' => 'Tibbiyot', 'it' => 'IT va dasturlash',
+                'huquqshunoslik' => 'Huquqshunoslik', 'muhandislik' => 'Muhandislik', 'filologiya' => 'Filologiya'))))),
+        'imtihon' => array('t' => '📚 Boshqa imtihonlar', 'd' => 'Milliy sertifikat, til sertifikatlari va malaka imtihonlari', 'k' => array(
+            'sertifikat' => array('t' => 'Milliy sertifikat', 'k' => $lv(array('matematika' => 'Matematika', 'ona_tili' => 'Ona tili va adabiyot', 'tarix' => 'Tarix', 'ingliz' => 'Ingliz tili', 'kimyo' => 'Kimyo', 'biologiya' => 'Biologiya', 'fizika' => 'Fizika'))),
+            'til' => array('t' => 'Til sertifikatlari', 'k' => $lv(array('ielts' => 'IELTS', 'cefr_ingliz' => 'CEFR · ingliz tili', 'cefr_rus' => 'CEFR · rus tili', 'nemis' => 'Nemis tili', 'koreys' => 'Koreys tili (TOPIK)', 'turk' => 'Turk tili'))),
+            'malaka' => array('t' => 'Malaka imtihonlari', 'k' => $lv(array('oqituvchi' => "O'qituvchilar attestatsiyasi", 'tibbiyot' => 'Tibbiyot xodimlari', 'buxgalteriya' => 'Buxgalteriya', 'yhq' => 'Haydovchilik (YHQ)'))))));
+    return $T;
+}
+function quiz_path($path) {   /* yo'l bo'yicha sarlavhalar ro'yxati; noto'g'ri bo'lsa null. Bo'sh yo'l — barcha bo'limlar */
+    $path = trim((string)$path, '/'); if ($path === '') return array();
+    $n = array('k' => quiz_tree()); $T = array();
+    foreach (explode('/', $path) as $p) { if (!isset($n['k'][$p])) return null; $n = $n['k'][$p]; $T[] = $n['t']; }
+    return $T;
+}
+function quiz_leaf($path) { $T = quiz_path($path); if (!$T) return false; $n = array('k' => quiz_tree()); foreach (explode('/', trim($path, '/')) as $p) $n = $n['k'][$p]; return empty($n['k']); }
+function quiz_label($path, $short = false) {   /* «🏫 Maktab › 5-sinf › Matematika» yoki qisqa: «5-sinf · Matematika» */
+    $T = quiz_path($path); if ($T === null) return ''; if (!$T) return 'Barcha bo\'limlar';
+    if ($short) { $T = array_map(function ($x) { return trim(preg_replace('/^[^\p{L}\p{N}]+/u', '', preg_replace('/\s*\(.*\)$/u', '', $x))); }, array_slice($T, -2)); return implode(' · ', $T); }
+    return implode(' › ', $T);
+}
+function quiz_find($s) {   /* CSV: kod (maktab/5/matematika) yoki nom (Maktab > 5-sinf > Matematika) → kod */
+    $s = trim((string)$s); if (quiz_leaf(strtolower($s))) return strtolower($s);
+    $parts = preg_split('/\s*(?:>|›|»|\\\\|\/)\s*/u', $s, -1, PREG_SPLIT_NO_EMPTY); $n = array('k' => quiz_tree()); $code = array();
+    $nm = function ($x) { return preg_replace('/[^\p{L}\p{N}]+/u', '', mb_strtolower(quiz_apos(preg_replace('/\s*\(.*\)$/u', '', $x)), 'UTF-8')); };
+    foreach ($parts as $p) {
+        $f = null; $pp = $nm($p);
+        foreach ($n['k'] as $k => $c) if ($nm($c['t']) === $pp || $k === $pp || $nm($c['t']) === $pp . 'sinf') { $f = $k; break; }
+        if ($f === null) return ''; $code[] = $f; $n = $n['k'][$f]; if (empty($n['k'])) break;
+    }
+    $c = implode('/', $code); return quiz_leaf($c) ? $c : '';
 }
 function quiz_subj($s) {
     global $QZ_SUBJ; $s = mb_strtolower(trim((string)$s), 'UTF-8');
@@ -3262,11 +3490,12 @@ function quiz_boxes($ans) {
 }
 function quiz_qtext($q, $sec, $pts) {
     list($box, $info) = quiz_boxes($q['answer']);
-    return "🧩 <b>TARTIBON KROSSVORD</b>\n\n📚 Fan: " . htmlspecialchars($q['subject']) . "\n\n❓ Savol: " . htmlspecialchars($q['question']) . "\n\n" . $box . "\n" . $info
+    return "🧩 <b>TARTIBON KROSSVORD</b>\n\n📚 " . htmlspecialchars(quiz_label($q['cat'], true)) . "\n\n❓ Savol: " . htmlspecialchars($q['question']) . "\n\n" . $box . "\n" . $info
         . "\n\n⏳ Vaqt: " . $sec . " soniya\n🏆 Birinchi to'g'ri javob: +" . $pts . " ochko\n\nJavobni guruhga yozing!";
 }
 function quiz_q_save($d, $id = 0) {
-    $sub = quiz_subj(isset($d['subject']) ? $d['subject'] : ''); if ($sub === '') return 'Fan noto\'g\'ri';
+    $cat = trim((string)(isset($d['cat']) ? $d['cat'] : ''), '/'); if (!quiz_leaf($cat)) return 'Bo\'limni oxirigacha tanlang (masalan: Maktab › 5-sinf › Matematika)';
+    $sub = mb_substr(quiz_label($cat, true), 0, 120);
     $qt = trim((string)(isset($d['question']) ? $d['question'] : '')); $an = trim(preg_replace('/\s+/u', ' ', quiz_apos(isset($d['answer']) ? $d['answer'] : '')));
     if (mb_strlen($qt) < 5 || mb_strlen($qt) > 600) return 'Savol 5–600 belgidan iborat bo\'lsin';
     if ($an === '' || mb_strlen($an) > 60 || quiz_norm($an) === '') return 'Javob 1–60 belgidan iborat bo\'lsin';
@@ -3275,12 +3504,12 @@ function quiz_q_save($d, $id = 0) {
     $note = mb_substr(trim((string)(isset($d['note']) ? $d['note'] : '')), 0, 500); $lv = max(1, min(3, (int)(isset($d['level']) ? $d['level'] : 1)));
     $c = quiz_cells($an); $h = md5(quiz_norm($qt));
     try {
-        if ($id) q('UPDATE quiz_questions SET subject=?, level=?, question=?, answer=?, alts=?, opts=?, note=?, letters=?, qhash=? WHERE id=?', array($sub, $lv, $qt, $an, $alts, $opts, $note, $c['n'], $h, (int)$id));
-        else q('INSERT INTO quiz_questions (subject,level,question,answer,alts,opts,note,letters,qhash,created_at) VALUES (?,?,?,?,?,?,?,?,?,?)', array($sub, $lv, $qt, $an, $alts, $opts, $note, $c['n'], $h, time()));
+        if ($id) q('UPDATE quiz_questions SET cat=?, subject=?, level=?, question=?, answer=?, alts=?, opts=?, note=?, letters=?, qhash=? WHERE id=?', array($cat, $sub, $lv, $qt, $an, $alts, $opts, $note, $c['n'], $h, (int)$id));
+        else q('INSERT INTO quiz_questions (cat,subject,level,question,answer,alts,opts,note,letters,qhash,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)', array($cat, $sub, $lv, $qt, $an, $alts, $opts, $note, $c['n'], $h, time()));
     } catch (PDOException $e) { return $e->getCode() == 23000 ? 'dup' : 'Bazaga yozilmadi'; }
     return '';
 }
-/* CSV: fan; savol; javob; muqobil javoblar (| bilan); izoh; daraja (1-3); variantlar (| bilan). Ajratgich ; , yoki TAB — o'zi aniqlanadi. UTF-8. */
+/* CSV: bo'lim (kod yoki nom); savol; to'g'ri javob; noto'g'ri variantlar (| bilan); izoh; muqobil javoblar (| bilan); daraja (1-3). Ajratgich ; , yoki TAB — o'zi aniqlanadi. UTF-8. */
 function quiz_import($csv) {
     $csv = preg_replace('/^\xEF\xBB\xBF/', '', str_replace(array("\r\n", "\r"), "\n", (string)$csv));
     if (!mb_check_encoding($csv, 'UTF-8')) return array('ok' => false, 'error' => 'Fayl UTF-8 kodlashda bo\'lishi kerak (Excel: «CSV UTF-8» sifatida saqlang)');
@@ -3291,8 +3520,9 @@ function quiz_import($csv) {
     while (($r = fgetcsv($fh, 0, $d)) !== false) {
         $ln++; if (!$r || (count($r) === 1 && trim((string)$r[0]) === '')) continue;
         $r = array_map('trim', $r) + array_fill(0, 7, '');
-        if ($ln === 1 && quiz_subj($r[0]) === '' && preg_match('/^(fan|subject|predmet)/iu', $r[0])) continue;   /* sarlavha qatori */
-        $e = quiz_q_save(array('subject' => $r[0], 'question' => $r[1], 'answer' => $r[2], 'alts' => $r[3], 'note' => $r[4], 'level' => $r[5] !== '' ? $r[5] : 1, 'opts' => $r[6]));
+        if ($ln === 1 && quiz_find($r[0]) === '' && preg_match('/^(bo|fan|kod|bolim|subject|cat)/iu', quiz_apos($r[0]))) continue;   /* sarlavha qatori */
+        $cat = quiz_find($r[0]); if ($cat === '') { if (count($err) < 20) $err[] = $ln . '-qator: bo\'lim topilmadi «' . mb_substr($r[0], 0, 40) . '»'; continue; }
+        $e = quiz_q_save(array('cat' => $cat, 'question' => $r[1], 'answer' => $r[2], 'opts' => $r[3], 'note' => $r[4], 'alts' => $r[5], 'level' => $r[6] !== '' ? $r[6] : 1));
         if ($e === '') $add++; elseif ($e === 'dup') $dup++; elseif (count($err) < 20) $err[] = $ln . '-qator: ' . $e;
         if ($ln > 5000) { $err[] = 'Bir martada ko\'pi bilan 5000 qator'; break; }
     }
@@ -3301,9 +3531,9 @@ function quiz_import($csv) {
 }
 function quiz_cfg($cid) {
     $s = q('SELECT * FROM quiz_settings WHERE chat_id=?', array($cid))->fetch();
-    $s = $s ? $s : array('chat_id' => $cid, 'enabled' => 0, 'subject' => '', 'interval_min' => 10, 'answer_sec' => 60, 'points' => 10, 'next_at' => 0, 'last_err' => '', 'mode' => 'test', 'q_total' => 0, 'q_done' => 0, 'round_from' => 0);
+    $s = $s ? $s : array('chat_id' => $cid, 'enabled' => 0, 'subject' => '', 'cat' => '', 'interval_min' => 10, 'answer_sec' => 60, 'points' => 10, 'next_at' => 0, 'last_err' => '', 'mode' => 'test', 'q_total' => 0, 'q_done' => 0, 'round_from' => 0);
     $s['channel'] = q("SELECT 1 FROM chats WHERE chat_id=? AND ctype='Kanal' LIMIT 1", array($cid))->fetchColumn() ? 1 : 0;
-    if ($s['channel'] || !isset($s['mode']) || $s['mode'] !== 'cw') $s['mode'] = 'test';   /* kanalda yozma javob bo'lmaydi — faqat test */
+    $s['mode'] = 'test';   /* savol-javob faqat 4 variantli test (A, B, C, D) */
     return $s;
 }
 /* Test variantlari: to'g'ri javob + 3 ta noto'g'ri (savolda bo'lmasa — shu fandagi boshqa javoblardan yoki yaqin sonlardan), aralashtirilgan */
@@ -3314,7 +3544,7 @@ function quiz_opts($qq) {
     if (count($w) < 3 && preg_match('/^\d{1,9}$/', $ans)) { $n = (int)$ans; foreach (array(1, -1, 2, -2, 10, -10, 5) as $d) if ($n + $d > 0) $add((string)($n + $d)); }
     if (count($w) < 3) {
         $num = (bool)preg_match('/^[\d\s.,]+$/u', $ans);
-        $c = q('SELECT answer FROM quiz_questions WHERE id<>? AND subject=? ORDER BY RAND() LIMIT 40', array($qq['id'], $qq['subject']))->fetchAll(PDO::FETCH_COLUMN);
+        $c = q('SELECT answer FROM quiz_questions WHERE id<>? AND cat=? ORDER BY RAND() LIMIT 40', array($qq['id'], $qq['cat']))->fetchAll(PDO::FETCH_COLUMN);
         foreach ($c as $x) if ((bool)preg_match('/^[\d\s.,]+$/u', $x) === $num) $add($x);
         foreach ($c as $x) $add($x);
         if (count($w) < 3) foreach (q('SELECT answer FROM quiz_questions WHERE id<>? ORDER BY RAND() LIMIT 20', array($qq['id']))->fetchAll(PDO::FETCH_COLUMN) as $x) $add($x);
@@ -3324,8 +3554,8 @@ function quiz_opts($qq) {
 }
 function quiz_start_test($cid, $s, $qq, $sid, $sec, $pts) {
     list($opts, $ok) = quiz_opts($qq);
-    $qt = mb_substr('🧩 TARTIBON TEST · ' . $qq['subject'] . ' · +' . $pts . " ochko\n\n" . $qq['question'], 0, 300);
-    $p = array('chat_id' => $cid, 'question' => $qt, 'options' => array_map(function ($x) { return array('text' => $x); }, $opts), 'type' => 'quiz',
+    $qt = mb_substr('🧩 TARTIBON TEST · ' . quiz_label($qq['cat'], true) . ' · +' . $pts . " ochko\n\n" . $qq['question'], 0, 300);
+    $p = array('chat_id' => $cid, 'question' => $qt, 'options' => array_map(function ($x, $i) { return array('text' => mb_substr('ABCD'[$i] . ') ' . $x, 0, 100)); }, $opts, array_keys($opts)), 'type' => 'quiz',
         'correct_option_id' => $ok, 'is_anonymous' => (bool)$s['channel'], 'open_period' => $sec);
     if (trim((string)$qq['note']) !== '') $p['explanation'] = mb_substr($qq['note'], 0, 200);
     $r = pr_call('sendPoll', $p);
@@ -3354,9 +3584,9 @@ function quiz_poll_answer($pa) {
     } catch (Exception $e) { if ($db->inTransaction()) $db->rollBack(); }
 }
 /* Shu guruhda yaqinda berilmagan savol */
-function quiz_pick($cid, $subj) {
+function quiz_pick($cid, $cat) {   /* tanlangan bo'lim va uning ichidagi barcha fanlardan */
     $recent = q('SELECT question_id FROM quiz_sessions WHERE chat_id=? ORDER BY id DESC LIMIT 300', array($cid))->fetchAll(PDO::FETCH_COLUMN);
-    $cand = q('SELECT * FROM quiz_questions' . ($subj !== '' ? ' WHERE subject=?' : '') . ' ORDER BY RAND() LIMIT 60', $subj !== '' ? array($subj) : array())->fetchAll();
+    $cand = q('SELECT * FROM quiz_questions' . ($cat !== '' ? ' WHERE cat=? OR cat LIKE ?' : '') . ' ORDER BY RAND() LIMIT 60', $cat !== '' ? array($cat, $cat . '/%') : array())->fetchAll();
     if (!$cand) return null;
     $pos = array_flip(array_reverse($recent));   /* 0 — eng eski */
     foreach ($cand as $c) if (!isset($pos[$c['id']])) return $c;
@@ -3367,10 +3597,10 @@ function quiz_pick($cid, $subj) {
 function quiz_start($cid) {
     $s = quiz_cfg($cid);
     if ((int)$s['enabled'] && (int)$s['q_total'] > 0 && (int)$s['q_done'] >= (int)$s['q_total']) return array(false, 'Bu o\'yindagi barcha savollar berildi');
-    $qq = quiz_pick($cid, (string)$s['subject']);
-    if (!$qq) return array(false, 'Savollar bazasida ' . ($s['subject'] !== '' ? '«' . $s['subject'] . '» fanidan ' : '') . 'savol yo\'q');
+    $qq = quiz_pick($cid, (string)$s['cat']);
+    if (!$qq) return array(false, 'Savollar bazasida ' . ($s['cat'] !== '' ? '«' . quiz_label($s['cat']) . '» bo\'limidan ' : '') . 'savol yo\'q');
     $now = time(); $sec = max(15, min(600, (int)$s['answer_sec'])); $pts = max(1, min(1000, (int)$s['points']));
-    try { q("INSERT INTO quiz_sessions (chat_id,question_id,subject,points,started_at,ends_at,status,act,kind) VALUES (?,?,?,?,?,?,'active',1,?)", array($cid, $qq['id'], $qq['subject'], $pts, $now, $now + $sec, $s['mode'])); }
+    try { q("INSERT INTO quiz_sessions (chat_id,question_id,subject,points,started_at,ends_at,status,act,kind) VALUES (?,?,?,?,?,?,'active',1,?)", array($cid, $qq['id'], mb_substr(quiz_label($qq['cat'], true), 0, 120), $pts, $now, $now + $sec, $s['mode'])); }
     catch (PDOException $e) { return array(false, 'Guruhda hozir faol savol bor'); }
     $sid = (int)db()->lastInsertId();
     q('UPDATE quiz_settings SET next_at=? WHERE chat_id=?', array($now + $sec + max(1, (int)$s['interval_min']) * 60, $cid));   /* yakunlash kechiksa ham qayta yubormaydi */
@@ -3420,7 +3650,7 @@ function quiz_finish0($sid) {
         if ($cfg['enabled']) q('UPDATE quiz_settings SET next_at=? WHERE chat_id=?', array($now + max(1, (int)$cfg['interval_min']) * 60, $s['chat_id']));
         if ($cfg['channel']) return true;
         $st = q('SELECT COUNT(*) n, COALESCE(SUM(correct),0) ok FROM quiz_answers WHERE session_id=?', array($sid))->fetch();
-        $t = "📊 <b>TEST NATIJASI</b>\n\n✅ To'g'ri javob: <b>" . $ans . "</b>\n👥 Qatnashdi: " . (int)$st['n'] . ' · topdi: ' . (int)$st['ok']
+        $t = "📊 <b>TEST NATIJASI</b>\n\n✅ To'g'ri javob: <b>" . ($s['correct_opt'] !== null ? 'ABCD'[(int)$s['correct_opt']] . ') ' : '') . htmlspecialchars((string)$s['answer']) . "</b>\n👥 Qatnashdi: " . (int)$st['n'] . ' · topdi: ' . (int)$st['ok']
             . ($s['winner_id'] ? "\n🏆 Birinchi topgan: <a href=\"tg://user?id=" . (int)$s['winner_id'] . '">' . htmlspecialchars($s['winner_name']) . '</a>' : '')
             . ((int)$st['ok'] ? "\n⭐ Har bir to'g'ri javob: +" . (int)$s['points'] . ' ochko' : '') . ($cfg['enabled'] ? "\n\nKeyingi savol tez orada yuboriladi!" : '');
         $p = array('chat_id' => $s['chat_id'], 'text' => $t, 'parse_mode' => 'HTML', 'disable_web_page_preview' => true);
@@ -3464,7 +3694,7 @@ function quiz_run() {
 /* Guruhdagi oddiy xabar — faol savolga javob bo'lishi mumkin */
 function quiz_on_msg($m) {
     $cid = $m['chat']['id']; $text = isset($m['text']) ? trim((string)$m['text']) : '';
-    if (preg_match('~^/(reyting|krossvord)(@\w+)?(\s|$)~i', $text)) { if (q('SELECT 1 FROM quiz_settings WHERE chat_id=?', array($cid))->fetchColumn()) quiz_top_msg($cid); return; }
+    if (preg_match('~^/(viktorina|krossvord)(@\w+)?(\s|$)~i', $text)) { if (q('SELECT 1 FROM quiz_settings WHERE chat_id=?', array($cid))->fetchColumn()) quiz_top_msg($cid); return; }
     if ($text === '' || $text[0] === '/' || mb_strlen($text) > QZ_ANS_MAX) return;
     if (empty($m['from']['id']) || !empty($m['from']['is_bot']) || isset($m['sender_chat']) || isset($m['forward_origin']) || isset($m['forward_date']) || !empty($m['is_automatic_forward'])) return;
     $s = q("SELECT s.id, s.points, s.ends_at, q.answer, q.alts FROM quiz_sessions s JOIN quiz_questions q ON q.id=s.question_id WHERE s.chat_id=? AND s.status='active' AND s.kind='cw' LIMIT 1", array($cid))->fetch();
@@ -3508,10 +3738,39 @@ function quiz_rank($cid, $mode, $lim = 50) {
 }
 function quiz_top_msg($cid) {
     $R = quiz_rank($cid, 'all', 10); $md = array('🥇', '🥈', '🥉');
-    $t = "🏆 <b>Krossvord reytingi</b>\n\n";
+    $t = "🏆 <b>Savol-javob reytingi</b>\n\n";
     foreach ($R as $i => $r) $t .= (isset($md[$i]) ? $md[$i] : ($i + 1) . '.') . ' ' . htmlspecialchars($r['name']) . ' — <b>' . (int)$r['points'] . "</b> ochko\n";
     if (!$R) $t .= 'Hali ochko to\'plagan qatnashchi yo\'q.';
     pr_call('sendMessage', array('chat_id' => $cid, 'text' => trim($t), 'parse_mode' => 'HTML'));
+}
+/* AI: tanlangan bo'lim uchun test savollari (admin ko'rib chiqib saqlaydi) */
+function quiz_ai($cat, $n, $lv) {
+    if (!ai_on()) return array(null, 'AI kaliti kiritilmagan (index.php boshida AI_KEY)');
+    q("INSERT INTO settings (k,v) VALUES (?, '1') ON DUPLICATE KEY UPDATE v=v+1", array('ai_n_' . date('Ymd'))); if (ai_used() > ai_limit()) return array(null, 'Kunlik AI limiti tugadi');
+    $schema = array('type' => 'object', 'properties' => array('questions' => array('type' => 'array', 'items' => array('type' => 'object', 'properties' => array(
+        'question' => array('type' => 'string'), 'answer' => array('type' => 'string'), 'wrong' => array('type' => 'array', 'items' => array('type' => 'string')), 'note' => array('type' => 'string')),
+        'required' => array('question', 'answer', 'wrong', 'note'), 'additionalProperties' => false))), 'required' => array('questions'), 'additionalProperties' => false);
+    $old = q('SELECT question FROM quiz_questions WHERE cat=? ORDER BY id DESC LIMIT 40', array($cat))->fetchAll(PDO::FETCH_COLUMN);
+    $sys = "You write quiz questions for a Telegram quiz bot used by students in Uzbekistan. Write in Uzbek (Latin script, use ' for o', g'), except for foreign-language subjects where the question may be in that language. "
+        . "Follow the official Uzbekistan curriculum for the given level. Every question must have exactly one unambiguously correct answer that is factually accurate; if unsure of a fact, choose a different question. "
+        . "answer: short (1–5 words or a formula/number, max 60 characters). wrong: exactly 3 plausible but clearly incorrect options of similar form and length. note: one short explanation sentence (max 150 characters) or empty. Question max 250 characters. Do not repeat the existing questions.";
+    $u = "Bo'lim: " . quiz_label($cat) . "\nQiyinlik: " . array(1 => 'oson', 2 => "o'rtacha", 3 => 'qiyin')[$lv] . "\nSoni: " . $n . ($old ? "\n\nMavjud savollar (takrorlamang):\n- " . implode("\n- ", array_map(function ($x) { return mb_substr($x, 0, 120); }, $old)) : '');
+    $body = array('model' => AI_MODEL, 'max_tokens' => 6000, 'system' => $sys, 'output_config' => array('effort' => 'medium', 'format' => array('type' => 'json_schema', 'schema' => $schema)), 'messages' => array(array('role' => 'user', 'content' => $u)));
+    $c = curl_init(AI_URL);
+    curl_setopt_array($c, array(CURLOPT_POST => 1, CURLOPT_POSTFIELDS => json_encode($body), CURLOPT_HTTPHEADER => array('content-type: application/json', 'x-api-key: ' . AI_KEY, 'anthropic-version: 2023-06-01'), CURLOPT_RETURNTRANSFER => 1, CURLOPT_TIMEOUT => 90, CURLOPT_CONNECTTIMEOUT => 8));
+    $r = curl_exec($c); $code = (int)curl_getinfo($c, CURLINFO_HTTP_CODE); curl_close($c); $j = $r ? json_decode($r, true) : null;
+    if (!is_array($j)) return array(null, 'AI serveri bilan aloqa yo\'q');
+    if ($code !== 200) return array(null, 'AI xatosi (HTTP ' . $code . '): ' . (isset($j['error']['message']) ? mb_substr((string)$j['error']['message'], 0, 160) : ''));
+    foreach (isset($j['content']) ? $j['content'] : array() as $b) if (isset($b['type']) && $b['type'] === 'text') {
+        $v = json_decode((string)$b['text'], true); if (!isset($v['questions']) || !is_array($v['questions'])) continue;
+        $out = array(); foreach ($v['questions'] as $x) {
+            $w = array_values(array_filter(array_map(function ($y) { return mb_substr(trim((string)$y), 0, 100); }, (array)$x['wrong']), 'strlen'));
+            if (trim($x['question']) === '' || trim($x['answer']) === '' || count($w) < 3) continue;
+            $out[] = array('question' => mb_substr(trim($x['question']), 0, 300), 'answer' => mb_substr(trim($x['answer']), 0, 60), 'opts' => implode('|', array_slice($w, 0, 3)), 'note' => mb_substr(trim($x['note']), 0, 200));
+        }
+        return array($out, '');
+    }
+    return array(null, 'AI javobi tushunarsiz');
 }
 /* Bot guruhdagi javoblarni ko'ra oladimi: privacy o'chirilgan yoki bot admin bo'lishi kerak */
 function quiz_diag($cid, $mode = 'cw') {
@@ -6262,10 +6521,10 @@ if (isset($_GET['api'])) {
             $c = $sel ? $qzc($sel) : null;
             if ($sel && (!$c || !in_array($sel, array_column($groups, 'id'), true))) { $sel = 0; $c = null; }
             $cid = $c ? $c['chat_id'] : 0; $now = time();
-            $r = array('ok' => true, 'now' => $now, 'chat' => $sel, 'groups' => $groups, 'subjects' => $QZ_SUBJ, 'admin' => $adm, 'manage' => $c ? $c['manage'] : false);
+            $r = array('ok' => true, 'now' => $now, 'chat' => $sel, 'groups' => $groups, 'tree' => quiz_tree(), 'counts' => q('SELECT cat, COUNT(*) n FROM quiz_questions GROUP BY cat')->fetchAll(PDO::FETCH_KEY_PAIR), 'admin' => $adm, 'manage' => $c ? $c['manage'] : false);
             if ($c) {
                 $cfg = quiz_cfg($cid);
-                $r['cfg'] = array('on' => (int)$cfg['enabled'], 'subject' => $cfg['subject'], 'interval' => (int)$cfg['interval_min'], 'sec' => (int)$cfg['answer_sec'], 'points' => (int)$cfg['points'],
+                $r['cfg'] = array('on' => (int)$cfg['enabled'], 'cat' => (string)$cfg['cat'], 'label' => quiz_label((string)$cfg['cat']), 'interval' => (int)$cfg['interval_min'], 'sec' => (int)$cfg['answer_sec'], 'points' => (int)$cfg['points'],
                     'next' => (int)$cfg['next_at'], 'err' => (string)$cfg['last_err'], 'mode' => $cfg['mode'], 'ch' => (int)$cfg['channel'], 'count' => (int)$cfg['q_total'], 'done' => (int)$cfg['q_done']);
                 $r['link'] = $c['username'] !== '' && $c['username'][0] === '@' ? 'https://t.me/' . substr($c['username'], 1) : '';
                 $cur = q("SELECT s.subject, s.points, s.ends_at, s.kind, s.opts, q.question, q.answer FROM quiz_sessions s JOIN quiz_questions q ON q.id=s.question_id WHERE s.chat_id=? AND s.status='active' LIMIT 1", array($cid))->fetch();
@@ -6310,34 +6569,54 @@ if (isset($_GET['api'])) {
                     array($c['chat_id'], !empty($in['on']) ? 1 : 0, time(), time(), 'test'));
                 out(array('ok' => true));
             }
-            $sub = isset($in['subject']) ? (string)$in['subject'] : ''; if ($sub !== '' && quiz_subj($sub) === '') out(array('ok' => false, 'error' => 'Fan noto\'g\'ri'), 422);
+            $cat = trim((string)(isset($in['cat']) ? $in['cat'] : ''), '/'); if (quiz_path($cat) === null) out(array('ok' => false, 'error' => 'Bo\'lim noto\'g\'ri'), 422);
+            if ($cat !== '' && !(int)q('SELECT COUNT(*) FROM quiz_questions WHERE cat=? OR cat LIKE ?', array($cat, $cat . '/%'))->fetchColumn()) out(array('ok' => false, 'error' => '«' . quiz_label($cat) . '» bo\'limida hali savol yo\'q — boshqasini tanlang yoki adminga yozing'), 422);
             $iv = (int)(isset($in['interval']) ? $in['interval'] : 10); $sec = (int)(isset($in['sec']) ? $in['sec'] : 60); $pts = (int)(isset($in['points']) ? $in['points'] : 10);
             if ($iv < 1 || $iv > 1440) out(array('ok' => false, 'error' => 'Interval 1–1440 daqiqa bo\'lsin'), 422);
             if ($sec < 15 || $sec > 600) out(array('ok' => false, 'error' => 'Javob vaqti 15–600 soniya bo\'lsin'), 422);
             if ($pts < 1 || $pts > 1000) out(array('ok' => false, 'error' => 'Ochko 1–1000 bo\'lsin'), 422);
             $on = !empty($in['on']) ? 1 : 0; $old = quiz_cfg($c['chat_id']);
-            $mode = isset($in['mode']) && $in['mode'] === 'cw' && $c['ctype'] !== 'Kanal' ? 'cw' : 'test';
+            $mode = 'test';
             $next = $on && !(int)$old['enabled'] ? time() : (int)$old['next_at'];   /* yoqilganda birinchi savol darhol (keyingi cron) */
             $cnt = (int)$old['q_total'];
             if (isset($in['count'])) { $cnt = (int)$in['count']; if ($cnt < 10 || $cnt > 30) out(array('ok' => false, 'error' => 'Savollar soni 10–30 bo\'lsin'), 422); }
             $fresh = $on && !(int)$old['enabled'];   /* yangi o'yin: hisob noldan */
             $qd = $fresh ? 0 : (int)$old['q_done']; $rf = $fresh ? time() : (int)$old['round_from'];
-            q('INSERT INTO quiz_settings (chat_id,enabled,subject,interval_min,answer_sec,points,next_at,updated_at,mode,q_total,q_done,round_from) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE enabled=VALUES(enabled), subject=VALUES(subject),
-                interval_min=VALUES(interval_min), answer_sec=VALUES(answer_sec), points=VALUES(points), next_at=VALUES(next_at), updated_at=VALUES(updated_at), mode=VALUES(mode), q_total=VALUES(q_total), q_done=VALUES(q_done), round_from=VALUES(round_from)', array($c['chat_id'], $on, quiz_subj($sub), $iv, $sec, $pts, $next, time(), $mode, $cnt, $qd, $rf));
+            q('INSERT INTO quiz_settings (chat_id,enabled,cat,interval_min,answer_sec,points,next_at,updated_at,mode,q_total,q_done,round_from) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE enabled=VALUES(enabled), cat=VALUES(cat),
+                interval_min=VALUES(interval_min), answer_sec=VALUES(answer_sec), points=VALUES(points), next_at=VALUES(next_at), updated_at=VALUES(updated_at), mode=VALUES(mode), q_total=VALUES(q_total), q_done=VALUES(q_done), round_from=VALUES(round_from)', array($c['chat_id'], $on, $cat, $iv, $sec, $pts, $next, time(), $mode, $cnt, $qd, $rf));
             out(array('ok' => true));
         }
         if (!$adm) out(array('ok' => false, 'error' => 'Ruxsat yo\'q'), 403);
         /* ---- savollar bazasi: faqat admin ---- */
         if ($a === 'qz_q_list') {
-            $f = quiz_subj(isset($in['f']) ? $in['f'] : ''); $sq = trim((string)(isset($in['s']) ? $in['s'] : '')); $pg = max(0, (int)(isset($in['p']) ? $in['p'] : 0));
+            $f = trim((string)(isset($in['f']) ? $in['f'] : ''), '/'); if (quiz_path($f) === null) $f = ''; $sq = trim((string)(isset($in['s']) ? $in['s'] : '')); $pg = max(0, (int)(isset($in['p']) ? $in['p'] : 0));
             $w = array(); $p = array();
-            if ($f !== '') { $w[] = 'subject=?'; $p[] = $f; }
+            if ($f !== '') { $w[] = '(cat=? OR cat LIKE ?)'; $p[] = $f; $p[] = $f . '/%'; }
             if ($sq !== '') { $w[] = '(question LIKE ? OR answer LIKE ?)'; $p[] = '%' . $sq . '%'; $p[] = '%' . $sq . '%'; }
             $wh = $w ? ' WHERE ' . implode(' AND ', $w) : '';
             $n = (int)q('SELECT COUNT(*) FROM quiz_questions' . $wh, $p)->fetchColumn();
-            $rows = q('SELECT id, subject, level, question, answer, alts, opts, note, letters, used FROM quiz_questions' . $wh . ' ORDER BY id DESC LIMIT 20 OFFSET ' . ($pg * 20), $p)->fetchAll();
-            $by = q('SELECT subject, COUNT(*) n FROM quiz_questions GROUP BY subject')->fetchAll(PDO::FETCH_KEY_PAIR);
-            out(array('ok' => true, 'n' => $n, 'p' => $pg, 'rows' => $rows, 'by' => $by));
+            $rows = q('SELECT id, cat, level, question, answer, alts, opts, note, letters, used FROM quiz_questions' . $wh . ' ORDER BY id DESC LIMIT 20 OFFSET ' . ($pg * 20), $p)->fetchAll();
+            foreach ($rows as $i => $x) $rows[$i]['label'] = quiz_label($x['cat']);
+            out(array('ok' => true, 'n' => $n, 'p' => $pg, 'rows' => $rows, 'counts' => q('SELECT cat, COUNT(*) n FROM quiz_questions GROUP BY cat')->fetchAll(PDO::FETCH_KEY_PAIR)));
+        }
+        if ($a === 'qz_ai') {   /* AI bilan savollar — avval ko'rib chiqiladi, keyin saqlanadi */
+            $cat = trim((string)(isset($in['cat']) ? $in['cat'] : ''), '/'); if (!quiz_leaf($cat)) out(array('ok' => false, 'error' => 'Bo\'limni oxirigacha tanlang (fan darajasigacha)'), 422);
+            @set_time_limit(120); list($L, $e) = quiz_ai($cat, max(3, min(20, (int)(isset($in['n']) ? $in['n'] : 10))), max(1, min(3, (int)(isset($in['level']) ? $in['level'] : 2))));
+            if ($L === null) out(array('ok' => false, 'error' => $e), 502);
+            foreach ($L as $i => $x) $L[$i]['dup'] = (bool)q('SELECT 1 FROM quiz_questions WHERE qhash=?', array(md5(quiz_norm($x['question']))))->fetchColumn();
+            $audit('quiz_ai', quiz_label($cat) . ': ' . count($L) . ' ta'); out(array('ok' => true, 'list' => $L));
+        }
+        if ($a === 'qz_ai_save') {
+            $cat = trim((string)(isset($in['cat']) ? $in['cat'] : ''), '/'); $add = 0; $err = array();
+            foreach (array_slice((array)(isset($in['list']) ? $in['list'] : array()), 0, 30) as $x) { $e = quiz_q_save(array('cat' => $cat, 'question' => isset($x['question']) ? $x['question'] : '', 'answer' => isset($x['answer']) ? $x['answer'] : '', 'opts' => isset($x['opts']) ? $x['opts'] : '', 'note' => isset($x['note']) ? $x['note'] : '', 'level' => isset($in['level']) ? $in['level'] : 2)); if ($e === '') $add++; elseif ($e !== 'dup') $err[] = $e; }
+            out(array('ok' => true, 'added' => $add, 'errors' => array_slice(array_unique($err), 0, 5)));
+        }
+        if ($a === 'qz_tpl') {   /* CSV namunasi va barcha bo'limlar kodlari — admin botiga fayl */
+            $rows = array(array("Bo'lim", 'Savol', "To'g'ri javob", "Noto'g'ri variantlar (| bilan)", 'Izoh', 'Muqobil javoblar (| bilan)', 'Daraja (1-3)'), array('maktab/5/matematika', 'Eng kichik tub son qaysi?', '2', '1|3|5', '', '', '1'), array('Maktab > 7-sinf > Fizika', 'Kuchning SI birligi?', 'Nyuton', 'Joul|Vatt|Paskal', '', '', '1'));
+            $walk = function ($n, $pre, $lab) use (&$walk, &$rows) { foreach ($n as $k => $c) { $p = $pre === '' ? $k : $pre . '/' . $k; $l = $lab === '' ? $c['t'] : $lab . ' › ' . $c['t']; if (empty($c['k'])) $rows[] = array($p, '— ' . $l, '', '', '', '', ''); else $walk($c['k'], $p, $l); } };
+            $walk(quiz_tree(), '', '');
+            $r = tg_doc($u['id'], csv_make($rows), 'savollar_namuna.csv', "📄 Savollar uchun namuna. Birinchi ustunga bo'lim kodini (masalan maktab/5/matematika) yoki nomini (Maktab > 5-sinf > Matematika) yozing. Pastda barcha bo'limlar kodlari.");
+            out(array('ok' => !empty($r['ok']), 'error' => !empty($r['ok']) ? '' : 'Fayl yuborilmadi — botga /start bosing'));
         }
         if ($a === 'qz_q_save') {
             $e = quiz_q_save($in, (int)(isset($in['id']) ? $in['id'] : 0));
@@ -7160,6 +7439,10 @@ html:not(.dark) .wgr>div{background:#f2f7fd;border-color:#f2f7fd}
 .tq-off{cursor:default}.tq-off:active{transform:none}.tq-off .tq-i,.tq-off b,.tq-off .tq-u{opacity:.5}.tq-soon{position:absolute;top:12px;right:10px;padding:3px 8px;border-radius:9px;background:var(--soft);color:var(--ac);font-size:11px;font-weight:700}
 .tq-days{padding:4px 16px}.tq-days .lr.in:first-child{border-top:0}
 
+.qzcd{background:var(--in);border-radius:16px;padding:12px 14px;cursor:pointer;display:flex;flex-direction:column;gap:3px;border:2px solid transparent}.qzcd b{font-size:15.5px}.qzcd span{font-size:13px;color:var(--sub);line-height:1.35}.qzcd i{font-style:normal;font-size:12px;color:var(--ac);font-weight:600}.qzcd.on{border-color:var(--ac)}
+.qzch{border:0;background:var(--in);color:var(--ac);font-weight:600;font-size:13px;padding:7px 11px;border-radius:12px;cursor:pointer;width:auto;margin:0}.qzch.on{background:var(--ac);color:#fff}
+.qzch2{border:0;background:var(--in);color:var(--tx);border-radius:12px;padding:9px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;width:100%;min-width:0}.qzch2 b{font-size:13.5px;line-height:1.2;text-align:center}.qzch2 small{font-size:11px;color:var(--sub)}
+.qzsum{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--soft);font-weight:600;font-size:14px;line-height:1.4}
 </style>
 <!-- TartibOn intro: ilova har ochilganda ko'rsatiladi -->
 <script>document.documentElement.classList.add("sp-intro")</script></head><body>
@@ -7258,7 +7541,7 @@ html.sp-wait #tartibon-splash{animation:sp-hide .4s ease 8s forwards} /* zaxira:
 <div id="p-chats" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1 id="cht">➕ Kanal qo'shish</h1><div class="card"><b id="cb2">➕ Kanal qo'shish</b><input id="cu" placeholder="@kanal_username yoki -100... ID"><p class="sub">Avval botni kanal/guruhga administrator qiling (xabar yuborish huquqi bilan). Bot huquqlarni o'zgartirmaydi.</p><button class="btn" id="ca2">Tekshirish va qo'shish</button></div></div>
 <div id="p-pcb" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>💵 Dollar kursi</h1><label class="lr"><span class="li c2"><svg viewBox="0 0 24 24"><path d="M3 10 12 4l9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg></span><span class="lt"><b>Kanal va guruhlarga yuborish</b><span>Banklar kursi · narx o'zgarganda</span></span><input type="checkbox" id="tqa" onchange="tqf('a',this)"></label><div id="ucw_a"></div><div id="cbh"><div class="sk"></div></div></div>
 <div id="p-pvl" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>💱 Valyutalar</h1><label class="lr"><span class="li c1"><svg viewBox="0 0 24 24"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 0 1 4-4h16M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></svg></span><span class="lt"><b>Kanal va guruhlarga yuborish</b><span>Barcha valyutalar · narx o'zgarganda</span></span><input type="checkbox" id="tqb" onchange="tqf('b',this)"></label><div id="ucw_b"></div><div id="vlh"><div class="sk"></div></div></div>
-<div id="p-psj" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🧩 Savol-javob</h1><div id="sjb"><div class="sk"></div></div></div>
+<div id="p-psj" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🧩 Savol-javob</h1><p class="sub" style="margin:-6px 2px 12px">Kanal va guruhlarda 4 variantli test (A, B, C, D): maktab, litsey, kollej, oliy ta'lim va sertifikat imtihonlari bo'yicha.</p><div id="sjb"><div class="sk"></div></div></div>
 <div id="p-pdp" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🌅 Tongi xabar</h1><p class="sub" style="margin:-6px 2px 12px">Har kuni 04:30 da kanal va guruhlaringizga yuboriladi. Qaysi kunlari yuborilishini tanlang.</p><div class="card tq-days"><label class="lr in"><span class="lt"><b>Dushanba</b></span><input type="checkbox" id="dpd1" onchange="dpd(1,this)"></label><label class="lr in"><span class="lt"><b>Seshanba</b></span><input type="checkbox" id="dpd2" onchange="dpd(2,this)"></label><label class="lr in"><span class="lt"><b>Chorshanba</b></span><input type="checkbox" id="dpd3" onchange="dpd(3,this)"></label><label class="lr in"><span class="lt"><b>Payshanba</b></span><input type="checkbox" id="dpd4" onchange="dpd(4,this)"></label><label class="lr in"><span class="lt"><b>Juma</b></span><input type="checkbox" id="dpd5" onchange="dpd(5,this)"></label><label class="lr in"><span class="lt"><b>Shanba</b></span><input type="checkbox" id="dpd6" onchange="dpd(6,this)"></label><label class="lr in"><span class="lt"><b>Yakshanba</b></span><input type="checkbox" id="dpd7" onchange="dpd(7,this)"></label></div><button class="btn s" style="width:100%;margin-top:12px" onclick="smp('dp',this)">📩 Bugungi tongi xabarni o'zimga yuborish</button><h1 style="font-size:20px;margin-top:22px">🌙 Kechki xabar</h1><label class="lr"><span class="li c4"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span><span class="lt"><b>Kanal va guruhlarga yuborish</b><span id="evtm">Har kuni kechqurun · «Xayrli tun»</span></span><input type="checkbox" id="tqev" onchange="tqf('ev',this)"></label><button class="btn s" style="width:100%;margin-top:8px" onclick="evt()">📩 Kechki xabarni o'zimga yuborish</button><div id="evb"></div></div>
 <div id="p-pnm" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🕌 Namoz vaqtlari</h1><label class="lr"><span class="li c3"><svg viewBox="0 0 24 24"><path d="M12 3.5c2.6 2 4 3.7 4 5.6a4 4 0 0 1-8 0c0-1.9 1.4-3.6 4-5.6z"/><path d="M4 21v-9M20 21v-9M3 21h18M9 21v-3a3 3 0 0 1 6 0v3"/></svg></span><span class="lt"><b>Kanal va guruhlarga yuborish</b><span>Har namozdan 30 daqiqa keyin</span></span><input type="checkbox" id="tqpr" onchange="tqf('pr',this)"></label><div id="ucw_c"></div><div id="prh"><div class="sk"></div></div></div>
 <div id="p-pwx" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🌤 Ob-havo</h1><label class="lr"><span class="li c5"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><path d="M8 2v1.5M2 8h1.5M3.8 3.8l1 1M12.2 3.8l-1 1"/><path d="M9 20h8.5a3.5 3.5 0 0 0 .4-7A5 5 0 0 0 8.4 14 3 3 0 0 0 9 20z"/></svg></span><span class="lt"><b>Kanal va guruhlarga yuborish</b><span>Har kuni 06:00 · 12 viloyat</span></span><input type="checkbox" id="tqwx" onchange="tqf('wx',this)"></label><div id="wab"></div><div id="ucw_w"></div><div id="wxh"><div class="sk"></div></div></div>
@@ -7270,7 +7553,7 @@ html.sp-wait #tartibon-splash{animation:sp-hide .4s ease 8s forwards} /* zaxira:
 <div id="p-vz" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🤝 O'zaro reklama</h1><div id="vzb"></div></div>
 <div id="p-bt" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🎉 Bayram tabriklari</h1><div id="btb"></div></div>
 <div id="p-dp" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🌅 Tongi xabar</h1><div id="dpb"></div></div>
-<div id="p-qz" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🧩 Savol-javob</h1><div id="qzb"></div></div>
+<div id="p-qz" class="pg"></div>
 <div id="p-wx" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🌤 Ob-havo</h1><div id="wxb"></div></div>
 <div id="p-pr" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🕌 Namoz vaqtlari</h1><div class="card"><select id="prr" onchange="prl()" style="margin:0"></select></div><div id="prb"></div></div>
 <div id="p-gd" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🛡 Guruh himoyasi</h1><div id="gdb"></div></div>
@@ -7367,7 +7650,7 @@ function adsend(id){cf('E\'lon yuborilsinmi?',function(y){if(y)astep(id)})}
 function astep(id){var e=$('ast'+id);api('adm_ad_send',{id:id}).then(function(j){if(!j.ok){if(e)e.textContent='Xato: '+(j.error||'aloqa uzildi, «Davom ettirish» ni bosing');return}if(e)e.textContent='Yuborilmoqda: '+j.done+' / '+j.total+' (✅ '+j.sent+' · ❌ '+j.failed+')';if(j.finished){toast('Tugadi: ✅ '+j.sent+' · ❌ '+j.failed);admin()}else astep(id)})}
 function adrej(id){cf('Buyurtma rad etilib, pul foydalanuvchi balansiga qaytariladi. Davom etasizmi?',function(y){if(!y)return;api('adm_ad',{id:id,act:'reject'}).then(function(j){toast(j.ok?'Rad etildi, pul qaytarildi':(j.error||'Xato'));admin()})})}
 function pcs(){api('adm_paycfg',{card:$('pc_card').value,holder:$('pc_name').value,Kanal:$('pp_Kanal').value,Guruh:$('pp_Guruh').value,users:$('pp_users').value,ad_del_h:$('pp_del').value}).then(function(j){if(j.ok){toast('Saqlandi ✅');admin()}})}
-function go(p,w){if(w)CW=w;document.querySelectorAll('nav a,.pg').forEach(function(e){e.classList.remove('on')});var a=document.querySelector('nav a[data-p="'+p+'"]'+(w?'[data-w="'+w+'"]':''));if(a)a.classList.add('on');if(p==='tools')dr(1);$('p-'+p).classList.add('on');window.scrollTo(0,0);try{if(p==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(e){}if(p==='chats'){$('cht').textContent='➕ '+CW+' qo\'shish';$('cb2').textContent='➕ '+CW+' qo\'shish';$('cu').placeholder=(CW==='Kanal'?'@kanal_username yoki -100... ID':'@guruh_username yoki -100... ID')}if(p==='pnm'){tqs();prh();ucl('c')}if(p==='pcb'||p==='pvl'||p==='pdp')tqs();if(p==='pdp')evl();if(p==='pwx')wal();if(p==='vz')vzl();if(p==='sale')sall();if(p==='me')clubl();hlp(p);if(p==='auc')aul();if(p==='pc')pcl();if(p==='rt')rtl();if(p==='pcb')ucl('a');if(p==='pvl')ucl('b');if(p==='psj')sjl();if(p==='me')mych();if(p==='pwx'){tqs();wxh();ucl('w')}if(p==='my'){$('myt').textContent=CW==='Kanal'?'📢 Kanallar':'👥 Guruhlar';$('chl').innerHTML='<div class="sk"></div>';chats()}if(p==='bal'||p==='ads')wallet();if(p==='dp')dpl();if(p==='bt')btl();if(p==='wx')wxl();if(p==='qz')qzl();if(p==='pr')prl();if(p==='gd')gdl();if(p==='po'){pol();pxl()}if(p==='st')stl();if(p==='gw'){gwl();gcl()}if(p==='rf')rfl();if(p==='me'&&ADM){AV='home';MSG=null;admin()}}
+function go(p,w){if(w)CW=w;document.querySelectorAll('nav a,.pg').forEach(function(e){e.classList.remove('on')});var a=document.querySelector('nav a[data-p="'+p+'"]'+(w?'[data-w="'+w+'"]':''));if(a)a.classList.add('on');if(p==='tools')dr(1);$('p-'+p).classList.add('on');window.scrollTo(0,0);try{if(p==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(e){}if(p==='chats'){$('cht').textContent='➕ '+CW+' qo\'shish';$('cb2').textContent='➕ '+CW+' qo\'shish';$('cu').placeholder=(CW==='Kanal'?'@kanal_username yoki -100... ID':'@guruh_username yoki -100... ID')}if(p==='pnm'){tqs();prh();ucl('c')}if(p==='pcb'||p==='pvl'||p==='pdp')tqs();if(p==='pdp')evl();if(p==='pwx')wal();if(p==='vz')vzl();if(p==='sale')sall();if(p==='me')clubl();hlp(p);if(p==='auc')aul();if(p==='pc')pcl();if(p==='rt')rtl();if(p==='pcb')ucl('a');if(p==='pvl')ucl('b');if(p==='psj')sjl();if(p==='me')mych();if(p==='pwx'){tqs();wxh();ucl('w')}if(p==='my'){$('myt').textContent=CW==='Kanal'?'📢 Kanallar':'👥 Guruhlar';$('chl').innerHTML='<div class="sk"></div>';chats()}if(p==='bal'||p==='ads')wallet();if(p==='dp')dpl();if(p==='bt')btl();if(p==='wx')wxl();if(p==='qz'){go('psj');return}if(p==='pr')prl();if(p==='gd')gdl();if(p==='po'){pol();pxl()}if(p==='st')stl();if(p==='gw'){gwl();gcl()}if(p==='rf')rfl();if(p==='me'&&ADM){AV='home';MSG=null;admin()}}
 document.querySelectorAll('nav a').forEach(function(a){a.onclick=function(){go(a.dataset.p,a.dataset.w)}});
 try{tg.BackButton.onClick(function(){go('home')})}catch(e){}
 var ST={pending:'🟡 Tekshirilmoqda',approved:'✅ Tasdiqlangan',rejected:'❌ Rad etilgan',noperm:'⚠️ Bot administrator emas'},CS=['USD','EUR','RUB','GBP','CNY'];
@@ -7762,73 +8045,71 @@ function dpc(i){var c=DPC.chats[i],on=c.dp_on==1?0:1;api('dp_my_set',{id:c.id,on
 function dpv(){var o={time:$('dp_time').value,days:{}};AD.dp.days.forEach(function(x){o.days[x.d]={v:$('dp_v'+x.d).value.trim(),t:$('dp_t'+x.d).value}});return o}
 function dps(cb){api('adm_dp',dpv()).then(function(j){if(!j.ok)return;AD.dp=j.dp;if(cb)cb();else{toast('Saqlandi ✅');av('dp')}})}
 function dpt(d){dps(function(){api('adm_dp_test',{d:d}).then(function(j){if(j.ok)toast('Sizga yuborildi ✅')})})}
-function qztg(id){var g=QZ.d.groups.filter(function(x){return x.id===id})[0],on=g.on?0:1;api('qz_toggle',{chat:id,on:on}).then(function(j){if(j.ok){toast(on?'Savol-javob yoqildi ✅ Birinchi savol 1 daqiqa ichida':'To\'xtatildi');qzl(QZ.c)}})}
-function qzop(O){return '<div style="display:grid;gap:6px">'+O.map(function(o,i){return '<div style="padding:10px 12px;border-radius:12px;background:var(--cd,#fff);font-weight:600">'+'ABCD'.charAt(i)+') '+esc(o)+'</div>'}).join('')+'</div>'}
-var QZ={c:-1,m:'all',d:null,tm:null,qs:'',qf:'',qp:0,ed:null};
-function qzl(c){if(c!=null)QZ.c=c;$('qzb').innerHTML='<div class="sk"></div><div class="sk"></div>';api('qz_home',{chat:QZ.c}).then(function(j){if(!j.ok)return;QZ.d=j;QZ.c=j.chat;QZ.off=j.now-Math.floor(Date.now()/1000);QZ.m='all';qzr()})}
-function qzleft(){var c=QZ.d&&QZ.d.cur;return c?Math.max(0,c.ends-(Math.floor(Date.now()/1000)+QZ.off)):0}
-function qztick(){clearInterval(QZ.tm);if(!QZ.d||!QZ.d.cur)return;QZ.tm=setInterval(function(){var e=$('qzt');if(!e||!$('p-qz').classList.contains('on')){clearInterval(QZ.tm);return}var s=qzleft();e.textContent=s+' soniya';if(s<=0){clearInterval(QZ.tm);setTimeout(function(){if($('p-qz').classList.contains('on'))qzl()},4000)}},1000)}
-function qzst(t,v){return '<div style="flex:1;padding:10px;border-radius:12px;background:var(--in);text-align:center"><b style="font-size:18px">'+v+'</b><div class="sub" style="font-size:12px">'+t+'</div></div>'}
-function qzr(){var j=QZ.d,h='',c=j.cfg,my=j.groups.filter(function(g){return g.own});
-if(my.length)h+='<div class="row" style="margin:0 2px 8px"><b>Kanal va guruhlarim</b><span class="sub">yoqish · sozlash</span></div>'+my.map(function(g){return '<div class="card row" style="padding:12px 14px'+(g.id===j.chat?';outline:2px solid var(--ac)':'')+'"><div style="display:flex;align-items:center;gap:10px;cursor:pointer;min-width:0" onclick="qztg('+g.id+')">'+ck(g.on)+'<b style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(g.ch?'📢 ':'👥 ')+esc(g.name)+'</b></div><button class="btn s" style="flex:none;padding:6px 12px" onclick="qzl('+g.id+')">'+(g.id===j.chat?'Ochiq':'Ochish ›')+'</button></div>'}).join('')+'<div style="height:6px"></div>';
-h+='<select onchange="qzl(+this.value)" style="margin-bottom:12px"><option value="0"'+(j.chat?'':' selected')+'>🌐 Barcha guruhlar</option>'+j.groups.map(function(g){return '<option value="'+g.id+'"'+(g.id===j.chat?' selected':'')+'>'+(g.on?'🟢 ':'⚪ ')+(g.ch?'📢 ':'👥 ')+esc(g.name)+'</option>'}).join('')+'</select>';
-if(!j.groups.length)h+='<div class="card sub">Savol-javob kanal va guruhlarda o\'ynaladi. Avval «Kanal qo\'shish» yoki «Guruh qo\'shish» orqali qo\'shing (bot administrator bo\'lsin) — u shu bo\'limda paydo bo\'ladi va shu yerdan yoqasiz. Boshqa guruhlardagi natijalaringiz ham shu yerda chiqadi.</div>';
-if(j.chat){h+='<div class="card"><div class="row"><b>🧩 '+(c.mode==='cw'?'Krossvord':'Test savol-javob')+'</b><span class="tag"'+(c.on?' style="background:#34c75926;color:#1fa245"':'')+'>'+(c.on?'Faol':'To\'xtatilgan')+'</span></div>';
-if(j.cur)h+='<div style="margin-top:12px;padding:12px;border-radius:14px;background:var(--in)"><div class="sub">📚 '+esc(j.cur.subject)+' · +'+j.cur.points+' ochko</div><div style="font-weight:700;margin:6px 0 10px">❓ '+esc(j.cur.question)+'</div>'+(j.cur.opts?qzop(j.cur.opts):'<div style="font-size:18px;letter-spacing:1px;line-height:1.6;word-break:break-word">'+j.cur.boxes+'</div>')+'<div class="row" style="margin-top:8px"><span class="sub">'+esc(j.cur.info)+'</span><b>⏳ <span id="qzt">'+qzleft()+' soniya</span></b></div></div><p class="sub" style="margin:8px 0 0">'+(j.cur.opts?(c.ch?'Kanalda ovozlar anonim — javob beriladi, lekin ochko hisoblanmaydi.':'Javobni savol ostidagi variantlardan tanlang — har bir to\'g\'ri javob ochko oladi.'):'Javobni guruhga oddiy xabar qilib yozing — birinchi to\'g\'ri javob ochko oladi.')+'</p>';
-else h+='<p class="sub" style="margin:10px 0 0">'+(c.on?'Hozir savol yo\'q. Keyingi savol: '+(c.next>j.now?Math.ceil((c.next-j.now)/60)+' daqiqadan keyin':'tez orada'):'Viktorina to\'xtatilgan.')+'</p>';
-if(j.link)h+='<button class="btn s" style="margin-top:10px" onclick="tg.openTelegramLink(\''+esc(j.link)+'\')">'+(c.ch?'📢 Kanalga':'👥 Guruhga')+' o\'tish</button>';
-h+='</div>'}
-var m=j.me;h+='<div class="card"><b>⭐ Mening ochkolarim</b><div style="display:flex;gap:8px;margin-top:10px">'+qzst('ochko',m.points)+qzst('to\'g\'ri',m.correct)+qzst('qatnashgan',m.answered)+qzst('o\'rin',m.place?m.place:'—')+'</div>'+(j.chat?'<p class="sub" style="margin:8px 0 0">Barcha guruhlarda jami: '+m.total+' ochko</p>':'')+'</div>';
-if(j.manage){h+='<div class="card"><b>⚙️ Sozlamalar</b><div class="row" style="cursor:pointer;margin-top:10px" onclick="QZ.d.cfg.on=QZ.d.cfg.on?0:1;qzr()"><div style="display:flex;align-items:center;gap:10px">'+ck(c.on)+'<b>Avtomatik viktorina</b></div><span class="sub">'+(c.on?'Yoqilgan':'O\'chirilgan')+'</span></div>'
-+'<p class="sub" style="margin:12px 0 4px">📝 Format</p><select id="qz_mode"><option value="test"'+(c.mode!=='cw'?' selected':'')+'>Test — 4 ta variant</option>'+(c.ch?'':'<option value="cw"'+(c.mode==='cw'?' selected':'')+'>Krossvord — javobni yozish</option>')+'</select>'
-+'<p class="sub" style="margin:12px 0 4px">📚 Fan</p><select id="qz_sub"><option value="">Barcha fanlar aralash</option>'+j.subjects.map(function(s){return '<option'+(s===c.subject?' selected':'')+'>'+esc(s)+'</option>'}).join('')+'</select>'
-+'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px"><label class="sub">Interval, daq<input id="qz_iv" type="number" min="1" max="1440" value="'+c.interval+'"></label><label class="sub">Vaqt, soniya<input id="qz_sec" type="number" min="15" max="600" value="'+c.sec+'"></label><label class="sub">Ochko<input id="qz_pts" type="number" min="1" max="1000" value="'+c.points+'"></label></div>'
-+(c.err?'<p class="sub" style="color:#e5484d;margin:8px 0 0">⚠️ '+esc(c.err)+'</p>':'')
-+'<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn" style="flex:1" onclick="qzs()">Saqlash</button><button class="btn s" onclick="qzsend()">📨 Savol yuborish</button><button class="btn s" onclick="qzdg()">🔍 Tekshirish</button></div><div id="qzdgr"></div></div>'}
-h+='<div class="card"><b>🏆 Reyting'+(j.chat?'':' · barcha guruhlar')+'</b><div class="tabs" style="margin-top:10px;padding-bottom:4px">'+[['all','Umumiy'],['day','Kunlik'],['week','Haftalik'],['correct','To\'g\'ri javoblar'],['people','Qatnashchilar']].map(function(t){return '<button class="btn s" style="flex:none;padding:8px 12px;'+(QZ.m===t[0]?'background:var(--ac);color:#fff':'')+'" onclick="qzrk(\''+t[0]+'\')">'+t[1]+'</button>'}).join('')+'</div><div id="qzrk">'+qzrows(j.rank,'all')+'</div></div>';
-if(j.last.length)h+='<div class="card"><b>🕘 Oxirgi natijalar</b>'+j.last.map(function(x){return '<div style="padding:10px 0;border-top:1px solid var(--ln,#eef0f4);margin-top:8px"><div class="sub">📚 '+esc(x.subject)+'</div><div style="margin:2px 0">'+esc(x.question)+'</div><div class="row"><b>✅ '+esc(String(x.answer).toUpperCase())+'</b><span class="sub">'+(x.winner_name?'🏆 '+esc(x.winner_name)+' +'+x.points:'⏰ topilmadi')+'</span></div></div>'}).join('')+'</div>';
-if(j.subj.length)h+='<div class="card"><b>📊 Fanlar bo\'yicha</b>'+j.subj.map(function(x){var p=x.n>0?Math.round(x.won*100/x.n):0;return '<div style="margin-top:10px"><div class="row"><span>'+esc(x.subject)+'</span><span class="sub">'+x.n+' savol · '+p+'% topildi</span></div><div style="height:6px;border-radius:3px;background:var(--in);margin-top:4px"><div style="height:6px;border-radius:3px;background:var(--ac);width:'+p+'%"></div></div></div>'}).join('')+'</div>';
-if(j.admin)h+='<div class="card"><div class="row"><b>🗂 Savollar bazasi</b><span class="sub">'+j.qn+' ta</span></div><div class="row" style="cursor:pointer;margin-top:10px" onclick="qzmode()"><div style="display:flex;align-items:center;gap:10px">'+ck(j.dg)+'<span>SH, CH, O\', G\' — bitta katak</span></div></div><p class="sub" style="margin:6px 0 0">'+(j.dg?'«SHAHAR» = 5 katak':'«SHAHAR» = 6 katak')+'</p><div id="qzq"><div class="sk"></div></div></div>';
-$('qzb').innerHTML=h;qztick();if(j.admin){if(QZ.ql)qzqr();else qzq(0)}}
-function qzrows(R,mode){if(!R||!R.length)return '<p class="sub" style="margin:8px 0 0">Hozircha natija yo\'q.</p>';var md=['🥇','🥈','🥉'];return R.map(function(r,i){return '<div class="row" style="padding:9px 0;border-top:'+(i?'1px solid var(--ln,#eef0f4)':'0')+'"><div style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:26px;text-align:center;font-weight:700">'+(mode!=='people'&&md[i]?md[i]:(i+1))+'</span><div style="min-width:0"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(r.name||'ID '+r.user_id)+'</div><div class="sub" style="font-size:12px">'+r.correct+' to\'g\'ri · '+r.answered+' qatnashgan</div></div></div><b style="white-space:nowrap">'+(+r.points)+' ochko</b></div>'}).join('')}
-function qzrk(m){QZ.m=m;$('qzrk').innerHTML='<div class="sk"></div>';api('qz_rank',{chat:QZ.c,mode:m}).then(function(j){if(j.ok){qzr2(m);$('qzrk').innerHTML=qzrows(j.rows,m)}})}
-function qzr2(m){document.querySelectorAll('#qzb .tabs .btn').forEach(function(b){var on=b.getAttribute('onclick').indexOf("'"+m+"'")>0;b.style.background=on?'var(--ac)':'';b.style.color=on?'#fff':''})}
-function qzs(){var c=QZ.d.cfg;api('qz_set',{chat:QZ.c,on:c.on,mode:$('qz_mode').value,subject:$('qz_sub').value,interval:+$('qz_iv').value,sec:+$('qz_sec').value,points:+$('qz_pts').value}).then(function(j){if(j.ok){toast('Saqlandi ✅');qzl()}})}
-/* Bosh sahifa «Savol-javob»: faqat o'z kanal/guruhlari — sozlamalar, savollar soni (10–30) va reyting */
-var SJ={c:0,d:null,m:'all'};
-function sjl(c){if(c!=null)SJ.c=c;$('sjb').innerHTML='<div class="sk"></div><div class="sk"></div>';api('qz_home',SJ.c?{chat:SJ.c}:{}).then(function(j){if(!j.ok)return;var my=j.groups.filter(function(g){return g.own});if(my.length&&!my.some(function(g){return g.id===j.chat})){SJ.c=my[0].id;return sjl()}SJ.d=j;SJ.c=j.chat;SJ.m='all';sjr()})}
-function sjr(){var j=SJ.d,c=j.cfg,my=j.groups.filter(function(g){return g.own}),h='';
-if(!my.length||!c){$('sjb').innerHTML='<div class="card sub">Savol-javob faqat o\'zingiz qo\'shgan kanal va guruhlarda o\'ynaladi. Avval «Kanal qo\'shish» yoki «Guruh qo\'shish» orqali qo\'shing (bot administrator bo\'lsin).</div>';return}
-h+=my.length>1?'<select onchange="sjl(+this.value)" style="margin-bottom:12px">'+my.map(function(g){return '<option value="'+g.id+'"'+(g.id===j.chat?' selected':'')+'>'+(g.ch?'📢 ':'👥 ')+esc(g.name)+'</option>'}).join('')+'</select>':'<p class="sub" style="margin:-6px 2px 12px">'+(my[0].ch?'📢 ':'👥 ')+esc(my[0].name)+'</p>';
-h+='<div class="card"><b>⚙️ Sozlamalar</b><div class="row" style="cursor:pointer;margin-top:10px" onclick="sjtg()"><div style="display:flex;align-items:center;gap:10px">'+ck(c.on)+'<b>Avtomatik viktorina</b></div><span class="sub">'+(c.on?'Yoqilgan':'O\'chirilgan')+'</span></div>'
-+(c.on&&c.count?'<p class="sub" style="margin:8px 0 0">📊 Berilgan savollar: <b>'+c.done+' / '+c.count+'</b> — oxirida TOP-10 g\'oliblar '+(c.ch?'kanalga':'guruhga')+' yuboriladi</p>':'')
-+'<p class="sub" style="margin:12px 0 4px">📝 Format</p><select id="sj_mode"><option value="test"'+(c.mode!=='cw'?' selected':'')+'>Test — 4 ta variant</option>'+(c.ch?'':'<option value="cw"'+(c.mode==='cw'?' selected':'')+'>Krossvord — javobni yozish</option>')+'</select>'
-+'<p class="sub" style="margin:12px 0 4px">📚 Fan</p><select id="sj_sub"><option value="">Barcha fanlar aralash</option>'+j.subjects.map(function(s){return '<option'+(s===c.subject?' selected':'')+'>'+esc(s)+'</option>'}).join('')+'</select>'
-+'<p class="sub" style="margin:12px 0 4px">🔢 Savollar soni (10–30)</p><input id="sj_cnt" type="number" min="10" max="30" value="'+(c.count||10)+'">'
-+'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px"><label class="sub">Interval, daq<input id="sj_iv" type="number" min="1" max="1440" value="'+c.interval+'"></label><label class="sub">Vaqt, soniya<input id="sj_sec" type="number" min="15" max="600" value="'+c.sec+'"></label><label class="sub">Ochko<input id="sj_pts" type="number" min="1" max="1000" value="'+c.points+'"></label></div>'
-+(c.ch?'<p class="sub" style="margin:8px 0 0">ℹ️ Kanalda ovozlar anonim — javob beriladi, lekin ochko hisoblanmaydi.</p>':'')
-+(c.err?'<p class="sub" style="color:#e5484d;margin:8px 0 0">⚠️ '+esc(c.err)+'</p>':'')
-+'<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn" style="flex:1" onclick="sjs()">Saqlash</button><button class="btn s" onclick="sjsend()">📨 Savol yuborish</button><button class="btn s" onclick="sjdg()">🔍 Tekshirish</button></div><div id="sjdgr"></div></div>';
-h+='<div class="card"><b>🏆 Reyting</b><div class="tabs" style="margin-top:10px;padding-bottom:4px">'+[['all','Umumiy'],['day','Kunlik'],['week','Haftalik'],['correct','To\'g\'ri javoblar'],['people','Qatnashchilar']].map(function(t){return '<button class="btn s" style="flex:none;padding:8px 12px;'+(SJ.m===t[0]?'background:var(--ac);color:#fff':'')+'" onclick="sjrk(\''+t[0]+'\')">'+t[1]+'</button>'}).join('')+'</div><div id="sjrk">'+qzrows(j.rank,'all')+'</div></div>';
-$('sjb').innerHTML=h}
-function sjrk(m){SJ.m=m;document.querySelectorAll('#sjb .tabs .btn').forEach(function(b){var on=b.getAttribute('onclick').indexOf("'"+m+"'")>0;b.style.background=on?'var(--ac)':'';b.style.color=on?'#fff':''});$('sjrk').innerHTML='<div class="sk"></div>';api('qz_rank',{chat:SJ.c,mode:m}).then(function(j){if(j.ok)$('sjrk').innerHTML=qzrows(j.rows,m)})}
-function sjs(on,cb){var c=SJ.d.cfg,n=+$('sj_cnt').value;if(on==null)on=c.on;if(!(n>=10&&n<=30)){toast('Savollar soni 10 dan 30 gacha bo\'lsin');if(cb)cb(false);return}api('qz_set',{chat:SJ.c,on:on,mode:$('sj_mode').value,subject:$('sj_sub').value,interval:+$('sj_iv').value,sec:+$('sj_sec').value,points:+$('sj_pts').value,count:n}).then(function(j){if(cb)cb(j.ok);if(j.ok){toast(on&&!c.on?'Yoqildi ✅ Birinchi savol 1 daqiqa ichida':(!on&&c.on?'O\'chirildi':'Saqlandi ✅'));sjl()}})}
+/* ---- SAVOL-JAVOB: bitta sahifa — Sozlash (bo'limni bosqichma-bosqich tanlash), Reyting, Savollar bazasi (admin) ---- */
+var SJ={c:0,d:null,tab:'set',cat:null,cc:null,m:'all',rc:0,bf:'',bs:'',bp:0,bl:null,ed:0,ai:null,ain:10,ail:2,tm:null};
+function qzn(p){var n={k:SJ.d.tree},T=[];if(p){var a=p.split('/');for(var i=0;i<a.length;i++){if(!n.k||!n.k[a[i]])return null;n=n.k[a[i]];T.push(n.t)}}return {n:n,T:T}}
+function qzc(p){var C=SJ.d.counts||{},s=0;for(var k in C)if(!p||k===p||k.indexOf(p+'/')===0)s+=+C[k];return s}
+function qzlab(p){var x=qzn(p);return x&&x.T.length?x.T.join(' › '):'Barcha bo\'limlar aralash'}
+function qzleaf(p){var x=qzn(p);return !!(p&&x&&!x.n.k)}
+function sjl(c){if(c!=null)SJ.c=c;if(!SJ.d)$('sjb').innerHTML='<div class="sk"></div><div class="sk"></div>';api('qz_home',SJ.c?{chat:SJ.c}:{}).then(function(j){if(!j.ok)return;var my=j.groups.filter(function(g){return g.manage});if(my.length&&!my.some(function(g){return g.id===j.chat})){SJ.c=my[0].id;return sjl()}SJ.d=j;SJ.c=j.chat;if(SJ.cc!==j.chat){SJ.cc=j.chat;SJ.cat=j.cfg?j.cfg.cat:''}if(!my.length&&SJ.tab==='set')SJ.tab=j.admin?'bank':'rank';SJ.d.off=j.now-Math.floor(Date.now()/1000);sjr()})}
+function sjtab(t){SJ.tab=t;sjr();if(t==='rank')sjrk(SJ.m);if(t==='bank'&&!SJ.bl)sjq(0)}
+function sjr(){var j=SJ.d,my=j.groups.filter(function(g){return g.manage}),T=[];if(my.length)T.push(['set','⚙️ Sozlash']);T.push(['rank','🏆 Reyting']);if(j.admin)T.push(['bank','🗂 Savollar']);
+var h='<div style="display:flex;gap:6px;margin:-4px 0 12px">'+T.map(function(t){return '<button class="btn'+(SJ.tab===t[0]?'':' s')+'" style="flex:1;padding:10px 4px;font-size:14px" onclick="sjtab(\''+t[0]+'\')">'+t[1]+'</button>'}).join('')+'</div>';
+if(SJ.tab==='set')h+=my.length?sjset(my):'<div class="card sub">Savol-javob o\'zingiz qo\'shgan kanal va guruhlarda o\'ynaladi. Avval «Kanal qo\'shish» yoki «Guruh qo\'shish» orqali qo\'shing (bot administrator bo\'lsin).</div>';
+if(SJ.tab==='rank')h+=sjrank();if(SJ.tab==='bank')h+='<div id="sjbank"></div>';
+$('sjb').innerHTML=h;if(SJ.tab==='bank')sjbank();sjtick()}
+/* bo'lim tanlash: yuqorida yo'l (bosib orqaga qaytiladi), pastda keyingi bosqich variantlari va savollar soni */
+function pk(t,cur,leaf){var x=qzn(cur)||qzn(''),a=cur?cur.split('/'):[],n=x.n,h='';
+if(a.length){h+='<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px"><button class="qzch" onclick="pks(\''+t+'\',\'\')">‹ Bo\'limlar</button>';for(var i=0;i<a.length;i++){var p=a.slice(0,i+1).join('/');h+='<span class="sub">›</span><button class="qzch'+(i===a.length-1?' on':'')+'" onclick="pks(\''+t+'\',\''+p+'\')">'+esc(qzn(p).n.t)+'</button>'}h+='</div>'}
+if(n.k){var K=Object.keys(n.k);
+if(!a.length)h+='<div style="display:grid;gap:8px">'+(leaf?'':'<div class="qzcd'+(cur===''?' on':'')+'" onclick="pks(\''+t+'\',\'\',1)"><b>🌐 Hamma bo\'limlar aralash</b><span>Barcha bo\'lim va fanlardan tasodifiy savollar</span><i>'+qzc('')+' ta savol</i></div>')+K.map(function(k){return '<div class="qzcd" onclick="pks(\''+t+'\',\''+k+'\')"><b>'+esc(n.k[k].t)+'</b><span>'+esc(n.k[k].d||'')+'</span><i>'+qzc(k)+' ta savol</i></div>'}).join('')+'</div>';
+else h+='<p class="sub" style="margin:0 0 6px">'+(a.length===1&&a[0]==='maktab'?'Sinfni tanlang':'Keyingisini tanlang')+(leaf?':':' (yoki shu bo\'limning hammasi aralash qoladi):')+'</p><div style="display:grid;grid-template-columns:repeat('+(a[0]==='maktab'&&a.length===1?4:2)+',minmax(0,1fr));gap:6px">'+K.map(function(k){var p=cur+'/'+k,c=qzc(p);return '<button class="qzch2" onclick="pks(\''+t+'\',\''+p+'\')"><b>'+esc(n.k[k].t)+'</b><small>'+(c?c+' ta':'—')+'</small></button>'}).join('')+'</div>'}
+if(cur!==''||!leaf){var c=qzc(cur);h+='<div class="qzsum">'+(leaf&&!qzleaf(cur)?'👆 Fanni tanlang':'✅ '+esc(qzlab(cur))+'<br><span class="sub">'+(c?c+' ta savol':'⚠️ Bu bo\'limda hali savol yo\'q')+'</span>')+'</div>'}
+return h}
+function pks(t,p){if(t==='set')SJ.cat=p;if(t==='bank'){SJ.bf=p;SJ.ed=0;SJ.ai=null;sjq(0);return}sjr()}
+function sjleft(){var c=SJ.d&&SJ.d.cur;return c?Math.max(0,c.ends-(Math.floor(Date.now()/1000)+SJ.d.off)):0}
+function sjtick(){clearInterval(SJ.tm);if(!SJ.d||!SJ.d.cur)return;SJ.tm=setInterval(function(){var e=$('sjt');if(!e||!$('p-psj').classList.contains('on')){clearInterval(SJ.tm);return}var s=sjleft();e.textContent=s+' soniya';if(s<=0){clearInterval(SJ.tm);setTimeout(function(){if($('p-psj').classList.contains('on'))sjl()},4000)}},1000)}
+function sjset(my){var j=SJ.d,c=j.cfg,h='';
+h+=my.length>1?'<select onchange="sjl(+this.value)" style="margin-bottom:12px">'+my.map(function(g){return '<option value="'+g.id+'"'+(g.id===j.chat?' selected':'')+'>'+(g.on?'🟢 ':'⚪ ')+(g.ch?'📢 ':'👥 ')+esc(g.name)+'</option>'}).join('')+'</select>':'<p class="sub" style="margin:-4px 2px 12px">'+(my[0].ch?'📢 ':'👥 ')+esc(my[0].name)+'</p>';
+h+='<div class="card"><div class="row" style="cursor:pointer" onclick="sjtg()"><div style="display:flex;align-items:center;gap:10px">'+ck(c.on)+'<div><b>Avtomatik test</b><div class="sub">'+(c.on?'Savollar navbat bilan yuborilmoqda':'O\'chirilgan')+'</div></div></div></div>'
++(c.on&&c.count?'<p class="sub" style="margin:8px 0 0">📊 Berilgan savollar: <b>'+c.done+' / '+c.count+'</b> — oxirida TOP-10 g\'oliblar e\'lon qilinadi</p>':'')+(c.on?'<p class="sub" style="margin:4px 0 0">📚 '+esc(c.label)+'</p>':'')
++(j.cur?'<div style="margin-top:12px;padding:12px;border-radius:14px;background:var(--in)"><div class="sub">📚 '+esc(j.cur.subject)+' · +'+j.cur.points+' ochko</div><div style="font-weight:700;margin:6px 0 10px">❓ '+esc(j.cur.question)+'</div>'+(j.cur.opts?'<div style="display:grid;gap:6px">'+j.cur.opts.map(function(o,i){return '<div style="padding:9px 12px;border-radius:12px;background:var(--cd);font-weight:600">'+'ABCD'.charAt(i)+') '+esc(o)+'</div>'}).join('')+'</div>':'')+'<div class="row" style="margin-top:8px"><span class="sub">Hozir berilmoqda</span><b>⏳ <span id="sjt">'+sjleft()+' soniya</span></b></div></div>':'')
++(c.err?'<p class="sub" style="color:var(--r);margin:8px 0 0">⚠️ '+esc(c.err)+'</p>':'')+'</div>';
+h+='<div class="card"><b>1️⃣ Bo\'limni tanlang</b><div style="margin-top:10px">'+pk('set',SJ.cat,false)+'</div></div>';
+h+='<div class="card"><b>2️⃣ Test sozlamalari</b><p class="sub" style="margin:6px 0 10px">Har bir savolda 4 ta variant: A, B, C, D. To\'g\'ri javob bergan har bir a\'zo ochko oladi.</p>'
++'<p class="sub" style="margin:0 0 4px">🔢 Bir o\'yindagi savollar soni (10–30)</p><input id="sj_cnt" type="number" inputmode="numeric" min="10" max="30" value="'+(c.count||10)+'">'
++'<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px"><label class="sub">Oraliq, daq<input id="sj_iv" type="number" inputmode="numeric" min="1" max="1440" value="'+c.interval+'"></label><label class="sub">Javob vaqti, son<input id="sj_sec" type="number" inputmode="numeric" min="15" max="600" value="'+c.sec+'"></label><label class="sub">Ochko<input id="sj_pts" type="number" inputmode="numeric" min="1" max="1000" value="'+c.points+'"></label></div>'
++(c.ch?'<p class="sub" style="margin:8px 0 0">ℹ️ Kanalda ovozlar anonim — obunachilar javob beradi, lekin ochko hisoblanmaydi. Reyting uchun guruhda o\'ynang.</p>':'')
++'<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn" style="flex:1" onclick="sjs()">💾 Saqlash</button><button class="btn s" style="flex:none;width:auto" onclick="sjsend()">📨 Hozir savol</button><button class="btn s" style="flex:none;width:auto" onclick="sjdg()">🔍 Tekshirish</button></div><div id="sjdgr"></div></div>';
+return h}
+function sjs(on){var c=SJ.d.cfg,n=+$('sj_cnt').value;if(on==null)on=c.on;if(!(n>=10&&n<=30)){toast('Savollar soni 10 dan 30 gacha bo\'lsin');return}api('qz_set',{chat:SJ.c,on:on,cat:SJ.cat,interval:+$('sj_iv').value,sec:+$('sj_sec').value,points:+$('sj_pts').value,count:n}).then(function(j){if(j.ok){toast(on&&!c.on?'Yoqildi ✅ Birinchi savol 1 daqiqa ichida':(!on&&c.on?'O\'chirildi':'Saqlandi ✅'));sjl()}})}
 function sjtg(){sjs(SJ.d.cfg.on?0:1)}
 function sjsend(){api('qz_send',{chat:SJ.c}).then(function(j){if(j.ok){toast('Savol yuborildi ✅');sjl()}})}
-function sjdg(){$('sjdgr').innerHTML='<div class="sk" style="margin-top:10px"></div>';api('qz_diag',{chat:SJ.c}).then(function(j){if(!j.ok){$('sjdgr').innerHTML='';return}var d=j.diag;$('sjdgr').innerHTML='<div style="margin-top:12px;padding:12px;border-radius:12px;background:var(--in)"><b>'+(d.ok?'✅ Bot javoblarni ko\'ra oladi':'⚠️ Sozlash kerak')+'</b><p class="sub" style="margin:6px 0 0">Bot holati: '+esc(d.status||'—')+(d.admin?' (admin)':'')+' · Privacy: '+(d.read_all?'o\'chirilgan':'yoqilgan')+'</p>'+d.tips.map(function(t){return '<p class="sub" style="margin:6px 0 0">• '+esc(t)+'</p>'}).join('')+'</div>'})}
-function qzsend(){api('qz_send',{chat:QZ.c}).then(function(j){if(j.ok){toast('Savol guruhga yuborildi ✅');qzl()}})}
-function qzdg(){$('qzdgr').innerHTML='<div class="sk" style="margin-top:10px"></div>';api('qz_diag',{chat:QZ.c}).then(function(j){if(!j.ok){$('qzdgr').innerHTML='';return}var d=j.diag;$('qzdgr').innerHTML='<div style="margin-top:12px;padding:12px;border-radius:12px;background:var(--in)"><b>'+(d.ok?'✅ Bot javoblarni ko\'ra oladi':'⚠️ Sozlash kerak')+'</b><p class="sub" style="margin:6px 0 0">Bot holati: '+esc(d.status||'—')+(d.admin?' (admin)':'')+' · Privacy: '+(d.read_all?'o\'chirilgan':'yoqilgan')+'</p>'+d.tips.map(function(t){return '<p class="sub" style="margin:6px 0 0">• '+esc(t)+'</p>'}).join('')+'</div>'})}
-function qzmode(){var d=QZ.d;api('qz_mode',{dg:!d.dg}).then(function(j){if(j.ok){d.dg=!d.dg;qzr();toast('Saqlandi ✅')}})}
-function qzq(p){QZ.qp=p||0;api('qz_q_list',{f:QZ.qf,s:QZ.qs,p:QZ.qp}).then(function(j){if(j.ok){QZ.ql=j;qzqr()}})}
-function qzqr(){var j=QZ.ql,S=QZ.d.subjects,e=$('qzq');if(!e)return;var h='<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn" style="flex:1" onclick="qze(0)">➕ Savol qo\'shish</button><label class="btn s" style="cursor:pointer">📥 CSV import<input type="file" accept=".csv,text/csv,text/plain" style="display:none" onchange="qzimp(this)"></label></div><p class="sub" style="margin:6px 0 0">CSV ustunlari: fan; savol; javob; muqobil javoblar (| bilan); izoh; daraja (1–3); noto\'g\'ri variantlar (| bilan). UTF-8. Variant berilmasa, test uchun o\'zi tanlanadi.</p><div id="qzf"></div>'
-+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px"><select onchange="QZ.qf=this.value;qzq(0)"><option value="">Barcha fanlar</option>'+S.map(function(s){return '<option value="'+esc(s)+'"'+(s===QZ.qf?' selected':'')+'>'+esc(s)+' ('+(j.by[s]||0)+')</option>'}).join('')+'</select><input placeholder="Qidirish..." value="'+esc(QZ.qs)+'" onchange="QZ.qs=this.value.trim();qzq(0)"></div>'
-+j.rows.map(function(x){return '<div style="padding:10px 0;border-top:1px solid var(--ln,#eef0f4);margin-top:8px"><div class="row"><span class="sub">#'+x.id+' · '+esc(x.subject)+' · '+x.letters+' katak · '+x.used+' marta</span><span style="white-space:nowrap"><button class="btn s" style="padding:6px 10px" onclick="qze('+x.id+')">✏️</button> <button class="btn s" style="padding:6px 10px" onclick="qzd('+x.id+')">🗑</button></span></div><div style="margin:4px 0">'+esc(x.question)+'</div><b>✅ '+esc(x.answer)+'</b>'+(x.opts?'<span class="sub"> · ❌ '+esc(x.opts)+'</span>':'')+(x.alts?'<span class="sub"> · '+esc(x.alts)+'</span>':'')+'</div>'}).join('')
-+(j.n>20?'<div class="row" style="margin-top:10px"><button class="btn s"'+(j.p?'':' disabled')+' onclick="qzq('+(j.p-1)+')">‹</button><span class="sub">'+(j.p+1)+' / '+Math.ceil(j.n/20)+'</span><button class="btn s"'+((j.p+1)*20<j.n?'':' disabled')+' onclick="qzq('+(j.p+1)+')">›</button></div>':'');
-e.innerHTML=h}
-function qze(id){var x=id?QZ.ql.rows.filter(function(r){return +r.id===id})[0]:{subject:QZ.qf||QZ.d.subjects[0],question:'',answer:'',alts:'',note:'',level:1};QZ.ed=id;$('qzf').innerHTML='<div style="margin-top:12px;padding:12px;border-radius:14px;background:var(--in)"><b>'+(id?'✏️ Savolni tahrirlash':'➕ Yangi savol')+'</b><select id="qe_s" style="margin-top:8px">'+QZ.d.subjects.map(function(s){return '<option'+(s===x.subject?' selected':'')+'>'+esc(s)+'</option>'}).join('')+'</select><textarea id="qe_q" rows="3" maxlength="600" placeholder="Savol matni">'+esc(x.question)+'</textarea><input id="qe_a" maxlength="60" placeholder="To\'g\'ri javob" value="'+esc(x.answer)+'"><input id="qe_o" placeholder="Test uchun noto\'g\'ri variantlar: Samarqand|Buxoro|Andijon" value="'+esc(x.opts||'')+'"><input id="qe_al" placeholder="Muqobil javoblar (krossvord): Toshkent shahri|Tashkent" value="'+esc(x.alts||'')+'"><input id="qe_n" maxlength="500" placeholder="Qisqa izoh (ixtiyoriy)" value="'+esc(x.note||'')+'"><select id="qe_l">'+[1,2,3].map(function(l){return '<option value="'+l+'"'+(+x.level===l?' selected':'')+'>Daraja: '+['oson','o\'rta','qiyin'][l-1]+'</option>'}).join('')+'</select><div style="display:flex;gap:8px"><button class="btn" style="flex:1" onclick="qzsv()">Saqlash</button><button class="btn s" onclick="$(\'qzf\').innerHTML=\'\'">Bekor</button></div></div>';$('qe_q').focus()}
-function qzsv(){api('qz_q_save',{id:QZ.ed,subject:$('qe_s').value,question:$('qe_q').value,answer:$('qe_a').value,alts:$('qe_al').value,opts:$('qe_o').value,note:$('qe_n').value,level:+$('qe_l').value}).then(function(j){if(j.ok){toast('Saqlandi ✅');QZ.d.qn+=QZ.ed?0:1;qzq(QZ.qp)}})}
-function qzd(id){cf('Savol o\'chirilsinmi?',function(y){if(!y)return;api('qz_q_del',{id:id}).then(function(j){if(j.ok){toast('O\'chirildi');QZ.d.qn--;qzq(QZ.qp)}})})}
-function qzimp(inp){var f=inp.files[0];if(!f)return;if(f.size>3000000){toast('Fayl 3 MB dan katta');return}var r=new FileReader();r.onload=function(){api('qz_q_import',{csv:r.result}).then(function(j){if(!j.ok)return;toast('Qo\'shildi: '+j.added+' · takror: '+j.dup);$('qzf').innerHTML='<div style="margin-top:12px;padding:12px;border-radius:12px;background:var(--in)"><b>📥 Import: '+j.added+' ta qo\'shildi, '+j.dup+' ta takror</b>'+j.errors.map(function(e){return '<p class="sub" style="margin:4px 0 0">⚠️ '+esc(e)+'</p>'}).join('')+'</div>';QZ.d.qn+=j.added;qzq(0)})};r.readAsText(f,'UTF-8');inp.value=''}
+function sjdg(){$('sjdgr').innerHTML='<div class="sk" style="margin-top:10px"></div>';api('qz_diag',{chat:SJ.c}).then(function(j){if(!j.ok){$('sjdgr').innerHTML='';return}var d=j.diag;$('sjdgr').innerHTML='<div style="margin-top:12px;padding:12px;border-radius:12px;background:var(--in)"><b>'+(d.ok?'✅ Hammasi joyida — test ishlaydi':'⚠️ Sozlash kerak')+'</b><p class="sub" style="margin:6px 0 0">Bot holati: '+esc(d.status||'—')+(d.admin?' (admin)':'')+'</p>'+d.tips.map(function(t){return '<p class="sub" style="margin:6px 0 0">• '+esc(t)+'</p>'}).join('')+'</div>'})}
+function sjrank(){var j=SJ.d,m=j.me,h='<div class="card"><b>⭐ Mening natijalarim</b><div style="display:flex;gap:8px;margin-top:10px">'+[['ochko',m.total],['to\'g\'ri',m.correct],['qatnashgan',m.answered]].map(function(x){return '<div style="flex:1;padding:10px;border-radius:12px;background:var(--in);text-align:center"><b style="font-size:18px">'+x[1]+'</b><div class="sub" style="font-size:12px">'+x[0]+'</div></div>'}).join('')+'</div></div>';
+h+='<div class="card"><b>🏆 Reyting</b><select style="margin-top:10px" onchange="SJ.rc=+this.value;sjrk(SJ.m)"><option value="0">🌐 Barcha guruhlar</option>'+j.groups.map(function(g){return '<option value="'+g.id+'"'+(g.id===SJ.rc?' selected':'')+'>'+(g.ch?'📢 ':'👥 ')+esc(g.name)+'</option>'}).join('')+'</select><div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px">'+[['all','Umumiy'],['day','Bugun'],['week','Hafta'],['correct','To\'g\'ri javoblar']].map(function(t){return '<button class="qzch'+(SJ.m===t[0]?' on':'')+'" style="flex:none" onclick="sjrk(\''+t[0]+'\')">'+t[1]+'</button>'}).join('')+'</div><div id="sjrk"><div class="sk"></div></div></div>';return h}
+function sjrows(R,mode){if(!R||!R.length)return '<p class="sub" style="margin:8px 0 0">Hozircha natija yo\'q.</p>';var md=['🥇','🥈','🥉'];return R.map(function(r,i){return '<div class="row" style="padding:9px 0;border-top:'+(i?'1px solid var(--ln)':'0')+'"><div style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:26px;text-align:center;font-weight:700">'+(md[i]||(i+1))+'</span><div style="min-width:0"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(r.name||'ID '+r.user_id)+'</div><div class="sub" style="font-size:12px">'+r.correct+' to\'g\'ri · '+r.answered+' javob</div></div></div><b style="white-space:nowrap">'+(+r.points)+' ochko</b></div>'}).join('')}
+function sjrk(m){SJ.m=m;document.querySelectorAll('#sjb .qzch').forEach(function(b){var oc=b.getAttribute('onclick')||'';if(oc.indexOf('sjrk(')===0)b.classList.toggle('on',oc.indexOf("'"+m+"'")>0)});var e=$('sjrk');if(!e)return;e.innerHTML='<div class="sk"></div>';api('qz_rank',{chat:SJ.rc,mode:m}).then(function(j){if(j.ok&&$('sjrk'))$('sjrk').innerHTML=sjrows(j.rows,m)})}
+/* ---- savollar bazasi (admin) ---- */
+function sjq(p){SJ.bp=p||0;api('qz_q_list',{f:SJ.bf,s:SJ.bs,p:SJ.bp}).then(function(j){if(j.ok){SJ.bl=j;SJ.d.counts=j.counts;sjbank()}})}
+function sjbank(){var e=$('sjbank');if(!e)return;if(!SJ.bl){e.innerHTML='<div class="sk"></div>';return}var j=SJ.bl,lf=qzleaf(SJ.bf),h='';
+h+='<div class="card"><b>🗂 Bo\'lim</b><div style="margin-top:10px">'+pk('bank',SJ.bf,false)+'</div></div>';
+h+='<div class="card"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn" onclick="sje(0)">➕ Savol qo\'shish</button><button class="btn" onclick="sjai()">🤖 AI bilan yaratish</button><label class="btn s" style="cursor:pointer;text-align:center">📥 CSV import<input type="file" accept=".csv,text/csv,text/plain" style="display:none" onchange="sjimp(this)"></label><button class="btn s" onclick="api(\'qz_tpl\').then(function(k){if(k.ok)toast(\'📄 Namuna va kodlar botga yuborildi\')})">📄 Namuna CSV</button></div><p class="sub" style="margin:8px 0 0">Savol qo\'shish va AI uchun bo\'limni fan darajasigacha tanlang'+(lf?' ✅':'')+'. CSV: bo\'lim; savol; to\'g\'ri javob; noto\'g\'ri variantlar (A|B|C); izoh.</p><div id="sjf"></div></div>';
+h+='<div class="card"><div class="row"><b>📋 Savollar</b><span class="sub">'+j.n+' ta</span></div><input placeholder="🔍 Qidirish..." value="'+esc(SJ.bs)+'" onchange="SJ.bs=this.value.trim();sjq(0)" style="margin-top:8px">'
++(j.rows.length?j.rows.map(function(x){var o=String(x.opts||'').split('|').filter(Boolean);return '<div style="padding:10px 0;border-top:1px solid var(--ln);margin-top:8px"><div class="row"><span class="sub" style="min-width:0">#'+x.id+' · '+esc(x.label)+' · '+x.used+' marta</span><span style="white-space:nowrap;flex:none"><button class="qzch" onclick="sje('+x.id+')">✏️</button> <button class="qzch" onclick="sjd('+x.id+')">🗑</button></span></div><div style="margin:4px 0;font-weight:600">'+esc(x.question)+'</div><div class="sub" style="color:var(--g)">✅ '+esc(x.answer)+'</div>'+(o.length?'<div class="sub">❌ '+o.map(esc).join(' · ')+'</div>':'')+'</div>'}).join(''):'<p class="sub" style="margin:10px 0 0">Bu bo\'limda hali savol yo\'q.</p>')
++(j.n>20?'<div class="row" style="margin-top:10px"><button class="btn s" style="width:auto"'+(j.p?'':' disabled')+' onclick="sjq('+(j.p-1)+')">‹</button><span class="sub">'+(j.p+1)+' / '+Math.ceil(j.n/20)+'</span><button class="btn s" style="width:auto"'+((j.p+1)*20<j.n?'':' disabled')+' onclick="sjq('+(j.p+1)+')">›</button></div>':'')+'</div>';
+e.innerHTML=h;if(SJ.ai)sjair()}
+function sje(id){var x=id?SJ.bl.rows.filter(function(r){return +r.id===id})[0]:null,cat=x?x.cat:SJ.bf;if(!qzleaf(cat)){toast('Avval bo\'limni fan darajasigacha tanlang');return}SJ.ed=id;SJ.ai=null;x=x||{question:'',answer:'',opts:'',note:'',alts:'',level:1};SJ.ec=cat;var o=String(x.opts||'').split('|');
+$('sjf').innerHTML='<div style="margin-top:12px;padding:12px;border-radius:14px;background:var(--in)"><b>'+(id?'✏️ Tahrirlash':'➕ Yangi savol')+'</b><div class="sub" style="margin:4px 0 8px">📚 '+esc(qzlab(cat))+'</div><textarea id="qe_q" rows="3" maxlength="300" placeholder="Savol matni">'+esc(x.question)+'</textarea><input id="qe_a" maxlength="60" placeholder="✅ To\'g\'ri javob" value="'+esc(x.answer)+'">'+[0,1,2].map(function(i){return '<input id="qe_o'+i+'" maxlength="100" placeholder="❌ Noto\'g\'ri variant '+(i+1)+'" value="'+esc(o[i]||'')+'">'}).join('')+'<input id="qe_n" maxlength="200" placeholder="💡 Izoh (ixtiyoriy) — javobdan keyin ko\'rsatiladi" value="'+esc(x.note||'')+'"><select id="qe_l">'+[1,2,3].map(function(l){return '<option value="'+l+'"'+(+x.level===l?' selected':'')+'>Qiyinlik: '+['oson','o\'rtacha','qiyin'][l-1]+'</option>'}).join('')+'</select><div style="display:flex;gap:8px"><button class="btn" style="flex:1" onclick="sjsv()">💾 Saqlash</button><button class="btn s" style="flex:none;width:auto" onclick="$(\'sjf\').innerHTML=\'\'">Bekor</button></div><p class="sub" style="margin:6px 0 0">Guruhda variantlar aralashtirilib A, B, C, D harflari bilan chiqadi.</p></div>';$('qe_q').focus()}
+function sjsv(){var o=[0,1,2].map(function(i){return $('qe_o'+i).value.trim()}).filter(Boolean);if(o.length<3){toast('3 ta noto\'g\'ri variantni yozing');return}api('qz_q_save',{id:SJ.ed,cat:SJ.ec,question:$('qe_q').value,answer:$('qe_a').value,opts:o.join('|'),note:$('qe_n').value,level:+$('qe_l').value}).then(function(j){if(j.ok){toast('Saqlandi ✅');SJ.ed=0;sjq(SJ.bp)}})}
+function sjd(id){cf('Savol o\'chirilsinmi?',function(y){if(!y)return;api('qz_q_del',{id:id}).then(function(j){if(j.ok){toast('O\'chirildi');sjq(SJ.bp)}})})}
+function sjimp(inp){var f=inp.files[0];if(!f)return;if(f.size>3000000){toast('Fayl 3 MB dan katta');return}var r=new FileReader();r.onload=function(){api('qz_q_import',{csv:r.result}).then(function(j){if(!j.ok)return;toast('Qo\'shildi: '+j.added);sjq(0);setTimeout(function(){var e=$('sjf');if(e)e.innerHTML='<div style="margin-top:12px;padding:12px;border-radius:12px;background:var(--in)"><b>📥 '+j.added+' ta qo\'shildi, '+j.dup+' ta takror</b>'+j.errors.map(function(e){return '<p class="sub" style="margin:4px 0 0">⚠️ '+esc(e)+'</p>'}).join('')+'</div>'},400)})};r.readAsText(f,'UTF-8');inp.value=''}
+function sjai(){if(!qzleaf(SJ.bf)){toast('Avval bo\'limni fan darajasigacha tanlang');return}SJ.ai={cat:SJ.bf,list:null,busy:0};sjair()}
+function sjair(){var A=SJ.ai,e=$('sjf');if(!e)return;var h='<div style="margin-top:12px;padding:12px;border-radius:14px;background:var(--in)"><b>🤖 AI bilan savollar</b><div class="sub" style="margin:4px 0 8px">📚 '+esc(qzlab(A.cat))+'</div><div style="display:flex;gap:8px"><select id="ai_n" style="flex:1;min-width:0">'+[5,10,15,20].map(function(n){return '<option'+(n===SJ.ain?' selected':'')+'>'+n+'</option>'}).join('')+'</select><select id="ai_l" style="flex:1;min-width:0">'+[1,2,3].map(function(l){return '<option value="'+l+'"'+(l===SJ.ail?' selected':'')+'>'+['Oson','O\'rtacha','Qiyin'][l-1]+'</option>'}).join('')+'</select></div><button class="btn" '+(A.busy?'disabled':'')+' onclick="sjaigo()">'+(A.busy?'⏳ Tayyorlanmoqda (1 daqiqagacha)...':'✨ Savollarni yaratish')+'</button>';
+if(A.list){h+='<p class="sub" style="margin:8px 0 4px">AI xato qilishi mumkin — har birini tekshiring va keraklilarini belgilang:</p>'+A.list.map(function(x,i){return '<label style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--ln)"><input type="checkbox" id="ai_c'+i+'"'+(x.dup?'':' checked')+' style="flex:none;margin-top:2px"><div style="min-width:0"><b style="font-size:14px">'+esc(x.question)+'</b><div class="sub" style="color:var(--g)">✅ '+esc(x.answer)+'</div><div class="sub">❌ '+esc(String(x.opts).split('|').join(' · '))+'</div>'+(x.note?'<div class="sub">💡 '+esc(x.note)+'</div>':'')+(x.dup?'<div class="sub" style="color:var(--r)">Bazada bor</div>':'')+'</div></label>'}).join('')+'<button class="btn" onclick="sjaisv()">💾 Belgilanganlarni saqlash</button>'}
+e.innerHTML=h+'</div>'}
+function sjaigo(){SJ.ain=+$('ai_n').value;SJ.ail=+$('ai_l').value;SJ.ai.busy=1;SJ.ai.list=null;sjair();api('qz_ai',{cat:SJ.ai.cat,n:SJ.ain,level:SJ.ail}).then(function(j){if(!SJ.ai)return;SJ.ai.busy=0;if(j.ok)SJ.ai.list=j.list;sjair()})}
+function sjaisv(){var A=SJ.ai,L=A.list.filter(function(x,i){return $('ai_c'+i).checked});if(!L.length){toast('Hech narsa belgilanmagan');return}api('qz_ai_save',{cat:A.cat,level:SJ.ail,list:L}).then(function(j){if(j.ok){toast(j.added+' ta savol saqlandi ✅');SJ.ai=null;sjq(0)}})}
 var WXC=null;
 function wxl(){$('wxb').innerHTML='<div class="sk"></div>';Promise.all([api('wx'),api('wx_my')]).then(function(r){WXC={w:r[0],m:r[1]};wxr()})}
 function wxt(v){return (v>0?'+':'')+v+'°'}
