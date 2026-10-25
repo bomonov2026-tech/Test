@@ -1,0 +1,4 @@
+out/demo_frames/
+out/view_*.png
+__pycache__/
+*.blend1
