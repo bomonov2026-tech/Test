@@ -2,6 +2,8 @@
 
 Har bir darsning matnini ElevenLabs'ga **o'zgartirmasdan** qo'ying: har bir gap alohida qatorda, orasida bo'sh qator. Ovoz: Dilnoza, sozlamalar 1-darsdagidek. Tayyor MP3 nomiga dars raqamini yozing, masalan `02.mp3`.
 
+1-dars allaqachon ovozli: `01_kanal_qoshish.mp4`.
+
 ## 0-dars: Tanishuv
 
 Video: `00_tanishuv.mp4` · taxminan 49 soniya
@@ -378,5 +380,229 @@ Bu yerda so'nggi yetti kunda eng tez o'sgan kanallar.
 Kanalingiz o'sgani sari reytingda yuqoriga ko'tariladi.
 
 Keyingi darsda Telegram kanal savdosini ko'ramiz. Ko'rishguncha!
+```
+
+## 13-dars: Kanal Savdo: Telegram
+
+Video: `13_kanal_savdo_telegram.mp4` · taxminan 42 soniya
+
+```
+TartibOn darslari.
+
+O'n uchinchi dars — Telegram kanallar savdosi.
+
+Bosh sahifadan «Kanal Savdo Telegram» bo'limini oching.
+
+Bu yerda sotuvdagi Telegram kanal va guruhlar.
+
+Obunachilar soni TartibOn statistikasidan olinadi, shuning uchun soxta bo'lmaydi.
+
+Sotuvchiga to'g'ridan-to'g'ri yozishingiz mumkin.
+
+Xavfsiz savdo uchun «Vositachi»ni bosing: pul admin orqali o'tadi.
+
+O'z kanalingizni sotmoqchi bo'lsangiz, pastdagi «Sotuvga qo'yish»ni bosing.
+
+Narx va tavsifni yozib, «Saqlash»ni bosing.
+
+Endi e'loningizni boshqa foydalanuvchilar sotuvdagilar ro'yxatida ko'radi.
+
+Keyingi darsda Instagram va YouTube sahifalari savdosini ko'ramiz. Ko'rishguncha!
+```
+
+## 14-dars: Instagram va YouTube savdosi
+
+Video: `14_instagram_va_youtube_savdosi.mp4` · taxminan 43 soniya
+
+```
+TartibOn darslari.
+
+O'n to'rtinchi dars — Instagram va YouTube sahifalari savdosi.
+
+Bosh sahifadan «Kanal Savdo Instagram» bo'limini oching.
+
+Bu yerda sotuvdagi Instagram sahifalari.
+
+Ma'lumotlarni sotuvchi o'zi kiritadi. Shuning uchun xariddan oldin akkauntni albatta tekshiring.
+
+Admin tekshirgan sahifalarda yashil belgi bo'ladi.
+
+Xavfsiz savdo uchun «Vositachi» tugmasidan foydalaning.
+
+O'z sahifangizni sotish uchun «Mening e'lonlarim»ni oching.
+
+Username, kuzatuvchilar soni, mavzu va narxni yozing.
+
+«Saqlash»ni bosing — e'lon sotuvga chiqadi.
+
+YouTube kanallar savdosi ham xuddi shunday ishlaydi.
+
+Keyingi darsda taklif havolalarini ko'ramiz. Ko'rishguncha!
+```
+
+## 15-dars: Taklif havolalari
+
+Video: `15_taklif_havolalari.mp4` · taxminan 39 soniya
+
+```
+TartibOn darslari.
+
+O'n beshinchi dars — taklif havolalari.
+
+Bosh sahifadan «Taklif havolalari» bo'limini oching.
+
+Bu xizmat obunachilaringizni do'stlarini taklif qilishga undaydi.
+
+Kanalingiz yonidagi tugmani bosib, xizmatni yoqing.
+
+Endi har bir obunachi o'zining shaxsiy taklif havolasini oladi.
+
+Havola orqali kirgan har bir odam taklif qilgan kishiga hisoblanadi.
+
+«Reyting» tugmasi bilan eng ko'p odam olib kelganlarni ko'rasiz.
+
+«Reytingni yuborish» tugmasi natijalarni kanalingizga joylaydi.
+
+Bu — konkurs va sovg'alar uchun ajoyib vosita.
+
+Keyingi darsda balans bilan ishlashni ko'ramiz. Ko'rishguncha!
+```
+
+## 16-dars: Balans
+
+Video: `16_balans.mp4` · taxminan 39 soniya
+
+```
+TartibOn darslari.
+
+O'n oltinchi dars — balans.
+
+Bosh sahifadan «Balans» bo'limini oching.
+
+Yuqorida joriy balansingiz ko'rinadi.
+
+Balansni to'ldirish uchun summani yozing.
+
+Ko'rsatilgan kartaga to'lov qiling va to'lov chekining rasmini yuklang.
+
+«To'lov qildim»ni bosing. Admin tasdiqlagach, pul balansingizga tushadi.
+
+Balansdagi pul bilan reklama, pullik kanallar va boshqa xizmatlarga to'laysiz.
+
+Pul yechish ham oson: summa, karta raqami va karta egasini yozing.
+
+«Yechishni so'rash»ni bosing. Admin tasdiqlagach, pul kartangizga o'tkaziladi.
+
+Keyingi darsda «Bot rivoji» fondini ko'ramiz. Ko'rishguncha!
+```
+
+## 17-dars: Bot rivoji
+
+Video: `17_bot_rivoji.mp4` · taxminan 35 soniya
+
+```
+TartibOn darslari.
+
+O'n yettinchi dars — «Bot rivoji» fondi.
+
+Bosh sahifada «Bot rivoji uchun hisob balansi» kartasi bor.
+
+Bu fond botni yanada rivojlantirish uchun yig'iladi.
+
+Ichida jami summa va pul o'tkazgan foydalanuvchilar ro'yxati ko'rinadi.
+
+Hissa qo'shish uchun «Balansdan o'tkazish» tugmasini bosing.
+
+Summani yozing. Eng kami — yigirma besh ming so'm.
+
+«O'tkazish» tugmasini bosing — summa balansingizdan yechiladi.
+
+Ismingiz qo'llab-quvvatlaganlar ro'yxatida paydo bo'ladi.
+
+Keyingi darsda e'lon berishni ko'ramiz. Ko'rishguncha!
+```
+
+## 18-dars: E'lon berish
+
+Video: `18_elon_berish.mp4` · taxminan 38 soniya
+
+```
+TartibOn darslari.
+
+O'n sakkizinchi dars — e'lon berish.
+
+Bosh sahifadan «E'lon berish» bo'limini oching.
+
+Yuqorida balansingiz ko'rinadi.
+
+E'lon kimga borishini tanlang: kanallarga, guruhlarga yoki bot foydalanuvchilariga.
+
+Narx shu yerda ko'rsatiladi.
+
+E'lon uchun 16:9 o'lchamdagi rasm tanlang.
+
+Rasm tagiga yoziladigan matnni yozing. Kanal va guruhlarga e'londa havola bo'lmasligi kerak.
+
+«Buyurtma» tugmasini bosing. Summa balansdan yechiladi.
+
+Admin e'lonni tekshiradi va tasdiqlagach, u yuboriladi.
+
+Keyingi darsda namoz vaqtlari, ob-havo va dollar kursini ko'ramiz. Ko'rishguncha!
+```
+
+## 19-dars: Foydali bo'limlar
+
+Video: `19_foydali_bolimlar.mp4` · taxminan 44 soniya
+
+```
+TartibOn darslari.
+
+O'n to'qqizinchi dars — namoz vaqtlari, ob-havo va dollar kursi.
+
+Bu bo'limlar kanalingizga har kuni foydali postlarni o'zi joylaydi.
+
+Avval «Namoz vaqtlari»ni ochamiz.
+
+Yoqilgan bo'lsa, bot har namozdan keyin vaqtlarni rasm bilan joylaydi.
+
+Rasm tagidagi matnni o'zingizga moslab o'zgartirishingiz mumkin.
+
+«Namunani o'zimga yuborish» bilan natijani oldindan ko'ring.
+
+«Ob-havo» bo'limi har kuni o'n ikki viloyat ob-havosini rasmda yuboradi.
+
+«Dollar kursi» esa banklardagi kursni kuzatadi va u o'zgarganda post qiladi.
+
+Har bir bo'limda hammasi bir xil: yoqish, matnni sozlash va namunani ko'rish.
+
+Keyingi darsda YouTube'dan avtomatik postni ko'ramiz. Ko'rishguncha!
+```
+
+## 20-dars: YouTube avtopost
+
+Video: `20_youtube_avtopost.mp4` · taxminan 38 soniya
+
+```
+TartibOn darslari.
+
+Yigirmanchi dars — YouTube va saytlardan avtomatik post.
+
+«Rejalashtirilgan postlar» bo'limini oching.
+
+Pastda «Sayt yoki YouTube'dan avtomatik post» qismi bor.
+
+Kanalingizni tanlang va YouTube kanal havolasini kiriting.
+
+«Qo'shish» tugmasini bosing.
+
+Endi YouTube'da yangi video chiqishi bilan bot uni kanalingizga sarlavha va havola bilan joylaydi.
+
+Xuddi shunday sayt yoki blogning RSS havolasini ham qo'shish mumkin.
+
+Shu bilan darslarimiz yakunlandi!
+
+Endi TartibOn bilan kanal va guruhlaringizni oson boshqarasiz.
+
+Savollaringiz bo'lsa, botga yozing. Omad!
 ```
 
