@@ -8100,6 +8100,38 @@ body.hxn nav.tbar{display:flex}
 nav.tbar a{position:relative;font-size:11.5px;padding:4px 0 9px}nav.tbar a svg{width:24px;height:24px}
 nav.tbar a.on svg{fill:none;stroke:var(--ac)}nav.tbar a.on:after{content:'';position:absolute;left:50%;bottom:1px;width:30px;height:3px;margin-left:-15px;border-radius:2px;background:var(--ac)}
 html.dark nav.tbar{box-shadow:0 12px 32px rgba(0,0,0,.55)}
+
+/* ---------- iOS uslubidagi ochiladigan bo'limlar (akkordeon) ---------- */
+.acl{background:var(--cd);border-radius:22px;margin:0 0 14px;overflow:hidden}
+.ac{position:relative}
+.ac+.ac:before{content:"";position:absolute;left:66px;right:0;top:0;height:.5px;background:var(--ln);z-index:1}
+.acr{display:flex;align-items:center;gap:14px;padding:11px 14px 11px 16px;min-height:58px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.acr:active{background:var(--in)}
+.aci{flex:none;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.35)}
+.aci svg{width:21px;height:21px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.aci i{font-style:normal;font-size:19px;line-height:1}
+.act{flex:1;min-width:0;font-size:17px;font-weight:500;color:var(--tx);line-height:1.25}
+.act small{display:block;font-size:13px;font-weight:400;color:var(--sub);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acv{flex:none;font-size:15px;color:var(--sub)}
+.acc{flex:none;width:9px;height:15px;transition:transform .28s cubic-bezier(.3,.8,.3,1);opacity:.55}
+.acc path{fill:none;stroke:var(--sub);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ac.open>.acr .acc{transform:rotate(90deg)}
+.acb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.3,.8,.3,1),visibility 0s .3s;visibility:hidden}
+.ac.open>.acb{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .3s cubic-bezier(.3,.8,.3,1),visibility 0s}
+.acbi{min-height:0;overflow:hidden}
+.acbp{padding:6px 16px 16px 16px}
+.ac.open>.acr{padding-bottom:9px}
+.acx{background:none!important;padding:0!important;box-shadow:none!important;border-radius:0!important;margin:0 0 4px!important}
+.acx>.chd{background:var(--cd);border-radius:22px;padding:14px 16px;margin:0 0 14px}
+.acx>.acl:last-child{margin-bottom:6px}
+.acp{background:none;padding:0;margin:0 0 14px}
+.pg .acbp .card{background:var(--in);box-shadow:none}
+.pg .acbp>.sub:first-child{margin-top:0}
+.acbp .lr.in:first-child{border-top:0}
+.acbp>div[style*="border-top"]{border-top:0!important;margin-top:0!important;padding-top:0!important}
+.acbp>.row[onclick^="gdt"]:first-child{margin-top:0!important;border-top:0!important}
+.acx>.row,.acx>.sub{padding-left:2px;padding-right:2px}
+.acbp>.btn:last-child,.acbp>div>.btn:last-child{margin-bottom:0}
 </style>
 <!-- TartibOn intro: ilova har ochilganda ko'rsatiladi -->
 <script>document.documentElement.classList.add("sp-intro")</script></head><body>
@@ -8966,4 +8998,116 @@ function hdr(u){var a=$('ava');if(!a)return;a.textContent=String(u.first_name||u
 function bnk(){go('home');setTimeout(function(){var e=$('bnk');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});else toast('Bank kurslari hali kiritilmagan')},80)}
 function mkNow(){toast('Yangilanmoqda...');var run=function(){api('adm_mkb',{on:MKB.on?1:0,urls:MKB.urls||'',int:MKB.int||15,run:1}).then(function(j){if(!j.ok)return;MKB=j.mkb;MBK=j.banks;api('adm_tb',{run:1}).then(function(t){if(t.ok)TBK=t.tb});toast(j.msg&&j.msg.indexOf('OK')===0?'Yangilandi ✅':(j.msg||'Yangilanmadi'));api('rates').then(function(r){if(r.ok)draw(r)})})};if(MKB)run();else api('adm_banks').then(function(j){if(j.ok){MBK=j.banks;MKB=j.mkb;TBK=j.tb;XBK=j.xb;run()}})}
 load();
+/* ---------- iOS akkordeon: sahifa bo'limlarini qatorlarga guruhlash ---------- */
+var ACS={
+ my:[{sel:'#chl>.card',m:'sh2',def:0}],
+ st:[{sel:'#stb>.card:not(.row)',m:'item',def:0}],
+ po:[{sel:'#pob>.card',m:'title',def:0},{sel:'#poc>.card',m:'fix',t:'🗓 Kalendar'},{sel:'#pox>.card',m:'title'}],
+ bal:[{sel:'#balb>.card',m:'title',skip:/^Sizning balansingiz/}],
+ gw:[{sel:'#gwb>.card, #gcb>.card',m:'title',def:0}],
+ ads:[{sel:'#adsb>.card',m:'title',skip:/^Balans/}],
+ chats:[{sel:'#p-chats>.card',m:'title',def:0}],
+ pdp:[{m:'custom',f:'pdp'}],
+ gd:[{sel:'#gdb>.card',m:'gd'}],
+ rf:[{sel:'#rfb>.card',m:'item',only:/Havolamni olish/},{sel:'#rfb>h1+.card',m:'fixprev'}],
+ psj:[{sel:'#sjb>.card',m:'title',skip:/^Avtomatik test/}],
+ pnm:[{sel:'#ucw_c>.card',m:'title'}],
+ pwx:[{sel:'#wab>.card, #ucw_w>.card',m:'title'}],
+ pcb:[{sel:'#ucw_a>.card',m:'title'}],
+ sale:[{sel:'#saleb>.card',m:'title',only:/^➕/}],
+ auc:[{sel:'#aub>.card',m:'title',only:/^🛒/}],
+ rt:[{sel:'#rtb>.card',m:'title'}],
+ vz:[{sel:'#vzb>.card',m:'item',only:/Katalogda ko'rsatish/}]
+};
+var ACE={
+ '➕':['#34c759','#22a64a','M12 5v14M5 12h14'],'➖':['#ff9500','#e07d00','M5 12h14'],
+ '🗓':['#5ac8fa','#2f9ee0','M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3zM4 10h16M9 3v3M15 3v3'],
+ '📰':['#ff6b57','#e0452f','M5 5h11a2 2 0 0 1 2 2v12H7a2 2 0 0 1-2-2zM18 9h2v8a2 2 0 0 1-2 2M8 9h7M8 13h7M8 16h4'],
+ '⏱':['#af52de','#8a3fc0','M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM12 9v4l2.5 2M9.5 2.5h5'],
+ '🔗':['#af52de','#8a3fc0','M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1'],
+ '💰':['#34c759','#22a64a','M3 8a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM3 9h18M16 14.5h2'],
+ '🤝':['#34c759','#22a64a','M3 12l4-4 4 3 3-3 4 3 3-2M3 12l5 5a2 2 0 0 0 3 0l1-1M11 17l3 3a2 2 0 0 0 3 0l4-4'],
+ '🎁':['#ff2d55','#d81b44','M4 10h16v10H4zM3 7h18v3H3zM12 7v13M12 7C10 3 6 4 8 7M12 7c2-4 6-3 4 0'],
+ '🔑':['#ff9500','#e07d00','M8 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 13l9-9M16 8l2 2M14 10l2 2'],
+ '✍':['#ffcc00','#e0a800','M4 20l4-1 11-11a2.1 2.1 0 0 0-3-3L5 16zM14 7l3 3'],
+ '🧷':['#5856d6','#4140b8','M5 7h14M5 12h14M5 17h9'],
+ '⏸':['#8e8e93','#6f6f77','M8 6v12M16 6v12'],
+ '📊':['#32ade6','#1a8cc4','M5 20V10M12 20V4M19 20v-7'],
+ '🔐':['#8e8e93','#6f6f77','M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3'],
+ '📣':['#ff9500','#e07d00','M4 10v4h3l7 4V6L7 10zM17 9.5a3.5 3.5 0 0 1 0 5'],
+ '🏷':['#ff3b30','#d6281f','M3 12V4h8l10 10-8 8zM7.5 8.5h.01'],
+ '👥':['#34c759','#22a64a','M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20a6 6 0 0 1 12 0M16 11a3 3 0 1 0 0-6M17 14a6 6 0 0 1 4 6'],
+ '📢':['#2f80ed','#1d63c8','M21.4 3.3 2.9 10.5c-1 .4-.9 1.7.1 2l4.6 1.4 1.8 5.5c.3.8 1.3 1 1.9.4l2.6-2.6 4.8 3.5c.7.5 1.6.1 1.8-.7L23 4.6'],
+ '⚙':['#8e8e93','#6f6f77','M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12l2-1-2-3.4-2.2.6a7 7 0 0 0-1.6-.9L14.6 5h-4l-.6 2.3c-.6.2-1.1.5-1.6.9L6.2 7.6 4 11l2 1a7 7 0 0 0 0 1.9L4 15l2 3.4 2.2-.6c.5.4 1 .7 1.6.9l.6 2.3h4l.6-2.3c.6-.2 1.1-.5 1.6-.9l2.2.6 2-3.4-2-1c.1-.6.1-1.3 0-1.9'],
+ '🏆':['#ffb800','#e09a00','M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M10 17h4'],
+ '🚀':['#5856d6','#4140b8','M12 3c3 2 5 5 5 9l-2 3H9l-2-3c0-4 2-7 5-9zM9 15l-3 3M15 15l3 3M12 9.5h.01'],
+ '🛒':['#34c759','#22a64a','M4 5h2l2 11h10l2-8H7M10 20h.01M17 20h.01'],
+ '📋':['#5ac8fa','#2f9ee0','M9 4h6v3H9zM7 5.5H6a2 2 0 0 0-2 2V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5a2 2 0 0 0-2-2h-1M8 12h8M8 16h6'],
+ '🌅':['#ff9500','#e07d00','M3 18h18M7 18a5 5 0 0 1 10 0M12 4v3M5 9l2 2M19 9l-2 2'],
+ '🌙':['#5856d6','#4140b8','M20 14a8 8 0 1 1-9.5-10.5A6.5 6.5 0 0 0 20 14z'],
+ '⚡':['#ffcc00','#e0a800','M13 3L5 13h6l-1 8 8-10h-6z'],
+ '🎯':['#ff3b30','#d6281f','M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 12h.01'],
+ '🔎':['#2f80ed','#1d63c8','M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM16 16l5 5'],
+ '💵':['#34c759','#22a64a','M3 7h18v10H3zM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'],
+ '👤':['#8e8e93','#6f6f77','M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0'],
+ '🎉':['#ff2d55','#d81b44','M5 20l4-11 7 7zM13 4l.5 2M18 7l-1.5 1M19 13l-2-.5'],
+ '🕌':['#34c759','#22a64a','M4 20V11h16v9M12 4c-3 2-3 5-3 7h6c0-2 0-5-3-7zM8 20v-5h8v5'],
+ '🌤':['#5ac8fa','#2f9ee0','M7 18a4 4 0 1 1 1-7.9A5 5 0 0 1 17.5 11 3.5 3.5 0 0 1 17 18zM8 4v2M3 8l1.5 1'],
+ '🧩':['#af52de','#8a3fc0','M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z'],
+ '📨':['#2f80ed','#1d63c8','M3 6h18v12H3zM3 7l9 6 9-6'],
+ '🔔':['#ff3b30','#d6281f','M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0'],
+ '🛡':['#ff9500','#e07d00','M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6zM9 12l2 2 4-4'],
+ '🔥':['#ff3b30','#d6281f','M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 0-6 1-9z']
+};
+var ACP=[['#2f80ed','#1d63c8'],['#34c759','#22a64a'],['#ff9500','#e07d00'],['#af52de','#8a3fc0'],['#ff2d55','#d81b44'],['#5ac8fa','#2f9ee0'],['#5856d6','#4140b8']];
+var ACN={'Avtomatik xabarlar':'🔔','Kimga e\'lon beramiz?':'📢','Himoya qoidalari':'🛡'};
+function accIcon(t){var kc=t.match(/^\s*([0-9])\uFE0F?\u20E3\s*/);if(kc){var g=ACP[(+kc[1])%ACP.length];return {h:'<span class="aci" style="background:linear-gradient(160deg,'+g[0]+','+g[1]+')"><i style="color:#fff;font-weight:700;font-size:18px">'+kc[1]+'</i></span>',t:t.slice(kc[0].length).trim()}}
+ var nm=ACN[t.trim()];if(nm)t=nm+' '+t.trim();var m=t.match(/^\s*(\p{Extended_Pictographic}|[☀-➿]|[⬀-⯿])(️|‍)?/u),k=m?m[1]:'',rest=m?t.slice(m[0].length).trim():t.trim();
+ var e=ACE[k]||null,h=0,i;if(!e){for(i=0;i<rest.length;i++)h=(h*31+rest.charCodeAt(i))>>>0;var c=ACP[h%ACP.length];e=[c[0],c[1],'M5 7h14M5 12h14M5 17h9'];if(!k||!m)e=[c[0],c[1],null]}
+ var bg='linear-gradient(160deg,'+e[0]+','+e[1]+')',inner=e[2]?'<svg viewBox="0 0 24 24"><path d="'+e[2]+'"/></svg>':'<i style="color:#fff;font-weight:700;font-size:17px">'+esc((rest[0]||'•').toUpperCase())+'</i>';
+ return {h:'<span class="aci" style="background:'+bg+'">'+inner+'</span>',t:rest}}
+function accTitleOf(el){var b=el.querySelector('.sh2,h1,h3,b');return b?(b.textContent||'').replace(/\s+/g,' ').trim():''}
+function accRow(pgid,title,nodes,open,val,hold){var ic=accIcon(title),key=pgid+'|'+ic.t,d=document.createElement('div');d.className='ac'+(open?' open':'');d.dataset.k=key;
+ d.innerHTML='<div class="acr" role="button" tabindex="0">'+ic.h+'<span class="act">'+esc(ic.t)+'</span>'+(val?'<span class="acv">'+esc(val)+'</span>':'')+'<svg class="acc" viewBox="0 0 9 15"><path d="M1.5 1.5l6 6-6 6"/></svg></div><div class="acb"><div class="acbi"><div class="acbp"></div></div></div>';
+ var body=d.querySelector('.acbp');nodes.forEach(function(n){body.appendChild(n)});
+ if(hold&&hold.length){var hh=document.createElement('div');hh.className='ach';hh.style.display='none';hold.forEach(function(x){if(x)hh.appendChild(x)});d.appendChild(hh);var f0=hold[0];if(f0&&f0.id){d.dataset.fbid=f0.id;d.dataset.tt=(f0.textContent||'').replace(/\s+/g,' ').trim()}}
+ var hd=d.querySelector('.acr');var tg=function(ev){if(ev&&ev.type==='keydown'&&ev.key!=='Enter'&&ev.key!==' ')return;if(ev)ev.preventDefault&&ev.preventDefault();accToggle(d)};hd.addEventListener('click',tg);hd.addEventListener('keydown',tg);return d}
+function accToggle(d){var pg=d.closest('.pg'),was=d.classList.contains('open');if(pg)pg.querySelectorAll('.ac.open').forEach(function(x){x.classList.remove('open')});
+ if(!was){d.classList.add('open');ACC.open[pg?pg.id:'']=d.dataset.k;try{Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
+  setTimeout(function(){var r=d.getBoundingClientRect();if(r.top<96||r.top>innerHeight*0.55)window.scrollTo({top:Math.max(0,window.scrollY+r.top-100),behavior:'smooth'})},120)}else ACC.open[pg?pg.id:'']=''}
+var ACC={open:{}};
+function accCustom(pg,f){
+ if(f==='pdp'){var d=pg.querySelector('.tq-days');if(!d||d.dataset.acc)return;d.dataset.acc='1';var btn=d.nextElementSibling,h2=null,n=btn,ev=[];
+  var all=[].slice.call(pg.children),ix=all.indexOf(btn);h2=all.slice(ix+1).find(function(e){return e.tagName==='H1'});
+  var hix=all.indexOf(h2),rest=all.slice(hix+1);if(h2)pg.removeChild(h2);
+  var grp=document.createElement('div');grp.className='acl';
+  grp.appendChild(accRow(pg.id,'🌅 Tongi xabar',[d,btn],true));grp.appendChild(accRow(pg.id,'🌙 Kechki xabar',rest,false));
+  var first=pg.querySelector('p.sub');if(first&&first.nextSibling)pg.insertBefore(grp,first.nextSibling);else pg.appendChild(grp)}}
+function accBuild(pg){var sp=ACS[pg.id.replace(/^p-/,'')];if(!sp)return;var pid=pg.id,txt=function(e){return (e.textContent||'').replace(/\s+/g,' ').trim()};
+ [].slice.call(pg.querySelectorAll('.ac[data-fbid]')).forEach(function(d){var f=document.getElementById(d.dataset.fbid);if(!f)return;var t=txt(f);if(t!==d.dataset.tt){d.dataset.tt=t;var ic=accIcon(t),a=d.querySelector('.aci'),n=d.querySelector('.act');if(a&&n){a.outerHTML=ic.h;n.textContent=ic.t}}});
+ sp.forEach(function(S){if(S.m==='custom'){accCustom(pg,S.f);return}
+  [].slice.call(pg.querySelectorAll(S.sel)).forEach(function(c,ci){if(c.dataset.acc||c.closest('.acl'))return;
+  var kids=[].slice.call(c.children),secs=[],drop=[],ct=txt(c);
+  if(S.only&&!S.only.test(ct))return;if(S.skip&&S.skip.test(ct))return;
+  if(S.m==='sh2'){var cur=null;kids.forEach(function(k){if(k.classList.contains('sh2')){cur={t:txt(k),n:[],h:[k]};secs.push(cur);drop.push(k)}else if(cur)cur.n.push(k)})}
+  else if(S.m==='fix'){secs.push({t:S.t,n:kids})}
+  else if(S.m==='fixprev'){var pv=c.previousElementSibling;if(!pv||pv.tagName!=='H1')return;secs.push({t:txt(pv),n:kids,h:[pv]});pv.parentNode.removeChild(pv)}
+  else if(S.m==='item'){var h=c.querySelector('.row'),b=h&&h.querySelector('b'),u=h&&h.querySelector('.sub'),big=c.querySelector('[style*="font-size:30px"]');
+   if(!h||!b)return;secs.push({t:txt(b),n:kids.filter(function(k){return k!==h&&k!==big}),v:(big?txt(big)+' ':'')+(u?txt(u):''),h:[b,h,big]});drop.push(h);if(big)drop.push(big)}
+  else if(S.m==='gd'){var rows=[],pre=[],on=0;kids.forEach(function(k){var oc=k.getAttribute&&k.getAttribute('onclick')||'';
+    if(k.classList.contains('row')&&/^gdt\(/.test(oc)){rows.push(k);if(k.querySelector('.sw.on'))on++}
+    else if(!rows.length)pre.push(k);
+    else{var b=k.querySelector('b');if(b){secs.push({t:txt(b),n:[k],db:b})}}});
+   if(rows.length)secs.unshift({t:'🛡 Himoya qoidalari',n:rows,v:on+'/'+rows.length});
+   secs.forEach(function(sc){if(sc.db)sc.h=[sc.db]})}
+  else{var fb=kids[0];if(!fb||!(fb.tagName==='B'||fb.classList.contains('sh2')||fb.tagName==='H3'))return;secs.push({t:txt(fb),n:kids.slice(1),h:[fb]});drop.push(fb)}
+  if(!secs.length)return;c.dataset.acc='1';drop.forEach(function(d){if(d.parentNode===c)c.removeChild(d)});
+  var grp=document.createElement('div');grp.className='acl';
+  if(S.m==='sh2'||S.m==='gd'){c.classList.add('acx')}else{c.classList.remove('card');c.classList.add('acp')}
+  var want=ACC.open[pid];
+  secs.forEach(function(sc,si){var key=pid+'|'+accIcon(sc.t).t,op=want!==undefined?(want===key):(S.def!==undefined&&ci===0&&si===S.def);grp.appendChild(accRow(pid,sc.t,sc.n,op,sc.v,sc.h))});
+  c.appendChild(grp)})})}
+var _goAcc=go;go=function(){var r=_goAcc.apply(this,arguments);accSoon();return r};
+var accT=0;function accSoon(){clearTimeout(accT);accT=setTimeout(function(){var pg=document.querySelector('.pg.on');if(pg){try{accBuild(pg)}catch(e){}}},50)}
+try{new MutationObserver(accSoon).observe(document.body,{childList:true,subtree:true})}catch(e){}
 </script></body></html>
