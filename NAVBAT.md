@@ -10,3 +10,4 @@ Foydalanuvchi tanlagan, hali bajarilmagan ishlar (tartib bo'yicha):
 6. Post muharriri — formatlash, emoji, Telegram ko'rinishida oldindan ko'rish, media kutubxona.
 7. Reklama birjasida pul kafolati — pul reklama belgilangan vaqt turgandan keyin sotuvchiga o'tadi; «Nizo ochish».
 8. ✅ Tasdiqlangan kanal belgisi — bozor, birja va o'zaro reklamada ishonch uchun.
+9. YouTube → kanal avtopost — YouTube kanal havolasi kiritiladi, yangi video chiqqanda bot kanalga sarlavha, rasm va havola bilan post joylaydi (mavjud RSS imkoniyati asosida).
