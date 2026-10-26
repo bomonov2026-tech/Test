@@ -1,6 +1,6 @@
 # 1-dars: Kanal qo'shish — diktor matni (ElevenLabs)
 
-Video uzunligi taxminan **54 soniya**. Har bir bo'lak videodagi sahnaga mos keladi.
+Tayyor ovozli video: `01_kanal_qoshish.mp4` (39 soniya, ovoz: Dilnoza). Pastdagi vaqtlar dastlabki ovozsiz namuna uchun edi. Har bir bo'lak videodagi sahnaga mos keladi.
 
 ## ElevenLabs'ga qo'yiladigan matn (to'liq)
 
