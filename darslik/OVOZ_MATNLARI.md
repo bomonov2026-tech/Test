@@ -136,3 +136,247 @@ Rejalashtirilgan postlar kalendarda ko'rinadi.
 Keyingi darsda tongi xabar va bayram tabriklarini ko'ramiz. Ko'rishguncha!
 ```
 
+## 5-dars: Tongi xabar va bayramlar
+
+Video: `05_tongi_xabar_va_bayramlar.mp4` · taxminan 46 soniya
+
+```
+TartibOn darslari.
+
+Beshinchi dars — tongi xabar va bayram tabriklari.
+
+Bosh sahifadan «Tongi xabar» bo'limini oching.
+
+Bot har kuni ertalab kanal va guruhlaringizga tongi tabrik yuboradi.
+
+Qaysi kunlari yuborilishini o'zingiz tanlaysiz.
+
+Masalan, yakshanba kerak bo'lmasa, o'chirib qo'ying.
+
+«O'zimga yuborish» tugmasi bilan bugungi xabarni oldindan ko'ring.
+
+Kechqurun esa «Xayrli tun» xabari ketadi. Uni ham shu yerda yoqasiz.
+
+Endi «Bayram tabriklari» bo'limiga o'tamiz.
+
+Har Juma va bayram kunlari bot kanalingizga video tabrik joylaydi.
+
+Har bir bayram tabrigini «Namuna» tugmasi bilan ko'rish mumkin.
+
+Pastda tabrik qaysi kanal va guruhlarga borishini belgilaysiz.
+
+Keyingi darsda statistikani ko'ramiz. Ko'rishguncha!
+```
+
+## 6-dars: Statistika
+
+Video: `06_statistika.mp4` · taxminan 36 soniya
+
+```
+TartibOn darslari.
+
+Oltinchi dars — statistika.
+
+Bosh sahifadan «Statistika» bo'limini oching.
+
+Har bir kanal va guruhingiz uchun alohida karta chiqadi.
+
+Bu yerda obunachilar soni, kechagi va haftalik o'sish ko'rinadi.
+
+Grafikda so'nggi 14 kunlik o'zgarish: qancha odam kirdi va qancha chiqdi.
+
+«Excel yuklab olish» tugmasi bilan hisobotni faylga olasiz.
+
+«Haftalik hisobot»ni yoqsangiz, har dushanba bot sizga natijalarni yuboradi.
+
+Statistika bot administrator bo'lgan kundan boshlab yig'iladi.
+
+Keyingi darsda konkurs o'tkazishni o'rganamiz. Ko'rishguncha!
+```
+
+## 7-dars: Konkurs
+
+Video: `07_konkurs.mp4` · taxminan 43 soniya
+
+```
+TartibOn darslari.
+
+Yettinchi dars — konkurs.
+
+Bosh sahifadan «Konkurs» bo'limini oching.
+
+Avval konkurs qaysi kanalda e'lon qilinishini tanlang.
+
+So'ng sovrin va shartlarni yozing.
+
+Qatnashish sharti — qaysi kanalga obuna bo'lish kerakligini belgilang.
+
+G'oliblar soni va yakunlanish vaqtini kiriting.
+
+«Konkursni boshlash» tugmasini bosing. Post tugma bilan kanalga chiqadi.
+
+Qatnashchilar tugmani bosadi, bot esa ularning obunasini tekshiradi.
+
+Vaqt tugaganda g'oliblar tasodifiy tanlanadi va e'lon qilinadi.
+
+Yana bir usul — «Sovg'a kodi»: kanalga yashirin kod chiqadi, uni birinchi yuborganlar yutadi.
+
+Keyingi darsda testlar va Prava bo'limini ko'ramiz. Ko'rishguncha!
+```
+
+## 8-dars: Testlar va Prava
+
+Video: `08_testlar_va_prava.mp4` · taxminan 50 soniya
+
+```
+TartibOn darslari.
+
+Sakkizinchi dars — testlar va Prava.
+
+Bosh sahifadan «Testlar» bo'limini oching.
+
+Bot kanal yoki guruhingizga avtomatik test savollarini yuboradi.
+
+Avval guruhni tanlang va avtomatik testni yoqing.
+
+Test turini tanlang: savol-javob yoki Prava testi.
+
+So'ng bo'limni tanlang: maktab, litsey, oliy ta'lim yoki boshqa imtihonlar.
+
+Savollar soni, oralig'i va javob vaqtini belgilab, «Saqlash»ni bosing.
+
+Endi bosh sahifadagi «Prava» bo'limini ochamiz.
+
+Bu — haydovchilik guvohnomasi imtihoniga bepul tayyorgarlik.
+
+Haqiqiy imtihondek: yigirmata savol va yigirma besh daqiqa vaqt.
+
+Javobni tanlang — to'g'ri yoki noto'g'riligi darhol ko'rinadi.
+
+Biletlar, mavzular va xatolaringiz ustida alohida ishlash ham mumkin.
+
+Keyingi darsda pullik kanallarni ko'ramiz. Ko'rishguncha!
+```
+
+## 9-dars: Pullik kanallar
+
+Video: `09_pullik_kanallar.mp4` · taxminan 52 soniya
+
+```
+TartibOn darslari.
+
+To'qqizinchi dars — pullik kanallar.
+
+Bosh sahifadan «Pullik kanallar» bo'limini oching.
+
+Bu yerda yopiq, pullik kanal va guruhlar ro'yxati.
+
+Har birida narx va tavsif bor. Uzoq muddatga olsangiz, chegirma bo'ladi.
+
+Ba'zi kanallarni uch kun bepul sinab ko'rish ham mumkin.
+
+Paketni tanlang — to'lov balansingizdan yechiladi.
+
+Kirish havolasini bot sizga yuboradi. Muddat tugaganda bot sizni o'zi chiqaradi.
+
+Kanal egasi bo'lsangiz, o'z kanalingizni ham pullik qilishingiz mumkin.
+
+«Pullik obuna» qismida «Sozlash» tugmasini bosing.
+
+Oylik narx, tavsif, paket chegirmalari va bepul sinov kunlarini kiriting.
+
+«Saqlash»ni bosing — kanalingiz ro'yxatda paydo bo'ladi.
+
+Obunachi to'lagan pul xizmat haqi ayirilib, balansingizga tushadi.
+
+Keyingi darsda «Qo'llab-quvvatlash» tugmasini ko'ramiz. Ko'rishguncha!
+```
+
+## 10-dars: Qo'llab-quvvatlash tugmasi
+
+Video: `10_qollab_quvvatlash_tugmasi.mp4` · taxminan 40 soniya
+
+```
+TartibOn darslari.
+
+O'ninchi dars — «Qo'llab-quvvatlash» tugmasi.
+
+Bu tugma orqali obunachilar kanalingizni pul bilan qo'llab-quvvatlaydi.
+
+«Kanallarim»da «Post tagidagi doimiy tugmalar» qismini toping.
+
+«Do'stga ulashish» va «Qo'llab-quvvatlash» tugmalarini yoqing.
+
+So'ng «Tugmalarni saqlash»ni bosing.
+
+Endi kanalingizdagi har bir yangi post tagida shu tugmalar chiqadi.
+
+Obunachi «Qo'llab-quvvatlash»ni bosadi va summani tanlaydi.
+
+Summa uning balansidan yechiladi va xizmat haqi ayirilib, sizga tushadi.
+
+Har bir xayriya haqida bot sizga darhol xabar beradi.
+
+Keyingi darsda reklama birjasini ko'ramiz. Ko'rishguncha!
+```
+
+## 11-dars: Reklama birjasi
+
+Video: `11_reklama_birjasi.mp4` · taxminan 48 soniya
+
+```
+TartibOn darslari.
+
+O'n birinchi dars — reklama birjasi.
+
+Bosh sahifadan «Reklama birjasi» bo'limini oching.
+
+Bu yerda kanallarning reklama joylari: obunachilar soni, format va narx ochiq ko'rinadi.
+
+Kanalni tanlab, «Reklama berish» tugmasini bosing.
+
+Reklama matnini yozing.
+
+«To'lash va yuborish»ni bosing. Summa balansingizdan band qilinadi.
+
+Kanal egasi reklamani joylaydi. Yigirma to'rt soatda javob bo'lmasa, pul qaytadi.
+
+Pul sotuvchiga faqat reklama belgilangan vaqt turgandan keyin o'tadi. Bu — pul kafolati.
+
+Muammo bo'lsa, «Nizo ochish» tugmasi bor — admin adolatli hal qiladi.
+
+O'z kanalingiz reklama joyini sotish uchun «Kanallarim»da «Reklama birjasi»ni sozlang.
+
+Keyingi darsda o'zaro reklama va kanallar reytingini ko'ramiz. Ko'rishguncha!
+```
+
+## 12-dars: O'zaro reklama va reyting
+
+Video: `12_ozaro_reklama_va_reyting.mp4` · taxminan 44 soniya
+
+```
+TartibOn darslari.
+
+O'n ikkinchi dars — o'zaro reklama va kanallar reytingi.
+
+Bosh sahifadan «O'zaro reklama» bo'limini oching.
+
+Bu yerda kanal egalari bir-birini topib, o'zaro reklama kelishadi.
+
+Avval kanalingizni katalogga qo'shing: «Katalogda ko'rsatish»ni yoqing.
+
+Mavzuni tanlang, qisqa tavsif yozing va «Saqlash»ni bosing.
+
+Pastdagi katalogdan mos kanalni toping. Mavzu bo'yicha saralash mumkin.
+
+«Taklif» tugmasini bosing — kanal egasiga xabar boradi.
+
+Endi «Kanallar reytingi» bo'limiga o'tamiz.
+
+Bu yerda so'nggi yetti kunda eng tez o'sgan kanallar.
+
+Kanalingiz o'sgani sari reytingda yuqoriga ko'tariladi.
+
+Keyingi darsda Telegram kanal savdosini ko'ramiz. Ko'rishguncha!
+```
+
