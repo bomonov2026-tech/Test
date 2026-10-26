@@ -2515,13 +2515,21 @@ function g_logo(&$rows, $H, $x, $y, $bank, $sz) {   /* logotipni sz x sz ga kich
 }
 function g_short($n) { return strtr($n, array('Orient Finans bank' => 'Orient Finans', 'Milliy bank (NBU)' => 'Milliy bank', "Ipak Yo'li bank" => "Ipak Yo'li")); }
 /* C dizayn: ikki ustunli qorong'i kvadrat jadval (Telegram'da xira chetsiz). $W x $H — bank kam bo'lsa balandlik qisqaradi */
-function card_grid($D, $bb, $bs, $W, $H, $fn, $fv, $head = 1) {
+function card_theme($k) {   /* kvadrat jadval ranglari: A — oq, B — ko'k, C — qorong'i */
+    $T = array(
+        'A' => array('bg1' => array(255, 255, 255), 'bg2' => array(238, 243, 251), 'ink' => array(15, 27, 61), 'mut' => array(118, 132, 166), 'acc' => array(217, 119, 6), 'buy' => array(22, 163, 74), 'sell' => array(220, 38, 38), 'line' => array(226, 232, 243), 'edge' => array(222, 229, 242)),
+        'B' => array('bg1' => array(54, 138, 242), 'bg2' => array(22, 102, 218), 'ink' => array(255, 255, 255), 'mut' => array(212, 228, 255), 'acc' => array(255, 224, 102), 'buy' => array(190, 255, 210), 'sell' => array(255, 208, 208), 'line' => array(96, 160, 240), 'edge' => null),
+        'C' => array('bg1' => array(22, 33, 66), 'bg2' => array(10, 16, 36), 'ink' => array(255, 255, 255), 'mut' => array(140, 155, 190), 'acc' => array(245, 197, 66), 'buy' => array(74, 222, 128), 'sell' => array(248, 113, 113), 'line' => array(38, 50, 86), 'edge' => null),
+    );
+    return isset($T[$k]) ? $T[$k] : $T['C'];
+}
+function card_grid($D, $bb, $bs, $W, $H, $fn, $fv, $head = 1, $th = 'C') {
     $per0 = (int)ceil(count($D) / 2); $H = (int)min($H, 150 + 76 + 40 + $per0 * 104);   /* bank kam — qatorlar 104 px dan oshmaydi */
     $rows = array_fill(0, $H, str_repeat(chr(239) . chr(239) . chr(244), $W)); $t = px_tools($rows, $W, $H); $T = $t['T']; $rr = $t['rr']; $span = $t['span'];
-    $gold = array(245, 197, 66); $white = array(255, 255, 255); $mut = array(140, 155, 190); $green = array(74, 222, 128); $red = array(248, 113, 113); $line = array(38, 50, 86);
-    $rr(0, 0, $W, $H, 0, array(22, 33, 66), array(10, 16, 36));
+    $P = card_theme($th); $gold = $P['acc']; $white = array(255, 255, 255); $ink = $P['ink']; $mut = $P['mut']; $green = $P['buy']; $red = $P['sell']; $line = $P['line'];
+    $rr(0, 0, $W, $H, 0, $P['bg1'], $P['bg2']);
     $m = gl_meta() + gl2_meta(); $tw = function ($f, $s) use ($m) { $w = 0; foreach (preg_split('//u', $s, -1, PREG_SPLIT_NO_EMPTY) as $ch) $w += isset($m[$f][$ch]) ? $m[$f][$ch][0] : 0; return $w; };
-    $pad = 56; $T('IB58', 'Dollar kursi', $pad, 92, $white);
+    $pad = 56; $T('IB58', 'Dollar kursi', $pad, 92, $ink);
     $T('IM24', 'Banklarda olish va sotish narxi', $pad + $tw('IB58', 'Dollar kursi') + 28, 70, $mut);
     $T('IM24', 'USD ' . "\xC2\xB7" . ' ' . date('d.m.Y'), $pad + $tw('IB58', 'Dollar kursi') + 28, 100, $gold);
     for ($k = 0; $k < 4; $k++) $span(116 + $k, $pad, $pad + 150, $gold);
@@ -2539,11 +2547,12 @@ function card_grid($D, $bb, $bs, $W, $H, $fn, $fv, $head = 1) {
             $k = $col * $per + $i; if (!isset($D[$k])) break; $b = $D[$k];
             $y = $top + 40 + $i * $RH; if ($i) $span((int)$y, (int)$x0, (int)($x0 + $cw), $line);
             $cy = $y + $RH / 2; $tx = $x0 + 4;
+            if ($P['edge']) $rr($tx - 2, $cy - $ts / 2 - 2, $ts + 4, $ts + 4, $ts / 4 + 2, $P['edge']);
             $rr($tx, $cy - $ts / 2, $ts, $ts, $ts / 4, $white);
             if (!g_logo($rows, $H, $tx + ($ts - $ls) / 2, $cy - $ls / 2, $b[0], $ls)) { $t['dot']($tx + $ts / 2, $cy, $ls / 2, array(47, 128, 237)); $T('IS30', mb_substr($b[0], 0, 1), $tx + $ts / 2, $cy + 11, $white, 'c'); }
             $name = g_short($b[0]); $fz = $fn;
             $base = $cy + ($fz === 'IB40' ? 14 : 11);
-            $T($fz, $name, $tx + $ts + 14, $base, $white);
+            $T($fz, $name, $tx + $ts + 14, $base, $ink);
             $vb = $cy + ($fv === 'IB40' ? 14 : 11);
             $T($fv, n0($b[1]), $buyR, $vb, $b[1] == $bb ? $gold : $green, 'r'); $T($fv, n0($b[2]), $sellR, $vb, $b[2] == $bs ? $gold : $red, 'r');
         }
@@ -2558,9 +2567,7 @@ function png_card($style = null) {
     $D = card_rows(); if (!$D) { $CARD_ERR = "Banklarda dollar kursi bazada yo'q"; return false; }
     $bb = max(array_map(function ($x) { return $x[1]; }, $D)); $bs = min(array_map(function ($x) { return $x[2]; }, $D));
     $st = $style ?: setting('card_style', 'C'); if (!in_array($st, array('A', 'B', 'C'), true)) $st = 'C';
-    if ($st === 'A') return card_A($D, $bb, $bs);
-    if ($st === 'C') return card_grid($D, $bb, $bs, 1280, 1280, 'IS30', 'B30');
-    return card_B($D, $bb, $bs);
+    return card_grid($D, $bb, $bs, 1280, 1280, 'IS30', 'B30', 1, $st);   /* A oq, B ko'k, C qorong'i — bir xil kvadrat jadval */
 }
 function card_tile($t, &$rows, $H, $cx, $cy, $name, $edge = null) {   /* oq plitka + logotip; logotip yo'q bo'lsa — rangli doirada bosh harf */
     if ($edge) $t['rr']($cx - 32, $cy - 32, 64, 64, 16, $edge);
@@ -8930,7 +8937,7 @@ function wxo(){var C=WXC.m.cfg;api('adm_wx',{on:!C.on,time:C.time,head:C.head,fo
 function wxs(t){var C=WXC.m.cfg;api('adm_wx',{on:C.on,time:$('wx_time').value,head:$('wx_head').value,foot:$('wx_foot').value}).then(function(j){if(!j.ok)return;WXC.m.cfg=j.cfg;if(t)api('adm_wx_test').then(function(k){if(k.ok)toast('Sizga yuborildi ✅')});else{toast('Saqlandi ✅');wxr()}})}
 var MED=null,MBK=null;
 var CDS=null,CDI='',CDV='';
-function cdcard(){if(CDS===null){CDS='';cdp('',0)}var L=[['A','Oq'],['B','Ko\'k'],['C','Qorong\'i kvadrat']];return '<div class="card"><b>🎨 Kurs rasmi dizayni</b><p class="sub" style="margin:6px 0 8px">Kanal va guruhlarga boradigan «Dollar kursi» rasmi. Tanlang — pastda namunasi chiqadi, «Saqlash» ni bosing.</p><div style="display:flex;gap:8px">'+L.map(function(x){var on=(CDV||CDS)===x[0];return '<button class="btn'+(on?'':' s')+'" style="flex:1" onclick="cdp(\''+x[0]+'\',0)">'+x[0]+' · '+x[1]+'</button>'}).join('')+'</div>'+(CDI?'<img src="'+CDI+'" style="width:100%;border-radius:14px;margin-top:10px">':'<div class="sk" style="margin-top:10px"></div>')+((CDV&&CDV!==CDS)?'<button class="btn" style="width:100%;margin-top:10px" onclick="cdp(\''+CDV+'\',1)">💾 '+CDV+' dizaynini saqlash</button>':'<p class="sub" style="margin-top:8px">✅ Hozirgi dizayn: <b>'+esc(CDS||'C')+'</b></p>')+'</div>'}
+function cdcard(){if(CDS===null){CDS='';cdp('',0)}var L=[['A','Oq kvadrat'],['B','Ko\'k kvadrat'],['C','Qorong\'i kvadrat']];return '<div class="card"><b>🎨 Kurs rasmi dizayni</b><p class="sub" style="margin:6px 0 8px">Kanal va guruhlarga boradigan «Dollar kursi» rasmi. Tanlang — pastda namunasi chiqadi, «Saqlash» ni bosing.</p><div style="display:flex;gap:8px">'+L.map(function(x){var on=(CDV||CDS)===x[0];return '<button class="btn'+(on?'':' s')+'" style="flex:1" onclick="cdp(\''+x[0]+'\',0)">'+x[0]+' · '+x[1]+'</button>'}).join('')+'</div>'+(CDI?'<img src="'+CDI+'" style="width:100%;border-radius:14px;margin-top:10px">':'<div class="sk" style="margin-top:10px"></div>')+((CDV&&CDV!==CDS)?'<button class="btn" style="width:100%;margin-top:10px" onclick="cdp(\''+CDV+'\',1)">💾 '+CDV+' dizaynini saqlash</button>':'<p class="sub" style="margin-top:8px">✅ Hozirgi dizayn: <b>'+esc(CDS||'C')+'</b></p>')+'</div>'}
 function cdp(v,save){api('adm_cardstyle',{s:v,save:save}).then(function(j){if(!j.ok){toast(j.error||'Xato');return}CDS=j.s;CDV=save?'':(v||'');CDI=j.img;if(!j.img&&j.err)toast(j.err);if(save)toast('Saqlandi ✅');if(AV==='manual')av('manual')})}
 var XBK=null,XBR=null;
 function xbcard(){var R=XBR||{};return '<div class="card"><b>🏦 Banklar — avtomatik</b><p class="sub" style="margin:6px 0 8px">Server qaysi bank saytidan dollar olish/sotish kursini ola olishini tekshiring. Ishlaganlarini belgilab saqlang — ular kurs rasmida va ilovada chiqadi, har 15 daqiqada yangilanadi.</p><button class="btn s" style="width:100%" onclick="xbchk()">🔍 Banklarni tekshirish (15–20 soniya)</button><div id="xbm" class="sub" style="margin:6px 0"></div>'+(XBR?'<button class="btn" style="width:100%;margin:4px 0 8px" onclick="xbaniq()">✅ Faqat aniqlarini yoqish va saqlash</button><p class="sub" style="margin:0 0 6px">✅ Aniq — bank sayti va bank.uz da bir xil. ⚠️ — solishtirib bo\'lmadi. ❗ — noto\'g\'ri kurs bo\'lishi mumkin.</p>':'')+XBK.list.map(function(b){var r=R[b.id],st=r?(r.ok?'<b>'+nf(r.buy)+' / '+nf(r.sell)+'</b> · '+({aniq:'<b class="g">✅ Aniq</b>',bitta:'<b style="color:#e6a700">⚠️ Bitta manba</b>',farq:'<b style="color:#e6a700">⚠️ Manbalar farqli</b>',shubhali:'<b style="color:var(--r)">❗ Shubhali</b>'}[r.grade]||'')+'<br><span style="font-size:12px">'+esc(r.note||'')+'</span>':'<span style="color:var(--r)">❌ '+esc(r.err)+'</span>'):b.rate?'<b>'+nf(+b.rate.buy)+' / '+nf(+b.rate.sell)+'</b> · '+esc(dtf(b.rate.at))+(b.err?' · <span style="color:var(--r)">⚠️ '+esc(b.err)+'</span>':''):b.err?'<span style="color:var(--r)">⚠️ '+esc(b.err)+'</span>':'tekshirilmagan';return '<div class="row" style="padding:9px 0;border-top:1px solid var(--ln)"><div style="min-width:0"><b style="font-size:15px">'+esc(b.name)+'</b><div class="sub">'+st+'</div></div><div style="cursor:pointer;flex:none" onclick="xbt(\''+b.id+'\',this)">'+ck(b.on)+'</div></div>'}).join('')+'<button class="btn" style="width:100%;margin-top:10px" onclick="xbs()">💾 Saqlash va yangilash</button></div>'}
