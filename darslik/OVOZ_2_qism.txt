@@ -1,0 +1,159 @@
+TartibOn darslari.
+
+Yettinchi dars — konkurs.
+
+Bosh sahifadan «Konkurs» bo'limini oching.
+
+Avval konkurs qaysi kanalda e'lon qilinishini tanlang.
+
+So'ng sovrin va shartlarni yozing.
+
+Qatnashish sharti — qaysi kanalga obuna bo'lish kerakligini belgilang.
+
+G'oliblar soni va yakunlanish vaqtini kiriting.
+
+«Konkursni boshlash» tugmasini bosing. Post tugma bilan kanalga chiqadi.
+
+Qatnashchilar tugmani bosadi, bot esa ularning obunasini tekshiradi.
+
+Vaqt tugaganda g'oliblar tasodifiy tanlanadi va e'lon qilinadi.
+
+Yana bir usul — «Sovg'a kodi»: kanalga yashirin kod chiqadi, uni birinchi yuborganlar yutadi.
+
+Keyingi darsda testlar va Prava bo'limini ko'ramiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+Sakkizinchi dars — testlar va Prava.
+
+Bosh sahifadan «Testlar» bo'limini oching.
+
+Bot kanal yoki guruhingizga avtomatik test savollarini yuboradi.
+
+Avval guruhni tanlang va avtomatik testni yoqing.
+
+Test turini tanlang: savol-javob yoki Prava testi.
+
+So'ng bo'limni tanlang: maktab, litsey, oliy ta'lim yoki boshqa imtihonlar.
+
+Savollar soni, oralig'i va javob vaqtini belgilab, «Saqlash»ni bosing.
+
+Endi bosh sahifadagi «Prava» bo'limini ochamiz.
+
+Bu — haydovchilik guvohnomasi imtihoniga bepul tayyorgarlik.
+
+Haqiqiy imtihondek: yigirmata savol va yigirma besh daqiqa vaqt.
+
+Javobni tanlang — to'g'ri yoki noto'g'riligi darhol ko'rinadi.
+
+Biletlar, mavzular va xatolaringiz ustida alohida ishlash ham mumkin.
+
+Keyingi darsda pullik kanallarni ko'ramiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+To'qqizinchi dars — pullik kanallar.
+
+Bosh sahifadan «Pullik kanallar» bo'limini oching.
+
+Bu yerda yopiq, pullik kanal va guruhlar ro'yxati.
+
+Har birida narx va tavsif bor. Uzoq muddatga olsangiz, chegirma bo'ladi.
+
+Ba'zi kanallarni uch kun bepul sinab ko'rish ham mumkin.
+
+Paketni tanlang — to'lov balansingizdan yechiladi.
+
+Kirish havolasini bot sizga yuboradi. Muddat tugaganda bot sizni o'zi chiqaradi.
+
+Kanal egasi bo'lsangiz, o'z kanalingizni ham pullik qilishingiz mumkin.
+
+«Pullik obuna» qismida «Sozlash» tugmasini bosing.
+
+Oylik narx, tavsif, paket chegirmalari va bepul sinov kunlarini kiriting.
+
+«Saqlash»ni bosing — kanalingiz ro'yxatda paydo bo'ladi.
+
+Obunachi to'lagan pul xizmat haqi ayirilib, balansingizga tushadi.
+
+Keyingi darsda «Qo'llab-quvvatlash» tugmasini ko'ramiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+O'ninchi dars — «Qo'llab-quvvatlash» tugmasi.
+
+Bu tugma orqali obunachilar kanalingizni pul bilan qo'llab-quvvatlaydi.
+
+«Kanallarim»da «Post tagidagi doimiy tugmalar» qismini toping.
+
+«Do'stga ulashish» va «Qo'llab-quvvatlash» tugmalarini yoqing.
+
+So'ng «Tugmalarni saqlash»ni bosing.
+
+Endi kanalingizdagi har bir yangi post tagida shu tugmalar chiqadi.
+
+Obunachi «Qo'llab-quvvatlash»ni bosadi va summani tanlaydi.
+
+Summa uning balansidan yechiladi va xizmat haqi ayirilib, sizga tushadi.
+
+Har bir xayriya haqida bot sizga darhol xabar beradi.
+
+Keyingi darsda reklama birjasini ko'ramiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+O'n birinchi dars — reklama birjasi.
+
+Bosh sahifadan «Reklama birjasi» bo'limini oching.
+
+Bu yerda kanallarning reklama joylari: obunachilar soni, format va narx ochiq ko'rinadi.
+
+Kanalni tanlab, «Reklama berish» tugmasini bosing.
+
+Reklama matnini yozing.
+
+«To'lash va yuborish»ni bosing. Summa balansingizdan band qilinadi.
+
+Kanal egasi reklamani joylaydi. Yigirma to'rt soatda javob bo'lmasa, pul qaytadi.
+
+Pul sotuvchiga faqat reklama belgilangan vaqt turgandan keyin o'tadi. Bu — pul kafolati.
+
+Muammo bo'lsa, «Nizo ochish» tugmasi bor — admin adolatli hal qiladi.
+
+O'z kanalingiz reklama joyini sotish uchun «Kanallarim»da «Reklama birjasi»ni sozlang.
+
+Keyingi darsda o'zaro reklama va kanallar reytingini ko'ramiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+O'n ikkinchi dars — o'zaro reklama va kanallar reytingi.
+
+Bosh sahifadan «O'zaro reklama» bo'limini oching.
+
+Bu yerda kanal egalari bir-birini topib, o'zaro reklama kelishadi.
+
+Avval kanalingizni katalogga qo'shing: «Katalogda ko'rsatish»ni yoqing.
+
+Mavzuni tanlang, qisqa tavsif yozing va «Saqlash»ni bosing.
+
+Pastdagi katalogdan mos kanalni toping. Mavzu bo'yicha saralash mumkin.
+
+«Taklif» tugmasini bosing — kanal egasiga xabar boradi.
+
+Endi «Kanallar reytingi» bo'limiga o'tamiz.
+
+Bu yerda so'nggi yetti kunda eng tez o'sgan kanallar.
+
+Kanalingiz o'sgani sari reytingda yuqoriga ko'tariladi.
+
+Keyingi darsda Telegram kanal savdosini ko'ramiz. Ko'rishguncha!

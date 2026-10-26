@@ -1,0 +1,165 @@
+TartibOn darslari.
+
+Kirish darsi — ilova bilan tanishuv.
+
+Telegram'da TartibOn botini oching va ilovani ishga tushiring.
+
+Bu — bosh sahifa.
+
+Yuqorida kanallar, guruhlar va obunachilar soni ko'rinadi.
+
+«Tayyorlik» ro'yxati sizni qadamma-qadam yo'naltiradi.
+
+Har bir qadam yonidagi tugmani bossangiz, kerakli bo'lim ochiladi.
+
+Pastda — barcha xizmatlar kataklari.
+
+Kanal va guruh xizmatlari, reklama, savdo, testlar va foydali bo'limlar shu yerda.
+
+Har bir katak — alohida bo'lim. Keyingi darslarda hammasini birma-bir ko'rib chiqamiz.
+
+Balansni to'ldirish va pul yechish — «Balans» bo'limida.
+
+Yuqoridagi tishli g'ildirak — profil va sozlamalar.
+
+Bu yerda kanal va guruhlaringiz ro'yxati hamda tungi rejim bor.
+
+Keyingi darsda kanal qo'shishni o'rganamiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+Ikkinchi dars — kanal sozlamalari.
+
+Bosh sahifadan «Kanallarim» bo'limini oching.
+
+Bu yerda bot kanalingizga avtomatik yuboradigan xabarlar ro'yxati.
+
+Kerakli xizmatni bosib yoqing yoki o'chiring.
+
+So'ng «Saqlash» tugmasini bosing.
+
+«Kanal imzosi» — har bir yangi postingiz tagiga bot o'zi imzo qo'shadi.
+
+Matnni yozing va «Imzoni saqlash» tugmasini bosing.
+
+Post tagiga «Do'stga ulashish» va «Qo'llab-quvvatlash» tugmalarini ham qo'shish mumkin.
+
+«Ta'til rejimi» motam yoki bayram kunlari barcha avtomatik xabarlarni bir bosishda to'xtatadi.
+
+«Pasport» — kanalingiz statistikasi bitta rasmda. Uni reklama beruvchiga ko'rsatasiz.
+
+Pastda pullik obuna, reklama birjasi va sotuv sozlamalari bor. Ular haqida alohida darslar bor.
+
+Keyingi darsda guruh qo'shish va himoyani ko'ramiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+Uchinchi dars — guruh qo'shish va himoya.
+
+Bosh sahifada «Guruh qo'shish» tugmasini bosing.
+
+«Guruhni tanlash» tugmasini bosib, guruhingizni tanlang.
+
+Bot xabarlarni o'chirish va bloklash huquqlari bilan administrator bo'ladi.
+
+«Administrator qilish» tugmasini bosing — guruh ulandi.
+
+Endi «Guruh himoyasi» bo'limini oching.
+
+Bu yerda guruhni spam, reklama va so'kinishdan himoya qiladigan qoidalar bor.
+
+Keraklisini bosib yoqing.
+
+Yoki «Guruhni 100% himoya qiladi» tugmasi bilan hammasini birdan yoqing.
+
+Salomlashish matni, tungi rejim va boshqa sozlamalar pastda.
+
+Guruhda /himoya buyrug'ini yozsangiz, yoqilgan himoyalar ro'yxati chiqadi.
+
+Keyingi darsda postlarni rejalashtirishni o'rganamiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+To'rtinchi dars — rejalashtirilgan postlar.
+
+Bosh sahifadan «Rejalashtirilgan postlar» bo'limini oching.
+
+Avval post qaysi kanalga chiqishini tanlang.
+
+So'ng post matnini yozing.
+
+Matnni belgilab, yuqoridagi tugmalar bilan qalin yoki qiya qiling.
+
+Pastda post Telegram'da qanday ko'rinishi darhol chiqadi.
+
+Xohlasangiz, post tagiga tugma qo'shing.
+
+Endi yuborish vaqtini tanlang.
+
+«Aqlli vaqt» obunachilaringiz eng faol bo'lgan vaqtni o'zi qo'yadi.
+
+Post bir marta, har kuni yoki har hafta chiqishi mumkin. Kerak bo'lsa, belgilangan vaqtdan keyin o'zi o'chadi.
+
+«Menga yuborish» tugmasi bilan avval postni o'zingizda tekshiring.
+
+Hammasi tayyor bo'lsa, «Rejalashtirish» tugmasini bosing.
+
+Rejalashtirilgan postlar kalendarda ko'rinadi.
+
+Keyingi darsda tongi xabar va bayram tabriklarini ko'ramiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+Beshinchi dars — tongi xabar va bayram tabriklari.
+
+Bosh sahifadan «Tongi xabar» bo'limini oching.
+
+Bot har kuni ertalab kanal va guruhlaringizga tongi tabrik yuboradi.
+
+Qaysi kunlari yuborilishini o'zingiz tanlaysiz.
+
+Masalan, yakshanba kerak bo'lmasa, o'chirib qo'ying.
+
+«O'zimga yuborish» tugmasi bilan bugungi xabarni oldindan ko'ring.
+
+Kechqurun esa «Xayrli tun» xabari ketadi. Uni ham shu yerda yoqasiz.
+
+Endi «Bayram tabriklari» bo'limiga o'tamiz.
+
+Har Juma va bayram kunlari bot kanalingizga video tabrik joylaydi.
+
+Har bir bayram tabrigini «Namuna» tugmasi bilan ko'rish mumkin.
+
+Pastda tabrik qaysi kanal va guruhlarga borishini belgilaysiz.
+
+Keyingi darsda statistikani ko'ramiz. Ko'rishguncha!
+
+<break time="3.0s" />
+
+TartibOn darslari.
+
+Oltinchi dars — statistika.
+
+Bosh sahifadan «Statistika» bo'limini oching.
+
+Har bir kanal va guruhingiz uchun alohida karta chiqadi.
+
+Bu yerda obunachilar soni, kechagi va haftalik o'sish ko'rinadi.
+
+Grafikda so'nggi 14 kunlik o'zgarish: qancha odam kirdi va qancha chiqdi.
+
+«Excel yuklab olish» tugmasi bilan hisobotni faylga olasiz.
+
+«Haftalik hisobot»ni yoqsangiz, har dushanba bot sizga natijalarni yuboradi.
+
+Statistika bot administrator bo'lgan kundan boshlab yig'iladi.
+
+Keyingi darsda konkurs o'tkazishni o'rganamiz. Ko'rishguncha!
