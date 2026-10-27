@@ -52,3 +52,12 @@ Prava/test: 29 xatolar ustida ishlash · 30 reyting+seriya · 31 imtihon rejimi
 Admin: 32 umumiy foyda paneli · 33 rollar · 34 shubhali faoliyat
 Umumiy: 35 referal · 36 bildirishnomalar markazi · 37 rus tili · 38 yuklanish tezligi (1.5 MB)
 Tavsiya tartibi: (9,35) → 32 → (6,7) → 17 → 1
+
+## TANLANGAN (foydalanuvchi tanladi — shularni qilamiz)
+- 3. Daraja tizimi (Bronza/Kumush/Oltin): ko'p xarid qilganga ustama kamroq
+- 5. Zaxira nusxa (backup): bazaning kunlik nusxasi (Telegram'ga/hostingga)
+- 6. Admin harakatlari jurnali (kim nimani o'zgartirdi)
+- 8. Provayder ishdan chiqsa xizmatni avto-o'chirish ("hozircha mavjud emas")
+- 11. Birinchi kirishda 3 qadamli ko'rsatma (tutorial)
+- 2. Hajm bo'yicha chegirma (nakrutka, 10 000 dan ko'p −5%)
+Tavsiya tartibi: 5 → 8 → 6 → 2 → 3 → 11
