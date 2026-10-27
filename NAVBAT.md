@@ -85,3 +85,23 @@ Tavsiya tartibi: 5 → 8 → 6 → 2 → 3 → 11
 - 9. «🔥 Eng ko'p olinadi» belgisi
 - 13. Eski jurnallarni avto-tozalash (pay_log, sms_in ...)
 (Tavsiya: 2 → 1 → 8 → 9 → 13 → 7 → 4 → 3)
+
+## TANLANGAN (4-ro'yxat) — xavfsizlik, tajriba, daromad, admin
+- 1. Tezlik chegarasi (rate limit)
+- 2. Qaytarish suiiste'moli nazorati (raqam xizmati: "kod kelmadi" firibgarligi)
+- 3. Katta summa (1 000 000+) adminga tasdiqqa tushishi
+- 4. Bir qurilmadan ko'p akkaunt aniqlash (bonus suiiste'moli)
+- 6. Ilova ichida FAQ
+- 7. Buyurtma holati vaqt chizig'i
+- 8. Tilaklar qutisi (ovoz berish)
+- 9. Oldindan to'lov bonusi (katta summaga katta bonus)
+- 11. Sovg'a balansi (boshqa odamga)
+- 12. Narxlarni bir bosishda qayta hisoblash (dollar kursi o'zgarganda)
+- 13. Admin "bugungi ishlar" ekrani (nizolar, ko'rib chiqish SMS, past balans, tugayotgan obunalar)
+(Tavsiya: 2 → 1 → 13 → 3 → 4 → 12 → 9 → 6 → 7 → 11 → 8)
+
+## BIRINCHI TAVSIYALAR (navbatga endi qo'shildi)
+- Telegram Stars + Premium sotish (provayder topilgach; eng birinchi taklif)
+- O'yin pullari (PUBG UC, Free Fire, Steam, Google Play)
+- AI vositalar (matn yozish, tarjima, rasm) — so'rovga pul yechiladi
+- Kanal statistikasi/tahlil
