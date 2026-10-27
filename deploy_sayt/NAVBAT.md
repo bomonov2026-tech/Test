@@ -218,3 +218,14 @@ Virtual raqam:
 - Birinchi kirishda 3 qadamli ko'rsatma
 - Admin → «Karta, bonus, sovg'a» sahifasida: Daraja, Hamkor, Sodiqlik, FAQ kartalari
 - Eslatma: yangi mijoz bonuslari uchun mijoz to'lov qilgan bo'lishi shart; tug'ilgan kun/bayram/qaytish bonuslarini kerak bo'lmasa 0 qiling
+
+### 6-bosqich (tezlik va yangi funksiyalar) — tayyor va sinalgan (b6_test 78/78, b6_ui 13/13)
+- Tezlik: asosiy sahifa ETag bilan (o'zgarmasa 304) va gzip bilan siqiladi (~1 MB → ~350 KB); tez-tez o'qiladigan sozlamalar bir so'rov ichida xotirada saqlanadi (baza so'rovlari kamayadi); .htaccess ga mod_deflate qo'shildi
+- «Lazy load» (admin JS ni kerak bo'lganda yuklash) ataylab qilinmadi — bitta fayl arxitekturasida xavfli, ETag+gzip allaqachon asosiy yukni oladi
+- Oflayn: hamyon, nakrutka/raqam ro'yxati, profil, ro'za, vazifa, avtomobil ma'lumoti oxirgi marta saqlangan holda ko'rinadi, tepada «📴 Internet yo'q» belgisi
+- Bir qurilmadan ko'p akkaunt: ilova qurilma belgisini yuboradi; bir qurilmadagi akkauntlar admin «Hisobotlar»da ko'rinadi; ular birinchi to'ldirish va sodiqlik bonusini faqat BIR marta oladi; «Bugungi ishlar»da ogohlantirish
+- 🌙 Ro'za taqvimi: hijriy sana (jadvalli hisob, ±1 kun xato bo'lishi mumkin — admin Ramazon boshlanish sanasini qo'lda kiritadi), Ramazon kunlari jadvali (saharlik/iftor), duolar, Ramazonda saharlikdan oldin va iftorda bot xabari (hudud va oldindan ogohlantirish minutini mijoz tanlaydi)
+- 📚 Dars jadvali va uy vazifasi: haftalik jadval, vazifalar (muddat bilan), ertangi/o'tgan vazifalar haqida kechqurun eslatma (soat sozlanadi: hw_h)
+- 🚗 Avtomobil: raqam, sug'urta/texnik ko'rik/moy muddatlari, 30/7/1/0 kun oldin eslatma (jarimani tekshirish my.gov.uz havolasi orqali — to'g'ridan-to'g'ri jarima API yo'q)
+- 🌦 Shaxsiy ob-havo ogohlantirishi (Profilda): shahar, yomg'ir/sovuq/issiq tanlovi, ertalab 06–11 da xabar
+- 📣 Ilova reklamasi: bosh sahifa bloki, admin «Ilova reklamasi» (sarlavha, matn, rasm, https havola, muddat); eng kam ko'rilgan reklama navbati, bir foydalanuvchiga kuniga 1 ko'rinish va 1 bosish sanaladi; ko'rinish/bosish statistikasi
