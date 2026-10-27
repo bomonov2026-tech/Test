@@ -168,3 +168,13 @@ Rasm siqish (WebP) · ikkinchi provayder zaxirasi · mijoz profili · mijoz vaqt
 - Katta summa: karta SMS avto-tasdiq chegarasidan (sms_max) oshsa admin tasdig'iga tushadi (avvaldan bor)
 - Indekslar, eski jurnallarni avto-tozalash
 - Admin → 🛡 Xavfsizlik va holat bo'limi
+
+### 2-bosqich (to'lov va balans) — tayyor va sinalgan (bn_test 60/60, bn_ui 9/9)
+- Ko'p karta: faol kartalar navbat bilan beriladi; bitta o'chirilsa qolganlari ishlaydi; SMS har kartani alohida (oxirgi 4 raqam, alohida balans zanjiri)
+- Bonus: birinchi to'ldirishga +5%, 200 000+ → +2%, 500 000+ → +3%, 1 000 000+ → +5% (admin sozlaydi; chegara 100 000); karta SMS va chek orqali ikkala yo'lda
+- Bonus xizmatlarda sarflanmaguncha yechib/sovg'a qilib bo'lmaydi (bonus orqali pul chiqarish yopilgan)
+- Sovg'a balansi (@username/ID; komissiya, bir martalik va kunlik chegara sozlanadi)
+- Kam balans eslatmasi (Telegramda «To'ldirish» tugmasi bilan, 3 kunda bir marta)
+- Chek eslatmasi (15 daqiqadan eski tasdiqlanmagan chek/SMS) va «cheka mos SMS bor» ishorasi
+- Dollar kursi: bank kursidan avtomatik yoki qo'lda qotirish; narxlar darrov yangilanadi
+- Admin → «Karta, bonus, sovg'a» bo'limi
