@@ -125,3 +125,9 @@ Guruh faollik reytingi · guruh mini-do'koni · qoidalar testi · e'lonlar taxta
 ## Tanlanmagan g'oyalar (eslab qolish uchun)
 Diniy: Qur'on, hadis/duo, qibla, hijriy taqvim, zakot · O'qish: kunlik so'z, mini-o'yinlar, kitoblar, iqtiboslar · Tijorat: kupon kanali, resume, tarjima buyurtmasi · Sog'liq: suv/dori eslatmasi, kaloriya, oila hisobi
 Bot: avto-javob, repost, RSS avto-post, post imzo/tugma, yangi obunachi salomi, savol-javob boti · Aloqa: zanjirli xabarlar, rassilka natijalari, teglash · Daromad: to'lov sahifasi, donat, sovg'a sertifikati · Tahlil: faollik xaritasi, churn tahlili
+
+## TANLANGAN (7-ro'yxat)
+- 4. Reyting bilan xizmat kartochkasi ("⭐ 4.8 · 1 240 ta buyurtma" — faqat real buyurtmalar/sharhlar asosida)
+
+## Tanlanmagan (eslab qolish uchun)
+Narx taqqoslash jadvali · taymerli taklif · so'nggi xaridorlar lentasi · kafolat belgisi · yopiq chat · haftalik eng yaxshi mijozlar · yangiliklar bo'limi · A/B sinov · sozlamalar nusxasi (hosting ko'chirishda foydali) · test rejimi · o'zgarishlar tarixi · initData qattiqlashtirish · admin qurilma cheklovi
