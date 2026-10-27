@@ -118,3 +118,10 @@ Tavsiya tartibi: 5 → 8 → 6 → 2 → 3 → 11
 Kanal salomatlik tekshiruvi · raqobatchi kuzatuvi · g'oyalar generatori · obunachi so'rovnomasi · "start" paketi · kanal bahosi · auksion · reklama paketlari · takroriy reklama chegirmasi · hisob-faktura · kredit · so'm/dollar · profil havolasi · QR · reseller API (eng kuchli o'sish) · PDF eksport
 ## Guruh/kundalik g'oyalar (tanlanmagan)
 Guruh faollik reytingi · guruh mini-do'koni · qoidalar testi · e'lonlar taxtasi · eslatmalar · xarajat daftari · valyuta kuzatuvi · biznes vitrinasi · brauzerdan kirish · PRO obuna (foydalanuvchi tomoni)
+
+## TANLANGAN (6-ro'yxat)
+- 13. UTM / manba kuzatuvi (mijoz qaysi reklama/havoladan kelgani; reklama daromadini ko'rish; hamkor dasturi bilan bog'lanadi)
+
+## Tanlanmagan g'oyalar (eslab qolish uchun)
+Diniy: Qur'on, hadis/duo, qibla, hijriy taqvim, zakot · O'qish: kunlik so'z, mini-o'yinlar, kitoblar, iqtiboslar · Tijorat: kupon kanali, resume, tarjima buyurtmasi · Sog'liq: suv/dori eslatmasi, kaloriya, oila hisobi
+Bot: avto-javob, repost, RSS avto-post, post imzo/tugma, yangi obunachi salomi, savol-javob boti · Aloqa: zanjirli xabarlar, rassilka natijalari, teglash · Daromad: to'lov sahifasi, donat, sovg'a sertifikati · Tahlil: faollik xaritasi, churn tahlili
