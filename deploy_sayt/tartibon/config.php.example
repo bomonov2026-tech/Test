@@ -1,0 +1,16 @@
+<?php
+/* TartibOn sozlamalari. Bu faylni «config.php» deb nomlang va qiymatlarni to'ldiring.
+   MAXFIY: config.php ni hech kimga yubormang, chatga tashlamang. */
+define('BOT_TOKEN', '1234567890:AA...');           /* @BotFather → /revoke bilan olingan YANGI token */
+define('BOT_USERNAME', 'TartibOnBot');              /* @ belgisiz */
+define('ADMIN_IDS', '123456789');                   /* sizning Telegram ID (bir nechta bo'lsa vergul bilan) */
+define('APP_URL', 'https://SIZNING-DOMEN.uz/index.php');   /* https:// bilan va index.php gacha to'liq */
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'baza_nomi');                     /* ISPmanager → Базы данных da yaratganingiz */
+define('DB_USER', 'baza_foydalanuvchi');
+define('DB_PASS', 'YANGI_BAZA_PAROLI');
+
+/* Ixtiyoriy (Nakrutka). Qo'ysangiz, ilovadagi admin maydonlari o'chirilgan bo'ladi — odatda kerak emas,
+   kalitni ilovaning o'zida (Nakrutka → Admin) kiritish qulayroq. */
+/* define('NK_API_URL', 'https://prm4u.com/api/v2'); */
+/* define('NK_API_KEY', 'prm4u_api_kalit'); */
