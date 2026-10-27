@@ -26,3 +26,12 @@ Admin panel (Profil → admin) → «💰 Provayder balanslari» ingichka katakl
 
 ### 5sim balansi
 Bo'lim sahifasida 5sim kartasi: API kalitni kiriting (5sim → Settings → «API key for 5SIM protocol», yangi API; «Deprecated» emas), balans valyutasini (RUB/USD) tanlang va 💾 bosing. Balans `GET https://5sim.net/v1/user/profile` (Authorization: Bearer) orqali olinadi. **5sim sandboxdan tekshirilmagan** (faqat soxta server bilan): birinchi marta balansni saytdagi bilan solishtiring, valyuta mos kelmasa RUB/USD ni almashtiring.
+
+## Virtual raqam (5sim aktivatsiya) — bosh sahifa → «Virtual raqam»
+- Foydalanuvchi tarmoqni (Telegram, WhatsApp…) tanlaydi → «Olish»: pul yechiladi, raqam ko'rsatiladi (nusxalash tugmasi), sahifa har 5 soniyada kodni tekshiradi, kod kelganda katta ko'rinadi va Telegram'ga xabar ketadi.
+- **Kod kelmasa** (standart 15 daqiqa) yoki foydalanuvchi bekor qilsa (SMS kelmagan bo'lsa) pul avtomatik qaytadi. Kod kelgach pul qaytmaydi. Provayder buyurtmani rad etsa, pul darhol qaytadi. Natija noaniq (tarmoq uzilishi) bo'lsa, pul ushlab turiladi va adminga xabar ketadi (admin «Qaytarish» yoki «Yuborilgan»).
+- **Admin** (sahifa pastida): 5sim kaliti va valyuta — Profil → Provayder balanslari → 5sim. «🔎 5sim narxini ko'rish» (davlat+tarmoq) → «➕ Taklif qo'shish» (nom, qat'iy narx so'mda). Har taklifda tannarx, qoldiq va foyda ko'rinadi.
+- **Foyda himoyasi:** tannarx oshib, foyda chegarasidan (standart 15%) pastga tushsa, taklif avtomatik yashiriladi va adminga xabar ketadi (zararga sotilmaydi). Buning uchun 1 rubl (yoki USD) kursini kiriting.
+- Chegaralar: bir vaqtda kutilayotgan raqamlar (3), kunlik buyurtmalar (30), takror bosishdan himoya, parallel so'rovda qo'sh yechish yo'q.
+- Davlat/tarmoq nomlari 5sim dagidek: inglizcha, kichik harf (`indonesia`, `canada`, `usa`; `telegram`, `whatsapp`, `instagram`).
+- **5sim bilan haqiqiy ulanish tekshirilmagan** (faqat 5sim ommaviy API v1 formatidagi soxta server bilan: 78 backend + 12 interfeys tekshiruvi). Birinchi marta eng arzon raqamni o'zingiz sotib olib sinab ko'ring (masalan Indoneziya, ~$0.2).
