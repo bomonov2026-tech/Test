@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="512" height="512"><title>Pullik kanallar</title><defs>
+<linearGradient id="o" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#33c4ff"/><stop offset=".55" stop-color="#0d63f5"/><stop offset="1" stop-color="#0038c8"/></linearGradient>
+<linearGradient id="i" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#33c4ff"/><stop offset=".45" stop-color="#0d63f5"/><stop offset="1" stop-color="#0038c8"/></linearGradient>
+<linearGradient id="gw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cfe0ff"/></linearGradient>
+<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".4" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity=".35"/></linearGradient>
+<filter id="bl"><feGaussianBlur stdDeviation="9"/></filter>
+<filter id="puff" x="-25%" y="-25%" width="150%" height="160%">
+ <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="sb"/><feOffset in="sb" dy="12" result="so"/>
+ <feFlood flood-color="#001f9a" flood-opacity=".55"/><feComposite in2="so" operator="in" result="drop"/>
+ <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="ib"/>
+ <feOffset in="ib" dx="-3.5" dy="-4.5" result="io"/><feComposite in="SourceAlpha" in2="io" operator="out" result="e1"/>
+ <feFlood flood-color="#5d8dff" flood-opacity=".95"/><feComposite in2="e1" operator="in" result="shade"/>
+ <feOffset in="ib" dx="3.5" dy="4.5" result="io2"/><feComposite in="SourceAlpha" in2="io2" operator="out" result="e2"/>
+ <feFlood flood-color="#fff" flood-opacity="1"/><feComposite in2="e2" operator="in" result="hl"/>
+ <feMerge><feMergeNode in="drop"/><feMergeNode in="SourceGraphic"/><feMergeNode in="shade"/><feMergeNode in="hl"/></feMerge></filter>
+<clipPath id="c"><rect x="16" y="16" width="224" height="224" rx="56"/></clipPath></defs>
+<rect x="8" y="8" width="240" height="240" rx="62" fill="url(#o)"/>
+<rect x="8" y="8" width="240" height="240" rx="62" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.5"/>
+<rect x="17" y="17" width="222" height="222" rx="54" fill="url(#i)"/>
+<g clip-path="url(#c)"><ellipse cx="70" cy="46" rx="92" ry="52" fill="#fff" opacity=".42" filter="url(#bl)" transform="rotate(-24 70 46)"/><ellipse cx="128" cy="250" rx="130" ry="40" fill="#33c4ff" opacity=".35" filter="url(#bl)"/></g>
+<rect x="17.5" y="17.5" width="221" height="221" rx="53.5" fill="none" stroke="url(#rim)" stroke-width="3"/>
+<g filter="url(#puff)"><rect x="68" y="114" width="120" height="92" rx="24" fill="url(#gw)" stroke="url(#gw)" stroke-width="7" stroke-linejoin="round" /><path d="M96 114 V92 a32 32 0 0 1 64 0 V114" fill="none" stroke="url(#gw)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></g><g transform="translate(0,2.5)" fill="#9cc6ff" stroke="#9cc6ff" opacity=".75"><circle cx="128" cy="152" r="11"/></g><g fill="#0b4fe0" stroke="#0b4fe0"><circle cx="128" cy="152" r="11"/></g><g transform="translate(0,2.5)" fill="#9cc6ff" stroke="#9cc6ff" opacity=".75"><rect x="124" y="156" width="8" height="28" rx="4"/></g><g fill="#0b4fe0" stroke="#0b4fe0"><rect x="124" y="156" width="8" height="28" rx="4"/></g></svg>
