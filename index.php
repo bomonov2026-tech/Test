@@ -5012,19 +5012,32 @@ function nk_usd() {
 function nk_mk($s) { return ($s['mk'] !== null && $s['mk'] !== '') ? (float)$s['mk'] : (float)setting('nk_mk', '40'); }
 function nk_p1000($s) { $u = nk_usd(); if ($u <= 0) return 0; return (int)(ceil((float)$s['rate'] * $u * (1 + nk_mk($s) / 100) / 10) * 10); }
 function nk_price($s, $qty) { $u = nk_usd(); if ($u <= 0) return 0; return max(100, (int)(ceil((float)$s['rate'] / 1000 * $qty * $u * (1 + nk_mk($s) / 100) / 10) * 10)); }
+function nk_plats() {
+    /* kod => [nom, ruxsat etilgan domenlar, @username shabloni (regex), havola shabloni, faqat @bilan] */
+    return array(
+        'tg' => array('✈️ Telegram', array('t.me', 'telegram.me', 'telegram.dog'), '/^[A-Za-z][A-Za-z0-9_]{3,31}$/', 'https://t.me/%s', false),
+        'ig' => array('📸 Instagram', array('instagram.com'), '/^[A-Za-z0-9._]{1,30}$/', 'https://www.instagram.com/%s/', false),
+        'yt' => array('▶️ YouTube', array('youtube.com', 'youtu.be'), '/^[A-Za-z0-9._-]{3,40}$/', 'https://www.youtube.com/@%s', true),
+        'tt' => array('🎵 TikTok', array('tiktok.com', 'vm.tiktok.com', 'vt.tiktok.com'), '/^[A-Za-z0-9._]{2,24}$/', 'https://www.tiktok.com/@%s', false),
+        'fb' => array('👍 Facebook', array('facebook.com', 'fb.com', 'fb.watch'), '/^[A-Za-z0-9.]{5,50}$/', 'https://www.facebook.com/%s', false),
+        'x'  => array('𝕏 Twitter', array('x.com', 'twitter.com'), '/^[A-Za-z0-9_]{1,15}$/', 'https://x.com/%s', false),
+        'th' => array('🧵 Threads', array('threads.net', 'threads.com'), '/^[A-Za-z0-9._]{1,30}$/', 'https://www.threads.net/@%s', false),
+        'vk' => array('🔷 VK', array('vk.com', 'vk.ru'), '/^[A-Za-z0-9._]{3,32}$/', 'https://vk.com/%s', false),
+        'sp' => array('🎧 Spotify', array('open.spotify.com', 'spotify.com'), '', '', false),
+        'tw' => array('🎮 Twitch', array('twitch.tv'), '/^[A-Za-z0-9_]{4,25}$/', 'https://www.twitch.tv/%s', false),
+    );
+}
 function nk_link($plat, $raw) {
+    $P = nk_plats(); if (!isset($P[$plat])) return false;
     if (!is_scalar($raw)) return false;
     $raw = trim((string)$raw); if ($raw === '' || mb_strlen($raw) > 300 || preg_match('/\s/u', $raw)) return false;
     if ($raw[0] === '@' || !preg_match('~^https?://~i', $raw)) {
-        $n = ltrim($raw, '@');
-        if ($plat === 'tg' && preg_match('/^[A-Za-z][A-Za-z0-9_]{3,31}$/', $n)) return 'https://t.me/' . $n;
-        if ($plat === 'ig' && preg_match('/^[A-Za-z0-9._]{1,30}$/', $n)) return 'https://www.instagram.com/' . $n . '/';
-        if ($plat === 'yt' && $raw[0] === '@' && preg_match('/^[A-Za-z0-9._-]{3,40}$/', $n)) return 'https://www.youtube.com/@' . $n;
+        $n = ltrim($raw, '@'); $c = $P[$plat];
+        if ($c[2] !== '' && (!$c[4] || $raw[0] === '@') && preg_match($c[2], $n)) return sprintf($c[3], $n);
         return false;
     }
     $h = parse_url($raw, PHP_URL_HOST); if (!$h) return false; $h = preg_replace('/^(www|m)\./', '', strtolower($h));
-    $ok = array('tg' => array('t.me', 'telegram.me', 'telegram.dog'), 'ig' => array('instagram.com'), 'yt' => array('youtube.com', 'youtu.be'));
-    return (isset($ok[$plat]) && in_array($h, $ok[$plat], true)) ? $raw : false;
+    return in_array($h, $P[$plat][1], true) ? $raw : false;
 }
 function nk_st($ps) {
     $s = strtolower(trim((string)$ps));
@@ -7690,7 +7703,7 @@ if (isset($_GET['api'])) {
             }
             $or = q('SELECT id,plat,title,link,qty,price,st,pstat,remains,refunded,created FROM nk_ord WHERE uid=? ORDER BY id DESC LIMIT 20', array($u['id']))->fetchAll();
             foreach ($or as $i => $r) { $or[$i]['id'] = (int)$r['id']; $or[$i]['qty'] = (int)$r['qty']; $or[$i]['price'] = (int)$r['price']; $or[$i]['refunded'] = (int)$r['refunded']; $or[$i]['remains'] = $r['remains'] === null ? null : (int)$r['remains']; $or[$i]['created'] = date('d.m H:i', strtotime($r['created'])); }
-            out(array('ok' => true, 'on' => $on, 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn(), 'plats' => array_values(array_filter(array('tg', 'ig', 'yt'), function ($p) use ($pl) { return isset($pl[$p]); })), 'svcs' => $sv, 'orders' => $or));
+            out(array('ok' => true, 'on' => $on, 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn(), 'plats' => array_values(array_filter(array_keys(nk_plats()), function ($p) use ($pl) { return isset($pl[$p]); })), 'svcs' => $sv, 'orders' => $or));
         }
         if ($a === 'nk_quote') {
             $s = q('SELECT * FROM nk_svc WHERE id=? AND act=1', array((int)(isset($in['sid']) ? $in['sid'] : 0)))->fetch(); $qty = (int)(isset($in['qty']) ? $in['qty'] : 0);
@@ -7705,7 +7718,7 @@ if (isset($_GET['api'])) {
             $qty = (int)(isset($in['qty']) ? $in['qty'] : 0);
             if ($qty < (int)$s['min_q'] || $qty > (int)$s['max_q']) out(array('ok' => false, 'error' => 'Miqdor ' . fmt($s['min_q']) . ' dan ' . fmt($s['max_q']) . ' gacha bo\'lsin'), 422);
             $link = nk_link($s['plat'], isset($in['link']) ? $in['link'] : '');
-            if ($link === false) out(array('ok' => false, 'error' => $s['plat'] === 'tg' ? 'Telegram havolasini yoki @username ni to\'g\'ri kiriting (masalan https://t.me/kanalim)' : ($s['plat'] === 'ig' ? 'Instagram havolasini yoki @username ni to\'g\'ri kiriting' : 'YouTube havolasini to\'g\'ri kiriting (video yoki kanal)')), 422);
+            if ($link === false) out(array('ok' => false, 'error' => nk_plats()[$s['plat']][0] . ' havolasini yoki @username ni to\'g\'ri kiriting'), 422);
             $price = nk_price($s, $qty); if ($price <= 0) out(array('ok' => false, 'error' => 'Narx hisoblanmadi, keyinroq urinib ko\'ring'), 503);
             if ((int)q('SELECT COUNT(*) FROM nk_ord WHERE uid=? AND created > NOW() - INTERVAL 1 DAY', array($u['id']))->fetchColumn() >= (int)setting('nk_day', '20')) out(array('ok' => false, 'error' => 'Bir kunda buyurtmalar soni chegarasiga yetdingiz'), 429);
             if ((int)q('SELECT COUNT(*) FROM nk_ord WHERE uid=? AND sid=? AND link=? AND created > NOW() - INTERVAL 60 SECOND', array($u['id'], $s['id'], $link))->fetchColumn() > 0) out(array('ok' => false, 'error' => 'Bu buyurtma hozirgina berilgan'), 429);
@@ -7865,7 +7878,7 @@ if (isset($_GET['api'])) {
         }
         if ($a === 'nk_adm_add') {
             $pid = (int)(isset($in['pid']) ? $in['pid'] : 0); $pl = (string)(isset($in['plat']) ? $in['plat'] : ''); $title = trim(mb_substr(strip_tags((string)(isset($in['title']) ? $in['title'] : '')), 0, 100));
-            if ($pid <= 0 || !in_array($pl, array('tg', 'ig', 'yt'), true) || $title === '') out(array('ok' => false, 'error' => 'Platforma va nomni kiriting'), 422);
+            if ($pid <= 0 || !isset(nk_plats()[$pl]) || $title === '') out(array('ok' => false, 'error' => 'Platforma va nomni kiriting'), 422);
             $r = nk_call(array('action' => 'services'), 60); if (!$r['ok']) out(array('ok' => false, 'error' => $r['err']), 422);
             $f = null; if (is_array($r['j'])) foreach ($r['j'] as $s) if (is_array($s) && isset($s['service']) && (int)$s['service'] === $pid) { $f = $s; break; }
             if (!$f) out(array('ok' => false, 'error' => 'Bu ID provayderda topilmadi'), 404);
@@ -9437,7 +9450,7 @@ function clubl(){var e=$('clubb');if(!e)return;api('club').then(function(j){e.in
 var SAD=null;
 /* ---------- NAKRUTKA ---------- */
 var NK={j:null,plat:'',sid:0,price:0,busy:0,tm:0,rq:0,link:'',qty:'',A:null,fp:'tg',fr:null};
-var NKP={tg:'✈️ Telegram',ig:'📸 Instagram',yt:'▶️ YouTube'};
+var NKP={tg:'✈️ Telegram',ig:'📸 Instagram',yt:'▶️ YouTube',tt:'🎵 TikTok',fb:'👍 Facebook',x:'𝕏 Twitter',th:'🧵 Threads',vk:'🔷 VK',sp:'🎧 Spotify',tw:'🎮 Twitch'};
 var NKS={'new':['⏳','Yuborilmoqda','#8e8e93'],wait:['🔄','Bajarilmoqda','#1d84f2'],done:['✅','Bajarildi','#1a9e4f'],part:['⚠️','Qisman bajarildi','#c77a00'],cancel:['↩️','Bekor qilindi · pul qaytdi','#d92d20'],fail:['↩️','Rad etildi · pul qaytdi','#d92d20'],unk:['🔍','Tekshirilmoqda','#8e8e93']};
 function nkn(n){return String(Math.round(+n||0)).replace(/\B(?=(\d{3})+(?!\d))/g,' ')}
 function nkch(t,cur,clr){var h='<div class="cps">';[70,80,90,100].forEach(function(v){h+='<button class="chip'+(cur!==''&&cur!==null&&+cur===v?' on':'')+'" data-t="'+t+'" data-v="'+v+'" onclick="nkmv(\''+t+'\','+v+')">'+v+'%</button>'});if(clr)h+='<button class="chip'+(cur===''||cur===null?' on':'')+'" data-t="'+t+'" data-v="" onclick="nkmv(\''+t+'\',\'\')">Umumiy</button>';return h+'</div>'}
@@ -9453,7 +9466,7 @@ function nkp(p){NK.plat=p;NK.sid=0;NK.price=0;nkr()}
 function nkv(){var el=$('nkls');if(!el)return;var h='';NK.j.svcs.forEach(function(s){if(s.plat!==NK.plat)return;var on=s.id===NK.sid;h+='<div class="card" onclick="nks('+s.id+')" style="cursor:pointer;'+(on?'border:2px solid #1d84f2;background:var(--soft)':'')+'"><div class="row" style="margin:0"><div><b>'+esc(s.title)+'</b><div class="sub">'+nkn(s.min)+' – '+nkn(s.max)+' ta</div></div><div style="text-align:right"><b style="color:#1d84f2">'+fmt(s.p1000)+'</b><div class="sub">1000 ta uchun</div></div></div></div>'});el.innerHTML=h}
 function nks(id){NK.sid=id;NK.price=0;nkv();nkf();var e=$('nkf');if(e&&e.scrollIntoView)e.scrollIntoView({behavior:'smooth',block:'center'})}
 function nkf(){var el=$('nkf');if(!el)return;var s=nksv();if(!s){el.innerHTML='';return}
-var ph={tg:'https://t.me/kanalim yoki @kanalim',ig:'https://instagram.com/akkaunt yoki @akkaunt',yt:'YouTube video yoki kanal havolasi'}[s.plat];
+var ph={tg:'https://t.me/kanalim yoki @kanalim',ig:'https://instagram.com/akkaunt yoki @akkaunt',yt:'YouTube video yoki kanal havolasi'}[s.plat]||(NKP[s.plat]||'')+' havolasi';
 el.innerHTML='<div class="card"><b>'+esc(s.title)+'</b><div class="sub" style="margin:2px 0 8px">Miqdor: '+nkn(s.min)+' – '+nkn(s.max)+'</div><input id="nklk" placeholder="'+esc(ph)+'" autocomplete="off" autocapitalize="off" value="'+esc(NK.link)+'" oninput="NK.link=this.value"><input id="nkq" type="number" inputmode="numeric" placeholder="Miqdor" value="'+esc(NK.qty)+'" oninput="nkqi(this.value)"><div id="nkpr" class="sub" style="margin:2px 0 10px"></div><button id="nkbtn" class="btn" onclick="nko()">🚀 Buyurtma berish</button><p class="sub" style="font-size:12px;margin:8px 0 0">Havola ochiq bo\'lishi kerak (yopiq kanal/akkaunt qabul qilinmaydi). Natija kafolatlanmaydi: platforma qoidalariga ko\'ra obunachilar vaqt o\'tishi bilan kamayishi mumkin. Buyurtma boshlangach bekor qilib bo\'lmaydi; bajarilmagan qismi uchun pul avtomatik qaytariladi.</p></div>';nkpr();if(NK.qty)nkqi(NK.qty)}
 function nkpr(){var el=$('nkpr'),s=nksv();if(!el||!s)return;var q=parseInt(NK.qty,10)||0;if(!q){el.textContent='Kerakli miqdorni kiriting';return}if(q<s.min||q>s.max){el.textContent='Miqdor '+nkn(s.min)+' dan '+nkn(s.max)+' gacha bo\'lsin';return}el.innerHTML=NK.price?'Narxi: <b>'+fmt(NK.price)+'</b>':'Narx hisoblanmoqda...'}
 function nkqi(v){NK.qty=v;NK.price=0;nkpr();clearTimeout(NK.tm);var s=nksv(),q=parseInt(v,10)||0;if(!s||q<s.min||q>s.max)return;var rq=++NK.rq;NK.tm=setTimeout(function(){api('nk_quote',{sid:s.id,qty:q}).then(function(j){if(rq!==NK.rq)return;if(j.ok){NK.price=j.price;nkpr()}})},350)}
@@ -9473,7 +9486,7 @@ function nkar(){var j=NK.A,el=$('nka');if(!el||!j)return;var h='<div class="card
 h+='<div class="card" style="border:1px dashed #1d84f2"><b>🧩 Xizmatlar ('+j.svcs.length+')</b>';
 if(!j.svcs.length)h+='<div class="sub" style="margin:6px 0">Hali xizmat qo\'shilmagan. Pastdan qidirib qo\'shing.</div>';
 j.svcs.forEach(function(s){h+='<div style="border-top:1px solid var(--ln);margin-top:10px;padding-top:8px"><div class="sub">'+NKP[s.plat]+' · ID '+s.pid+' · $'+s.rate+'/1000 · '+nkn(s.min_q)+'–'+nkn(s.max_q)+' · narx '+fmt(s.p1000)+'</div><input id="nkst'+s.id+'" value="'+esc(s.title)+'" maxlength="100"><input id="nksm'+s.id+'" type="number" inputmode="decimal" value="'+(s.mk===null?'':s.mk)+'" placeholder="Ustama % (bo\'sh = umumiy)">'+nkch('nksm'+s.id,s.mk,1)+'<div style="display:flex;gap:8px"><button class="btn s" style="flex:1" onclick="nksave('+s.id+',0)">💾</button><button class="btn s" style="flex:1" onclick="nksave('+s.id+',1)">'+(s.act==1?'⛔ O\'chirish':'✅ Yoqish')+'</button><button class="btn s" style="flex:1" onclick="nkdel('+s.id+')">🗑</button></div></div>'});
-h+='<div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>➕ Provayderdan xizmat qo\'shish</b><div class="cps">'+['tg','ig','yt'].map(function(p){return '<button class="chip'+(NK.fp===p?' on':'')+'" onclick="NK.fp=\''+p+'\';nkar()">'+NKP[p]+'</button>'}).join('')+'</div><input id="nkfq" placeholder="Qidiruv: masalan «telegram members»" onkeydown="if(event.key===\'Enter\')nkaf()"><button class="btn s" onclick="nkaf()">🔎 Qidirish</button><div id="nkfr" style="margin-top:8px"></div></div></div>';
+h+='<div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>➕ Provayderdan xizmat qo\'shish</b><div class="cps">'+Object.keys(NKP).map(function(p){return '<button class="chip'+(NK.fp===p?' on':'')+'" onclick="NK.fp=\''+p+'\';nkar()">'+NKP[p]+'</button>'}).join('')+'</div><input id="nkfq" placeholder="Qidiruv: masalan «telegram members»" onkeydown="if(event.key===\'Enter\')nkaf()"><button class="btn s" onclick="nkaf()">🔎 Qidirish</button><div id="nkfr" style="margin-top:8px"></div></div></div>';
 var bad=j.orders.filter(function(r){return r.st==='unk'||r.st==='new'});
 h+='<div class="card" style="border:1px dashed #1d84f2"><b>📋 Buyurtmalar (oxirgi '+j.orders.length+')</b>'+(bad.length?'<div class="sub" style="color:#d92d20;margin:4px 0">⚠️ '+bad.length+' ta buyurtma holati noma\'lum — pul ushlab turilgan. Provayder panelida tekshirib, «Qaytarish» yoki «Yuborilgan» ni bosing.</div>':'');
 j.orders.forEach(function(r){var st=NKS[r.st]||NKS.wait;h+='<div style="border-top:1px solid var(--ln);margin-top:8px;padding-top:8px"><div class="row" style="margin:0"><b>#'+r.id+' · '+esc(r.title)+'</b><span style="color:'+st[2]+';font-weight:700;font-size:12.5px">'+st[0]+' '+st[1]+'</span></div><div class="sub" style="word-break:break-all">'+esc(r.link)+'</div><div class="sub">'+esc(r.name||'')+(r.username?' @'+esc(r.username):'')+' · ID '+r.uid+' · '+nkn(r.qty)+' ta · '+fmt(r.price)+(r.cost?' · provayder $'+r.cost:'')+(r.porder?' · P#'+r.porder:'')+'</div>'+(r.err?'<div class="sub" style="color:#d92d20">'+esc(r.err)+'</div>':'');
