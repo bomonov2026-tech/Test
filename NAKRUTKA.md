@@ -7,7 +7,7 @@ Ilovada: bosh sahifa → **Nakrutka**. Foydalanuvchi platforma (Telegram/Instagr
 2. Ilova → Nakrutka → pastdagi **⚙️ Admin** kartasi:
    - API manzil: `https://prm4u.com/api/v2` (tayyor)
    - API kalit (kiritganingizdan so'ng faqat oxirgi 4 belgi ko'rinadi)
-   - Dollar kursi (bo'sh = bankdagi dollar kursi avtomatik), ustama % (masalan 40), kunlik chegara
+   - Dollar kursi (bo'sh = bankdagi dollar kursi avtomatik), ustama % (70/80/90/100% tugmalari yoki o'zingiz yozing), kunlik chegara
    - **🔌 Tekshirish** — provayder balansi chiqsa, ulanish to'g'ri.
 3. «➕ Provayderdan xizmat qo'shish»: platformani tanlang, qidiring (masalan `telegram members`), «➕ qo'shish». Nomi va ustamani xizmat kartasida tahrirlang.
 4. Daqiqalik cron (`php index.php prayer`) ishlab turishi kerak — holat yangilash va qaytarishlar shu orqali.
