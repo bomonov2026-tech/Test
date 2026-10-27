@@ -280,6 +280,11 @@ function mig() {
         db()->exec("CREATE TABLE IF NOT EXISTS vs_ord (id INT AUTO_INCREMENT PRIMARY KEY, uid BIGINT UNSIGNED NOT NULL, oid INT NOT NULL, country VARCHAR(40) NOT NULL, product VARCHAR(40) NOT NULL, operator VARCHAR(40) NOT NULL, title VARCHAR(100) NOT NULL, price BIGINT NOT NULL, st VARCHAR(8) NOT NULL DEFAULT 'new', porder BIGINT NULL, phone VARCHAR(32) NOT NULL DEFAULT '', code VARCHAR(32) NOT NULL DEFAULT '', pcost DECIMAL(14,4) NULL, refunded BIGINT NOT NULL DEFAULT 0, err VARCHAR(255) NOT NULL DEFAULT '', expires DATETIME NOT NULL, created DATETIME NOT NULL, upd DATETIME NOT NULL, KEY u (uid,id), KEY s (st,upd)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
         setset('mig_vs1', '1');
     }
+    if (setting('mig_pay_auto1', '') !== '1') {   /* Payme/Click avtomatik to'lov */
+        db()->exec("CREATE TABLE IF NOT EXISTS pay_tx (id INT AUTO_INCREMENT PRIMARY KEY, uid BIGINT UNSIGNED NOT NULL, prov VARCHAR(8) NOT NULL, amount BIGINT NOT NULL, st VARCHAR(8) NOT NULL DEFAULT 'new', ext VARCHAR(64) NULL, ctime BIGINT NOT NULL DEFAULT 0, ptime BIGINT NOT NULL DEFAULT 0, ctime2 BIGINT NOT NULL DEFAULT 0, reason INT NULL, created DATETIME NOT NULL, upd DATETIME NOT NULL, UNIQUE KEY pe (prov,ext), KEY u (uid,id), KEY s (st,created)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        db()->exec("CREATE TABLE IF NOT EXISTS pay_log (id INT AUTO_INCREMENT PRIMARY KEY, prov VARCHAR(8) NOT NULL, req TEXT NULL, res TEXT NULL, at DATETIME NOT NULL, KEY a (at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        setset('mig_pay_auto1', '1');
+    }
     if (setting('mig_guard3', '') !== '1') {
         try { db()->exec('ALTER TABLE group_guard ADD COLUMN words TEXT NULL, ADD COLUMN noad TINYINT NOT NULL DEFAULT 0'); } catch (Exception $e) {}
         setset('mig_guard3', '1');
@@ -4892,6 +4897,192 @@ function promo_use($code, $uid) {
 }
 function pay_from($uid, $sum) { return q('UPDATE users SET balance=balance-? WHERE id=? AND balance>=?', array($sum, $uid, $sum))->rowCount() === 1; }
 
+/* ---------- AVTOMATIK TO'LOV: Payme (Merchant API) va Click (Shop API) — balansni karta bilan to'ldirish ---------- */
+function pay_set($k, $d = '') { return trim((string)setting($k, $d)); }
+function pay_on($p) {
+    if ($p === 'payme') return pay_set('payme_mid') !== '' && pay_set('payme_key') !== '' && pay_set('payme_on', '1') === '1';
+    if ($p === 'click') return pay_set('click_sid') !== '' && pay_set('click_mid') !== '' && pay_set('click_key') !== '' && pay_set('click_on', '1') === '1';
+    return false;
+}
+function pay_list() { $r = array(); foreach (array('payme', 'click') as $p) if (pay_on($p)) $r[] = $p; return $r; }
+function pay_min() { return max(1000, (int)setting('pay_amin', '10000')); }
+function pay_max() { return min(100000000, max(pay_min(), (int)setting('pay_amax', (string)PAY_MAX))); }
+function pay_ms() { return (int)round(microtime(true) * 1000); }
+function pay_log($p, $req, $res) {
+    try {
+        q('INSERT INTO pay_log (prov,req,res,at) VALUES (?,?,?,NOW())', array($p, mb_substr((string)$req, 0, 1500), mb_substr((string)$res, 0, 1000)));
+        if (mt_rand(1, 40) === 1) q('DELETE FROM pay_log WHERE at < NOW() - INTERVAL 30 DAY');
+    } catch (Exception $e) {}
+}
+/* To'lov muvaffaqiyatli bo'lganda balansga bir marta qo'shish. Qaytaradi: true (hozir qo'shildi) / false (allaqachon yoki mumkin emas) */
+function pay_credit($id) {
+    $pdo = db(); $done = false; $tx = null;
+    try {
+        $pdo->beginTransaction();
+        $tx = q('SELECT * FROM pay_tx WHERE id=? FOR UPDATE', array($id))->fetch();
+        if ($tx && in_array($tx['st'], array('new', 'wait'), true)) {
+            q("UPDATE pay_tx SET st='paid', ptime=?, upd=NOW() WHERE id=?", array(pay_ms(), $id));
+            q('UPDATE users SET balance=balance+? WHERE id=?', array($tx['amount'], $tx['uid']));
+            q("INSERT INTO topups (user_id,amount,status,created_at,decided_at,flag) VALUES (?,?,'approved',NOW(),NOW(),?)", array($tx['uid'], $tx['amount'], 'avto: ' . $tx['prov'] . ' #' . $id));
+            $done = true;
+        }
+        $pdo->commit();
+    } catch (Exception $e) { if ($pdo->inTransaction()) $pdo->rollBack(); return false; }
+    if ($done) { nk_tell($tx['uid'], "✅ Balans to'ldirildi: +" . money($tx['amount']) . " (" . ($tx['prov'] === 'payme' ? 'Payme' : 'Click') . ")"); }
+    return $done;
+}
+function pay_url($tx) {
+    $ret = APP_URL;
+    if ($tx['prov'] === 'payme') {
+        $mid = pay_set('payme_mid'); $base = pay_set('payme_test', '0') === '1' ? 'https://checkout.test.paycom.uz/' : 'https://checkout.paycom.uz/';
+        return $base . base64_encode('m=' . $mid . ';ac.order_id=' . (int)$tx['id'] . ';a=' . ((int)$tx['amount'] * 100) . ';l=uz;c=' . $ret);
+    }
+    return 'https://my.click.uz/services/pay?service_id=' . rawurlencode(pay_set('click_sid')) . '&merchant_id=' . rawurlencode(pay_set('click_mid')) . '&amount=' . (int)$tx['amount'] . '&transaction_param=' . (int)$tx['id'] . '&return_url=' . rawurlencode($ret);
+}
+/* ---- Payme (JSON-RPC 2.0) ---- */
+class PaymeEnd extends Exception {}
+function payme_err($id, $code, $uz, $data = null) {
+    $m = array('uz' => $uz, 'ru' => $uz, 'en' => $uz);
+    throw new PaymeEnd(json_encode(array('jsonrpc' => '2.0', 'id' => $id, 'error' => array('code' => $code, 'message' => $m, 'data' => $data))));
+}
+function payme_ok($id, $res) { throw new PaymeEnd(json_encode(array('jsonrpc' => '2.0', 'id' => $id, 'result' => $res))); }
+function payme_auth() {
+    $h = '';
+    foreach (array('HTTP_AUTHORIZATION', 'REDIRECT_HTTP_AUTHORIZATION') as $k) if (!empty($_SERVER[$k])) { $h = $_SERVER[$k]; break; }
+    if ($h === '' && function_exists('getallheaders')) { foreach (getallheaders() as $k => $v) if (strtolower($k) === 'authorization') { $h = $v; break; } }
+    if ($h === '' && isset($_SERVER['PHP_AUTH_PW'])) $h = 'Basic ' . base64_encode((isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '') . ':' . $_SERVER['PHP_AUTH_PW']);
+    $key = pay_set('payme_key'); if ($key === '') return false;
+    return hash_equals('Basic ' . base64_encode('Paycom:' . $key), trim($h));
+}
+function payme_state($tx) { return array('wait' => 1, 'paid' => 2, 'cancel' => -1, 'refund' => -2)[$tx['st']]; }
+function payme_row($tx) {
+    return array('create_time' => (int)$tx['ctime'], 'perform_time' => (int)$tx['ptime'], 'cancel_time' => (int)$tx['ctime2'], 'transaction' => (string)$tx['id'], 'state' => payme_state($tx), 'reason' => $tx['reason'] === null ? null : (int)$tx['reason']);
+}
+function payme_order($id, $params, $forCreate) {
+    $acc = isset($params['account']) && is_array($params['account']) ? $params['account'] : array();
+    $oid = isset($acc['order_id']) ? (int)$acc['order_id'] : 0;
+    $tx = $oid > 0 ? q("SELECT * FROM pay_tx WHERE id=? AND prov='payme'", array($oid))->fetch() : false;
+    if (!$tx) payme_err($id, -31050, 'Buyurtma topilmadi', 'order_id');
+    if (!isset($params['amount']) || (int)$params['amount'] !== (int)$tx['amount'] * 100) payme_err($id, -31001, 'Summa noto\'g\'ri', 'amount');
+    return $tx;
+}
+function payme_handle() {
+    header('Content-Type: application/json; charset=utf-8');
+    $raw = file_get_contents('php://input'); $req = json_decode($raw, true); $rid = is_array($req) && isset($req['id']) ? $req['id'] : null; $m = '';
+    try {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') payme_err($rid, -32300, 'Faqat POST so\'rov');
+        if (!is_array($req) || !isset($req['method'])) payme_err($rid, -32700, 'JSON xato');
+        if (!payme_auth()) payme_err($rid, -32504, 'Ruxsat yo\'q');
+        $m = (string)$req['method']; $p = isset($req['params']) && is_array($req['params']) ? $req['params'] : array();
+        payme_dispatch($rid, $m, $p, pay_ms());
+        $out = json_encode(array('jsonrpc' => '2.0', 'id' => $rid, 'error' => array('code' => -32400, 'message' => array('uz' => 'Ichki xatolik', 'ru' => 'Ichki xatolik', 'en' => 'Internal error'))));
+    } catch (PaymeEnd $e) { $out = $e->getMessage(); }
+    catch (Exception $e) { $out = json_encode(array('jsonrpc' => '2.0', 'id' => $rid, 'error' => array('code' => -32400, 'message' => array('uz' => 'Ichki xatolik', 'ru' => 'Ichki xatolik', 'en' => 'Internal error')))); }
+    if ($m !== '' || $req !== null) pay_log('payme', $m . ' ' . mb_substr((string)$raw, 0, 1200), $out);
+    echo $out; exit;
+}
+function payme_timeout($tx, $now) { return $tx['st'] === 'wait' && $now - (int)$tx['ctime'] > 43200000; }
+function payme_dispatch($rid, $m, $p, $now) {
+    $ext = isset($p['id']) ? mb_substr((string)$p['id'], 0, 64) : '';
+    if ($m === 'CheckPerformTransaction') {
+        $tx = payme_order($rid, $p, false);
+        if ($tx['st'] !== 'new') payme_err($rid, -31099, 'Buyurtma band yoki to\'langan', 'order_id');
+        payme_ok($rid, array('allow' => true));
+    }
+    if ($m === 'CreateTransaction') {
+        $have = $ext !== '' ? q("SELECT * FROM pay_tx WHERE prov='payme' AND ext=?", array($ext))->fetch() : false;
+        if ($have) {
+            if ($have['st'] !== 'wait') payme_err($rid, -31008, 'Tranzaksiya holati noto\'g\'ri');
+            if (payme_timeout($have, $now)) { q("UPDATE pay_tx SET st='cancel', reason=4, ctime2=?, upd=NOW() WHERE id=? AND st='wait'", array($now, $have['id'])); payme_err($rid, -31008, 'Tranzaksiya muddati tugagan'); }
+            payme_ok($rid, array('create_time' => (int)$have['ctime'], 'transaction' => (string)$have['id'], 'state' => 1));
+        }
+        $tx = payme_order($rid, $p, true);
+        if ($ext === '' || !isset($p['time'])) payme_err($rid, -32600, 'So\'rov noto\'g\'ri');
+        $pdo = db(); $ok = false;
+        try {
+            $pdo->beginTransaction();
+            $cur = q('SELECT * FROM pay_tx WHERE id=? FOR UPDATE', array($tx['id']))->fetch();
+            if ($cur && $cur['st'] === 'new') { q("UPDATE pay_tx SET st='wait', ext=?, ctime=?, upd=NOW() WHERE id=?", array($ext, (int)$p['time'], $cur['id'])); $ok = true; }
+            $pdo->commit();
+        } catch (Exception $e) { if ($pdo->inTransaction()) $pdo->rollBack(); throw $e; }
+        if (!$ok) payme_err($rid, -31099, 'Buyurtmada boshqa tranzaksiya bor', 'order_id');
+        payme_ok($rid, array('create_time' => (int)$p['time'], 'transaction' => (string)$tx['id'], 'state' => 1));
+    }
+    $tx = ($ext !== '' && in_array($m, array('PerformTransaction', 'CancelTransaction', 'CheckTransaction'), true)) ? q("SELECT * FROM pay_tx WHERE prov='payme' AND ext=?", array($ext))->fetch() : false;
+    if ($m === 'PerformTransaction') {
+        if (!$tx) payme_err($rid, -31003, 'Tranzaksiya topilmadi');
+        if ($tx['st'] === 'paid') payme_ok($rid, array('transaction' => (string)$tx['id'], 'perform_time' => (int)$tx['ptime'], 'state' => 2));
+        if ($tx['st'] !== 'wait') payme_err($rid, -31008, 'Tranzaksiya holati noto\'g\'ri');
+        if (payme_timeout($tx, $now)) { q("UPDATE pay_tx SET st='cancel', reason=4, ctime2=?, upd=NOW() WHERE id=? AND st='wait'", array($now, $tx['id'])); payme_err($rid, -31008, 'Tranzaksiya muddati tugagan'); }
+        pay_credit($tx['id']); $t2 = q('SELECT * FROM pay_tx WHERE id=?', array($tx['id']))->fetch();
+        if ($t2['st'] !== 'paid') payme_err($rid, -31008, 'Tranzaksiya holati noto\'g\'ri');
+        payme_ok($rid, array('transaction' => (string)$t2['id'], 'perform_time' => (int)$t2['ptime'], 'state' => 2));
+    }
+    if ($m === 'CancelTransaction') {
+        if (!$tx) payme_err($rid, -31003, 'Tranzaksiya topilmadi');
+        $reason = isset($p['reason']) ? (int)$p['reason'] : null;
+        if ($tx['st'] === 'wait') { q("UPDATE pay_tx SET st='cancel', reason=?, ctime2=?, upd=NOW() WHERE id=? AND st='wait'", array($reason, $now, $tx['id'])); }
+        elseif ($tx['st'] === 'paid') {
+            $pdo = db(); $ok = false;
+            try {
+                $pdo->beginTransaction();
+                $cur = q('SELECT * FROM pay_tx WHERE id=? FOR UPDATE', array($tx['id']))->fetch();
+                if ($cur['st'] === 'paid' && q('UPDATE users SET balance=balance-? WHERE id=? AND balance>=?', array($cur['amount'], $cur['uid'], $cur['amount']))->rowCount() === 1) {
+                    q("UPDATE pay_tx SET st='refund', reason=?, ctime2=?, upd=NOW() WHERE id=?", array($reason, $now, $cur['id'])); $ok = true;
+                    q("INSERT INTO topups (user_id,amount,status,created_at,decided_at,flag) VALUES (?,?,'rejected',NOW(),NOW(),?)", array($cur['uid'], $cur['amount'], 'avto: payme qaytarildi #' . $cur['id']));
+                }
+                $pdo->commit();
+            } catch (Exception $e) { if ($pdo->inTransaction()) $pdo->rollBack(); throw $e; }
+            if (!$ok) payme_err($rid, -31007, 'Pul balansdan sarflangan — bekor qilib bo\'lmaydi');
+            notify_admins('↩️ Payme to\'lovi #' . $tx['id'] . ' (' . money($tx['amount']) . ') qaytarildi — foydalanuvchi balansidan yechildi.');
+        }
+        $t2 = q('SELECT * FROM pay_tx WHERE id=?', array($tx['id']))->fetch();
+        payme_ok($rid, array('transaction' => (string)$t2['id'], 'cancel_time' => (int)$t2['ctime2'], 'state' => payme_state($t2)));
+    }
+    if ($m === 'CheckTransaction') {
+        if (!$tx) payme_err($rid, -31003, 'Tranzaksiya topilmadi');
+        payme_ok($rid, payme_row($tx));
+    }
+    if ($m === 'GetStatement') {
+        $f = isset($p['from']) ? (int)$p['from'] : 0; $t = isset($p['to']) ? (int)$p['to'] : 0; $res = array();
+        foreach (q("SELECT * FROM pay_tx WHERE prov='payme' AND ext IS NOT NULL AND ctime BETWEEN ? AND ? ORDER BY ctime", array($f, $t))->fetchAll() as $x)
+            $res[] = array('id' => $x['ext'], 'time' => (int)$x['ctime'], 'amount' => (int)$x['amount'] * 100, 'account' => array('order_id' => (string)$x['id'])) + payme_row($x);
+        payme_ok($rid, array('transactions' => $res));
+    }
+    payme_err($rid, -32601, 'Metod topilmadi', $m);
+}
+/* ---- Click (Shop API: Prepare / Complete) ---- */
+function click_out($a) { header('Content-Type: application/json; charset=utf-8'); $s = json_encode($a); pay_log('click', json_encode($_POST), $s); echo $s; exit; }
+function click_handle() {
+    $g = function ($k) { return isset($_POST[$k]) ? trim((string)$_POST[$k]) : ''; };
+    $ct = $g('click_trans_id'); $sid = $g('service_id'); $mt = $g('merchant_trans_id'); $am = $g('amount'); $ac = $g('action'); $st = $g('sign_time'); $sg = $g('sign_string'); $err = (int)$g('error');
+    $base = array('click_trans_id' => $ct, 'merchant_trans_id' => $mt);
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $ct === '' || $ac === '' || $sg === '') click_out($base + array('error' => -8, 'error_note' => 'Request error'));
+    $key = pay_set('click_key'); if ($key === '') click_out($base + array('error' => -1, 'error_note' => 'SIGN CHECK FAILED!'));
+    $prep = $ac === '1' ? $g('merchant_prepare_id') : '';
+    $mine = md5($ct . $sid . $key . $mt . $prep . $am . $ac . $st);
+    if (!hash_equals($mine, strtolower($sg)) || $sid !== pay_set('click_sid')) click_out($base + array('error' => -1, 'error_note' => 'SIGN CHECK FAILED!'));
+    if ($ac !== '0' && $ac !== '1') click_out($base + array('error' => -3, 'error_note' => 'Action not found'));
+    $tx = ctype_digit($mt) ? q("SELECT * FROM pay_tx WHERE id=? AND prov='click'", array((int)$mt))->fetch() : false;
+    if (!$tx) click_out($base + array('error' => -5, 'error_note' => 'User does not exist'));
+    if (!is_numeric($am) || abs((float)$am - (float)$tx['amount']) > 0.01) click_out($base + array('error' => -2, 'error_note' => 'Incorrect parameter amount'));
+    if ($ac === '0') {   /* Prepare */
+        if ($tx['st'] === 'paid') click_out($base + array('error' => -4, 'error_note' => 'Already paid'));
+        if ($tx['st'] === 'cancel' || $tx['st'] === 'refund') click_out($base + array('error' => -9, 'error_note' => 'Transaction cancelled'));
+        if ($tx['st'] === 'wait' && $tx['ext'] !== $ct) click_out($base + array('error' => -4, 'error_note' => 'Order busy'));
+        q("UPDATE pay_tx SET st='wait', ext=?, ctime=?, upd=NOW() WHERE id=? AND st IN ('new','wait')", array($ct, pay_ms(), $tx['id']));
+        click_out($base + array('merchant_prepare_id' => (int)$tx['id'], 'error' => 0, 'error_note' => 'Success'));
+    }
+    /* Complete */
+    if ((int)$prep !== (int)$tx['id']) click_out($base + array('error' => -6, 'error_note' => 'Transaction does not exist'));
+    if ($tx['st'] === 'paid') click_out($base + array('merchant_prepare_id' => (int)$tx['id'], 'merchant_confirm_id' => (int)$tx['id'], 'error' => -4, 'error_note' => 'Already paid'));
+    if ($tx['st'] === 'cancel' || $tx['st'] === 'refund') click_out($base + array('error' => -9, 'error_note' => 'Transaction cancelled'));
+    if ($tx['ext'] !== $ct) click_out($base + array('error' => -6, 'error_note' => 'Transaction does not exist'));
+    if ($err < 0) { q("UPDATE pay_tx SET st='cancel', reason=?, ctime2=?, upd=NOW() WHERE id=? AND st='wait'", array($err, pay_ms(), $tx['id'])); click_out($base + array('error' => -9, 'error_note' => 'Transaction cancelled')); }
+    pay_credit($tx['id']);
+    click_out($base + array('merchant_prepare_id' => (int)$tx['id'], 'merchant_confirm_id' => (int)$tx['id'], 'error' => 0, 'error_note' => 'Success'));
+}
+
 /* ---------- NAKRUTKA: prm4u.com (SMM panel, API v2) orqali obunachi / ko'rish / reaksiya ---------- */
 function nk_cfg() {
     $u = defined('NK_API_URL') ? (string)NK_API_URL : (string)setting('nk_url', 'https://prm4u.com/api/v2');
@@ -6357,6 +6548,12 @@ if (isset($_GET['l'])) {   /* qisqa havola: bosishlar sanaladi va manzilga yo'na
     if (!preg_match('/bot|crawl|spider|preview|facebookexternalhit|whatsapp/i', isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '')) q('UPDATE short_links SET clicks=clicks+1 WHERE id=?', array($r['id']));   /* havola ko'rinishini tayyorlovchi botlar sanalmaydi */
     header('Location: ' . $r['url'], true, 302); exit;
 }
+if (isset($_GET['pay'])) {   /* Payme / Click serverlari shu manzilga murojaat qiladi (Telegram avtorizatsiyasiz; o'z imzosi bilan himoyalangan) */
+    mig();
+    if ($_GET['pay'] === 'payme') payme_handle();
+    if ($_GET['pay'] === 'click') click_handle();
+    http_response_code(404); exit;
+}
 if (isset($_GET['hook'])) {
     if (!hash_equals(KEY, (string)$_GET['hook'])) { http_response_code(403); exit; }
     $u = json_decode(file_get_contents('php://input'), true); mig();
@@ -7481,7 +7678,7 @@ if (isset($_GET['api'])) {
             'card' => $cfg['card'], 'holder' => $cfg['holder'], 'prices' => $cfg['prices'], 'min' => PAY_MIN, 'max' => PAY_MAX,
             'cnt' => array('Kanal' => (int)q('SELECT COUNT(*) ' . ad_aud('Kanal')[0])->fetchColumn() > 0 ? 1 : 0, 'Guruh' => (int)q('SELECT COUNT(*) ' . ad_aud('Guruh')[0])->fetchColumn() > 0 ? 1 : 0, 'users' => (int)q('SELECT COUNT(*) ' . ad_aud('users')[0])->fetchColumn() > 0 ? 1 : 0),   /* soni e'lon beruvchiga ko'rsatilmaydi — faqat bor/yo'q */
             'topups' => q('SELECT id,amount,status,created_at FROM topups WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll(),
-            'wd_min' => WD_MIN, 'dn_min' => DN_MIN, 'wd_hold' => (int)q("SELECT COALESCE(SUM(amount),0) FROM withdrawals WHERE user_id=? AND status='pending'", array($u['id']))->fetchColumn(),
+            'pay' => pay_list(), 'pay_min' => pay_min(), 'pay_max' => pay_max(), 'wd_min' => WD_MIN, 'dn_min' => DN_MIN, 'wd_hold' => (int)q("SELECT COALESCE(SUM(amount),0) FROM withdrawals WHERE user_id=? AND status='pending'", array($u['id']))->fetchColumn(),
             'wds' => q('SELECT id,amount,status,created_at,card FROM withdrawals WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll(),
             'orders' => q('SELECT id,kind,price,status,created_at FROM ad_orders WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll()));
     }
@@ -7704,6 +7901,19 @@ if (isset($_GET['api'])) {
             out(array('ok' => false, 'error' => 'Hozir bekor qilib bo\'lmadi (provayder ruxsat bermadi). Birozdan keyin urinib ko\'ring'), 409);
         }
     }
+    if ($a === 'pay_new') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
+        $pv = (string)(isset($in['provider']) ? $in['provider'] : ''); $amt = (int)(isset($in['amount']) ? $in['amount'] : 0);
+        if (!in_array($pv, pay_list(), true)) out(array('ok' => false, 'error' => 'Bu to\'lov usuli hozir ishlamayapti'), 503);
+        if ($amt < pay_min() || $amt > pay_max()) out(array('ok' => false, 'error' => 'Summa ' . money(pay_min()) . ' dan ' . money(pay_max()) . ' gacha bo\'lishi kerak'), 422);
+        if ((int)q("SELECT COUNT(*) FROM pay_tx WHERE uid=? AND st IN ('new','wait') AND created > NOW() - INTERVAL 1 HOUR", array($u['id']))->fetchColumn() >= 6) out(array('ok' => false, 'error' => 'Kutilayotgan to\'lovlar ko\'p. Birozdan keyin urinib ko\'ring'), 429);
+        q("INSERT INTO pay_tx (uid,prov,amount,st,created,upd) VALUES (?,?,?,'new',NOW(),NOW())", array($u['id'], $pv, $amt)); $id = (int)db()->lastInsertId();
+        out(array('ok' => true, 'id' => $id, 'url' => pay_url(array('id' => $id, 'prov' => $pv, 'amount' => $amt))));
+    }
+    if ($a === 'pay_status') {
+        $r = q('SELECT id,prov,amount,st FROM pay_tx WHERE id=? AND uid=?', array((int)(isset($in['id']) ? $in['id'] : 0), $u['id']))->fetch(); if (!$r) out(array('ok' => false, 'error' => 'Topilmadi'), 404);
+        out(array('ok' => true, 'st' => $r['st'], 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn()));
+    }
     if (!$adm) out(array('ok' => false, 'error' => 'Ruxsat yo\'q'), 403);
     if (strpos($a, 'nk_adm') === 0) {
         $isp = $_SERVER['REQUEST_METHOD'] === 'POST'; if (!$isp) out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
@@ -7867,6 +8077,44 @@ if (isset($_GET['api'])) {
                 q("UPDATE vs_ord SET st='wait', porder=?, phone=?, err='', expires=?, upd=NOW() WHERE id=? AND st IN ('new','unk')", array($po, mb_substr($ph, 0, 32), date('Y-m-d H:i:s', time() + 15 * 60), $id)); out(array('ok' => true));
             }
             out(array('ok' => false, 'error' => 'Noto\'g\'ri amal'), 422);
+        }
+        out(array('ok' => false, 'error' => 'Noma\'lum amal'), 404);
+    }
+    if (strpos($a, 'pay_adm') === 0) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
+        $tail = function ($k) { $v = pay_set($k); return $v === '' ? '' : substr($v, -4); };
+        if ($a === 'pay_adm_get') {
+            $tx = q('SELECT t.id,t.uid,t.prov,t.amount,t.st,t.created,u.name,u.username FROM pay_tx t LEFT JOIN users u ON u.id=t.uid ORDER BY t.id DESC LIMIT 25')->fetchAll();
+            foreach ($tx as $i => $r) { $tx[$i]['created'] = date('d.m H:i', strtotime($r['created'])); $tx[$i]['amount'] = (int)$r['amount']; }
+            $lg = q('SELECT prov,req,res,at FROM pay_log ORDER BY id DESC LIMIT 8')->fetchAll();
+            foreach ($lg as $i => $r) $lg[$i]['at'] = date('d.m H:i:s', strtotime($r['at']));
+            out(array('ok' => true, 'min' => pay_min(), 'max' => pay_max(), 'app' => APP_URL, 'https' => stripos(APP_URL, 'https://') === 0,
+                'payme' => array('mid' => pay_set('payme_mid'), 'key_tail' => $tail('payme_key'), 'test' => pay_set('payme_test', '0') === '1', 'on' => pay_set('payme_on', '1') === '1', 'ready' => pay_on('payme'), 'url' => APP_URL . '?pay=payme'),
+                'click' => array('sid' => pay_set('click_sid'), 'mid' => pay_set('click_mid'), 'key_tail' => $tail('click_key'), 'on' => pay_set('click_on', '1') === '1', 'ready' => pay_on('click'), 'url' => APP_URL . '?pay=click'),
+                'tx' => $tx, 'log' => $lg,
+                'sum' => array('n' => (int)q("SELECT COUNT(*) FROM pay_tx WHERE st='paid' AND created > NOW() - INTERVAL 30 DAY")->fetchColumn(), 'sum' => (int)q("SELECT COALESCE(SUM(amount),0) FROM pay_tx WHERE st='paid' AND created > NOW() - INTERVAL 30 DAY")->fetchColumn())));
+        }
+        if ($a === 'pay_adm_set') {
+            $p = (string)(isset($in['p']) ? $in['p'] : ''); $g = function ($k) use ($in) { return trim((string)(isset($in[$k]) ? $in[$k] : '')); };
+            if ($p === 'limits') {
+                $mn = (int)$g('min'); $mx = (int)$g('max'); if ($mn < 1000 || $mx < $mn || $mx > 100000000) out(array('ok' => false, 'error' => 'Eng kam 1 000 dan, eng ko\'p eng kamidan katta va 100 000 000 dan oshmasin'), 422);
+                setset('pay_amin', $mn); setset('pay_amax', $mx); out(array('ok' => true));
+            }
+            if ($p === 'payme') {
+                $mid = $g('mid'); $key = $g('key');
+                if ($mid !== '' && !preg_match('/^[0-9a-fA-F]{24}$/', $mid)) out(array('ok' => false, 'error' => 'Merchant ID 24 ta belgidan iborat bo\'ladi (Payme Business → Kassa → ID)'), 422);
+                if ($key !== '' && !preg_match('/^[A-Za-z0-9_@#$%&*!?.,:;+=~\-]{16,100}$/', $key)) out(array('ok' => false, 'error' => 'Maxfiy kalit noto\'g\'ri ko\'rinadi (Payme Business → Kassa → Parametrlar → Kalit)'), 422);
+                if ($mid !== '') setset('payme_mid', $mid); if ($key !== '') setset('payme_key', $key);
+                setset('payme_test', !empty($in['test']) ? '1' : '0'); setset('payme_on', !empty($in['on']) ? '1' : '0'); out(array('ok' => true));
+            }
+            if ($p === 'click') {
+                $sid = $g('sid'); $mid = $g('mid'); $key = $g('key');
+                if (($sid !== '' && !preg_match('/^\d{1,10}$/', $sid)) || ($mid !== '' && !preg_match('/^\d{1,10}$/', $mid))) out(array('ok' => false, 'error' => 'Service ID va Merchant ID raqam bo\'ladi (Click Merchant kabineti)'), 422);
+                if ($key !== '' && !preg_match('/^[A-Za-z0-9]{8,64}$/', $key)) out(array('ok' => false, 'error' => 'Maxfiy kalit (Secret key) noto\'g\'ri ko\'rinadi'), 422);
+                if ($sid !== '') setset('click_sid', $sid); if ($mid !== '') setset('click_mid', $mid); if ($key !== '') setset('click_key', $key);
+                setset('click_on', !empty($in['on']) ? '1' : '0'); out(array('ok' => true));
+            }
+            out(array('ok' => false, 'error' => 'Noma\'lum bo\'lim'), 422);
         }
         out(array('ok' => false, 'error' => 'Noma\'lum amal'), 404);
     }
@@ -8915,7 +9163,7 @@ function pickR(i){var f=i.files[0];if(!f)return;imgfit(f,1280,1280,false,functio
 function pickA(i){var f=i.files[0];if(!f)return;imgfit(f,1280,720,true,function(d){AIMG=d;$('apv').innerHTML=pvA()})}
 function aks(k){var t=$('atx');if(t)ATXT=t.value;AKS=k;rads()}
 function rbal(){var h='<div class="card"><div class="sub">Sizning balansingiz</div><div style="font-size:30px;font-weight:700;margin-top:4px">'+fmt(W.balance)+'</div></div>';
-h+='<div class="card"><b>➕ Balansni to\'ldirish</b><input id="ta" type="number" inputmode="numeric" placeholder="Summani kiriting (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.min)+', eng ko\'pi '+fmt(W.max)+'.</p>';
+h+='<div class="card"><b>➕ Balansni to\'ldirish</b>'+payui()+'<input id="ta" type="number" inputmode="numeric" placeholder="Summani kiriting (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.min)+', eng ko\'pi '+fmt(W.max)+'.</p>';
 if(W.card){h+='<div class="cbx"><div class="sub" style="font-size:12px">Karta raqami</div><div class="row" style="margin:2px 0 8px"><b style="font-size:18px;letter-spacing:.5px">'+esc(W.card)+'</b><button class="cp" onclick="cpy()" aria-label="Nusxalash"><svg viewBox="0 0 24 24" fill="none" stroke="#2f80ed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div><div class="sub" style="font-size:12px">Karta egasi</div><b>'+esc(W.holder)+'</b></div><p class="sub" style="font-size:12px;margin:0 0 6px">Shu kartaga to\'lov qiling, to\'lov chekining rasmini yuklang va «To\'lov qildim» ni bosing. Admin tasdiqlagach summa balansingizga tushadi.</p><label class="up">🧾 To\'lov chekini yuklang<input type="file" accept="image/*" style="display:none" onchange="pickR(this)"></label><div id="rpv">'+pvR()+'</div><button class="btn" onclick="tn()">To\'lov qildim</button>'}else h+='<p class="sub">Karta ma\'lumotlari hali kiritilmagan.</p>';
 h+='</div>';
 h+='<div class="card"><b>🤝 Bot rivoji uchun o\'tkazish</b><input id="da" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.dn_min)+'. Summa darhol balansingizdan yechiladi va bot rivojiga yo\'naltiriladi.</p><button class="btn" onclick="dns()">O\'tkazish</button></div>';
@@ -9077,8 +9325,8 @@ s+='<div class="ahd"><div class="aav"><svg viewBox="0 0 24 24"><path d="M21.4 3.
 +'<div class="ag">'+A('sh','c2','Bot holati','',"av('bot')")+A('sx','c5','Statistika',nf(AD.s['Bugun yuborilgan']||0)+' bugun',"av('stat')")+A('co','c7','To\'lovlar','',"av('topups')",pt||0)+A('co','c8','Pul yechish','',"av('wd')",(AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+A('sh','c3','Nizolar (reklama birjasi)','',"av('disp')",(AD.pay.disputes||[]).length)+A('li','c8','E\'lon buyurtmalari','',"av('orders')",pd||0)+'</div>'
 +'<div class="ag">'+A('rp','c3','Bank kurslari','',"MED=null;MBK=null;av('manual')")+A('dc','c6','Post matnlari','',"av('auto')")+A('mn','c9','Tongi xabar','',"av('dp')")+A('mq','c1','Namoz xabarnomalari','',"pra()")+'</div>'
 +'<div class="ag">'+A('sh','c3','Guruh himoyasi','',"gda()")+A('qz','c5','Testlar','',"go('qz')")+A('gr','c4','A\'zolar bazasi','',"av('menu')")+A('qz','c9','Menyu bo\'limlari','',"av('menu')")+'</div>'
-+'<div class="ag">'+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
-else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
++'<div class="ag">'+A('cd','c7','Avto-to\'lov (Payme · Click)','',"av('apay')")+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
+else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='apay'){s+='<h1>💳 Avto-to\'lov</h1><div id="apb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
 else if(v==='wd'){s+='<h1>➖ Pul yechish</h1>'+((AD.pay.wds||[]).length?AD.pay.wds.map(function(t){var p=t.status==='pending';return '<div class="card"><div class="row"><b>'+fmt(t.amount)+'</b><span class="tag">'+TS[t.status]+'</span></div><div class="sub">'+esc(t.name||t.uid)+(t.username?' · @'+esc(t.username):'')+' · '+esc(t.created_at)+'</div><div class="sub" style="margin-top:6px">Karta: <b>'+esc(String(t.card).replace(/(\d{4})(?=\d)/g,'$1 '))+'</b><br>Egasi: <b>'+esc(t.holder)+'</b><br>Balans: '+fmt(t.balance)+'</div>'+(p?'<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="tw('+t.id+',\'approve\')">✅ Tasdiqlash</button><button class="btn s" onclick="tw('+t.id+',\'reject\')">❌ Rad etish</button></div>':'')+'</div>'}).join(''):'<div class="card sub">Hozircha yechish so\'rovlari yo\'q</div>')}
 else if(v==='stat'){s+='<h1>📊 Statistika</h1>'+Object.keys(AD.s).map(function(k){return '<div class="card row"><span class="sub">'+k+'</span><b>'+AD.s[k]+'</b></div>'}).join('')+'<div class="card row"><span class="sub">Kurs yangilangan</span><b>'+esc(AD.last_ok||'—')+'</b></div>'+(AD.last_err?'<div class="card"><div class="row"><span class="sub">Oxirgi urinish</span><b>'+esc(AD.last_try||'—')+'</b></div><div class="sub" style="color:var(--r);margin-top:6px">⚠️ Kurs olinmadi: '+esc(AD.last_err)+'</div></div>':'')}
 else if(v==='bot'){s+='<h1>🤖 Bot holati</h1><div id="botst"><div class="card sub">Tekshirilmoqda…</div></div>';setTimeout(function(){botchk()},0)}
@@ -9353,7 +9601,7 @@ PV.d.forEach(function(p){var ic=PVI[p.id]||PVI.prm4u;h+='<div class="card"><div 
 el.innerHTML=h}
 function pvsave(id){api('nk_adm_limit',{id:id,limit:$('pvlm_'+id).value}).then(function(j){if(j.ok){toast('Saqlandi');pvl(0)}})}
 function pvsite(u){try{tg.openLink(u)}catch(e){window.open(u,'_blank')}}
-var _avN=av;av=function(v){_avN(v);if(v==='home'||v==='pv')pvl(0)};
+var _avN=av;av=function(v){_avN(v);if(v==='home'||v==='pv')pvl(0);if(v==='apay')apl()};
 
 function pvsm(p){var s=PV.sm||{};return '<div class="sub" style="margin-bottom:4px">API kalit ('+(s.key_set?'saqlangan ••••'+esc(s.key_tail):'kiritilmagan')+') — 5sim → Settings → «API key for 5SIM protocol»</div><input id="smk" type="password" autocomplete="off" placeholder="'+(s.key_set?'Yangi kalit (o\'zgartirish uchun)':'API kalitni shu yerga qo\'ying')+'"'+(s.key_const?' disabled':'')+'><div class="sub" style="margin-bottom:4px">Balans valyutasi (5sim API qaysi valyutada qaytarsa shuni tanlang — saytdagi bilan solishtiring)</div><div class="cps"><button class="chip'+(s.cur==='RUB'?' on':'')+'" id="smc_RUB" onclick="smcur(\'RUB\')">₽ RUB</button><button class="chip'+(s.cur==='USD'?' on':'')+'" id="smc_USD" onclick="smcur(\'USD\')">$ USD</button></div><input id="smr" type="number" inputmode="decimal" value="'+(s.rub||'')+'" placeholder="1 rubl necha so\'m (faqat RUB uchun, ixtiyoriy)"><button class="btn" onclick="smsave()">💾 Kalit va valyutani saqlash</button>'}
 function smcur(c){PV.sm.cur=c;['RUB','USD'].forEach(function(x){var b=$('smc_'+x);if(b)b.classList.toggle('on',x===c)})}
@@ -9407,6 +9655,33 @@ function vsaa(){api('vs_adm_add',{country:$('vac').value,product:$('vap').value,
 function vsos(id,tg2){var o=null;VS.A.offers.forEach(function(x){if(x.id===id)o=x});if(!o)return;api('vs_adm_off',{id:id,title:$('vot'+id).value,price:$('vop'+id).value,act:tg2?(o.act?0:1):o.act,sort:o.sort}).then(function(j){if(j.ok){toast('Saqlandi');vsl(1)}})}
 function vsod(id){nkcf('Taklif o\'chirilsinmi? (Eski buyurtmalar saqlanadi)',function(){api('vs_adm_off',{id:id,del:1}).then(function(j){if(j.ok){toast('O\'chirildi');vsl(1)}})})}
 function vsfx(id,d){nkcf(d==='refund'?'Buyurtma #'+id+' uchun pul foydalanuvchiga qaytarilsinmi?':'Buyurtma 5sim ga yuborilgan deb belgilansinmi?',function(){api('vs_adm_fix',{id:id,do:d,porder:($('vpo'+id)||{}).value||'',phone:($('vph'+id)||{}).value||''}).then(function(j){if(j.ok){toast('Bajarildi');vsl(1)}})})}
+
+/* ---------- AVTOMATIK TO'LOV (Payme · Click) ---------- */
+var PAYW={t:0,ap:null,go:0};
+function payui(){var l=(W&&W.pay)||[];if(!l.length)return '';var nm={payme:'Payme',click:'Click'},cl={payme:'#33ccc5',click:'#00aeef'};
+return '<div style="border-bottom:1px solid var(--ln);padding:8px 0 12px;margin-bottom:10px"><b>⚡ Karta bilan (avtomatik)</b><div class="sub" style="margin:2px 0 8px">Summa to\'lovdan keyin darrov balansingizga tushadi — chek yuborish va kutish shart emas.</div><input id="pa" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><div class="cps">'+[10000,50000,100000,200000,500000].map(function(v){return '<button class="chip" onclick="$(\'pa\').value='+v+'">'+nkn(v)+'</button>'}).join('')+'</div><div style="display:flex;gap:8px;margin-top:10px">'+l.map(function(p){return '<button class="btn" style="flex:1;background:'+cl[p]+'" onclick="payn(\''+p+'\')">'+nm[p]+' orqali</button>'}).join('')+'</div><p class="sub" style="font-size:12px;margin:8px 0 0">Eng kam '+fmt(W.pay_min)+', eng ko\'pi '+fmt(W.pay_max)+'. To\'lov Payme/Click sahifasida amalga oshadi, so\'ng shu yerga qayting.</p></div><div class="sub" style="margin:0 0 8px"><b>Yoki qo\'lda</b> (kartaga o\'tkazib, chek yuklash):</div>'}
+function payn(p){var v=parseInt(($('pa')||{}).value,10)||0;if(v<W.pay_min||v>W.pay_max){toast('Summa '+fmt(W.pay_min)+' dan '+fmt(W.pay_max)+' gacha bo\'lsin');return}
+api('pay_new',{provider:p,amount:v}).then(function(j){if(!j.ok)return;PAYW.id=j.id;PAYW.b0=W.balance;try{tg.openLink(j.url)}catch(e){window.open(j.url,'_blank')}payw()})}
+function payw(){clearInterval(PAYW.t);var n=0;PAYW.t=setInterval(function(){n++;if(n>90){clearInterval(PAYW.t);return}api('pay_status',{id:PAYW.id}).then(function(j){if(!j.ok)return;if(j.st==='paid'){clearInterval(PAYW.t);toast('✅ Balans to\'ldirildi');W.balance=j.balance;if(window.wallet)wallet()}})},4000)}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&PAYW.id&&window.wallet&&['p-bal','p-ads','p-nk','p-vs'].some(function(i){var e=$(i);return e&&e.classList.contains('on')}))wallet()});
+/* --- admin --- */
+function apl(){api('pay_adm_get',{}).then(function(j){if(!j.ok)return;PAYW.ap=j;apr()})}
+function apcopy(u){vscp(u)}
+function apr(){var j=PAYW.ap,el=$('apb');if(!el||!j)return;var chip=function(on,t){return '<span style="font-size:12px;font-weight:700;border-radius:9px;padding:3px 9px;'+(on?'color:#1a9e4f;background:#e3f8ea">✓ '+t:'color:#7d8799;background:#eef1f6">'+t)+'</span>'};
+var h='';if(!j.https)h+='<div class="card" style="background:#fee4e2;border:1px solid #fecdca"><b style="color:#b42318">⚠️ APP_URL https:// bilan boshlanmaydi</b><div class="sub" style="color:#b42318">Payme va Click faqat HTTPS manzilga murojaat qiladi. config.php dagi APP_URL ni tuzating.</div></div>';
+h+='<div class="card"><div class="sub">So\'nggi 30 kun: to\'lovlar <b>'+j.sum.n+'</b> ta · jami <b>'+fmt(j.sum.sum)+'</b></div></div>';
+h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-size:17px">Payme</b>'+chip(j.payme.ready,j.payme.ready?'Faol':'Sozlanmagan')+'</div><div class="sub" style="margin-bottom:6px">Payme Business → Kassa → Parametrlar. «Endpoint URL» ga quyidagini yozing:</div><div class="row" style="margin:0 0 8px"><b style="font-size:13px;word-break:break-all">'+esc(j.payme.url)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="apcopy(\''+esc(j.payme.url)+'\')">📋</button></div>'
++'<input id="pmm" value="'+esc(j.payme.mid)+'" placeholder="Merchant ID (24 belgi)" autocapitalize="off"><input id="pmk" type="password" autocomplete="off" placeholder="'+(j.payme.key_tail?'Maxfiy kalit saqlangan (••••'+esc(j.payme.key_tail)+') — o\'zgartirish uchun yangisini kiriting':'Maxfiy kalit (Key)')+'">'
++'<div class="cps"><button class="chip'+(j.payme.test?' on':'')+'" id="pmt" onclick="PAYW.ap.payme.test=!PAYW.ap.payme.test;this.classList.toggle(\'on\',PAYW.ap.payme.test)">🧪 Sinov rejimi (test kassa)</button><button class="chip'+(j.payme.on?' on':'')+'" id="pmo" onclick="PAYW.ap.payme.on=!PAYW.ap.payme.on;this.classList.toggle(\'on\',PAYW.ap.payme.on)">✅ Yoqilgan</button></div><button class="btn" onclick="pasave(\'payme\')">💾 Payme sozlamalarini saqlash</button></div>';
+h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-size:17px">Click</b>'+chip(j.click.ready,j.click.ready?'Faol':'Sozlanmagan')+'</div><div class="sub" style="margin-bottom:6px">Click Merchant kabineti → Xizmat sozlamalari. «Prepare URL» va «Complete URL» ikkalasiga ham bir xil manzil:</div><div class="row" style="margin:0 0 8px"><b style="font-size:13px;word-break:break-all">'+esc(j.click.url)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="apcopy(\''+esc(j.click.url)+'\')">📋</button></div>'
++'<input id="clm" value="'+esc(j.click.mid)+'" placeholder="Merchant ID (raqam)" inputmode="numeric"><input id="cls" value="'+esc(j.click.sid)+'" placeholder="Service ID (raqam)" inputmode="numeric"><input id="clk" type="password" autocomplete="off" placeholder="'+(j.click.key_tail?'Maxfiy kalit saqlangan (••••'+esc(j.click.key_tail)+') — o\'zgartirish uchun yangisini kiriting':'Maxfiy kalit (Secret key)')+'">'
++'<div class="cps"><button class="chip'+(j.click.on?' on':'')+'" onclick="PAYW.ap.click.on=!PAYW.ap.click.on;this.classList.toggle(\'on\',PAYW.ap.click.on)">✅ Yoqilgan</button></div><button class="btn" onclick="pasave(\'click\')">💾 Click sozlamalarini saqlash</button></div>';
+h+='<div class="card"><b>Summa chegarasi (so\'m)</b><input id="pnm" type="number" value="'+j.min+'"><input id="pnx" type="number" value="'+j.max+'"><button class="btn s" onclick="pasave(\'limits\')">💾 Saqlash</button></div>';
+h+='<div class="card"><b>🧾 So\'nggi to\'lovlar</b>'+(j.tx.length?j.tx.map(function(t){var s={paid:['✅','To\'langan','#1a9e4f'],wait:['⏳','Jarayonda','#1d84f2'],'new':['🆕','Boshlangan','#8e8e93'],cancel:['✖','Bekor','#d92d20'],refund:['↩️','Qaytarilgan','#d92d20']}[t.st]||['','','#888'];return '<div style="border-top:1px solid var(--ln);margin-top:8px;padding-top:8px"><div class="row" style="margin:0"><b>'+fmt(t.amount)+' · '+(t.prov==='payme'?'Payme':'Click')+'</b><span style="color:'+s[2]+';font-weight:700;font-size:12.5px">'+s[0]+' '+s[1]+'</span></div><div class="sub">#'+t.id+' · '+esc(t.name||'')+(t.username?' @'+esc(t.username):'')+' · '+esc(t.created)+'</div></div>'}).join(''):'<div class="sub" style="margin-top:6px">Hali to\'lov yo\'q.</div>')+'</div>';
+if(j.log.length)h+='<div class="card"><b>🛰 So\'nggi so\'rovlar (provayderdan)</b>'+j.log.map(function(l){return '<div class="sub" style="border-top:1px solid var(--ln);margin-top:6px;padding-top:6px;word-break:break-all"><b>'+esc(l.prov)+'</b> '+esc(l.at)+'<br>'+esc(String(l.req).slice(0,140))+'<br>→ '+esc(String(l.res).slice(0,140))+'</div>'}).join('')+'</div>';
+el.innerHTML=h}
+function pasave(p){var j=PAYW.ap,b={p:p};if(p==='payme'){b.mid=$('pmm').value;b.key=$('pmk').value;b.test=j.payme.test?1:0;b.on=j.payme.on?1:0}else if(p==='click'){b.mid=$('clm').value;b.sid=$('cls').value;b.key=$('clk').value;b.on=j.click.on?1:0}else{b.min=$('pnm').value;b.max=$('pnx').value}
+api('pay_adm_set',b).then(function(r){if(r.ok){toast('Saqlandi');apl()}})}
 function sall(){$('saleb').innerHTML='<div class="sk"></div>';api('sale_list').then(function(j){if(!j.ok)return;SAD=j;var h='<p class="sub" style="margin:-6px 2px 12px">Sotuvdagi kanal va guruhlar. Raqamlar TartibOn statistikasidan olinadi — soxta emas. Xavfsiz savdo uchun «🛡 Vositachi» tugmasini bosing (haqi '+j.fee+'%).</p>';
 h+=j.list.length?j.list.map(function(c){var g=c.m30?(+c.members-c.m30):null,age=Math.max(0,Math.round((Date.now()/1000-new Date(String(c.created_at).replace(' ','T')).getTime()/1000)/86400));return '<div class="card"><div class="row"><div style="min-width:0"><b>🏷 '+esc(c.username)+(c.verified==1?' <span title="TartibOn tasdiqlagan">✅</span>':'')+'</b><div class="sub">'+(c.members?nf(+c.members)+' '+(c.ctype==='Kanal'?'obunachi':'a\'zo'):'')+(g!=null?' · 30 kunda '+(g>=0?'+':'')+nf(g):'')+(c.vz_cat?' · '+esc(c.vz_cat):'')+'</div></div><b style="flex:none">'+fmt(+c.price)+'</b></div>'+(c.descr?'<div class="sub" style="margin-top:6px">'+esc(c.descr)+'</div>':'')+'<div class="sub" style="margin-top:4px">✅ TartibOn\'da '+age+' kundan beri · statistika tasdiqlangan</div>'+(c.own==1?'<div class="sub" style="margin-top:8px">👤 Bu sizning e\'loningiz</div>':'<div style="display:flex;gap:8px;margin-top:8px"><button class="btn s" onclick="salm('+c.id+')">📩 Sotuvchiga yozish</button><button class="btn s" onclick="sals('+c.id+')">🛡 Vositachi</button></div>')+'</div>'}).join(''):'<div class="card sub">Hozircha sotuvda kanal yo\'q.</div>';h+='<div class="card"><b>➕ Kanalimni sotuvga qo\'yish</b>'+(j.mine&&j.mine.length?j.mine.map(function(c){return '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--ln)"><div class="row"><b>'+(c.ctype==='Kanal'?'📢 ':'👥 ')+esc(c.username)+'</b>'+(c.on_==1?'<span class="tag">✅ Sotuvda</span>':'<button class="btn s" onclick="slOpen('+c.id+',\'slm\')">🏷 Sotuvga qo\'yish</button>')+'</div><div id="slm'+c.id+'"></div>'+(c.on_==1?'<button class="btn s" style="margin-top:6px" onclick="slOpen('+c.id+',\'slm\')">✏️ O\'zgartirish</button>':'')+'</div>'}).join(''):'<p class="sub" style="margin:6px 0 0">Avval «Kanal qo\'shish» orqali kanal yoki guruhingizni ulang.</p>')+'</div>';$('saleb').innerHTML=h})}
 var MK={p:'ig',d:null,tab:'list',ed:null};
