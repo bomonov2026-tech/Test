@@ -205,3 +205,16 @@ Virtual raqam:
 - «🔁 Shu raqamga yana kod olish» (20 daqiqa ichida, 5sim reuse)
 - Admin: davlatlarni ommaviy qo'shish (62 davlat, narxi avto)
 - Eslatma: «boshqa raqam» va «qayta kod» 5sim API ga (/user/reuse) tayanadi — haqiqiy 5sim bilan tekshirilmagan
+
+### 5-bosqich (mijozni ushlab turish) — tayyor va sinalgan (b5_test 85/85, b5_ui 14/14)
+- Daraja tizimi: Bronza → Kumush → Oltin (jami sarflashga qarab); ustamaning foyda qismi kamayadi, narx tannarxdan pastga tushmaydi; Profilda progress
+- Hamkor dasturi: `t.me/BOT?startapp=p<ID>` havolasi; taklif qilingan mijozning har bajarilgan xarididan komissiya (standart 3%, qisman bajarilsa faqat bajarilgan qismga); o'ziga/bloklanganga yo'q
+- Sodiqlik bonuslari (faqat 180 kunda to'lov qilgan mijozlarga, 09–21 soat): 14 kun kirmaganga +3 000, tug'ilgan kunda +3 000, bayramda +2 000 (hammasi admin sozlaydi; bonus xizmatlarda sarflanmaguncha yechilmaydi)
+- Tug'ilgan kunni mijoz bir marta kiritadi
+- «🔥 Eng ko'p olinadi» belgisi (nakrutka va virtual raqam)
+- Reyting va sharhlar: faqat o'zi olgan bajarilgan buyurtmani baholaydi (1–5 ⭐ + sharh); xizmat kartasida ⭐ o'rtacha (3 tadan keyin) va buyurtmalar soni; past baho (≤2) adminga xabar; baholanmagan buyurtma eslatmasi
+- Tilaklar qutisi (yozish, ovoz berish, admin «qilindi»/yashirish, haftada 3 ta chegara)
+- FAQ (8 ta tayyor savol; admin tahrirlaydi)
+- Birinchi kirishda 3 qadamli ko'rsatma
+- Admin → «Karta, bonus, sovg'a» sahifasida: Daraja, Hamkor, Sodiqlik, FAQ kartalari
+- Eslatma: yangi mijoz bonuslari uchun mijoz to'lov qilgan bo'lishi shart; tug'ilgan kun/bayram/qaytish bonuslarini kerak bo'lmasa 0 qiling
