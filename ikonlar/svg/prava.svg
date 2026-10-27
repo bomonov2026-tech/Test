@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="512" height="512"><title>Prava</title><defs>
+<linearGradient id="t" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#58e6d8"/><stop offset="1" stop-color="#087a84"/></linearGradient>
+<linearGradient id="gW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d3ddf0"/></linearGradient>
+<linearGradient id="gSd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aab9d8"/><stop offset="1" stop-color="#6e82ac"/></linearGradient>
+<linearGradient id="gY" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe98a"/><stop offset="1" stop-color="#ffb400"/></linearGradient>
+<linearGradient id="gR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7a7a"/><stop offset="1" stop-color="#e02828"/></linearGradient>
+<linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="bt" x1="0" y1="0" x2="0" y2="1"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>
+<linearGradient id="rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset=".5" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity=".25"/></linearGradient>
+<clipPath id="c"><rect x="8" y="8" width="240" height="240" rx="58"/></clipPath>
+<filter id="ds" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#000" flood-opacity=".38"/></filter>
+<filter id="os" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity=".4"/></filter></defs>
+<rect x="8" y="8" width="240" height="240" rx="58" fill="url(#t)"/>
+<g clip-path="url(#c)"><rect x="8" y="8" width="240" height="240" fill="url(#bt)"/><ellipse cx="128" cy="-10" rx="190" ry="120" fill="url(#gl)" opacity=".7"/></g>
+<rect x="9.5" y="9.5" width="237" height="237" rx="56.5" fill="none" stroke="url(#rim)" stroke-width="3"/>
+<g filter="url(#ds)"><g transform="translate(0,10)"><path d="M82 118 L100 80 H156 L180 118 Z" fill="url(#gSd)" /></g><path d="M82 118 L100 80 H156 L180 118 Z" fill="url(#gW)" /><path d="M96 112 L108 88 H128 V112 Z" fill="#7fc6ff" /><path d="M134 112 V88 H152 L168 112 Z" fill="#7fc6ff" /><g transform="translate(0,10)"><rect x="46" y="114" width="164" height="58" rx="24" fill="url(#gSd)" /></g><rect x="46" y="114" width="164" height="58" rx="24" fill="url(#gW)" /><circle cx="92" cy="176" r="23" fill="#2b3550" /><circle cx="92" cy="176" r="10" fill="#b9c6e0" /><circle cx="168" cy="176" r="23" fill="#2b3550" /><circle cx="168" cy="176" r="10" fill="#b9c6e0" /><rect x="190" y="128" width="16" height="14" rx="6" fill="url(#gY)" /></g></svg>
