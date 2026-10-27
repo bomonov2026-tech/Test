@@ -13,3 +13,16 @@ Hammasi bajarildi ✅ (2026-10-26):
 9. ✅ YouTube → kanal avtopost (RSS orqali).
 
 Qo'shimcha: «Kanal bozori» → «Kanal Savdo» — Telegram, Instagram, YouTube uchun 3 ta alohida katak.
+
+## Virtual raqam — keyingi g'oyalar (qaytamiz)
+1. Tarmoq → bayroqli davlatlar+narxlar oynasi; 5sim'dan davlatlarni ommaviy qo'shish (20 ta bir bosishda)
+2. «Kod kelmasa pul qaytadi» yozuvini aniq ko'rsatish
+3. «Boshqa raqam» tugmasi (pul ikki marta yechilmaydi)
+4. Qayta SMS olish (bir raqamga 2-kod)
+5. Mashhur tarmoqlar tepada + qidiruv
+6. Adminga foyda hisoboti (kunlik/oylik, davlat bo'yicha)
+7. Bonus va chegirmalar
+8. Do'st taklif qilish bonusi
+9. Zaxira provayder (raqam tugasa avtomatik)
+10. Raqamni 1–30 kunga ijaraga olish
+Tavsiya tartibi: 1+3+5 → 6 → 4. Avval 5sim kalitini kiritib, haqiqiy raqam bilan sinash.
