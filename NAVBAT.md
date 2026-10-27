@@ -131,3 +131,14 @@ Bot: avto-javob, repost, RSS avto-post, post imzo/tugma, yangi obunachi salomi, 
 
 ## Tanlanmagan (eslab qolish uchun)
 Narx taqqoslash jadvali · taymerli taklif · so'nggi xaridorlar lentasi · kafolat belgisi · yopiq chat · haftalik eng yaxshi mijozlar · yangiliklar bo'limi · A/B sinov · sozlamalar nusxasi (hosting ko'chirishda foydali) · test rejimi · o'zgarishlar tarixi · initData qattiqlashtirish · admin qurilma cheklovi
+
+## TANLANGAN (8-ro'yxat)
+- 5. Raqam sifati bahosi (qaysi davlat/operatordan kod tezroq keladi; eng yaxshisi tepada)
+- 9. Chek yuklash zaxirasi tezlashtirish (SMS ishlamasa: admin navbati + darrov bildirishnoma)
+- 10. Bir nechta karta (bir karta bloklansa boshqasiga o'tish; SMS har kartani alohida aniqlaydi)
+- 11. Mijoz fikri so'rovi (buyurtmadan keyin ⭐1–5; reyting kartochkasi uchun asos)
+
+## Tanlanmagan (eslab qolish uchun)
+Nakrutka: avto-provayder tanlash · refill (30 kun) · drip-feed · havolani oldindan tekshirish
+Raqam: tarmoqqa mos tavsiya · "paydo bo'lganda xabar ber"
+To'lov: to'lov kutilmoqda holati · "Nima yangi" oynasi · kunlik topshiriq
