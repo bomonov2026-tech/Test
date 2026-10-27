@@ -5075,9 +5075,15 @@ function sm_run() {
 function vs_on() { return setting('vs_on', '1') === '1' && sm_key() !== ''; }
 function vs_rate() { if (sm_cur() === 'USD') return nk_usd(); return (float)setting('sm_rub', '0'); }
 function vs_cost_uzs($o) { $r = vs_rate(); if ($r <= 0 || $o['pcost'] === null) return null; return (int)round((float)$o['pcost'] * $r); }
-function vs_hidden($o) {   /* tannarx narxdan baland yoki foyda chegarasidan past bo'lsa — zararga sotmaymiz */
+function vs_price($o) {   /* narx > 0 — qat'iy (admin yozgan); 0 — avto: tannarx × (1 + umumiy ustama %), 100 so'mgacha yuqoriga yaxlitlanadi */
+    if ((int)$o['price'] > 0) return (int)$o['price'];
+    $c = vs_cost_uzs($o); if ($c === null) return null;
+    return max(100, (int)(ceil($c * (1 + (float)setting('vs_mk', '100') / 100) / 100) * 100));
+}
+function vs_hidden($o) {   /* narxi hisoblanmasa yoki tannarx narxdan baland / foyda chegarasidan past bo'lsa — zararga sotmaymiz */
+    $p = vs_price($o); if ($p === null) return true;
     $c = vs_cost_uzs($o); if ($c === null) return false;
-    return (int)$o['price'] < $c * (1 + (float)setting('vs_minm', '15') / 100);
+    return $p < $c * (1 + (float)setting('vs_minm', '15') / 100);
 }
 function vs_refresh_prices($force = false) {
     $n = 0;
@@ -7643,7 +7649,7 @@ if (isset($_GET['api'])) {
             $off = array();
             if ($on) foreach (q('SELECT * FROM vs_off WHERE act=1 ORDER BY product,sort,id')->fetchAll() as $o) {
                 if (vs_hidden($o)) continue;
-                $off[] = array('id' => (int)$o['id'], 'product' => $o['product'], 'country' => $o['country'], 'title' => $o['title'], 'price' => (int)$o['price'], 'stock' => ($o['pat'] === null) ? null : (int)$o['pcount']);
+                $off[] = array('id' => (int)$o['id'], 'product' => $o['product'], 'country' => $o['country'], 'title' => $o['title'], 'price' => (int)vs_price($o), 'stock' => ($o['pat'] === null) ? null : (int)$o['pcount']);
             }
             $rows = q('SELECT * FROM vs_ord WHERE uid=? ORDER BY id DESC LIMIT 15', array($u['id']))->fetchAll();
             out(array('ok' => true, 'on' => $on, 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn(), 'offers' => $off, 'orders' => array_map($ord, $rows)));
@@ -7653,7 +7659,7 @@ if (isset($_GET['api'])) {
             if (!$on) out(array('ok' => false, 'error' => 'Xizmat vaqtincha ishlamayapti. Keyinroq urinib ko\'ring'), 503);
             $o = q('SELECT * FROM vs_off WHERE id=? AND act=1', array((int)(isset($in['oid']) ? $in['oid'] : 0)))->fetch(); if (!$o || vs_hidden($o)) out(array('ok' => false, 'error' => 'Bu raqam hozir sotuvda yo\'q'), 404);
             if ($o['pat'] !== null && (int)$o['pcount'] < 1) out(array('ok' => false, 'error' => 'Hozircha bu raqamlar tugagan, birozdan keyin urinib ko\'ring'), 409);
-            $price = (int)$o['price']; if ($price < 100) out(array('ok' => false, 'error' => 'Narx belgilanmagan'), 503);
+            $price = (int)vs_price($o); if ($price < 100) out(array('ok' => false, 'error' => 'Narx belgilanmagan'), 503);
             if ((int)q("SELECT COUNT(*) FROM vs_ord WHERE uid=? AND st IN ('new','wait','unk')", array($u['id']))->fetchColumn() >= (int)setting('vs_act', '3')) out(array('ok' => false, 'error' => 'Bir vaqtda kutilayotgan raqamlar soni chegarasiga yetdingiz. Avval mavjudlarini yakunlang yoki bekor qiling'), 429);
             if ((int)q('SELECT COUNT(*) FROM vs_ord WHERE uid=? AND created > NOW() - INTERVAL 1 DAY', array($u['id']))->fetchColumn() >= (int)setting('vs_day', '30')) out(array('ok' => false, 'error' => 'Bir kunda buyurtmalar soni chegarasiga yetdingiz'), 429);
             if ((int)q('SELECT COUNT(*) FROM vs_ord WHERE uid=? AND oid=? AND created > NOW() - INTERVAL 5 SECOND', array($u['id'], $o['id']))->fetchColumn() > 0) out(array('ok' => false, 'error' => 'Bu buyurtma hozirgina berilgan'), 429);
@@ -7809,18 +7815,19 @@ if (isset($_GET['api'])) {
         if ($a === 'vs_adm_get') {
             try { vs_refresh_prices(!empty($in['force'])); } catch (Exception $e) {}
             $rate = vs_rate(); $off = q('SELECT * FROM vs_off ORDER BY product,sort,id')->fetchAll();
-            foreach ($off as $i => $o) { $c = vs_cost_uzs($o); $off[$i] = array('id' => (int)$o['id'], 'country' => $o['country'], 'product' => $o['product'], 'operator' => $o['operator'], 'title' => $o['title'], 'price' => (int)$o['price'], 'act' => (int)$o['act'], 'sort' => (int)$o['sort'], 'pcost' => $o['pcost'] === null ? null : (float)$o['pcost'], 'pcount' => (int)$o['pcount'], 'cost_uzs' => $c, 'profit' => $c === null ? null : (int)$o['price'] - $c, 'hidden' => vs_hidden($o)); }
+            foreach ($off as $i => $o) { $c = vs_cost_uzs($o); $off[$i] = array('id' => (int)$o['id'], 'country' => $o['country'], 'product' => $o['product'], 'operator' => $o['operator'], 'title' => $o['title'], 'price' => (int)$o['price'], 'eff' => vs_price($o), 'auto' => (int)$o['price'] === 0, 'act' => (int)$o['act'], 'sort' => (int)$o['sort'], 'pcost' => $o['pcost'] === null ? null : (float)$o['pcost'], 'pcount' => (int)$o['pcount'], 'cost_uzs' => $c, 'profit' => ($c === null || vs_price($o) === null) ? null : vs_price($o) - $c, 'hidden' => vs_hidden($o)); }
             $oa = q("SELECT o.id,o.uid,o.title,o.price,o.st,o.phone,o.code,o.porder,o.err,o.created,u.name,u.username FROM vs_ord o LEFT JOIN users u ON u.id=o.uid ORDER BY (o.st IN ('unk','new')) DESC, o.id DESC LIMIT 30")->fetchAll();
             foreach ($oa as $i => $r) $oa[$i]['created'] = date('d.m H:i', strtotime($r['created']));
             $sold = q("SELECT COUNT(*) c, COALESCE(SUM(price),0) s, COALESCE(SUM(pcost),0) pc FROM vs_ord WHERE st='got' AND created > NOW() - INTERVAL 30 DAY")->fetch();
-            out(array('ok' => true, 'on' => setting('vs_on', '1') === '1', 'key_set' => sm_key() !== '', 'rate' => $rate, 'minm' => (float)setting('vs_minm', '15'), 'ttl' => (int)setting('vs_ttl', '15'), 'act' => (int)setting('vs_act', '3'), 'day' => (int)setting('vs_day', '30'), 'cur' => sm_cur(), 'offers' => $off, 'orders' => $oa, 'sold' => array('n' => (int)$sold['c'], 'sum' => (int)$sold['s'], 'cost' => $rate > 0 ? (int)round((float)$sold['pc'] * $rate) : null)));
+            out(array('ok' => true, 'on' => setting('vs_on', '1') === '1', 'key_set' => sm_key() !== '', 'rate' => $rate, 'minm' => (float)setting('vs_minm', '15'), 'mk' => (float)setting('vs_mk', '100'), 'ttl' => (int)setting('vs_ttl', '15'), 'act' => (int)setting('vs_act', '3'), 'day' => (int)setting('vs_day', '30'), 'cur' => sm_cur(), 'offers' => $off, 'orders' => $oa, 'sold' => array('n' => (int)$sold['c'], 'sum' => (int)$sold['s'], 'cost' => $rate > 0 ? (int)round((float)$sold['pc'] * $rate) : null)));
         }
         if ($a === 'vs_adm_set') {
+            $mk = (float)(isset($in['mk']) ? $in['mk'] : 100); if ($mk < 0 || $mk > 1000) out(array('ok' => false, 'error' => 'Ustama 0 dan 1000 foizgacha bo\'lsin'), 422);
             $minm = (float)(isset($in['minm']) ? $in['minm'] : 15); $ttl = (int)(isset($in['ttl']) ? $in['ttl'] : 15); $act = (int)(isset($in['act']) ? $in['act'] : 3); $day = (int)(isset($in['day']) ? $in['day'] : 30);
             if ($minm < 0 || $minm > 500) out(array('ok' => false, 'error' => 'Eng kam foyda 0 dan 500 foizgacha bo\'lsin'), 422);
             if ($ttl < 5 || $ttl > 20) out(array('ok' => false, 'error' => 'Kutish vaqti 5 dan 20 daqiqagacha bo\'lsin'), 422);
             if ($act < 1 || $act > 20 || $day < 1 || $day > 500) out(array('ok' => false, 'error' => 'Chegaralar noto\'g\'ri'), 422);
-            setset('vs_minm', $minm); setset('vs_ttl', $ttl); setset('vs_act', $act); setset('vs_day', $day); setset('vs_on', !empty($in['on']) ? '1' : '0'); out(array('ok' => true));
+            setset('vs_mk', $mk); setset('vs_minm', $minm); setset('vs_ttl', $ttl); setset('vs_act', $act); setset('vs_day', $day); setset('vs_on', !empty($in['on']) ? '1' : '0'); out(array('ok' => true));
         }
         if ($a === 'vs_adm_find') {
             $c = $cl(isset($in['country']) ? $in['country'] : '', 40); $p = $cl(isset($in['product']) ? $in['product'] : '', 40);
@@ -7836,7 +7843,7 @@ if (isset($_GET['api'])) {
             $c = $cl(isset($in['country']) ? $in['country'] : '', 40); $p = $cl(isset($in['product']) ? $in['product'] : '', 40); $op = $cl(isset($in['operator']) ? $in['operator'] : 'any', 40); if ($op === '') $op = 'any';
             $t = trim(mb_substr(strip_tags((string)(isset($in['title']) ? $in['title'] : '')), 0, 100)); $pr = (int)(isset($in['price']) ? $in['price'] : 0);
             if ($c === '' || $p === '' || $t === '') out(array('ok' => false, 'error' => 'Davlat, tarmoq va nomni kiriting'), 422);
-            if ($pr < 100 || $pr > 5000000) out(array('ok' => false, 'error' => 'Narx 100 dan 5 000 000 so\'mgacha bo\'lsin'), 422);
+            if ($pr !== 0 && ($pr < 100 || $pr > 5000000)) out(array('ok' => false, 'error' => 'Narx bo\'sh (avto) yoki 100 dan 5 000 000 so\'mgacha bo\'lsin'), 422);
             q('INSERT INTO vs_off (country,product,operator,title,price,act,sort) VALUES (?,?,?,?,?,1,0) ON DUPLICATE KEY UPDATE title=VALUES(title), price=VALUES(price), act=1', array($c, $p, $op, $t, $pr));
             setset('vs_g' . (int)q('SELECT id FROM vs_off WHERE country=? AND product=? AND operator=?', array($c, $p, $op))->fetchColumn(), ''); try { vs_refresh_prices(true); } catch (Exception $e) {}
             out(array('ok' => true));
@@ -7845,7 +7852,7 @@ if (isset($_GET['api'])) {
             $id = (int)(isset($in['id']) ? $in['id'] : 0); $o = q('SELECT * FROM vs_off WHERE id=?', array($id))->fetch(); if (!$o) out(array('ok' => false, 'error' => 'Topilmadi'), 404);
             if (!empty($in['del'])) { q('DELETE FROM vs_off WHERE id=?', array($id)); out(array('ok' => true)); }
             $t = trim(mb_substr(strip_tags((string)(isset($in['title']) ? $in['title'] : $o['title'])), 0, 100)); $pr = (int)(isset($in['price']) ? $in['price'] : $o['price']);
-            if ($t === '') out(array('ok' => false, 'error' => 'Nom bo\'sh bo\'lmasin'), 422); if ($pr < 100 || $pr > 5000000) out(array('ok' => false, 'error' => 'Narx 100 dan 5 000 000 so\'mgacha bo\'lsin'), 422);
+            if ($t === '') out(array('ok' => false, 'error' => 'Nom bo\'sh bo\'lmasin'), 422); if ($pr !== 0 && ($pr < 100 || $pr > 5000000)) out(array('ok' => false, 'error' => 'Narx bo\'sh (avto) yoki 100 dan 5 000 000 so\'mgacha bo\'lsin'), 422);
             q('UPDATE vs_off SET title=?, price=?, act=?, sort=? WHERE id=?', array($t, $pr, !empty($in['act']) ? 1 : 0, (int)(isset($in['sort']) ? $in['sort'] : $o['sort']), $id)); setset('vs_g' . $id, ''); out(array('ok' => true));
         }
         if ($a === 'vs_adm_fix') {
@@ -9381,19 +9388,19 @@ function vsx(id){nkcf('Raqam bekor qilinsinmi? SMS kelmagan bo\'lsa pul qaytadi.
 /* --- admin --- */
 function vsa(){api('vs_adm_get',{}).then(function(j){if(!j.ok)return;VS.A=j;vsar()})}
 function vsar(){var j=VS.A,el=$('vsa');if(!el||!j)return;var h='<div class="card" style="border:1px dashed #1d84f2"><b>⚙️ Admin: Virtual raqam</b><div class="sub" style="margin:4px 0 8px">5sim kaliti va valyuta: Profil → 💰 Provayder balanslari. Narxni siz so\'mda belgilaysiz; tannarx 5sim dan olinadi.'+(j.rate>0?'':' <b style="color:#d92d20">Foyda hisobi uchun 1 '+j.cur+' kursini kiriting (Provayder balanslari → 5sim).</b>')+'</div>'
-+'<div class="sub">Eng kam foyda, % (tannarxdan; pastga tushsa raqam yashiriladi)</div><input id="vsm" type="number" value="'+j.minm+'"><div class="sub">SMS kutish vaqti, daqiqa (5–20)</div><input id="vst" type="number" value="'+j.ttl+'"><div class="sub">Bir foydalanuvchida bir vaqtda kutilayotgan raqamlar</div><input id="vsc" type="number" value="'+j.act+'"><div class="sub">Bir foydalanuvchiga kunlik buyurtma chegarasi</div><input id="vsd" type="number" value="'+j.day+'">'
++'<div class="sub"><b>Umumiy ustama, %</b> — narxi bo\'sh (avto) takliflarga: narx = tannarx × (1 + ustama)</div><input id="vsk" type="number" inputmode="decimal" value="'+j.mk+'">'+nkch('vsk',j.mk,0)+'<div class="sub">Eng kam foyda, % (tannarxdan; pastga tushsa raqam yashiriladi)</div><input id="vsm" type="number" value="'+j.minm+'"><div class="sub">SMS kutish vaqti, daqiqa (5–20)</div><input id="vst" type="number" value="'+j.ttl+'"><div class="sub">Bir foydalanuvchida bir vaqtda kutilayotgan raqamlar</div><input id="vsc" type="number" value="'+j.act+'"><div class="sub">Bir foydalanuvchiga kunlik buyurtma chegarasi</div><input id="vsd" type="number" value="'+j.day+'">'
 +'<div class="cps"><button class="chip'+(j.on?' on':'')+'" id="vson" onclick="VS.A.on=!VS.A.on;this.className=\'chip\'+(VS.A.on?\' on\':\'\');this.textContent=VS.A.on?\'✅ Xizmat yoqilgan\':\'⛔ Xizmat o\\\'chirilgan\'">'+(j.on?'✅ Xizmat yoqilgan':'⛔ Xizmat o\'chirilgan')+'</button></div><button class="btn" onclick="vsas()">💾 Saqlash</button>'
 +'<div class="sub" style="margin-top:8px">So\'nggi 30 kun: sotildi <b>'+j.sold.n+'</b> ta · tushum <b>'+fmt(j.sold.sum)+'</b>'+(j.sold.cost!=null?' · tannarx '+fmt(j.sold.cost)+' · foyda <b>'+fmt(j.sold.sum-j.sold.cost)+'</b>':'')+'</div></div>';
 h+='<div class="card" style="border:1px dashed #1d84f2"><b>🔎 5sim narxini ko\'rish</b><div class="sub" style="margin:4px 0 6px">Davlat va tarmoq nomi inglizcha, kichik harfda (usa, canada, indonesia, russia · telegram, whatsapp, instagram)</div><input id="vfc" placeholder="Davlat: indonesia" autocapitalize="off"><input id="vfp" placeholder="Tarmoq: telegram" autocapitalize="off"><button class="btn s" onclick="vsaf()">🔎 Narxlarni ko\'rish</button><div id="vfr" style="margin-top:8px"></div></div>';
 h+='<div class="card" style="border:1px dashed #1d84f2"><b>🧩 Takliflar ('+j.offers.length+')</b>'+(j.offers.length?'':'<div class="sub" style="margin:6px 0">Hali qo\'shilmagan. Yuqorida narxni ko\'ring, so\'ng qo\'shing.</div>');
-j.offers.forEach(function(o){h+='<div style="border-top:1px solid var(--ln);margin-top:10px;padding-top:8px"><div class="sub">'+esc(o.product)+' · '+esc(o.country)+' · operator: '+esc(o.operator)+' · qoldiq: '+nkn(o.pcount)+(o.pcost!==null?' · tannarx '+o.pcost+' '+j.cur+(o.cost_uzs!=null?' (≈ '+fmt(o.cost_uzs)+')':''):'')+'</div>'+(o.profit!=null?'<div class="sub" style="color:'+(o.hidden?'#d92d20':'#1a9e4f')+'">Foyda: '+fmt(o.profit)+(o.hidden?' — foyda chegarasidan past, YASHIRILGAN':'')+'</div>':'')+'<input id="vot'+o.id+'" value="'+esc(o.title)+'" maxlength="100"><input id="vop'+o.id+'" type="number" inputmode="numeric" value="'+o.price+'" placeholder="Narx, so\'m"><div style="display:flex;gap:8px"><button class="btn s" style="flex:1" onclick="vsos('+o.id+',0)">💾</button><button class="btn s" style="flex:1" onclick="vsos('+o.id+',1)">'+(o.act?'⛔ O\'chirish':'✅ Yoqish')+'</button><button class="btn s" style="flex:1" onclick="vsod('+o.id+')">🗑</button></div></div>'});
-h+='<div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>➕ Taklif qo\'shish</b><input id="vac" placeholder="Davlat: indonesia" autocapitalize="off"><input id="vap" placeholder="Tarmoq: telegram" autocapitalize="off"><input id="vao" placeholder="Operator (bo\'sh = any, eng arzon)" autocapitalize="off"><input id="vat" placeholder="Nomi: 🇮🇩 Indoneziya" maxlength="100"><input id="vaq" type="number" inputmode="numeric" placeholder="Sotuv narxi, so\'m (masalan 4900)"><button class="btn" onclick="vsaa()">➕ Qo\'shish</button></div></div>';
+j.offers.forEach(function(o){h+='<div style="border-top:1px solid var(--ln);margin-top:10px;padding-top:8px"><div class="sub">'+esc(o.product)+' · '+esc(o.country)+' · operator: '+esc(o.operator)+' · qoldiq: '+nkn(o.pcount)+(o.pcost!==null?' · tannarx '+o.pcost+' '+j.cur+(o.cost_uzs!=null?' (≈ '+fmt(o.cost_uzs)+')':''):'')+'</div>'+(o.auto?'<div class="sub" style="color:#1d84f2">⚙️ AVTO narx: '+(o.eff!=null?fmt(o.eff)+' (ustama '+j.mk+'%)':'hisoblanmadi — qoldiq yoki kurs yo\'q')+'</div>':'')+(o.profit!=null?'<div class="sub" style="color:'+(o.hidden?'#d92d20':'#1a9e4f')+'">Foyda: '+fmt(o.profit)+(o.hidden?' — foyda chegarasidan past, YASHIRILGAN':'')+'</div>':'')+'<input id="vot'+o.id+'" value="'+esc(o.title)+'" maxlength="100"><input id="vop'+o.id+'" type="number" inputmode="numeric" value="'+(o.auto?'':o.price)+'" placeholder="Narx, so\'m (bo\'sh = avto)"><div style="display:flex;gap:8px"><button class="btn s" style="flex:1" onclick="vsos('+o.id+',0)">💾</button><button class="btn s" style="flex:1" onclick="vsos('+o.id+',1)">'+(o.act?'⛔ O\'chirish':'✅ Yoqish')+'</button><button class="btn s" style="flex:1" onclick="vsod('+o.id+')">🗑</button></div></div>'});
+h+='<div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>➕ Taklif qo\'shish</b><input id="vac" placeholder="Davlat: indonesia" autocapitalize="off"><input id="vap" placeholder="Tarmoq: telegram" autocapitalize="off"><input id="vao" placeholder="Operator (bo\'sh = any, eng arzon)" autocapitalize="off"><input id="vat" placeholder="Nomi: 🇮🇩 Indoneziya" maxlength="100"><input id="vaq" type="number" inputmode="numeric" placeholder="Narx, so\'m (BO\'SH = avto-ustama)"><button class="btn" onclick="vsaa()">➕ Qo\'shish</button></div></div>';
 var bad=j.orders.filter(function(r){return r.st==='unk'||r.st==='new'});
 h+='<div class="card" style="border:1px dashed #1d84f2"><b>📋 Buyurtmalar (oxirgi '+j.orders.length+')</b>'+(bad.length?'<div class="sub" style="color:#d92d20;margin:4px 0">⚠️ '+bad.length+' ta buyurtma holati noma\'lum — pul ushlab turilgan. 5sim panelida (Purchases) tekshiring.</div>':'');
 j.orders.forEach(function(r){var st=VSS[r.st]||VSS.wait;h+='<div style="border-top:1px solid var(--ln);margin-top:8px;padding-top:8px"><div class="row" style="margin:0"><b>#'+r.id+' · '+esc(r.title)+'</b><span style="color:'+st[2]+';font-weight:700;font-size:12.5px">'+st[0]+' '+st[1]+'</span></div><div class="sub">'+esc(r.name||'')+(r.username?' @'+esc(r.username):'')+' · ID '+r.uid+' · '+fmt(r.price)+(r.phone?' · '+esc(r.phone):'')+(r.porder?' · P#'+r.porder:'')+(r.code?' · kod '+esc(r.code):'')+'</div>'+(r.err?'<div class="sub" style="color:#d92d20">'+esc(r.err)+'</div>':'');
 if(r.st==='unk'||r.st==='new')h+='<div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap"><button class="btn s" style="flex:1 1 100%" onclick="vsfx('+r.id+',\'refund\')">↩️ Qaytarish</button><input id="vpo'+r.id+'" type="number" inputmode="numeric" placeholder="5sim ID" style="flex:1;margin:0"><input id="vph'+r.id+'" placeholder="+62..." style="flex:1;margin:0"><button class="btn s" style="flex:1 1 100%" onclick="vsfx('+r.id+',\'sent\')">✔ Yuborilgan (5sim da bor)</button></div>';h+='</div>'});
 el.innerHTML=h+'</div>'}
-function vsas(){api('vs_adm_set',{minm:$('vsm').value,ttl:$('vst').value,act:$('vsc').value,day:$('vsd').value,on:VS.A.on?1:0}).then(function(j){if(j.ok){toast('Saqlandi');vsl(1)}})}
+function vsas(){api('vs_adm_set',{mk:$('vsk').value,minm:$('vsm').value,ttl:$('vst').value,act:$('vsc').value,day:$('vsd').value,on:VS.A.on?1:0}).then(function(j){if(j.ok){toast('Saqlandi');vsl(1)}})}
 function vsaf(){var r=$('vfr');r.innerHTML='<div class="sk"></div>';api('vs_adm_find',{country:$('vfc').value,product:$('vfp').value}).then(function(j){if(!j.ok){r.innerHTML='';return}VS.fr=j;r.innerHTML=j.list.map(function(s){return '<div style="border-top:1px solid var(--ln);padding:6px 0"><b>'+esc(s.op)+'</b> · '+s.cost+' '+VS.A.cur+(s.uzs!=null?' (≈ '+fmt(s.uzs)+')':'')+' · qoldiq '+nkn(s.count)+'</div>'}).join('')+'<button class="btn s" style="margin-top:8px" onclick="vsaprefill()">➕ Shu davlat/tarmoq bilan taklif qo\'shish</button>'})}
 function vsaprefill(){var f=VS.fr;if(!f)return;$('vac').value=f.country;$('vap').value=f.product;var e=$('vat');if(e.scrollIntoView)e.scrollIntoView({behavior:'smooth',block:'center'});e.focus()}
 function vsaa(){api('vs_adm_add',{country:$('vac').value,product:$('vap').value,operator:$('vao').value,title:$('vat').value,price:$('vaq').value}).then(function(j){if(j.ok){toast('Qo\'shildi');vsl(1)}})}

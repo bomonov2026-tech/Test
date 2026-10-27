@@ -35,3 +35,6 @@ Bo'lim sahifasida 5sim kartasi: API kalitni kiriting (5sim → Settings → «AP
 - Chegaralar: bir vaqtda kutilayotgan raqamlar (3), kunlik buyurtmalar (30), takror bosishdan himoya, parallel so'rovda qo'sh yechish yo'q.
 - Davlat/tarmoq nomlari 5sim dagidek: inglizcha, kichik harf (`indonesia`, `canada`, `usa`; `telegram`, `whatsapp`, `instagram`).
 - **5sim bilan haqiqiy ulanish tekshirilmagan** (faqat 5sim ommaviy API v1 formatidagi soxta server bilan: 78 backend + 12 interfeys tekshiruvi). Birinchi marta eng arzon raqamni o'zingiz sotib olib sinab ko'ring (masalan Indoneziya, ~$0.2).
+
+### Virtual raqam: avto-ustama
+Admin kartasida bitta **«Umumiy ustama, %»** (70/80/90/100 tugmalari yoki o'zingiz). Taklif qo'shishda **narxni bo'sh qoldirsangiz** (yoki 0), narx avtomatik: `tannarx × 1 kurs × (1 + ustama)`, 100 so'mgacha yuqoriga yaxlitlanadi. Ustamani bir marta o'zgartirsangiz, hamma avto-narxlar o'zgaradi. Narxni qo'lda yozsangiz, o'sha qat'iy qoladi. Ustama «eng kam foyda» dan past bo'lsa yoki 1 rubl kursi kiritilmagan bo'lsa, avto-narxli takliflar yashiriladi.
