@@ -4960,7 +4960,7 @@ function pay_on($p) {
     if ($p === 'click') return pay_set('click_sid') !== '' && pay_set('click_mid') !== '' && pay_set('click_key') !== '' && pay_set('click_on', '1') === '1';
     return false;
 }
-function pay_list() { $r = array(); foreach (array('payme', 'click') as $p) if (pay_on($p)) $r[] = $p; return $r; }
+function pay_list() { return array(); /* Payme/Click o'chirilgan; faqat karta SMS */ }
 function pay_min() { return max(1000, (int)setting('pay_amin', '10000')); }
 function pay_max() { return min(100000000, max(pay_min(), (int)setting('pay_amax', (string)PAY_MAX))); }
 function pay_ms() { return (int)round(microtime(true) * 1000); }
@@ -6605,12 +6605,7 @@ if (isset($_GET['l'])) {   /* qisqa havola: bosishlar sanaladi va manzilga yo'na
     header('Location: ' . $r['url'], true, 302); exit;
 }
 if (isset($_GET['sms'])) { mig(); sms_handle(); }
-if (isset($_GET['pay'])) {   /* Payme / Click serverlari shu manzilga murojaat qiladi (Telegram avtorizatsiyasiz; o'z imzosi bilan himoyalangan) */
-    mig();
-    if ($_GET['pay'] === 'payme') payme_handle();
-    if ($_GET['pay'] === 'click') click_handle();
-    http_response_code(404); exit;
-}
+if (isset($_GET['pay'])) { http_response_code(404); exit; }   /* Payme/Click o'chirilgan */
 if (isset($_GET['hook'])) {
     if (!hash_equals(KEY, (string)$_GET['hook'])) { http_response_code(403); exit; }
     $u = json_decode(file_get_contents('php://input'), true); mig();
@@ -9417,7 +9412,7 @@ s+='<div class="ahd"><div class="aav"><svg viewBox="0 0 24 24"><path d="M21.4 3.
 +'<div class="ag">'+A('sh','c2','Bot holati','',"av('bot')")+A('sx','c5','Statistika',nf(AD.s['Bugun yuborilgan']||0)+' bugun',"av('stat')")+A('co','c7','To\'lovlar','',"av('topups')",pt||0)+A('co','c8','Pul yechish','',"av('wd')",(AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+A('sh','c3','Nizolar (reklama birjasi)','',"av('disp')",(AD.pay.disputes||[]).length)+A('li','c8','E\'lon buyurtmalari','',"av('orders')",pd||0)+'</div>'
 +'<div class="ag">'+A('rp','c3','Bank kurslari','',"MED=null;MBK=null;av('manual')")+A('dc','c6','Post matnlari','',"av('auto')")+A('mn','c9','Tongi xabar','',"av('dp')")+A('mq','c1','Namoz xabarnomalari','',"pra()")+'</div>'
 +'<div class="ag">'+A('sh','c3','Guruh himoyasi','',"gda()")+A('qz','c5','Testlar','',"go('qz')")+A('gr','c4','A\'zolar bazasi','',"av('menu')")+A('qz','c9','Menyu bo\'limlari','',"av('menu')")+'</div>'
-+'<div class="ag">'+A('cd','c7','Avto-to\'lov (Payme · Click)','',"av('apay')")+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
++'<div class="ag">'+A('cd','c7','Avto-to\'lov (Karta SMS)','',"av('apay')")+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
 else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='apay'){s+='<h1>💳 Avto-to\'lov</h1><div id="apb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
 else if(v==='wd'){s+='<h1>➖ Pul yechish</h1>'+((AD.pay.wds||[]).length?AD.pay.wds.map(function(t){var p=t.status==='pending';return '<div class="card"><div class="row"><b>'+fmt(t.amount)+'</b><span class="tag">'+TS[t.status]+'</span></div><div class="sub">'+esc(t.name||t.uid)+(t.username?' · @'+esc(t.username):'')+' · '+esc(t.created_at)+'</div><div class="sub" style="margin-top:6px">Karta: <b>'+esc(String(t.card).replace(/(\d{4})(?=\d)/g,'$1 '))+'</b><br>Egasi: <b>'+esc(t.holder)+'</b><br>Balans: '+fmt(t.balance)+'</div>'+(p?'<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="tw('+t.id+',\'approve\')">✅ Tasdiqlash</button><button class="btn s" onclick="tw('+t.id+',\'reject\')">❌ Rad etish</button></div>':'')+'</div>'}).join(''):'<div class="card sub">Hozircha yechish so\'rovlari yo\'q</div>')}
 else if(v==='stat'){s+='<h1>📊 Statistika</h1>'+Object.keys(AD.s).map(function(k){return '<div class="card row"><span class="sub">'+k+'</span><b>'+AD.s[k]+'</b></div>'}).join('')+'<div class="card row"><span class="sub">Kurs yangilangan</span><b>'+esc(AD.last_ok||'—')+'</b></div>'+(AD.last_err?'<div class="card"><div class="row"><span class="sub">Oxirgi urinish</span><b>'+esc(AD.last_try||'—')+'</b></div><div class="sub" style="color:var(--r);margin-top:6px">⚠️ Kurs olinmadi: '+esc(AD.last_err)+'</div></div>':'')}
@@ -9748,7 +9743,7 @@ function vsos(id,tg2){var o=null;VS.A.offers.forEach(function(x){if(x.id===id)o=
 function vsod(id){nkcf('Taklif o\'chirilsinmi? (Eski buyurtmalar saqlanadi)',function(){api('vs_adm_off',{id:id,del:1}).then(function(j){if(j.ok){toast('O\'chirildi');vsl(1)}})})}
 function vsfx(id,d){nkcf(d==='refund'?'Buyurtma #'+id+' uchun pul foydalanuvchiga qaytarilsinmi?':'Buyurtma 5sim ga yuborilgan deb belgilansinmi?',function(){api('vs_adm_fix',{id:id,do:d,porder:($('vpo'+id)||{}).value||'',phone:($('vph'+id)||{}).value||''}).then(function(j){if(j.ok){toast('Bajarildi');vsl(1)}})})}
 
-/* ---------- AVTOMATIK TO'LOV (Payme · Click) ---------- */
+/* ---------- AVTOMATIK TO'LOV (Karta SMS) ---------- */
 var PAYW={t:0,ap:null,go:0};
 function payui(){var l=(W&&W.pay)||[],c=W&&W.sms;if(!l.length&&!c)return '';var nm={payme:'Payme',click:'Click'},cl={payme:'#33ccc5',click:'#00aeef'};
 var btn=l.map(function(p){return '<button class="btn" style="flex:1;background:'+cl[p]+'" onclick="payn(\''+p+'\')">'+nm[p]+' orqali</button>'}).join('');
@@ -9765,14 +9760,8 @@ document.addEventListener('visibilitychange',function(){if(document.visibilitySt
 function apl(){api('pay_adm_get',{}).then(function(j){if(!j.ok)return;PAYW.ap=j;apr()})}
 function apcopy(u){vscp(u)}
 function apr(){var j=PAYW.ap,el=$('apb');if(!el||!j)return;var chip=function(on,t){return '<span style="font-size:12px;font-weight:700;border-radius:9px;padding:3px 9px;'+(on?'color:#1a9e4f;background:#e3f8ea">✓ '+t:'color:#7d8799;background:#eef1f6">'+t)+'</span>'};
-var h='';if(!j.https)h+='<div class="card" style="background:#fee4e2;border:1px solid #fecdca"><b style="color:#b42318">⚠️ APP_URL https:// bilan boshlanmaydi</b><div class="sub" style="color:#b42318">Payme va Click faqat HTTPS manzilga murojaat qiladi. config.php dagi APP_URL ni tuzating.</div></div>';
+var h='';
 h+='<div class="card"><div class="sub">So\'nggi 30 kun: to\'lovlar <b>'+j.sum.n+'</b> ta · jami <b>'+fmt(j.sum.sum)+'</b></div></div>';
-h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-size:17px">Payme</b>'+chip(j.payme.ready,j.payme.ready?'Faol':'Sozlanmagan')+'</div><div class="sub" style="margin-bottom:6px">Payme Business → Kassa → Parametrlar. «Endpoint URL» ga quyidagini yozing:</div><div class="row" style="margin:0 0 8px"><b style="font-size:13px;word-break:break-all">'+esc(j.payme.url)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="apcopy(\''+esc(j.payme.url)+'\')">📋</button></div>'
-+'<input id="pmm" value="'+esc(j.payme.mid)+'" placeholder="Merchant ID (24 belgi)" autocapitalize="off"><input id="pmk" type="password" autocomplete="off" placeholder="'+(j.payme.key_tail?'Maxfiy kalit saqlangan (••••'+esc(j.payme.key_tail)+') — o\'zgartirish uchun yangisini kiriting':'Maxfiy kalit (Key)')+'">'
-+'<div class="cps"><button class="chip'+(j.payme.test?' on':'')+'" id="pmt" onclick="PAYW.ap.payme.test=!PAYW.ap.payme.test;this.classList.toggle(\'on\',PAYW.ap.payme.test)">🧪 Sinov rejimi (test kassa)</button><button class="chip'+(j.payme.on?' on':'')+'" id="pmo" onclick="PAYW.ap.payme.on=!PAYW.ap.payme.on;this.classList.toggle(\'on\',PAYW.ap.payme.on)">✅ Yoqilgan</button></div><button class="btn" onclick="pasave(\'payme\')">💾 Payme sozlamalarini saqlash</button></div>';
-h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-size:17px">Click</b>'+chip(j.click.ready,j.click.ready?'Faol':'Sozlanmagan')+'</div><div class="sub" style="margin-bottom:6px">Click Merchant kabineti → Xizmat sozlamalari. «Prepare URL» va «Complete URL» ikkalasiga ham bir xil manzil:</div><div class="row" style="margin:0 0 8px"><b style="font-size:13px;word-break:break-all">'+esc(j.click.url)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="apcopy(\''+esc(j.click.url)+'\')">📋</button></div>'
-+'<input id="clm" value="'+esc(j.click.mid)+'" placeholder="Merchant ID (raqam)" inputmode="numeric"><input id="cls" value="'+esc(j.click.sid)+'" placeholder="Service ID (raqam)" inputmode="numeric"><input id="clk" type="password" autocomplete="off" placeholder="'+(j.click.key_tail?'Maxfiy kalit saqlangan (••••'+esc(j.click.key_tail)+') — o\'zgartirish uchun yangisini kiriting':'Maxfiy kalit (Secret key)')+'">'
-+'<div class="cps"><button class="chip'+(j.click.on?' on':'')+'" onclick="PAYW.ap.click.on=!PAYW.ap.click.on;this.classList.toggle(\'on\',PAYW.ap.click.on)">✅ Yoqilgan</button></div><button class="btn" onclick="pasave(\'click\')">💾 Click sozlamalarini saqlash</button></div>';
 var s=j.sms;h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-size:17px">💳 Karta (Humo SMS)</b>'+chip(s.ready,s.ready?'Faol':'Sozlanmagan')+'</div><div class="sub" style="margin-bottom:8px">Pul kartangizga tushganda bank SMS i iPhone dan shu manzilga avtomatik yuboriladi va balans o\'zi to\'ldiriladi.'+(s.card_set?'':' <b style="color:#d92d20">Avval «Karta va narxlar» da karta raqami va egasini kiriting.</b>')+'</div>'
 +'<input id="smc" value="'+esc(s.card4)+'" placeholder="Karta oxirgi 4 raqami (SMS dagi *6662 kabi)" inputmode="numeric" maxlength="4"><input id="smx" type="number" value="'+s.max+'" placeholder="Avto-tasdiq chegarasi, so\'m"><div class="sub" style="margin:-4px 0 8px">Undan katta summalar admin tasdig\'ini kutadi.</div>'
 +'<div class="cps"><button class="chip'+(s.on?' on':'')+'" onclick="PAYW.ap.sms.on=!PAYW.ap.sms.on;this.classList.toggle(\'on\',PAYW.ap.sms.on)">✅ Yoqilgan</button></div><button class="btn" onclick="pasave(\'sms\')">💾 Saqlash</button>'
