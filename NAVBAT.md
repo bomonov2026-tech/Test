@@ -26,3 +26,29 @@ Qo'shimcha: «Kanal bozori» → «Kanal Savdo» — Telegram, Instagram, YouTub
 9. Zaxira provayder (raqam tugasa avtomatik)
 10. Raqamni 1–30 kunga ijaraga olish
 Tavsiya tartibi: 1+3+5 → 6 → 4. Avval 5sim kalitini kiritib, haqiqiy raqam bilan sinash.
+
+## Yangi xizmat g'oyalari (ilovada yo'q)
+- Telegram Stars / Premium sotish (provayder topilgach)
+- O'yin pullari (PUBG UC, Free Fire, Steam, Google Play)
+- AI vositalar (matn, tarjima, rasm) — so'rovga pul
+- Ovozdan matn, tarjima; rasm vositalari (fon olib tashlash, logo)
+- Raqamli mahsulot do'koni (komissiya); freelance birjasi (garov, 10%)
+- Kanal statistikasi/tahlil; kanal katalogi (tepaga chiqarish pullik)
+- Mobil aloqa to'ldirish; domen/hosting agentligi; kripto (USDT) to'ldirish
+- Username/raqamli nom savdosi; ish e'lonlari kanali; hujjat shablonlari
+- PRO obuna (chegirma, kam ustama); ilova ichida o'tkazma; xarid tarixi+PDF chek
+- Bot orqali buyurtma (/raqam, /nakrutka); uch til (uz lotin, kirill, rus)
+
+## Bor funksiyalarni kuchaytirish (38 ta g'oya)
+Nakrutka: 1 tayyor paketlar · 2 takror buyurtma · 3 tarmoq bo'yicha ommaviy narx · 4 sekin buyurtma ogohlantirishi · 5 qisman bajarilish sababi
+Raqam: 6 bayroqli davlatlar+ommaviy qo'shish · 7 boshqa raqam, qayta SMS, mashhurlar, qidiruv · 8 foyda hisoboti
+To'lov: 9 promo-kod, kunlik bonus, cashback · 10 foydalanuvchilararo o'tkazma · 11 xarid tarixi+chek · 12 SMS "ko'rib chiqish"da darrov Telegram xabari
+Savdo/birja: 13 reyting va sharhlar · 14 nizo tezlatish · 15 avto-tasdiqlangan belgi · 16 narx tavsiyasi
+Pullik kanal: 17 tugashdan oldin eslatma+uzaytirish · 18 sinov muddati · 19 ko'p oylik chegirma
+Konkurs: 20 ishtirok shartlari · 21 jonli g'olib+avto-post · 22 shablonlar
+Himoya: 23 spamni o'rgatish · 24 captcha/yangi a'zo · 25 haftalik hisobot
+Post/e'lon: 26 shablon+takrorlanish · 27 eng yaxshi vaqt · 28 A/B
+Prava/test: 29 xatolar ustida ishlash · 30 reyting+seriya · 31 imtihon rejimi
+Admin: 32 umumiy foyda paneli · 33 rollar · 34 shubhali faoliyat
+Umumiy: 35 referal · 36 bildirishnomalar markazi · 37 rus tili · 38 yuklanish tezligi (1.5 MB)
+Tavsiya tartibi: (9,35) → 32 → (6,7) → 17 → 1
