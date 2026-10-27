@@ -61,3 +61,16 @@ Tavsiya tartibi: (9,35) → 32 → (6,7) → 17 → 1
 - 11. Birinchi kirishda 3 qadamli ko'rsatma (tutorial)
 - 2. Hajm bo'yicha chegirma (nakrutka, 10 000 dan ko'p −5%)
 Tavsiya tartibi: 5 → 8 → 6 → 2 → 3 → 11
+
+## TANLANGAN (2-ro'yxat) — o'sish, barqarorlik, moliya
+- 2. «Birinchi to'ldirish» bonusi (+5%)
+- 3. Hamkor dasturi (kanal egasi o'z havolasi bilan mijoz olib kelsa, xariddan 3–5%)
+- 5. Mijoz sharhlari (faqat xarid qilgan yozadi)
+- 10. Yuk sinovi (500 ta bir vaqtda kirish; hosting tarifi yetadimi) — ommaviy reklamadan oldin
+- 11. Sekin sahifa/so'rovlarni aniqlash hisoboti
+- 12. Kunlik yopilish hisoboti (Telegram'ga: kirim, chiqim, foyda, provayder balansi)
+- 13. Soliq uchun oylik yig'ma hisobot (CSV)
+- 14. Provayder balansi prognozi ("shu tezlikda 4 kunga yetadi")
+- 15. 14 kun kirmaganlarga eslatma + bonus
+- 16. Tug'ilgan kun/bayram bonusi
+(Tavsiya: 12 → 14 → 10 → 2/3 → 15/16 → 5 → 11 → 13)
