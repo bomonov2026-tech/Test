@@ -22,4 +22,7 @@ Ixtiyoriy (config.php): `define('NK_API_KEY','...'); define('NK_API_URL','https:
 - Sinov: soxta provayder bilan 93 ta avtomatik tekshiruv + 17 ta interfeys tekshiruvi o'tgan.
 
 ## Provayder balansi (faqat admin panelda)
-Admin panel (Profil → admin) → «💰 Provayder balanslari» ingichka katagi: prm4u balansi va holat nuqtasi (🟢 yetarli, 🔴 kam/ulanmadi). Bosilsa to'liq sahifa: so'mdagi qiymat, 7 kunlik sarf va «necha kunga yetadi», ogohlantirish chegarasi (standart $5), yangilash, provayder saytiga o'tish. Bosh sahifada ko'rinmaydi. 5sim virtual raqam xizmati qo'shilganda shu bo'limga qo'shiladi.
+Admin panel (Profil → admin) → «💰 Provayder balanslari» ingichka kataklari: prm4u va 5sim balansi va holat nuqtasi (🟢 yetarli, 🔴 kam/ulanmadi). Bosilsa to'liq sahifa: so'mdagi qiymat, 7 kunlik sarf va «necha kunga yetadi», ogohlantirish chegarasi (standart $5), yangilash, provayder saytiga o'tish. Bosh sahifada ko'rinmaydi. 5sim virtual raqam xizmati qo'shilganda shu bo'limga qo'shiladi.
+
+### 5sim balansi
+Bo'lim sahifasida 5sim kartasi: API kalitni kiriting (5sim → Settings → «API key for 5SIM protocol», yangi API; «Deprecated» emas), balans valyutasini (RUB/USD) tanlang va 💾 bosing. Balans `GET https://5sim.net/v1/user/profile` (Authorization: Bearer) orqali olinadi. **5sim sandboxdan tekshirilmagan** (faqat soxta server bilan): birinchi marta balansni saytdagi bilan solishtiring, valyuta mos kelmasa RUB/USD ni almashtiring.
