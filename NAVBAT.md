@@ -105,3 +105,16 @@ Tavsiya tartibi: 5 → 8 → 6 → 2 → 3 → 11
 - O'yin pullari (PUBG UC, Free Fire, Steam, Google Play)
 - AI vositalar (matn yozish, tarjima, rasm) — so'rovga pul yechiladi
 - Kanal statistikasi/tahlil
+
+## TANLANGAN (5-ro'yxat — "Yana" ro'yxatidan: kundalik hayot va daromad)
+- 9. Ro'za va Ramazon taqvimi (saharlik/iftor vaqti, duolar)
+- 10. Uy vazifasi / dars jadvali (o'quvchilar uchun)
+- 11. Ob-havo ogohlantirishi (yomg'ir/sovuq bo'lsa ertalab xabar)
+- 12. Avtomobil xizmati (jarima tekshirish, sug'urta/texnik ko'rik eslatmasi)
+- 14. Ilova ichidagi reklama joylari (bosh sahifada kichik blok; kanal egalari to'laydi)
+- 16. Oflayn ochish (oxirgi ma'lumotlar internetsiz ko'rinadi)
+
+## Kanal egalari uchun g'oyalar (tanlanmagan, eslab qolish uchun)
+Kanal salomatlik tekshiruvi · raqobatchi kuzatuvi · g'oyalar generatori · obunachi so'rovnomasi · "start" paketi · kanal bahosi · auksion · reklama paketlari · takroriy reklama chegirmasi · hisob-faktura · kredit · so'm/dollar · profil havolasi · QR · reseller API (eng kuchli o'sish) · PDF eksport
+## Guruh/kundalik g'oyalar (tanlanmagan)
+Guruh faollik reytingi · guruh mini-do'koni · qoidalar testi · e'lonlar taxtasi · eslatmalar · xarajat daftari · valyuta kuzatuvi · biznes vitrinasi · brauzerdan kirish · PRO obuna (foydalanuvchi tomoni)
