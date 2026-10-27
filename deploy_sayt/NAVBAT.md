@@ -189,3 +189,19 @@ Rasm siqish (WebP) · ikkinchi provayder zaxirasi · mijoz profili · mijoz vaqt
 - Sekin so'rovlar jurnali (7 kunlik hisobot)
 - Yuk sinovi (YUK_SINOVI.md): bazaga murojaat 69 → 23 ta/so'rov, tezlik +50%
 - Admin → «Bugungi ishlar», «Hisobotlar»
+
+### 4-bosqich (Nakrutka va Virtual raqam) — tayyor va sinalgan (nk4_test 43/43, nk4_ui 9/9, vs4_test 30/30, vs4_ui 12/12)
+Nakrutka:
+- Hajm chegirmasi (standart 10 000+ → −5%, admin sozlaydi; narxda ko'rinadi)
+- Savat (5 tagacha buyurtma, bitta to'lov; xato bo'lganlarning puli qaytadi)
+- Takroriy buyurtma (har 3 kun/hafta/oy, 2–12 marta; balans yetmasa pauza + xabar; to'xtatish/davom ettirish)
+- «Qayta buyurtma» tugmasi (forma to'lib chiqadi)
+- Buyurtma vaqt chizig'i (qabul → provayder → jarayon → natija), navbat va taxminiy vaqt
+- Buyurtma tugaganda bot xabari (avvaldan bor edi: bajarildi/qisman/bekor, raqam kodi keldi)
+Virtual raqam:
+- Bayroqli davlatlar, tarmoq bo'yicha mashhurlik (🔥), davlat qidiruvi, eng sifatlisi tepada
+- Sifat bahosi: ⭐ kod kelish foizi va o'rtacha vaqt (oxirgi 30 kun)
+- «🔄 Boshqa raqam» (1.5 daqiqadan keyin; eskisining puli qaytadi; kuniga 5 tagacha; suiiste'mol hisobiga kirmaydi)
+- «🔁 Shu raqamga yana kod olish» (20 daqiqa ichida, 5sim reuse)
+- Admin: davlatlarni ommaviy qo'shish (62 davlat, narxi avto)
+- Eslatma: «boshqa raqam» va «qayta kod» 5sim API ga (/user/reuse) tayanadi — haqiqiy 5sim bilan tekshirilmagan
