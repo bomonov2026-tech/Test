@@ -285,6 +285,10 @@ function mig() {
         db()->exec("CREATE TABLE IF NOT EXISTS pay_log (id INT AUTO_INCREMENT PRIMARY KEY, prov VARCHAR(8) NOT NULL, req TEXT NULL, res TEXT NULL, at DATETIME NOT NULL, KEY a (at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
         setset('mig_pay_auto1', '1');
     }
+    if (setting('mig_sms1', '') !== '1') {   /* Humo SMS avto-tasdiq */
+        db()->exec("CREATE TABLE IF NOT EXISTS sms_in (id INT AUTO_INCREMENT PRIMARY KEY, h CHAR(32) NOT NULL, raw TEXT NULL, amount BIGINT NOT NULL DEFAULT 0, bal DECIMAL(16,2) NULL, st VARCHAR(10) NOT NULL DEFAULT 'new', tx INT NULL, note VARCHAR(200) NOT NULL DEFAULT '', at DATETIME NOT NULL, UNIQUE KEY h (h), KEY a (at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        setset('mig_sms1', '1');
+    }
     if (setting('mig_guard3', '') !== '1') {
         try { db()->exec('ALTER TABLE group_guard ADD COLUMN words TEXT NULL, ADD COLUMN noad TINYINT NOT NULL DEFAULT 0'); } catch (Exception $e) {}
         setset('mig_guard3', '1');
@@ -4897,6 +4901,58 @@ function promo_use($code, $uid) {
 }
 function pay_from($uid, $sum) { return q('UPDATE users SET balance=balance-? WHERE id=? AND balance>=?', array($sum, $uid, $sum))->rowCount() === 1; }
 
+/* ---------- KARTAGA O'TKAZMA: Humo SMS orqali avto-tasdiq (iPhone Shortcuts SMS ni shu manzilga yuboradi) ---------- */
+function sms_on() { $c = pay_cfg(); return setting('sms_on', '0') === '1' && setting('sms_token', '') !== '' && preg_match('/^\d{4}$/', setting('sms_card4', '')) && $c['card'] !== ''; }
+function sms_num($s) {
+    $s = preg_replace('/\s+/u', '', (string)$s);
+    if (strpos($s, ',') !== false && strpos($s, '.') !== false) $s = str_replace(',', '', $s); else $s = str_replace(',', '.', $s);
+    return is_numeric($s) ? (float)$s : null;
+}
+/* "HUMOCARD *6662: popolnenie 10000.00 UZS; PAYNET P2P HUM2HUM>T; 26-10-27 21:46;  Dostupno: 10000.00 UZS" */
+function sms_parse($t) {
+    $t = trim(preg_replace('/\s+/u', ' ', (string)$t));
+    if (!preg_match('/\*\s*(\d{4})\s*:/u', $t, $c) || !preg_match('/Dostupno\s*:\s*(-?[\d\s.,]+?)\s*UZS/iu', $t, $b)) return null;
+    $bal = sms_num($b[1]); if ($bal === null) return null;
+    $in = (bool)preg_match('/popolnenie|пополнение/iu', $t); $amt = null;
+    if ($in) { if (!preg_match('/(?:popolnenie|пополнение)\s*([\d\s.,]+?)\s*UZS/iu', $t, $a)) return null; $amt = sms_num($a[1]); if ($amt === null) return null; }
+    $ts = null; if (preg_match('/(\d{2})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/', $t, $d)) $ts = strtotime('20' . $d[1] . '-' . $d[2] . '-' . $d[3] . ' ' . $d[4] . ':' . $d[5] . ':00');
+    return array('card4' => $c[1], 'in' => $in, 'amount' => $amt, 'bal' => $bal, 'ts' => $ts ?: null);
+}
+function sms_stale() { try { q("UPDATE pay_tx SET st='cancel', ctime2=?, upd=NOW() WHERE prov='card' AND st='new' AND created < NOW() - INTERVAL 40 MINUTE", array(pay_ms())); if (mt_rand(1, 30) === 1) q('DELETE FROM sms_in WHERE at < NOW() - INTERVAL 30 DAY'); } catch (Exception $e) {} }
+function sms_note($st, $text) { notify_admins($text); }
+function sms_handle() {
+    header('Content-Type: application/json; charset=utf-8');
+    $tok = setting('sms_token', '');
+    if ($tok === '' || !hash_equals($tok, (string)$_GET['sms']) || setting('sms_on', '0') !== '1') { http_response_code(403); echo json_encode(array('ok' => false)); exit; }
+    $raw = file_get_contents('php://input'); $text = isset($_POST['text']) ? (string)$_POST['text'] : '';
+    if ($text === '' && $raw !== '') { $j = json_decode($raw, true); $text = is_array($j) && isset($j['text']) ? (string)$j['text'] : (string)$raw; }
+    $text = mb_substr(trim($text), 0, 600); $out = function ($st) { echo json_encode(array('ok' => true, 'status' => $st)); exit; };
+    if ($text === '') $out('empty');
+    sms_stale();
+    $p = sms_parse($text);
+    if (!$p || $p['card4'] !== setting('sms_card4', '')) $out('ignored');
+    $h = md5(preg_replace('/\s+/u', ' ', $text));
+    if (q('INSERT IGNORE INTO sms_in (h,raw,amount,bal,st,at) VALUES (?,?,?,?,?,NOW())', array($h, $text, $p['in'] ? (int)round($p['amount']) : 0, $p['bal'], 'new'))->rowCount() !== 1) $out('dup');
+    $sid = (int)db()->lastInsertId(); $set = function ($st, $tx = null, $note = '') use ($sid) { q('UPDATE sms_in SET st=?, tx=?, note=? WHERE id=?', array($st, $tx, mb_substr($note, 0, 190), $sid)); };
+    $last = setting('sms_lastbal', ''); setset('sms_lastbal', $p['bal']);
+    if (!$p['in']) { $set('bal'); $out('balance'); }
+    $amt = (int)round($p['amount']);
+    if (abs($p['amount'] - $amt) > 0.001 || $amt < 1000) { $set('ignored', null, 'summa butun emas yoki juda kichik'); $out('ignored'); }
+    $why = '';
+    if ($p['ts'] === null || abs(time() - $p['ts']) > 3 * 3600) $why = 'SMS vaqti hozirgi vaqtga mos emas';
+    if ($why === '' && $last !== '' && abs((float)$last + $p['amount'] - $p['bal']) > 0.5) $why = 'balans zanjiri mos emas (SMS yo\'qolgan yoki soxta bo\'lishi mumkin)';
+    $tx = q("SELECT * FROM pay_tx WHERE prov='card' AND st='new' AND amount=? AND created > NOW() - INTERVAL 40 MINUTE ORDER BY id DESC LIMIT 1", array($amt))->fetch();
+    if (!$tx) {
+        $old = q("SELECT * FROM pay_tx WHERE prov='card' AND st='cancel' AND amount=? AND created > NOW() - INTERVAL 24 HOUR ORDER BY id DESC LIMIT 1", array($amt))->fetch();
+        if ($old) { $set('review', $old['id'], 'to\'lov kech keldi (so\'rov muddati o\'tgan)'); sms_note('review', "🔔 Kartaga " . money($amt) . " tushdi, lekin so'rov muddati o'tgan (#" . $old['id'] . "). Admin → Avto-to'lov bo'limida «Hisoblash» ni bosing."); $out('review'); }
+        $set('nomatch', null, 'mos so\'rov topilmadi'); sms_note('nomatch', "🔔 Kartaga " . money($amt) . " tushdi, lekin mos to'lov so'rovi topilmadi (noyob summa o'zgargan bo'lishi mumkin). Admin → Avto-to'lov bo'limida ko'ring."); $out('nomatch');
+    }
+    if ($why === '' && $amt > (int)setting('sms_max', '1000000')) $why = 'summa avto-tasdiq chegarasidan katta';
+    if ($why !== '') { $set('review', $tx['id'], $why); sms_note('review', "🔔 Kartaga " . money($amt) . " tushdi (so'rov #" . $tx['id'] . "), lekin avto-tasdiq to'xtadi: " . $why . ". Admin → Avto-to'lov bo'limida «Hisoblash» ni bosing."); $out('review'); }
+    if (pay_credit($tx['id'])) { $set('ok', $tx['id']); $out('ok'); }
+    $set('review', $tx['id'], 'balansga qo\'shib bo\'lmadi'); $out('review');
+}
+
 /* ---------- AVTOMATIK TO'LOV: Payme (Merchant API) va Click (Shop API) — balansni karta bilan to'ldirish ---------- */
 function pay_set($k, $d = '') { return trim((string)setting($k, $d)); }
 function pay_on($p) {
@@ -4928,7 +4984,7 @@ function pay_credit($id) {
         }
         $pdo->commit();
     } catch (Exception $e) { if ($pdo->inTransaction()) $pdo->rollBack(); return false; }
-    if ($done) { nk_tell($tx['uid'], "✅ Balans to'ldirildi: +" . money($tx['amount']) . " (" . ($tx['prov'] === 'payme' ? 'Payme' : 'Click') . ")"); }
+    if ($done) { nk_tell($tx['uid'], "✅ Balans to'ldirildi: +" . money($tx['amount']) . " (" . array('payme' => 'Payme', 'click' => 'Click', 'card' => 'Karta')[$tx['prov']] . ")"); }
     return $done;
 }
 function pay_url($tx) {
@@ -6548,6 +6604,7 @@ if (isset($_GET['l'])) {   /* qisqa havola: bosishlar sanaladi va manzilga yo'na
     if (!preg_match('/bot|crawl|spider|preview|facebookexternalhit|whatsapp/i', isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '')) q('UPDATE short_links SET clicks=clicks+1 WHERE id=?', array($r['id']));   /* havola ko'rinishini tayyorlovchi botlar sanalmaydi */
     header('Location: ' . $r['url'], true, 302); exit;
 }
+if (isset($_GET['sms'])) { mig(); sms_handle(); }
 if (isset($_GET['pay'])) {   /* Payme / Click serverlari shu manzilga murojaat qiladi (Telegram avtorizatsiyasiz; o'z imzosi bilan himoyalangan) */
     mig();
     if ($_GET['pay'] === 'payme') payme_handle();
@@ -7678,7 +7735,7 @@ if (isset($_GET['api'])) {
             'card' => $cfg['card'], 'holder' => $cfg['holder'], 'prices' => $cfg['prices'], 'min' => PAY_MIN, 'max' => PAY_MAX,
             'cnt' => array('Kanal' => (int)q('SELECT COUNT(*) ' . ad_aud('Kanal')[0])->fetchColumn() > 0 ? 1 : 0, 'Guruh' => (int)q('SELECT COUNT(*) ' . ad_aud('Guruh')[0])->fetchColumn() > 0 ? 1 : 0, 'users' => (int)q('SELECT COUNT(*) ' . ad_aud('users')[0])->fetchColumn() > 0 ? 1 : 0),   /* soni e'lon beruvchiga ko'rsatilmaydi — faqat bor/yo'q */
             'topups' => q('SELECT id,amount,status,created_at FROM topups WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll(),
-            'pay' => pay_list(), 'pay_min' => pay_min(), 'pay_max' => pay_max(), 'wd_min' => WD_MIN, 'dn_min' => DN_MIN, 'wd_hold' => (int)q("SELECT COALESCE(SUM(amount),0) FROM withdrawals WHERE user_id=? AND status='pending'", array($u['id']))->fetchColumn(),
+            'pay' => pay_list(), 'sms' => sms_on(), 'pay_min' => pay_min(), 'pay_max' => pay_max(), 'wd_min' => WD_MIN, 'dn_min' => DN_MIN, 'wd_hold' => (int)q("SELECT COALESCE(SUM(amount),0) FROM withdrawals WHERE user_id=? AND status='pending'", array($u['id']))->fetchColumn(),
             'wds' => q('SELECT id,amount,status,created_at,card FROM withdrawals WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll(),
             'orders' => q('SELECT id,kind,price,status,created_at FROM ad_orders WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll()));
     }
@@ -7914,6 +7971,24 @@ if (isset($_GET['api'])) {
         $r = q('SELECT id,prov,amount,st FROM pay_tx WHERE id=? AND uid=?', array((int)(isset($in['id']) ? $in['id'] : 0), $u['id']))->fetch(); if (!$r) out(array('ok' => false, 'error' => 'Topilmadi'), 404);
         out(array('ok' => true, 'st' => $r['st'], 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn()));
     }
+    if ($a === 'sms_new') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
+        if (!sms_on()) out(array('ok' => false, 'error' => 'Bu usul hozir ishlamayapti'), 503);
+        $amt = (int)(isset($in['amount']) ? $in['amount'] : 0); if ($amt < pay_min() || $amt > pay_max()) out(array('ok' => false, 'error' => 'Summa ' . money(pay_min()) . ' dan ' . money(pay_max()) . ' gacha bo\'lishi kerak'), 422);
+        sms_stale();
+        if ((int)q("SELECT COUNT(*) FROM pay_tx WHERE uid=? AND prov='card' AND st='new'", array($u['id']))->fetchColumn() >= 2) out(array('ok' => false, 'error' => 'Sizda kutilayotgan to\'lovlar bor. Avval ularni yakunlang yoki 40 daqiqa kuting'), 429);
+        $pdo = db(); $id = 0; $final = 0;
+        try {
+            $pdo->beginTransaction(); q("SELECT GET_LOCK('kp_cardtx', 5)");
+            $busy = array(); foreach (q("SELECT amount FROM pay_tx WHERE prov='card' AND st='new'")->fetchAll() as $r) $busy[(int)$r['amount']] = 1;
+            $offs = range(1, 99); shuffle($offs);
+            foreach ($offs as $o) if (!isset($busy[$amt + $o])) { $final = $amt + $o; break; }
+            if ($final > 0) { q("INSERT INTO pay_tx (uid,prov,amount,st,created,upd) VALUES (?,'card',?,'new',NOW(),NOW())", array($u['id'], $final)); $id = (int)$pdo->lastInsertId(); }
+            $pdo->commit(); q("SELECT RELEASE_LOCK('kp_cardtx')");
+        } catch (Exception $e) { if ($pdo->inTransaction()) $pdo->rollBack(); out(array('ok' => false, 'error' => 'Xatolik, qayta urinib ko\'ring'), 500); }
+        if ($final === 0) out(array('ok' => false, 'error' => 'Hozir band, birozdan keyin urinib ko\'ring'), 429);
+        $c = pay_cfg(); out(array('ok' => true, 'id' => $id, 'amount' => $final, 'card' => $c['card'], 'holder' => $c['holder'], 'left' => 2400));
+    }
     if (!$adm) out(array('ok' => false, 'error' => 'Ruxsat yo\'q'), 403);
     if (strpos($a, 'nk_adm') === 0) {
         $isp = $_SERVER['REQUEST_METHOD'] === 'POST'; if (!$isp) out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
@@ -8091,11 +8166,20 @@ if (isset($_GET['api'])) {
             out(array('ok' => true, 'min' => pay_min(), 'max' => pay_max(), 'app' => APP_URL, 'https' => stripos(APP_URL, 'https://') === 0,
                 'payme' => array('mid' => pay_set('payme_mid'), 'key_tail' => $tail('payme_key'), 'test' => pay_set('payme_test', '0') === '1', 'on' => pay_set('payme_on', '1') === '1', 'ready' => pay_on('payme'), 'url' => APP_URL . '?pay=payme'),
                 'click' => array('sid' => pay_set('click_sid'), 'mid' => pay_set('click_mid'), 'key_tail' => $tail('click_key'), 'on' => pay_set('click_on', '1') === '1', 'ready' => pay_on('click'), 'url' => APP_URL . '?pay=click'),
-                'tx' => $tx, 'log' => $lg,
+                'tx' => $tx, 'log' => $lg, 'sms' => array('on' => setting('sms_on', '0') === '1', 'ready' => sms_on(), 'token' => setting('sms_token', ''), 'url' => APP_URL . '?sms=' . setting('sms_token', ''), 'card4' => setting('sms_card4', ''), 'max' => (int)setting('sms_max', '1000000'), 'bal' => setting('sms_lastbal', ''), 'card_set' => pay_cfg()['card'] !== '',
+                    'list' => array_map(function ($r) { $r['at'] = date('d.m H:i', strtotime($r['at'])); $r['raw'] = mb_substr(preg_replace('/\*\s*(\d{4})/', '*$1', (string)$r['raw']), 0, 160); return $r; }, q('SELECT id,amount,bal,st,tx,note,raw,at FROM sms_in ORDER BY id DESC LIMIT 15')->fetchAll())),
                 'sum' => array('n' => (int)q("SELECT COUNT(*) FROM pay_tx WHERE st='paid' AND created > NOW() - INTERVAL 30 DAY")->fetchColumn(), 'sum' => (int)q("SELECT COALESCE(SUM(amount),0) FROM pay_tx WHERE st='paid' AND created > NOW() - INTERVAL 30 DAY")->fetchColumn())));
         }
         if ($a === 'pay_adm_set') {
             $p = (string)(isset($in['p']) ? $in['p'] : ''); $g = function ($k) use ($in) { return trim((string)(isset($in[$k]) ? $in[$k] : '')); };
+            if ($p === 'sms') {
+                $c4 = $g('card4'); $mx = (int)$g('max');
+                if ($c4 !== '' && !preg_match('/^\d{4}$/', $c4)) out(array('ok' => false, 'error' => 'Karta raqamining oxirgi 4 ta raqamini kiriting (SMS dagi *6662 kabi)'), 422);
+                if ($mx < 10000 || $mx > 100000000) out(array('ok' => false, 'error' => 'Avto-tasdiq chegarasi 10 000 dan 100 000 000 gacha bo\'lsin'), 422);
+                if ($c4 !== '') setset('sms_card4', $c4); setset('sms_max', $mx);
+                if (setting('sms_token', '') === '' || !empty($in['regen'])) setset('sms_token', bin2hex(random_bytes(16)));
+                setset('sms_on', !empty($in['on']) ? '1' : '0'); out(array('ok' => true));
+            }
             if ($p === 'limits') {
                 $mn = (int)$g('min'); $mx = (int)$g('max'); if ($mn < 1000 || $mx < $mn || $mx > 100000000) out(array('ok' => false, 'error' => 'Eng kam 1 000 dan, eng ko\'p eng kamidan katta va 100 000 000 dan oshmasin'), 422);
                 setset('pay_amin', $mn); setset('pay_amax', $mx); out(array('ok' => true));
@@ -8115,6 +8199,14 @@ if (isset($_GET['api'])) {
                 setset('click_on', !empty($in['on']) ? '1' : '0'); out(array('ok' => true));
             }
             out(array('ok' => false, 'error' => 'Noma\'lum bo\'lim'), 422);
+        }
+        if ($a === 'pay_adm_sms') {
+            $id = (int)(isset($in['id']) ? $in['id'] : 0); $r = q('SELECT * FROM sms_in WHERE id=?', array($id))->fetch();
+            if (!$r || $r['st'] !== 'review' || !$r['tx']) out(array('ok' => false, 'error' => 'Bu yozuvni hisoblab bo\'lmaydi'), 422);
+            if (q("UPDATE sms_in SET st='ok', note=CONCAT('admin tasdiqladi: ', note) WHERE id=? AND st='review'", array($id))->rowCount() !== 1) out(array('ok' => false, 'error' => 'Allaqachon hal qilingan'), 409);
+            q("UPDATE pay_tx SET st='new' WHERE id=? AND prov='card' AND st='cancel'", array($r['tx']));
+            if (!pay_credit((int)$r['tx'])) { q("UPDATE sms_in SET st='review' WHERE id=?", array($id)); out(array('ok' => false, 'error' => 'Balansga qo\'shib bo\'lmadi (allaqachon to\'langan bo\'lishi mumkin)'), 409); }
+            out(array('ok' => true));
         }
         out(array('ok' => false, 'error' => 'Noma\'lum amal'), 404);
     }
@@ -9658,8 +9750,13 @@ function vsfx(id,d){nkcf(d==='refund'?'Buyurtma #'+id+' uchun pul foydalanuvchig
 
 /* ---------- AVTOMATIK TO'LOV (Payme · Click) ---------- */
 var PAYW={t:0,ap:null,go:0};
-function payui(){var l=(W&&W.pay)||[];if(!l.length)return '';var nm={payme:'Payme',click:'Click'},cl={payme:'#33ccc5',click:'#00aeef'};
-return '<div style="border-bottom:1px solid var(--ln);padding:8px 0 12px;margin-bottom:10px"><b>⚡ Karta bilan (avtomatik)</b><div class="sub" style="margin:2px 0 8px">Summa to\'lovdan keyin darrov balansingizga tushadi — chek yuborish va kutish shart emas.</div><input id="pa" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><div class="cps">'+[10000,50000,100000,200000,500000].map(function(v){return '<button class="chip" onclick="$(\'pa\').value='+v+'">'+nkn(v)+'</button>'}).join('')+'</div><div style="display:flex;gap:8px;margin-top:10px">'+l.map(function(p){return '<button class="btn" style="flex:1;background:'+cl[p]+'" onclick="payn(\''+p+'\')">'+nm[p]+' orqali</button>'}).join('')+'</div><p class="sub" style="font-size:12px;margin:8px 0 0">Eng kam '+fmt(W.pay_min)+', eng ko\'pi '+fmt(W.pay_max)+'. To\'lov Payme/Click sahifasida amalga oshadi, so\'ng shu yerga qayting.</p></div><div class="sub" style="margin:0 0 8px"><b>Yoki qo\'lda</b> (kartaga o\'tkazib, chek yuklash):</div>'}
+function payui(){var l=(W&&W.pay)||[],c=W&&W.sms;if(!l.length&&!c)return '';var nm={payme:'Payme',click:'Click'},cl={payme:'#33ccc5',click:'#00aeef'};
+var btn=l.map(function(p){return '<button class="btn" style="flex:1;background:'+cl[p]+'" onclick="payn(\''+p+'\')">'+nm[p]+' orqali</button>'}).join('');
+if(c)btn+='<button class="btn" style="flex:1 1 100%;background:#1a9e4f" onclick="cardn()">💳 Kartaga o\'tkazish (avto-tasdiq)</button>';
+return '<div style="border-bottom:1px solid var(--ln);padding:8px 0 12px;margin-bottom:10px"><b>⚡ Avtomatik to\'ldirish</b><div class="sub" style="margin:2px 0 8px">Summa to\'lovdan keyin darrov balansingizga tushadi — chek yuborish va kutish shart emas.</div><input id="pa" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><div class="cps">'+[10000,50000,100000,200000,500000].map(function(v){return '<button class="chip" onclick="$(\'pa\').value='+v+'">'+nkn(v)+'</button>'}).join('')+'</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">'+btn+'</div><div id="pcard"></div><p class="sub" style="font-size:12px;margin:8px 0 0">Eng kam '+fmt(W.pay_min)+', eng ko\'pi '+fmt(W.pay_max)+'.</p></div><div class="sub" style="margin:0 0 8px"><b>Yoki qo\'lda</b> (kartaga o\'tkazib, chek yuklash):</div>'}
+function cardn(){var v=parseInt(($('pa')||{}).value,10)||0;if(v<W.pay_min||v>W.pay_max){toast('Summa '+fmt(W.pay_min)+' dan '+fmt(W.pay_max)+' gacha bo\'lsin');return}
+api('sms_new',{amount:v}).then(function(j){if(!j.ok)return;PAYW.id=j.id;PAYW.b0=W.balance;PAYW.cl=j.left;var e=$('pcard');if(!e)return;
+e.innerHTML='<div style="background:var(--soft);border-radius:14px;padding:12px;margin-top:10px"><div class="sub">Aynan shu summani o\'tkazing (noyob summa — to\'lovingizni avtomatik aniqlash uchun):</div><div class="row" style="margin:2px 0 8px"><b style="font-size:26px;letter-spacing:.5px">'+fmt(j.amount)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="vscp(\''+j.amount+'\')">📋</button></div><div class="sub">Karta raqami</div><div class="row" style="margin:2px 0 8px"><b style="font-size:19px;letter-spacing:.5px">'+esc(j.card)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="vscp(\''+esc(String(j.card).replace(/\s/g,''))+'\')">📋</button></div><div class="sub">Karta egasi: <b>'+esc(j.holder)+'</b></div><div class="sub" style="margin-top:8px">⏳ 40 daqiqa ichida o\'tkazing. To\'lov tushishi bilan balans <b>avtomatik</b> to\'ldiriladi. Summani o\'zgartirmang!</div></div>';payw()})}
 function payn(p){var v=parseInt(($('pa')||{}).value,10)||0;if(v<W.pay_min||v>W.pay_max){toast('Summa '+fmt(W.pay_min)+' dan '+fmt(W.pay_max)+' gacha bo\'lsin');return}
 api('pay_new',{provider:p,amount:v}).then(function(j){if(!j.ok)return;PAYW.id=j.id;PAYW.b0=W.balance;try{tg.openLink(j.url)}catch(e){window.open(j.url,'_blank')}payw()})}
 function payw(){clearInterval(PAYW.t);var n=0;PAYW.t=setInterval(function(){n++;if(n>90){clearInterval(PAYW.t);return}api('pay_status',{id:PAYW.id}).then(function(j){if(!j.ok)return;if(j.st==='paid'){clearInterval(PAYW.t);toast('✅ Balans to\'ldirildi');W.balance=j.balance;if(window.wallet)wallet()}})},4000)}
@@ -9676,11 +9773,19 @@ h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-siz
 h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-size:17px">Click</b>'+chip(j.click.ready,j.click.ready?'Faol':'Sozlanmagan')+'</div><div class="sub" style="margin-bottom:6px">Click Merchant kabineti → Xizmat sozlamalari. «Prepare URL» va «Complete URL» ikkalasiga ham bir xil manzil:</div><div class="row" style="margin:0 0 8px"><b style="font-size:13px;word-break:break-all">'+esc(j.click.url)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="apcopy(\''+esc(j.click.url)+'\')">📋</button></div>'
 +'<input id="clm" value="'+esc(j.click.mid)+'" placeholder="Merchant ID (raqam)" inputmode="numeric"><input id="cls" value="'+esc(j.click.sid)+'" placeholder="Service ID (raqam)" inputmode="numeric"><input id="clk" type="password" autocomplete="off" placeholder="'+(j.click.key_tail?'Maxfiy kalit saqlangan (••••'+esc(j.click.key_tail)+') — o\'zgartirish uchun yangisini kiriting':'Maxfiy kalit (Secret key)')+'">'
 +'<div class="cps"><button class="chip'+(j.click.on?' on':'')+'" onclick="PAYW.ap.click.on=!PAYW.ap.click.on;this.classList.toggle(\'on\',PAYW.ap.click.on)">✅ Yoqilgan</button></div><button class="btn" onclick="pasave(\'click\')">💾 Click sozlamalarini saqlash</button></div>';
+var s=j.sms;h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-size:17px">💳 Karta (Humo SMS)</b>'+chip(s.ready,s.ready?'Faol':'Sozlanmagan')+'</div><div class="sub" style="margin-bottom:8px">Pul kartangizga tushganda bank SMS i iPhone dan shu manzilga avtomatik yuboriladi va balans o\'zi to\'ldiriladi.'+(s.card_set?'':' <b style="color:#d92d20">Avval «Karta va narxlar» da karta raqami va egasini kiriting.</b>')+'</div>'
++'<input id="smc" value="'+esc(s.card4)+'" placeholder="Karta oxirgi 4 raqami (SMS dagi *6662 kabi)" inputmode="numeric" maxlength="4"><input id="smx" type="number" value="'+s.max+'" placeholder="Avto-tasdiq chegarasi, so\'m"><div class="sub" style="margin:-4px 0 8px">Undan katta summalar admin tasdig\'ini kutadi.</div>'
++'<div class="cps"><button class="chip'+(s.on?' on':'')+'" onclick="PAYW.ap.sms.on=!PAYW.ap.sms.on;this.classList.toggle(\'on\',PAYW.ap.sms.on)">✅ Yoqilgan</button></div><button class="btn" onclick="pasave(\'sms\')">💾 Saqlash</button>'
++(s.token?'<div class="sub" style="margin:12px 0 4px"><b>iPhone uchun manzil</b> (maxfiy — hech kimga bermang):</div><div class="row" style="margin:0 0 6px"><b style="font-size:12px;word-break:break-all">'+esc(s.url)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="apcopy(\''+esc(s.url)+'\')">📋</button></div><button class="btn s" onclick="pasave(\'sms\',1)">🔄 Yangi maxfiy manzil</button>':'')
++'<div class="sub" style="margin-top:12px;line-height:1.5"><b>iPhone sozlash:</b><br>1) «Buyruqlar» (Shortcuts) → Avtomatlashtirish → <b>＋</b> → <b>Xabar</b> (Message).<br>2) «Xabar tarkibi» ga <b>HUMOCARD</b> yozing (yoki Jo\'natuvchi: HUMOCARD). «Darrov bajarish» (Run Immediately) ni yoqing.<br>3) Amal: <b>URL mazmunini olish</b> (Get Contents of URL): manzil — yuqoridagi, Usul: <b>POST</b>, So\'rov tanasi: <b>Forma</b>, maydon <b>text</b> = «Xabar» (Shortcut Input).<br>4) O\'zingizga 10 000 so\'m o\'tkazib sinab ko\'ring.</div>'
++(s.bal!==''?'<div class="sub" style="margin-top:8px">Oxirgi ko\'rilgan karta balansi: <b>'+fmt(parseFloat(s.bal))+'</b></div>':'')
++(s.list.length?'<div style="margin-top:10px"><b>So\'nggi SMS lar</b>'+s.list.map(function(x){var m={ok:['✅','Hisoblandi','#1a9e4f'],review:['🔔','Tasdiq kerak','#c77a00'],nomatch:['❓','So\'rov yo\'q','#d92d20'],bal:['ℹ️','Balans','#8e8e93'],ignored:['—','E\'tiborsiz','#8e8e93'],'new':['…','Yangi','#8e8e93']}[x.st]||['','','#888'];return '<div style="border-top:1px solid var(--ln);margin-top:8px;padding-top:8px"><div class="row" style="margin:0"><b>'+(x.amount>0?'+'+fmt(x.amount):'Balans '+fmt(parseFloat(x.bal)))+'</b><span style="color:'+m[2]+';font-weight:700;font-size:12.5px">'+m[0]+' '+m[1]+'</span></div><div class="sub">'+esc(x.at)+(x.tx?' · so\'rov #'+x.tx:'')+(x.note?' · '+esc(x.note):'')+'</div>'+(x.st==='review'?'<button class="btn s" style="margin-top:6px" onclick="paapp('+x.id+')">✅ Hisoblash</button>':'')+'</div>'}).join('')+'</div>':'')+'</div>';
 h+='<div class="card"><b>Summa chegarasi (so\'m)</b><input id="pnm" type="number" value="'+j.min+'"><input id="pnx" type="number" value="'+j.max+'"><button class="btn s" onclick="pasave(\'limits\')">💾 Saqlash</button></div>';
 h+='<div class="card"><b>🧾 So\'nggi to\'lovlar</b>'+(j.tx.length?j.tx.map(function(t){var s={paid:['✅','To\'langan','#1a9e4f'],wait:['⏳','Jarayonda','#1d84f2'],'new':['🆕','Boshlangan','#8e8e93'],cancel:['✖','Bekor','#d92d20'],refund:['↩️','Qaytarilgan','#d92d20']}[t.st]||['','','#888'];return '<div style="border-top:1px solid var(--ln);margin-top:8px;padding-top:8px"><div class="row" style="margin:0"><b>'+fmt(t.amount)+' · '+(t.prov==='payme'?'Payme':'Click')+'</b><span style="color:'+s[2]+';font-weight:700;font-size:12.5px">'+s[0]+' '+s[1]+'</span></div><div class="sub">#'+t.id+' · '+esc(t.name||'')+(t.username?' @'+esc(t.username):'')+' · '+esc(t.created)+'</div></div>'}).join(''):'<div class="sub" style="margin-top:6px">Hali to\'lov yo\'q.</div>')+'</div>';
 if(j.log.length)h+='<div class="card"><b>🛰 So\'nggi so\'rovlar (provayderdan)</b>'+j.log.map(function(l){return '<div class="sub" style="border-top:1px solid var(--ln);margin-top:6px;padding-top:6px;word-break:break-all"><b>'+esc(l.prov)+'</b> '+esc(l.at)+'<br>'+esc(String(l.req).slice(0,140))+'<br>→ '+esc(String(l.res).slice(0,140))+'</div>'}).join('')+'</div>';
 el.innerHTML=h}
-function pasave(p){var j=PAYW.ap,b={p:p};if(p==='payme'){b.mid=$('pmm').value;b.key=$('pmk').value;b.test=j.payme.test?1:0;b.on=j.payme.on?1:0}else if(p==='click'){b.mid=$('clm').value;b.sid=$('cls').value;b.key=$('clk').value;b.on=j.click.on?1:0}else{b.min=$('pnm').value;b.max=$('pnx').value}
+function paapp(id){nkcf('Kartaga tushgan pul tasdiqlansinmi va foydalanuvchi balansiga qo\'shilsinmi?',function(){api('pay_adm_sms',{id:id}).then(function(r){if(r.ok){toast('Hisoblandi');apl()}})})}
+function pasave(p,regen){var j=PAYW.ap,b={p:p};if(p==='payme'){b.mid=$('pmm').value;b.key=$('pmk').value;b.test=j.payme.test?1:0;b.on=j.payme.on?1:0}else if(p==='sms'){b.card4=$('smc').value;b.max=$('smx').value;b.on=j.sms.on?1:0;if(regen)b.regen=1}else if(p==='click'){b.mid=$('clm').value;b.sid=$('cls').value;b.key=$('clk').value;b.on=j.click.on?1:0}else{b.min=$('pnm').value;b.max=$('pnx').value}
 api('pay_adm_set',b).then(function(r){if(r.ok){toast('Saqlandi');apl()}})}
 function sall(){$('saleb').innerHTML='<div class="sk"></div>';api('sale_list').then(function(j){if(!j.ok)return;SAD=j;var h='<p class="sub" style="margin:-6px 2px 12px">Sotuvdagi kanal va guruhlar. Raqamlar TartibOn statistikasidan olinadi — soxta emas. Xavfsiz savdo uchun «🛡 Vositachi» tugmasini bosing (haqi '+j.fee+'%).</p>';
 h+=j.list.length?j.list.map(function(c){var g=c.m30?(+c.members-c.m30):null,age=Math.max(0,Math.round((Date.now()/1000-new Date(String(c.created_at).replace(' ','T')).getTime()/1000)/86400));return '<div class="card"><div class="row"><div style="min-width:0"><b>🏷 '+esc(c.username)+(c.verified==1?' <span title="TartibOn tasdiqlagan">✅</span>':'')+'</b><div class="sub">'+(c.members?nf(+c.members)+' '+(c.ctype==='Kanal'?'obunachi':'a\'zo'):'')+(g!=null?' · 30 kunda '+(g>=0?'+':'')+nf(g):'')+(c.vz_cat?' · '+esc(c.vz_cat):'')+'</div></div><b style="flex:none">'+fmt(+c.price)+'</b></div>'+(c.descr?'<div class="sub" style="margin-top:6px">'+esc(c.descr)+'</div>':'')+'<div class="sub" style="margin-top:4px">✅ TartibOn\'da '+age+' kundan beri · statistika tasdiqlangan</div>'+(c.own==1?'<div class="sub" style="margin-top:8px">👤 Bu sizning e\'loningiz</div>':'<div style="display:flex;gap:8px;margin-top:8px"><button class="btn s" onclick="salm('+c.id+')">📩 Sotuvchiga yozish</button><button class="btn s" onclick="sals('+c.id+')">🛡 Vositachi</button></div>')+'</div>'}).join(''):'<div class="card sub">Hozircha sotuvda kanal yo\'q.</div>';h+='<div class="card"><b>➕ Kanalimni sotuvga qo\'yish</b>'+(j.mine&&j.mine.length?j.mine.map(function(c){return '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--ln)"><div class="row"><b>'+(c.ctype==='Kanal'?'📢 ':'👥 ')+esc(c.username)+'</b>'+(c.on_==1?'<span class="tag">✅ Sotuvda</span>':'<button class="btn s" onclick="slOpen('+c.id+',\'slm\')">🏷 Sotuvga qo\'yish</button>')+'</div><div id="slm'+c.id+'"></div>'+(c.on_==1?'<button class="btn s" style="margin-top:6px" onclick="slOpen('+c.id+',\'slm\')">✏️ O\'zgartirish</button>':'')+'</div>'}).join(''):'<p class="sub" style="margin:6px 0 0">Avval «Kanal qo\'shish» orqali kanal yoki guruhingizni ulang.</p>')+'</div>';$('saleb').innerHTML=h})}
