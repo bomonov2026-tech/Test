@@ -289,6 +289,11 @@ function mig() {
         db()->exec("CREATE TABLE IF NOT EXISTS sms_in (id INT AUTO_INCREMENT PRIMARY KEY, h CHAR(32) NOT NULL, raw TEXT NULL, amount BIGINT NOT NULL DEFAULT 0, bal DECIMAL(16,2) NULL, st VARCHAR(10) NOT NULL DEFAULT 'new', tx INT NULL, note VARCHAR(200) NOT NULL DEFAULT '', at DATETIME NOT NULL, UNIQUE KEY h (h), KEY a (at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
         setset('mig_sms1', '1');
     }
+    if (setting('mig_sec1', '') !== '1') {   /* Xavfsizlik: tezlik chegarasi jadvali va tezlashtiruvchi indekslar */
+        db()->exec("CREATE TABLE IF NOT EXISTS sec_rl (uid BIGINT UNSIGNED NOT NULL, w INT NOT NULL, n INT NOT NULL DEFAULT 0, PRIMARY KEY (uid, w)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        foreach (array("ALTER TABLE nk_ord ADD INDEX sx_uc (uid, created)", "ALTER TABLE nk_ord ADD INDEX sx_su (st, upd)", "ALTER TABLE vs_ord ADD INDEX sx_uc (uid, created)", "ALTER TABLE vs_ord ADD INDEX sx_se (st, expires)", "ALTER TABLE pay_tx ADD INDEX sx_us (uid, st)", "ALTER TABLE pay_tx ADD INDEX sx_pa (prov, st, amount)", "ALTER TABLE audit_logs ADD INDEX sx_at (at)", "ALTER TABLE users ADD INDEX sx_ls (last_seen)") as $sql) { try { db()->exec($sql); } catch (Exception $e) {} }
+        setset('mig_sec1', '1');
+    }
     if (setting('mig_guard3', '') !== '1') {
         try { db()->exec('ALTER TABLE group_guard ADD COLUMN words TEXT NULL, ADD COLUMN noad TINYINT NOT NULL DEFAULT 0'); } catch (Exception $e) {}
         setset('mig_guard3', '1');
@@ -663,6 +668,7 @@ function auth_user() {
     q('INSERT INTO users (id,username,name,created_at,last_seen) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE username=VALUES(username), name=VALUES(name), last_seen=VALUES(last_seen)',
         array($u['id'], isset($u['username']) ? $u['username'] : '', trim($u['first_name'] . ' ' . (isset($u['last_name']) ? $u['last_name'] : '')), $now, $now));
     if (q('SELECT blocked FROM users WHERE id=?', array($u['id']))->fetchColumn()) out(array('ok' => false, 'error' => 'Hisobingiz bloklangan'), 403);
+    sec_rate($u['id']);
     return $u;
 }
 
@@ -4990,7 +4996,8 @@ function nk_cfg() {
 }
 function nk_url_ok($u) { return (bool)preg_match('~^(https://[A-Za-z0-9.-]+(:\d+)?(/\S*)?|http://(127\.0\.0\.1|localhost)(:\d+)?(/\S*)?)$~', $u); }
 /* Provayderga so'rov. sure=true — so'rov provayderga yetib bormagani/aniq rad etilgani; sure=false — natija noma'lum (tarmoq uzilishi, 5xx) */
-function nk_call($p, $t = 25) {
+function nk_call($p, $t = 25) { $r = nk_call_raw($p, $t); if (isset($p['action']) && $p['action'] === 'add') sec_health('nk', !sec_fail_nk($r), isset($r['err']) ? (string)$r['err'] : ''); return $r; }
+function nk_call_raw($p, $t = 25) {
     $c = nk_cfg();
     if ($c[1] === '') return array('ok' => false, 'err' => 'API kalit kiritilmagan', 'sure' => true);
     if (!nk_url_ok($c[0])) return array('ok' => false, 'err' => 'API manzil noto\'g\'ri (https:// bilan boshlanishi kerak)', 'sure' => true);
@@ -5045,6 +5052,153 @@ function nk_st($ps) {
     if ($s === 'partial') return 'part';
     if (in_array($s, array('canceled', 'cancelled', 'refunded', 'fail', 'failed', 'error'), true)) return 'cancel';
     return 'wait';
+}
+/* ---------- XAVFSIZLIK VA BARQARORLIK: tezlik chegarasi, provayder holati, qaytarish nazorati, zaxira nusxa, tozalash ---------- */
+function sec_conf() {
+    static $c = null;
+    if ($c === null) {
+        $c = array('wl' => array(), 'rl' => 120);
+        try { foreach (q("SELECT k,v FROM settings WHERE k IN ('sec_wl','sec_rl')")->fetchAll() as $r) { if ($r['k'] === 'sec_rl') $c['rl'] = max(30, min(5000, (int)$r['v'])); else foreach (explode(',', (string)$r['v']) as $x) { $x = (int)trim($x); if ($x > 0) $c['wl'][$x] = 1; } } } catch (Exception $e) {}
+    }
+    return $c;
+}
+function sec_trusted($uid) { $c = sec_conf(); return isset($c['wl'][(int)$uid]) || is_admin($uid); }
+/* Bir foydalanuvchi daqiqasiga sec_rl tadan ko'p so'rov yubora olmaydi (bot/hujumdan himoya) */
+function sec_rate($uid) {
+    if (sec_trusted($uid)) return;
+    $w = (int)floor(time() / 60); $n = 0;
+    try {
+        q('INSERT INTO sec_rl (uid,w,n) VALUES (?,?,1) ON DUPLICATE KEY UPDATE n=n+1', array($uid, $w));
+        $n = (int)q('SELECT n FROM sec_rl WHERE uid=? AND w=?', array($uid, $w))->fetchColumn();
+        if (mt_rand(1, 300) === 1) q('DELETE FROM sec_rl WHERE w < ?', array($w - 5));
+    } catch (Exception $e) { return; }
+    if ($n > sec_conf()['rl']) { header('Retry-After: 30'); out(array('ok' => false, 'error' => 'Juda ko\'p so\'rov. Bir oz kutib, qayta urinib ko\'ring'), 429); }
+}
+function sec_aud($uid, $act, $det) { try { q('INSERT INTO audit_logs (admin,action,detail,at) VALUES (?,?,?,NOW())', array($uid, mb_substr($act, 0, 40), mb_substr($det, 0, 480))); } catch (Exception $e) {} }
+/* Admin harakatlari jurnali: o'qish emas, o'zgartirish so'rovlari; maxfiy maydonlar yozilmaydi */
+function sec_audit_req($uid, $a, $in) {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || preg_match('/(get|list|find|view|stats?|log|search|balance|sync|load|info)$/i', $a)) return;
+    $d = array(); foreach ($in as $k => $v) { if (preg_match('/key|token|pass|secret|pin|hash/i', (string)$k)) { $d[$k] = '***'; continue; } $d[$k] = is_scalar($v) ? mb_substr((string)$v, 0, 60) : '[…]'; }
+    sec_aud($uid, 'a:' . $a, json_encode($d, JSON_UNESCAPED_UNICODE));
+}
+/* ---- provayder holati: ketma-ket 3 ta xatodan keyin xizmat 10 daqiqaga o'zi to'xtaydi ---- */
+function sec_pname($p) { return $p === 'nk' ? 'Nakrutka (prm4u)' : 'Virtual raqam (5sim)'; }
+function sec_health($p, $ok, $err = '') {
+    $fk = 'sh_' . $p . '_f'; $uk = 'sh_' . $p . '_u'; $nk = 'sh_' . $p . '_n';
+    try {
+        if ($ok) {
+            if ((int)setting($fk, '0') > 0) { setset($fk, '0'); setset($uk, '0'); }
+            if (setting($nk, '') === '1') { setset($nk, '0'); notify_admins('✅ ' . sec_pname($p) . ' provayderi qayta ishlayapti — xizmat yoqildi.'); }
+            return;
+        }
+        $n = (int)setting($fk, '0') + 1; setset($fk, (string)$n);
+        if ($n >= 3) {
+            setset($uk, (string)(time() + 600));
+            if (setting($nk, '') !== '1') { setset($nk, '1'); notify_admins('⛔ ' . sec_pname($p) . ': provayder ketma-ket ' . $n . ' marta xato berdi — xizmat 10 daqiqaga avtomatik to\'xtatildi (' . mb_substr($err, 0, 120) . '). Provayder hisobi va API kalitni tekshiring. Admin → 🛡 Xavfsizlik bo\'limidan qayta yoqish mumkin.'); }
+        }
+    } catch (Exception $e) {}
+}
+function sec_fail_nk($r) { return empty($r['ok']) && preg_match('/aloqa yo|tushunarsiz|kalit|fund|balance|credit|money|auth|denied|forbidden|not enough|insufficient|api key|invalid key/i', isset($r['err']) ? $r['err'] : ''); }
+function sec_fail_sm($r) {
+    if (!empty($r['ok'])) return false;
+    $code = isset($r['code']) ? (int)$r['code'] : 0;
+    return $code === 0 || $code >= 500 || $code === 401 || $code === 403 || preg_match('/not enough user balance|balance|aloqa|tushunarsiz/i', (isset($r['err']) ? $r['err'] : '') . ' ' . (isset($r['body']) ? $r['body'] : ''));
+}
+function sec_down($p) { return (int)setting('sh_' . $p . '_u', '0') > time(); }
+/* [ochiqmi, mijozga ko'rinadigan xabar] */
+function sec_svc($p) {
+    if (setting('sv_' . $p . '_off', '0') === '1') { $m = trim((string)setting('sv_' . $p . '_msg', '')); return array(false, $m !== '' ? $m : 'Xizmat vaqtincha to\'xtatilgan'); }
+    if (sec_down($p)) return array(false, 'Provayder bilan aloqa vaqtincha uzilgan, tez orada tiklanadi. Hozircha buyurtma berib bo\'lmaydi, pulingiz yechilmaydi.');
+    return array(true, '');
+}
+/* Virtual raqamni qayta-qayta olib bekor qiladiganlar: 24 soatda sec_vs_abuse tadan ko'p bekor bo'lsa, vaqtincha cheklanadi */
+function sec_vs_abuse($uid) {
+    if (sec_trusted($uid)) return false;
+    $lim = max(2, (int)setting('sec_vs_abuse', '5'));
+    $n = (int)q("SELECT COUNT(*) FROM vs_ord WHERE uid=? AND st='cancel' AND err NOT LIKE 'Provayder%' AND created > NOW() - INTERVAL 24 HOUR", array($uid))->fetchColumn();
+    if ($n < $lim) return false;
+    $k = 'sec_ab_' . $uid . '_' . date('Ymd');
+    if (setting($k, '') !== '1') { setset($k, '1'); notify_admins('🚨 Virtual raqam: foydalanuvchi ' . $uid . ' 24 soatda ' . $n . ' ta raqamni bekor qildi/ishlatmadi — 24 soatga cheklandi. Zarur bo\'lsa Admin → 🛡 Xavfsizlik → oq ro\'yxatga qo\'shing.'); }
+    return true;
+}
+/* ---- zaxira nusxa: toza PHP bilan SQL (gzip), serverda 7 ta saqlanadi; Telegramga maxfiy kalitlarsiz nusxa ---- */
+function sec_bk_dir() {
+    $d = __DIR__ . '/backups';
+    if (!is_dir($d)) @mkdir($d, 0755, true);
+    if (is_dir($d) && !is_file($d . '/.htaccess')) { @file_put_contents($d . '/.htaccess', "<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\nDeny from all\n</IfModule>\n"); @file_put_contents($d . '/index.html', ''); }
+    return $d;
+}
+function sec_dump($path, $mask) {
+    if (!function_exists('gzopen')) return false;
+    $gz = @gzopen($path, 'wb6'); if (!$gz) return false;
+    $pdo = db(); @set_time_limit(180);
+    gzwrite($gz, "-- TartibOn zaxira nusxasi " . date('Y-m-d H:i:s') . "\nSET NAMES utf8mb4;\nSET FOREIGN_KEY_CHECKS=0;\n");
+    foreach ($pdo->query('SHOW TABLES')->fetchAll(PDO::FETCH_COLUMN) as $t) {
+        if (!preg_match('/^[A-Za-z0-9_]+$/', $t) || $t === 'sec_rl') continue;
+        $cr = $pdo->query('SHOW CREATE TABLE `' . $t . '`')->fetch(PDO::FETCH_NUM);
+        gzwrite($gz, "DROP TABLE IF EXISTS `$t`;\n" . $cr[1] . ";\n");
+        for ($off = 0; ; $off += 400) {
+            $rows = $pdo->query('SELECT * FROM `' . $t . '` LIMIT 400 OFFSET ' . $off)->fetchAll(PDO::FETCH_ASSOC);
+            if (!$rows) break;
+            $cols = '`' . implode('`,`', array_keys($rows[0])) . '`'; $vals = array();
+            foreach ($rows as $r) {
+                if ($mask && $t === 'settings' && preg_match('/key|token|secret|pass|pin/i', (string)$r['k'])) $r['v'] = '';
+                $vals[] = '(' . implode(',', array_map(function ($v) use ($pdo) { if ($v === null) return 'NULL'; $v = (string)$v; return mb_check_encoding($v, 'UTF-8') ? $pdo->quote($v) : '0x' . bin2hex($v); }, $r)) . ')';
+            }
+            gzwrite($gz, 'INSERT INTO `' . $t . '` (' . $cols . ') VALUES ' . implode(",\n", $vals) . ";\n");
+            if (count($rows) < 400) break;
+        }
+    }
+    gzwrite($gz, "SET FOREIGN_KEY_CHECKS=1;\n"); gzclose($gz);
+    return true;
+}
+function sec_bk_files() {
+    $o = array(); $d = sec_bk_dir();
+    foreach (glob($d . '/tb_*.sql.gz') ?: array() as $f) $o[] = array('name' => basename($f), 'size' => (int)filesize($f), 'at' => date('d.m H:i', filemtime($f)), 't' => filemtime($f));
+    usort($o, function ($a, $b) { return $b['t'] - $a['t']; });
+    return $o;
+}
+function sec_backup_run($force = false) {
+    $day = date('Ymd');
+    if (!$force) {
+        if (setting('sec_bk_on', '1') !== '1') return 'o\'chiq';
+        if ((int)date('G') < 3 || setting('sec_bk_day', '') === $day) return 0;
+    }
+    if (!(int)q("SELECT GET_LOCK('kp_bk', 0)")->fetchColumn()) return 'band';
+    $res = 'xato';
+    try {
+        setset('sec_bk_day', $day);
+        $d = sec_bk_dir(); $f = $d . '/tb_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.sql.gz';
+        if (!sec_dump($f, false)) { setset('sec_bk_info', 'Xato: zaxira yaratilmadi (zlib/ruxsat)'); notify_admins('⚠️ Zaxira nusxa olinmadi (zlib yoki papka ruxsati). Hosting yordamiga murojaat qiling.'); $res = 'xato'; }
+        else {
+            $fs = sec_bk_files(); foreach (array_slice($fs, 7) as $x) @unlink($d . '/' . $x['name']);
+            $sz = (int)filesize($f); $info = 'OK · ' . round($sz / 1048576, 2) . ' MB'; $res = 'ok ' . round($sz / 1048576, 2) . 'MB';
+            if (setting('sec_bk_tg', '1') === '1') {
+                $tf = $d . '/tg_' . bin2hex(random_bytes(4)) . '.sql.gz';
+                if (sec_dump($tf, true) && filesize($tf) <= 45 * 1048576) {
+                    $data = file_get_contents($tf); $sent = 0;
+                    foreach (array_map('trim', explode(',', ADMIN_IDS)) as $id) if ($id !== '') { $r = tg_doc($id, $data, 'tartibon_zaxira_' . date('Y-m-d') . '.sql.gz', '🗄 Zaxira nusxa (maxfiy kalitlarsiz). Tiklash: gunzip < fayl | mysql ...'); if (!empty($r['ok'])) $sent++; }
+                    $info .= $sent ? ' · Telegramga yuborildi' : ' · Telegramga yuborilmadi';
+                } else $info .= ' · Telegram uchun juda katta (serverda saqlandi)';
+                @unlink($tf);
+            }
+            setset('sec_bk_info', $info); setset('sec_bk_at', date('Y-m-d H:i:s'));
+        }
+    } catch (Exception $e) { setset('sec_bk_info', 'Xato: ' . mb_substr($e->getMessage(), 0, 100)); }
+    q("SELECT RELEASE_LOCK('kp_bk')");
+    return $res;
+}
+/* ---- eski jurnallarni tozalash (kuniga bir marta) ---- */
+function sec_clean() {
+    $day = date('Ymd'); if (setting('sec_cl_day', '') === $day) return 0;
+    setset('sec_cl_day', $day); $n = 0;
+    foreach (array("DELETE FROM pay_log WHERE at < NOW() - INTERVAL 30 DAY", "DELETE FROM sms_in WHERE at < NOW() - INTERVAL 90 DAY", "DELETE FROM audit_logs WHERE at < NOW() - INTERVAL 400 DAY", "DELETE FROM sec_rl WHERE w < " . ((int)floor(time() / 60) - 10), "DELETE FROM settings WHERE k LIKE 'sec\\_ab\\_%' AND k NOT LIKE '%" . $day . "'") as $sql) { try { $n += q($sql)->rowCount(); } catch (Exception $e) {} }
+    return 'tozalandi: ' . $n;
+}
+function sec_find_user($qs) {
+    $qs = trim((string)$qs); if ($qs === '') return false;
+    if (preg_match('/^\d{3,15}$/', $qs)) return q('SELECT id,name,username,blocked FROM users WHERE id=?', array((int)$qs))->fetch();
+    return q('SELECT id,name,username,blocked FROM users WHERE username=?', array(ltrim($qs, '@')))->fetch();
 }
 function nk_tell($uid, $text) { try { tg('sendMessage', array('chat_id' => $uid, 'text' => $text)); } catch (Exception $e) {} }
 /* Pulni qaytarish va holatni yopish — faqat bir marta (new/wait/unk dan). */
@@ -5141,7 +5295,8 @@ function nk_balance($force = false) {
 
 /* ---------- 5SIM (virtual raqamlar): hozircha faqat balans. API: https://5sim.net/v1 , Authorization: Bearer <kalit> ---------- */
 function sm_key() { return defined('SM_API_KEY') ? trim((string)SM_API_KEY) : trim((string)setting('sm_key', '')); }
-function sm_call($path, $t = 15) {
+function sm_call($path, $t = 15) { $r = sm_call_raw($path, $t); if (strpos($path, '/user/buy/') === 0) sec_health('vs', !sec_fail_sm($r), isset($r['err']) ? (string)$r['err'] : ''); return $r; }
+function sm_call_raw($path, $t = 15) {
     $k = sm_key(); if ($k === '') return array('ok' => false, 'err' => 'API kalit kiritilmagan');
     $u = rtrim((string)setting('sm_url', 'https://5sim.net/v1'), '/'); if (!nk_url_ok($u)) return array('ok' => false, 'err' => 'API manzil noto\'g\'ri');
     $ch = curl_init($u . $path);
@@ -6381,7 +6536,7 @@ function cron_minute() {
         q("SELECT RELEASE_LOCK('kp_watch')");
     }
     foreach (array('Tongi xabar' => function () { return cron_daily(); }, 'Bayram' => function () { return bt_run(); }, 'Kechki xabar' => function () { return ev_run(); }, 'Ob-havo ogohlantirishi' => function () { return wa_run(); }, 'Avto-o\'chirish' => function () { return autodel_run(); }, 'Namoz' => function () { return cron_prayer(); }, 'Postlar' => function () { return posts_run(30); }, 'Kapcha' => function () { captcha_expire(50); tmp_run(50); return 'ok'; },
-        'Bank kurslari' => function () { return xb_fetch(); }, 'Statistika' => function () { stats_run(30); return 'ok'; }, 'Marra' => function () { return ms_run(); }, 'TOP-10' => function () { return top10_run(); }, 'Hisobot' => function () { return report_run(20); }, 'Konkurs' => function () { gw_run(10); return 'ok'; }, 'Bosh sahifa' => function () { $h = pr_home(); return $h['ok'] ? 'ok' : 'xato'; }, 'Namoz rasmi' => function () { return pimg_run(40); }, 'Ob-havo' => function () { return cron_weather(); }, 'Krossvord' => function () { return quiz_run(); }, 'Tozalash' => function () { return cleanup_run(25); }, 'Ogohlantirish' => function () { alert_run(); return 'ok'; }, 'Nakrutka' => function () { return nk_run(); }, '5sim' => function () { return sm_run(); }, 'Virtual raqam' => function () { return vs_run(); }, 'Eslatmalar' => function () { return rem_run(); }, 'Guruh ochish' => function () { return lock_run(); }, 'Juma sukuti' => function () { return juma_run(); }, 'RSS' => function () { return rss_run(); }, 'Pullik obuna' => function () { return pc_run(); }, 'Reklama birjasi' => function () { return auc_run(); }, 'Monitoring' => function () { return mon_run(); }, 'Kun kanali' => function () { return kk_run(); }, 'Sanoq' => function () { return cd_run(); }, 'E\'lonlar' => function () { return ad_cron(); }) as $k => $f) {
+        'Bank kurslari' => function () { return xb_fetch(); }, 'Statistika' => function () { stats_run(30); return 'ok'; }, 'Marra' => function () { return ms_run(); }, 'TOP-10' => function () { return top10_run(); }, 'Hisobot' => function () { return report_run(20); }, 'Konkurs' => function () { gw_run(10); return 'ok'; }, 'Bosh sahifa' => function () { $h = pr_home(); return $h['ok'] ? 'ok' : 'xato'; }, 'Namoz rasmi' => function () { return pimg_run(40); }, 'Ob-havo' => function () { return cron_weather(); }, 'Krossvord' => function () { return quiz_run(); }, 'Tozalash' => function () { return cleanup_run(25); }, 'Ogohlantirish' => function () { alert_run(); return 'ok'; }, 'Nakrutka' => function () { return nk_run(); }, '5sim' => function () { return sm_run(); }, 'Virtual raqam' => function () { return vs_run(); }, 'Zaxira' => function () { return sec_backup_run(); }, 'Tozalash' => function () { return sec_clean(); }, 'Eslatmalar' => function () { return rem_run(); }, 'Guruh ochish' => function () { return lock_run(); }, 'Juma sukuti' => function () { return juma_run(); }, 'RSS' => function () { return rss_run(); }, 'Pullik obuna' => function () { return pc_run(); }, 'Reklama birjasi' => function () { return auc_run(); }, 'Monitoring' => function () { return mon_run(); }, 'Kun kanali' => function () { return kk_run(); }, 'Sanoq' => function () { return cd_run(); }, 'E\'lonlar' => function () { return ad_cron(); }) as $k => $f) {
         try { $o[] = $k . ': ' . $f(); } catch (Exception $e) { $o[] = $k . ': xato'; }
     }
     return implode(' | ', $o);
@@ -7693,7 +7848,7 @@ if (isset($_GET['api'])) {
         out(array('ok' => true));
     }
     if (strpos($a, 'nk_') === 0 && strpos($a, 'nk_adm') !== 0) {
-        $on = setting('nk_on', '1') === '1' && nk_cfg()[1] !== '' && nk_usd() > 0;
+        $on = setting('nk_on', '1') === '1' && nk_cfg()[1] !== '' && nk_usd() > 0; $nsv = sec_svc('nk'); $on = $on && $nsv[0];
         if ($a === 'nk_list') {
             try { if ($on) nk_sync(15, 20, $u['id'], 8); } catch (Exception $e) {}
             $sv = array(); $pl = array();
@@ -7703,7 +7858,7 @@ if (isset($_GET['api'])) {
             }
             $or = q('SELECT id,plat,title,link,qty,price,st,pstat,remains,refunded,created FROM nk_ord WHERE uid=? ORDER BY id DESC LIMIT 20', array($u['id']))->fetchAll();
             foreach ($or as $i => $r) { $or[$i]['id'] = (int)$r['id']; $or[$i]['qty'] = (int)$r['qty']; $or[$i]['price'] = (int)$r['price']; $or[$i]['refunded'] = (int)$r['refunded']; $or[$i]['remains'] = $r['remains'] === null ? null : (int)$r['remains']; $or[$i]['created'] = date('d.m H:i', strtotime($r['created'])); }
-            out(array('ok' => true, 'on' => $on, 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn(), 'plats' => array_values(array_filter(array_keys(nk_plats()), function ($p) use ($pl) { return isset($pl[$p]); })), 'svcs' => $sv, 'orders' => $or));
+            out(array('ok' => true, 'on' => $on, 'notice' => $nsv[1], 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn(), 'plats' => array_values(array_filter(array_keys(nk_plats()), function ($p) use ($pl) { return isset($pl[$p]); })), 'svcs' => $sv, 'orders' => $or));
         }
         if ($a === 'nk_quote') {
             $s = q('SELECT * FROM nk_svc WHERE id=? AND act=1', array((int)(isset($in['sid']) ? $in['sid'] : 0)))->fetch(); $qty = (int)(isset($in['qty']) ? $in['qty'] : 0);
@@ -7713,7 +7868,7 @@ if (isset($_GET['api'])) {
         }
         if ($a === 'nk_order') {
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
-            if (!$on) out(array('ok' => false, 'error' => 'Xizmat vaqtincha ishlamayapti. Keyinroq urinib ko\'ring'), 503);
+            if (!$on) out(array('ok' => false, 'error' => $nsv[1] !== '' ? $nsv[1] : 'Xizmat vaqtincha ishlamayapti. Keyinroq urinib ko\'ring'), 503);
             $s = q('SELECT * FROM nk_svc WHERE id=? AND act=1', array((int)(isset($in['sid']) ? $in['sid'] : 0)))->fetch(); if (!$s) out(array('ok' => false, 'error' => 'Xizmat topilmadi'), 404);
             $qty = (int)(isset($in['qty']) ? $in['qty'] : 0);
             if ($qty < (int)$s['min_q'] || $qty > (int)$s['max_q']) out(array('ok' => false, 'error' => 'Miqdor ' . fmt($s['min_q']) . ' dan ' . fmt($s['max_q']) . ' gacha bo\'lsin'), 422);
@@ -7746,7 +7901,7 @@ if (isset($_GET['api'])) {
         }
     }
     if (strpos($a, 'vs_') === 0 && strpos($a, 'vs_adm') !== 0) {
-        $on = vs_on();
+        $on = vs_on(); $vsv = sec_svc('vs'); $on = $on && $vsv[0];
         $ord = function ($r) { return array('id' => (int)$r['id'], 'title' => $r['title'], 'price' => (int)$r['price'], 'st' => $r['st'], 'phone' => $r['phone'], 'code' => $r['code'], 'refunded' => (int)$r['refunded'], 'left' => max(0, strtotime($r['expires']) - time()), 'created' => date('d.m H:i', strtotime($r['created']))); };
         if ($a === 'vs_list' || $a === 'vs_check') {
             try { if ($on) vs_sync(10, 3, $u['id']); } catch (Exception $e) {}
@@ -7756,11 +7911,12 @@ if (isset($_GET['api'])) {
                 $off[] = array('id' => (int)$o['id'], 'product' => $o['product'], 'country' => $o['country'], 'title' => $o['title'], 'price' => (int)vs_price($o), 'stock' => ($o['pat'] === null) ? null : (int)$o['pcount']);
             }
             $rows = q('SELECT * FROM vs_ord WHERE uid=? ORDER BY id DESC LIMIT 15', array($u['id']))->fetchAll();
-            out(array('ok' => true, 'on' => $on, 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn(), 'offers' => $off, 'orders' => array_map($ord, $rows)));
+            out(array('ok' => true, 'on' => $on, 'notice' => $vsv[1], 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn(), 'offers' => $off, 'orders' => array_map($ord, $rows)));
         }
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
         if ($a === 'vs_buy') {
-            if (!$on) out(array('ok' => false, 'error' => 'Xizmat vaqtincha ishlamayapti. Keyinroq urinib ko\'ring'), 503);
+            if (!$on) out(array('ok' => false, 'error' => $vsv[1] !== '' ? $vsv[1] : 'Xizmat vaqtincha ishlamayapti. Keyinroq urinib ko\'ring'), 503);
+            if (sec_vs_abuse($u['id'])) out(array('ok' => false, 'error' => 'Ko\'p raqam bekor qilingani uchun raqam olish 24 soatga cheklandi. Savol bo\'lsa qo\'llab-quvvatlashga yozing.'), 429);
             $o = q('SELECT * FROM vs_off WHERE id=? AND act=1', array((int)(isset($in['oid']) ? $in['oid'] : 0)))->fetch(); if (!$o || vs_hidden($o)) out(array('ok' => false, 'error' => 'Bu raqam hozir sotuvda yo\'q'), 404);
             if ($o['pat'] !== null && (int)$o['pcount'] < 1) out(array('ok' => false, 'error' => 'Hozircha bu raqamlar tugagan, birozdan keyin urinib ko\'ring'), 409);
             $price = (int)vs_price($o); if ($price < 100) out(array('ok' => false, 'error' => 'Narx belgilanmagan'), 503);
@@ -8033,6 +8189,40 @@ if (isset($_GET['api'])) {
             out(array('ok' => true));
         }
         out(array('ok' => false, 'error' => 'Noma\'lum amal'), 404);
+    }
+    sec_audit_req($u['id'], $a, $in);
+    if (strpos($a, 'sec_adm') === 0) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
+        $g = function ($k) use ($in) { return trim((string)(isset($in[$k]) ? $in[$k] : '')); };
+        if ($a === 'sec_adm_get') {
+            $sv = array(); foreach (array('nk', 'vs') as $p) $sv[$p] = array('name' => sec_pname($p), 'off' => setting('sv_' . $p . '_off', '0') === '1', 'msg' => setting('sv_' . $p . '_msg', ''), 'down' => max(0, (int)ceil(((int)setting('sh_' . $p . '_u', '0') - time()) / 60)), 'fails' => (int)setting('sh_' . $p . '_f', '0'));
+            $bl = q('SELECT id,name,username FROM users WHERE blocked=1 ORDER BY last_seen DESC LIMIT 50')->fetchAll();
+            out(array('ok' => true, 'sv' => $sv, 'rl' => sec_conf()['rl'], 'wl' => (string)setting('sec_wl', ''), 'abuse' => max(2, (int)setting('sec_vs_abuse', '5')), 'blocked' => $bl,
+                'bk' => array('on' => setting('sec_bk_on', '1') === '1', 'tg' => setting('sec_bk_tg', '1') === '1', 'at' => setting('sec_bk_at', ''), 'info' => setting('sec_bk_info', ''), 'files' => sec_bk_files())));
+        }
+        if ($a === 'sec_adm_set') {
+            $p = $g('p');
+            if ($p === 'svc') {
+                $k = $g('k'); if (!in_array($k, array('nk', 'vs'), true)) out(array('ok' => false, 'error' => 'Noma\'lum xizmat'), 422);
+                setset('sv_' . $k . '_off', !empty($in['off']) ? '1' : '0'); setset('sv_' . $k . '_msg', mb_substr($g('msg'), 0, 200));
+                if (!empty($in['reset'])) { setset('sh_' . $k . '_u', '0'); setset('sh_' . $k . '_f', '0'); setset('sh_' . $k . '_n', '0'); }
+                sec_aud($u['id'], 'svc_' . $k, !empty($in['off']) ? 'yopildi: ' . $g('msg') : 'yoqildi'); out(array('ok' => true));
+            }
+            if ($p === 'conf') {
+                $rl = (int)$g('rl'); $ab = (int)$g('abuse'); if ($rl < 30 || $rl > 5000 || $ab < 2 || $ab > 50) out(array('ok' => false, 'error' => 'Chegara noto\'g\'ri (so\'rov 30–5000, bekor qilish 2–50)'), 422);
+                $ids = array(); foreach (preg_split('/[\s,;]+/', $g('wl')) as $x) if (preg_match('/^\d{3,15}$/', $x)) $ids[] = $x;
+                setset('sec_rl', $rl); setset('sec_vs_abuse', $ab); setset('sec_wl', implode(',', array_unique($ids)));
+                setset('sec_bk_on', !empty($in['bk_on']) ? '1' : '0'); setset('sec_bk_tg', !empty($in['bk_tg']) ? '1' : '0'); out(array('ok' => true));
+            }
+            if ($p === 'block') {
+                $r = sec_find_user($g('q')); if (!$r) out(array('ok' => false, 'error' => 'Foydalanuvchi topilmadi (ID yoki @username)'), 404);
+                if (is_admin($r['id'])) out(array('ok' => false, 'error' => 'Adminni bloklab bo\'lmaydi'), 422);
+                $on = !empty($in['on']) ? 1 : 0; q('UPDATE users SET blocked=? WHERE id=?', array($on, $r['id']));
+                sec_aud($u['id'], $on ? 'user_block' : 'user_unblock', $r['id'] . ' ' . $r['name']); out(array('ok' => true, 'name' => $r['name']));
+            }
+            if ($p === 'bk') { $x = sec_backup_run(true); out(array('ok' => strpos($x, 'ok') === 0, 'res' => $x)); }
+            out(array('ok' => false, 'error' => 'Noma\'lum bo\'lim'), 422);
+        }
     }
     if (strpos($a, 'adm_pr') === 0) {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
@@ -9241,8 +9431,8 @@ s+='<div class="ahd"><div class="aav"><svg viewBox="0 0 24 24"><path d="M21.4 3.
 +'<div class="ag">'+A('sh','c2','Bot holati','',"av('bot')")+A('sx','c5','Statistika',nf(AD.s['Bugun yuborilgan']||0)+' bugun',"av('stat')")+A('co','c7','To\'lovlar','',"av('topups')",pt||0)+A('co','c8','Pul yechish','',"av('wd')",(AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+A('sh','c3','Nizolar (reklama birjasi)','',"av('disp')",(AD.pay.disputes||[]).length)+A('li','c8','E\'lon buyurtmalari','',"av('orders')",pd||0)+'</div>'
 +'<div class="ag">'+A('rp','c3','Bank kurslari','',"MED=null;MBK=null;av('manual')")+A('dc','c6','Post matnlari','',"av('auto')")+A('mn','c9','Tongi xabar','',"av('dp')")+A('mq','c1','Namoz xabarnomalari','',"pra()")+'</div>'
 +'<div class="ag">'+A('sh','c3','Guruh himoyasi','',"gda()")+A('qz','c5','Testlar','',"go('qz')")+A('gr','c4','A\'zolar bazasi','',"av('menu')")+A('qz','c9','Menyu bo\'limlari','',"av('menu')")+'</div>'
-+'<div class="ag">'+A('cd','c7','Avto-to\'lov (Karta SMS)','',"av('apay')")+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
-else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='apay'){s+='<h1>💳 Avto-to\'lov</h1><div id="apb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
++'<div class="ag">'+A('sh','c7','Xavfsizlik va holat','Zaxira · provayder · himoya',"av('sec')")+A('cd','c7','Avto-to\'lov (Karta SMS)','',"av('apay')")+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
+else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='apay'){s+='<h1>💳 Avto-to\'lov</h1><div id="apb"><div class="sk"></div></div>'}else if(v==='sec'){s+='<h1>🛡 Xavfsizlik va holat</h1><div id="secb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
 else if(v==='wd'){s+='<h1>➖ Pul yechish</h1>'+((AD.pay.wds||[]).length?AD.pay.wds.map(function(t){var p=t.status==='pending';return '<div class="card"><div class="row"><b>'+fmt(t.amount)+'</b><span class="tag">'+TS[t.status]+'</span></div><div class="sub">'+esc(t.name||t.uid)+(t.username?' · @'+esc(t.username):'')+' · '+esc(t.created_at)+'</div><div class="sub" style="margin-top:6px">Karta: <b>'+esc(String(t.card).replace(/(\d{4})(?=\d)/g,'$1 '))+'</b><br>Egasi: <b>'+esc(t.holder)+'</b><br>Balans: '+fmt(t.balance)+'</div>'+(p?'<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="tw('+t.id+',\'approve\')">✅ Tasdiqlash</button><button class="btn s" onclick="tw('+t.id+',\'reject\')">❌ Rad etish</button></div>':'')+'</div>'}).join(''):'<div class="card sub">Hozircha yechish so\'rovlari yo\'q</div>')}
 else if(v==='stat'){s+='<h1>📊 Statistika</h1>'+Object.keys(AD.s).map(function(k){return '<div class="card row"><span class="sub">'+k+'</span><b>'+AD.s[k]+'</b></div>'}).join('')+'<div class="card row"><span class="sub">Kurs yangilangan</span><b>'+esc(AD.last_ok||'—')+'</b></div>'+(AD.last_err?'<div class="card"><div class="row"><span class="sub">Oxirgi urinish</span><b>'+esc(AD.last_try||'—')+'</b></div><div class="sub" style="color:var(--r);margin-top:6px">⚠️ Kurs olinmadi: '+esc(AD.last_err)+'</div></div>':'')}
 else if(v==='bot'){s+='<h1>🤖 Bot holati</h1><div id="botst"><div class="card sub">Tekshirilmoqda…</div></div>';setTimeout(function(){botchk()},0)}
@@ -9458,7 +9648,7 @@ function nkmv(t,v){var e=$(t);if(!e)return;e.value=v;document.querySelectorAll('
 function nkcf(m,f){try{tg.showConfirm(m,function(ok){if(ok)f()})}catch(e){if(confirm(m))f()}}
 function nksv(){var j=NK.j;if(!j)return null;for(var i=0;i<j.svcs.length;i++)if(j.svcs[i].id===NK.sid)return j.svcs[i];return null}
 function nkl(){$('nkb').innerHTML='<div class="sk"></div>';api('nk_list').then(function(j){if(!j.ok){$('nkb').innerHTML='';return}NK.j=j;if(!NK.plat||j.plats.indexOf(NK.plat)<0)NK.plat=j.plats[0]||'';if(!nksv())NK.sid=0;nkr()})}
-function nkr(){var j=NK.j;if(!j)return;var h='<div class="card"><div class="row" style="margin:0"><div><div class="sub">Balans</div><b style="font-size:22px">'+fmt(j.balance)+'</b></div><button class="btn s" onclick="go(\'bal\')">➕ To\'ldirish</button></div></div>';
+function nkr(){var j=NK.j;if(!j)return;var h=(j.notice?'<div class="card" style="background:#fff4e5;border:1px solid #f5c98b"><b>⚠️ '+esc(j.notice)+'</b></div>':'')+'<div class="card"><div class="row" style="margin:0"><div><div class="sub">Balans</div><b style="font-size:22px">'+fmt(j.balance)+'</b></div><button class="btn s" onclick="go(\'bal\')">➕ To\'ldirish</button></div></div>';
 if(!j.on||!j.svcs.length)h+='<div class="card"><b>Xizmat hozircha mavjud emas</b><div class="sub" style="margin-top:4px">'+(ADM?'Admin: pastdagi «Sozlamalar» da provayder kaliti, dollar kursi va xizmatlarni kiriting.':'Birozdan keyin qayta urinib ko\'ring.')+'</div></div>';
 else h+='<div class="card"><b>Platforma</b><div class="cps">'+j.plats.map(function(p){return '<button class="chip'+(NK.plat===p?' on':'')+'" onclick="nkp(\''+p+'\')">'+NKP[p]+'</button>'}).join('')+'</div></div><div id="nkls"></div><div id="nkf"></div>';
 h+='<div id="nko"></div><div id="nka"></div>';$('nkb').innerHTML=h;nkv();nkf();nkh();if(ADM)nka()}
@@ -9517,7 +9707,7 @@ PV.d.forEach(function(p){var ic=PVI[p.id]||PVI.prm4u;h+='<div class="card"><div 
 el.innerHTML=h}
 function pvsave(id){api('nk_adm_limit',{id:id,limit:$('pvlm_'+id).value}).then(function(j){if(j.ok){toast('Saqlandi');pvl(0)}})}
 function pvsite(u){try{tg.openLink(u)}catch(e){window.open(u,'_blank')}}
-var _avN=av;av=function(v){_avN(v);if(v==='home'||v==='pv')pvl(0);if(v==='apay')apl()};
+var _avN=av;av=function(v){_avN(v);if(v==='home'||v==='pv')pvl(0);if(v==='apay')apl();if(v==='sec')secl()};
 
 function pvsm(p){var s=PV.sm||{};return '<div class="sub" style="margin-bottom:4px">API kalit ('+(s.key_set?'saqlangan ••••'+esc(s.key_tail):'kiritilmagan')+') — 5sim → Settings → «API key for 5SIM protocol»</div><input id="smk" type="password" autocomplete="off" placeholder="'+(s.key_set?'Yangi kalit (o\'zgartirish uchun)':'API kalitni shu yerga qo\'ying')+'"'+(s.key_const?' disabled':'')+'><div class="sub" style="margin-bottom:4px">Balans valyutasi (5sim API qaysi valyutada qaytarsa shuni tanlang — saytdagi bilan solishtiring)</div><div class="cps"><button class="chip'+(s.cur==='RUB'?' on':'')+'" id="smc_RUB" onclick="smcur(\'RUB\')">₽ RUB</button><button class="chip'+(s.cur==='USD'?' on':'')+'" id="smc_USD" onclick="smcur(\'USD\')">$ USD</button></div><input id="smr" type="number" inputmode="decimal" value="'+(s.rub||'')+'" placeholder="1 rubl necha so\'m (faqat RUB uchun, ixtiyoriy)"><button class="btn" onclick="smsave()">💾 Kalit va valyutani saqlash</button>'}
 function smcur(c){PV.sm.cur=c;['RUB','USD'].forEach(function(x){var b=$('smc_'+x);if(b)b.classList.toggle('on',x===c)})}
@@ -9533,7 +9723,7 @@ function vscp2(t){var a=document.createElement('textarea');a.value=t;a.style.pos
 function vsl(quiet){if(!quiet)$('vsb').innerHTML='<div class="sk"></div>';api('vs_list').then(function(j){if(!j.ok){if(!quiet)$('vsb').innerHTML='';return}VS.j=j;var ps=[];j.offers.forEach(function(o){if(ps.indexOf(o.product)<0)ps.push(o.product)});if(!VS.pr||ps.indexOf(VS.pr)<0)VS.pr=ps[0]||'';if($('p-vs').classList.contains('on'))vsr();vspoll()})}
 function vspoll(){clearTimeout(VS.tm);var w=VS.j&&VS.j.orders.some(function(o){return o.st==='wait'});if(!w){clearInterval(VS.tk);return}VS.tm=setTimeout(function(){if($('p-vs').classList.contains('on'))vsl(1)},5000);clearInterval(VS.tk);VS.tk=setInterval(function(){if(!$('p-vs').classList.contains('on')){clearInterval(VS.tk);return}document.querySelectorAll('[data-vsl]').forEach(function(e){var l=Math.max(0,+e.getAttribute('data-vsl')-1);e.setAttribute('data-vsl',l);e.textContent=vsmm(l)})},1000)}
 function vsmm(s){s=Math.max(0,s|0);return (s/60|0)+':'+('0'+s%60).slice(-2)}
-function vsr(){var j=VS.j;if(!j)return;var h='<div class="card"><div class="row" style="margin:0"><div><div class="sub">Balans</div><b style="font-size:22px">'+fmt(j.balance)+'</b></div><button class="btn s" onclick="go(\'bal\')">➕ To\'ldirish</button></div></div>';
+function vsr(){var j=VS.j;if(!j)return;var h=(j.notice?'<div class="card" style="background:#fff4e5;border:1px solid #f5c98b"><b>⚠️ '+esc(j.notice)+'</b></div>':'')+'<div class="card"><div class="row" style="margin:0"><div><div class="sub">Balans</div><b style="font-size:22px">'+fmt(j.balance)+'</b></div><button class="btn s" onclick="go(\'bal\')">➕ To\'ldirish</button></div></div>';
 var act=j.orders.filter(function(o){return o.st==='wait'||o.st==='unk'||o.st==='new'||(o.st==='got'&&o.fresh)});
 if(!j.on)h+='<div class="card"><b>Xizmat hozircha mavjud emas</b><div class="sub" style="margin-top:4px">'+(ADM?'Admin: pastdagi «Admin» kartasida 5sim kalitini (Profil → Provayder balanslari) va takliflarni kiriting.':'Birozdan keyin qayta urinib ko\'ring.')+'</div></div>';
 else if(!j.offers.length)h+='<div class="card"><b>Hozircha raqamlar yo\'q</b><div class="sub" style="margin-top:4px">Tez orada qo\'shiladi.</div></div>';
@@ -9602,6 +9792,27 @@ el.innerHTML=h}
 function paapp(id){nkcf('Kartaga tushgan pul tasdiqlansinmi va foydalanuvchi balansiga qo\'shilsinmi?',function(){api('pay_adm_sms',{id:id}).then(function(r){if(r.ok){toast('Hisoblandi');apl()}})})}
 function pasave(p,regen){var j=PAYW.ap,b={p:p};if(p==='sms'){b.card4=$('smc').value;b.max=$('smx').value;b.on=j.sms.on?1:0;if(regen)b.regen=1}else{b.min=$('pnm').value;b.max=$('pnx').value}
 api('pay_adm_set',b).then(function(r){if(r.ok){toast('Saqlandi');apl()}})}
+/* ---------- XAVFSIZLIK VA HOLAT (admin) ---------- */
+var SEC={j:null};
+function secl(){api('sec_adm_get',{}).then(function(j){if(!j.ok)return;SEC.j=j;secr()})}
+function secr(){var j=SEC.j,el=$('secb');if(!el||!j)return;var h='';
+['nk','vs'].forEach(function(k){var s=j.sv[k],st=s.off?'<span style="color:#d92d20;font-weight:700">⛔ Qo\'lda o\'chirilgan</span>':(s.down>0?'<span style="color:#c77a00;font-weight:700">⚠️ Avto-to\'xtatilgan ('+s.down+' daq.)</span>':'<span style="color:#1a9e4f;font-weight:700">✅ Ishlayapti</span>');
+h+='<div class="card"><div class="row" style="margin:0 0 6px"><b>'+esc(s.name)+'</b>'+st+'</div><div class="sub" style="margin-bottom:4px">Mijozga ko\'rinadigan xabar (xizmat yopilganda):</div><input id="svm_'+k+'" maxlength="200" value="'+esc(s.msg)+'" placeholder="Masalan: Texnik ishlar, 1 soatda tiklanadi"><div style="display:flex;gap:8px"><button class="btn s" style="flex:1" onclick="secsv(\''+k+'\','+(s.off?0:1)+')">'+(s.off?'✅ Yoqish':'⛔ O\'chirish')+'</button>'+(s.down>0||s.fails>0?'<button class="btn s" style="flex:1" onclick="secsv(\''+k+'\','+(s.off?1:0)+',1)">🔄 Avto-holatni tiklash</button>':'')+'</div><div class="sub" style="margin-top:6px;font-size:12px">Provayder ketma-ket 3 marta xato bersa, xizmat 10 daqiqaga o\'zi to\'xtaydi (pul yechilmaydi) va sizga xabar keladi.</div></div>'});
+var b=j.bk;
+h+='<div class="card"><b>🗄 Zaxira nusxa</b><div class="sub" style="margin:4px 0 8px">'+(b.at?'Oxirgi: '+esc(b.at)+' · '+esc(b.info):'Hali nusxa olinmagan')+'</div>'
++'<div class="cps"><button class="chip'+(b.on?' on':'')+'" onclick="SEC.j.bk.on=!SEC.j.bk.on;this.classList.toggle(\'on\',SEC.j.bk.on)">🕒 Har kuni</button><button class="chip'+(b.tg?' on':'')+'" onclick="SEC.j.bk.tg=!SEC.j.bk.tg;this.classList.toggle(\'on\',SEC.j.bk.tg)">✈️ Telegram</button></div>'
++'<button class="btn" onclick="secbk()">💾 Hozir nusxa olish</button>'
++(b.files.length?'<div style="margin-top:10px">'+b.files.map(function(f){return '<div class="sub" style="border-top:1px solid var(--ln);padding:6px 0">'+esc(f.name)+' · '+(f.size/1048576).toFixed(2)+' MB · '+esc(f.at)+'</div>'}).join('')+'</div>':'')
++'<p class="sub" style="font-size:12px;margin:8px 0 0">Har kuni 03:00 dan keyin avtomatik olinadi. Serverda oxirgi 7 ta saqlanadi (<code>backups/</code>, tashqaridan ochilmaydi). Telegramga yuboriladigan nusxada API kalit va maxfiy manzillar bo\'lmaydi. Tiklash: <code>gunzip &lt; fayl.sql.gz | mysql -u... -p BAZA</code></p></div>';
+h+='<div class="card"><b>🛡 Himoya sozlamalari</b><div class="sub" style="margin:6px 0 2px">Bir foydalanuvchi daqiqasiga eng ko\'pi bilan nechta so\'rov (30–5000)</div><input id="secrl" type="number" inputmode="numeric" value="'+j.rl+'"><div class="sub" style="margin:6px 0 2px">24 soatda nechta raqam bekor qilinsa, raqam olish cheklanadi (2–50)</div><input id="secab" type="number" inputmode="numeric" value="'+j.abuse+'"><div class="sub" style="margin:6px 0 2px">Oq ro\'yxat (ishonchli foydalanuvchi ID lari, vergul bilan) — chegaralar unga tegmaydi</div><input id="secwl" value="'+esc(j.wl)+'" placeholder="123456789, 987654321"><button class="btn" onclick="secconf()">💾 Saqlash</button></div>';
+h+='<div class="card"><b>🚫 Qora ro\'yxat</b><div class="sub" style="margin:4px 0 6px">Bloklangan foydalanuvchi ilovadan foydalana olmaydi.</div><input id="secbq" placeholder="ID yoki @username" autocapitalize="off"><button class="btn s" onclick="secblk(1)">🚫 Bloklash</button>'
++(j.blocked.length?'<div style="margin-top:10px">'+j.blocked.map(function(u){return '<div class="row" style="border-top:1px solid var(--ln);padding:8px 0;margin:0"><div><b>'+esc(u.name||'—')+'</b><div class="sub">'+u.id+(u.username?' · @'+esc(u.username):'')+'</div></div><button class="btn s" style="width:auto;padding:6px 12px" onclick="secblk(0,\''+u.id+'\')">✅ Ochish</button></div>'}).join('')+'</div>':'<div class="sub" style="margin-top:8px">Bloklanganlar yo\'q.</div>')+'</div>';
+h+='<div class="card"><b>📜 Harakatlar jurnali</b><div class="sub" style="margin-top:4px">Admin harakatlari (narx, sozlama, to\'lov, bloklash) avtomatik yoziladi. Ko\'rish: Admin → Qo\'shimcha → jurnal.</div></div>';
+el.innerHTML=h}
+function secsv(k,off,reset){api('sec_adm_set',{p:'svc',k:k,off:off,msg:($('svm_'+k)||{}).value||'',reset:reset||0}).then(function(r){if(r.ok){toast('Saqlandi');secl()}})}
+function secconf(){var j=SEC.j;api('sec_adm_set',{p:'conf',rl:$('secrl').value,abuse:$('secab').value,wl:$('secwl').value,bk_on:j.bk.on?1:0,bk_tg:j.bk.tg?1:0}).then(function(r){if(r.ok){toast('Saqlandi');secl()}})}
+function secbk(){toast('Nusxa olinmoqda...');api('sec_adm_set',{p:'bk'}).then(function(r){toast(r.ok?'Zaxira tayyor':'Zaxira olinmadi: '+(r.res||r.error||''));secl()})}
+function secblk(on,id){var q=id||$('secbq').value;if(!q){toast('ID yoki @username kiriting');return}api('sec_adm_set',{p:'block',q:q,on:on}).then(function(r){if(r.ok){toast(on?'Bloklandi: '+r.name:'Blokdan chiqarildi');secl()}})}
 function sall(){$('saleb').innerHTML='<div class="sk"></div>';api('sale_list').then(function(j){if(!j.ok)return;SAD=j;var h='<p class="sub" style="margin:-6px 2px 12px">Sotuvdagi kanal va guruhlar. Raqamlar TartibOn statistikasidan olinadi — soxta emas. Xavfsiz savdo uchun «🛡 Vositachi» tugmasini bosing (haqi '+j.fee+'%).</p>';
 h+=j.list.length?j.list.map(function(c){var g=c.m30?(+c.members-c.m30):null,age=Math.max(0,Math.round((Date.now()/1000-new Date(String(c.created_at).replace(' ','T')).getTime()/1000)/86400));return '<div class="card"><div class="row"><div style="min-width:0"><b>🏷 '+esc(c.username)+(c.verified==1?' <span title="TartibOn tasdiqlagan">✅</span>':'')+'</b><div class="sub">'+(c.members?nf(+c.members)+' '+(c.ctype==='Kanal'?'obunachi':'a\'zo'):'')+(g!=null?' · 30 kunda '+(g>=0?'+':'')+nf(g):'')+(c.vz_cat?' · '+esc(c.vz_cat):'')+'</div></div><b style="flex:none">'+fmt(+c.price)+'</b></div>'+(c.descr?'<div class="sub" style="margin-top:6px">'+esc(c.descr)+'</div>':'')+'<div class="sub" style="margin-top:4px">✅ TartibOn\'da '+age+' kundan beri · statistika tasdiqlangan</div>'+(c.own==1?'<div class="sub" style="margin-top:8px">👤 Bu sizning e\'loningiz</div>':'<div style="display:flex;gap:8px;margin-top:8px"><button class="btn s" onclick="salm('+c.id+')">📩 Sotuvchiga yozish</button><button class="btn s" onclick="sals('+c.id+')">🛡 Vositachi</button></div>')+'</div>'}).join(''):'<div class="card sub">Hozircha sotuvda kanal yo\'q.</div>';h+='<div class="card"><b>➕ Kanalimni sotuvga qo\'yish</b>'+(j.mine&&j.mine.length?j.mine.map(function(c){return '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--ln)"><div class="row"><b>'+(c.ctype==='Kanal'?'📢 ':'👥 ')+esc(c.username)+'</b>'+(c.on_==1?'<span class="tag">✅ Sotuvda</span>':'<button class="btn s" onclick="slOpen('+c.id+',\'slm\')">🏷 Sotuvga qo\'yish</button>')+'</div><div id="slm'+c.id+'"></div>'+(c.on_==1?'<button class="btn s" style="margin-top:6px" onclick="slOpen('+c.id+',\'slm\')">✏️ O\'zgartirish</button>':'')+'</div>'}).join(''):'<p class="sub" style="margin:6px 0 0">Avval «Kanal qo\'shish» orqali kanal yoki guruhingizni ulang.</p>')+'</div>';$('saleb').innerHTML=h})}
 var MK={p:'ig',d:null,tab:'list',ed:null};

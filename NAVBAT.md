@@ -154,3 +154,17 @@ To'lov: to'lov kutilmoqda holati · "Nima yangi" oynasi · kunlik topshiriq
 
 ## Tanlanmagan (eslab qolish uchun)
 Rasm siqish (WebP) · ikkinchi provayder zaxirasi · mijoz profili · mijoz vaqt zonasi · bosh sahifani moslash (icon joyini siljitish) · tezkor tugmalar · shaxsiy tavsiya
+
+
+## BAJARILDI
+### 1-bosqich (himoya) — tayyor va sinalgan (sec_test 39/39, sec_ui 5/5)
+- Zaxira nusxa (kunlik 03:00+, 7 ta saqlanadi, Telegramga maxfiy kalitlarsiz; tiklash sinalgan)
+- Provayder uzilishi: ketma-ket 3 xato → 10 daqiqaga avto-to'xtash, adminga xabar, mijozga holat xabari
+- Xizmat holati: admin qo'lda yopadi + sabab matni (Nakrutka/Virtual raqam)
+- Admin harakatlari jurnali (maxfiy maydonlar yozilmaydi)
+- Tezlik chegarasi (120/daq, sozlanadi; admin va oq ro'yxat tegmaydi)
+- Raqam qaytarish suiiste'moli (24 soatda 5 ta bekor → 24 soat cheklov)
+- Qora ro'yxat (admin: ID/@username bilan bloklash) + oq ro'yxat
+- Katta summa: karta SMS avto-tasdiq chegarasidan (sms_max) oshsa admin tasdig'iga tushadi (avvaldan bor)
+- Indekslar, eski jurnallarni avto-tozalash
+- Admin → 🛡 Xavfsizlik va holat bo'limi
