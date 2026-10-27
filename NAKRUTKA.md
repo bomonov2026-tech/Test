@@ -20,3 +20,6 @@ Ixtiyoriy (config.php): `define('NK_API_KEY','...'); define('NK_API_URL','https:
 - Provayder buyurtmani aniq rad etsa — pul darhol qaytadi. Natija noaniq bo'lsa (tarmoq uzilishi) — pul ushlab turiladi, adminga xabar boradi; admin provayder panelida tekshirib, «↩️ Qaytarish» yoki «✔ Yuborilgan» ni bosadi.
 - Provayder balansi 5$ dan kam bo'lsa, adminlarga ogohlantirish yuboriladi.
 - Sinov: soxta provayder bilan 93 ta avtomatik tekshiruv + 17 ta interfeys tekshiruvi o'tgan.
+
+## Provayder balansi (faqat admin panelda)
+Admin panel (Profil → admin) → «💰 Provayder balanslari» ingichka katagi: prm4u balansi va holat nuqtasi (🟢 yetarli, 🔴 kam/ulanmadi). Bosilsa to'liq sahifa: so'mdagi qiymat, 7 kunlik sarf va «necha kunga yetadi», ogohlantirish chegarasi (standart $5), yangilash, provayder saytiga o'tish. Bosh sahifada ko'rinmaydi. 5sim virtual raqam xizmati qo'shilganda shu bo'limga qo'shiladi.
