@@ -178,3 +178,14 @@ Rasm siqish (WebP) · ikkinchi provayder zaxirasi · mijoz profili · mijoz vaqt
 - Chek eslatmasi (15 daqiqadan eski tasdiqlanmagan chek/SMS) va «cheka mos SMS bor» ishorasi
 - Dollar kursi: bank kursidan avtomatik yoki qo'lda qotirish; narxlar darrov yangilanadi
 - Admin → «Karta, bonus, sovg'a» bo'limi
+
+### 3-bosqich (hisobot va admin) — tayyor va sinalgan (rp_test 36/36, rp_ui 7/7)
+- Kunlik yopilish hisoboti (Telegramga, 23:30; vaqt sozlanadi) va /hozir yuborish
+- Oylik hisobot CSV (soliq/hisobchi uchun): qo'lda yoki har oyning 1-kuni avtomatik
+- Provayder balansi prognozi (necha kunga yetadi) + 3 kundan kam bo'lsa ogohlantirish (prm4u va 5sim)
+- Admin «Bugungi ishlar» ekrani (chek, yechish, SMS, nizo, e'lon, noma'lum buyurtma, provayder, obuna, zaxira, cron)
+- Eng yaxshi 10 mijoz (jami to'ldirishdagi ulushi bilan)
+- UTM / manba kuzatuvi: `t.me/BOT?startapp=MANBA` va botdagi `/start MANBA`; hisobotda manba bo'yicha foydalanuvchi va pul
+- Sekin so'rovlar jurnali (7 kunlik hisobot)
+- Yuk sinovi (YUK_SINOVI.md): bazaga murojaat 69 → 23 ta/so'rov, tezlik +50%
+- Admin → «Bugungi ishlar», «Hisobotlar»

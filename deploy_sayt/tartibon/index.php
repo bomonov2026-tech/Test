@@ -44,8 +44,18 @@ function co_sql($sql, $a) {   /* hamkor admin: chats jadvalidagi «owner=?» -> 
     }
     return array($out, $na);
 }
-function setting($k, $d = '') { $v = q('SELECT v FROM settings WHERE k=?', array($k))->fetchColumn(); return $v === false ? $d : $v; }
-function setset($k, $v) { q('INSERT INTO settings (k,v) VALUES (?,?) ON DUPLICATE KEY UPDATE v=VALUES(v)', array($k, (string)$v)); }
+/* Migratsiya bayroqlari (mig_*) har so'rovda bitta so'rov bilan o'qiladi, qolgan sozlamalar avvalgidek bevosita */
+function mig_flags($set = null) {
+    static $m = null;
+    if ($m === null) { $m = array(); try { foreach (q("SELECT k FROM settings WHERE k LIKE 'mig\\_%' AND v='1'")->fetchAll(PDO::FETCH_COLUMN) as $x) $m[$x] = 1; } catch (Exception $e) {} }
+    if ($set !== null) $m[$set] = 1;
+    return $m;
+}
+function setting($k, $d = '') {
+    if (strncmp($k, 'mig_', 4) === 0) { $m = mig_flags(); return isset($m[$k]) ? '1' : $d; }
+    $v = q('SELECT v FROM settings WHERE k=?', array($k))->fetchColumn(); return $v === false ? $d : $v;
+}
+function setset($k, $v) { q('INSERT INTO settings (k,v) VALUES (?,?) ON DUPLICATE KEY UPDATE v=VALUES(v)', array($k, (string)$v)); if (strncmp($k, 'mig_', 4) === 0 && (string)$v === '1') mig_flags($k); }
 function menu_flags() { return array('bal' => setting('mn_bal', '1') === '1', 'ads' => setting('mn_ads', '1') === '1'); }
 /* azo_dat.txt: /start bosganlar ID si faylga qo'shib boriladi, admin «Yuklash» bilan bazaga oladi */
 function azo_file_ids() {
@@ -300,6 +310,11 @@ function mig() {
         db()->exec("CREATE TABLE IF NOT EXISTS gift_log (id INT AUTO_INCREMENT PRIMARY KEY, from_uid BIGINT UNSIGNED NOT NULL, to_uid BIGINT UNSIGNED NOT NULL, amount BIGINT NOT NULL, fee BIGINT NOT NULL DEFAULT 0, at DATETIME NOT NULL, KEY f (from_uid, at), KEY t (to_uid)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
         db()->exec("CREATE TABLE IF NOT EXISTS bal_rem (uid BIGINT UNSIGNED PRIMARY KEY, at INT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
         setset('mig_bn1', '1');
+    }
+    if (setting('mig_rp1', '') !== '1') {   /* Hisobotlar: manba (UTM) va sekin so'rovlar jurnali */
+        foreach (array("ALTER TABLE users ADD src VARCHAR(40) NOT NULL DEFAULT ''", "ALTER TABLE users ADD INDEX sx_src (src)") as $sql) { try { db()->exec($sql); } catch (Exception $e) {} }
+        db()->exec("CREATE TABLE IF NOT EXISTS sec_slow (id INT AUTO_INCREMENT PRIMARY KEY, a VARCHAR(40) NOT NULL, ms INT NOT NULL, at DATETIME NOT NULL, KEY at (at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        setset('mig_rp1', '1');
     }
     if (setting('mig_guard3', '') !== '1') {
         try { db()->exec('ALTER TABLE group_guard ADD COLUMN words TEXT NULL, ADD COLUMN noad TINYINT NOT NULL DEFAULT 0'); } catch (Exception $e) {}
@@ -675,6 +690,7 @@ function auth_user() {
     q('INSERT INTO users (id,username,name,created_at,last_seen) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE username=VALUES(username), name=VALUES(name), last_seen=VALUES(last_seen)',
         array($u['id'], isset($u['username']) ? $u['username'] : '', trim($u['first_name'] . ' ' . (isset($u['last_name']) ? $u['last_name'] : '')), $now, $now));
     if (q('SELECT blocked FROM users WHERE id=?', array($u['id']))->fetchColumn()) out(array('ok' => false, 'error' => 'Hisobingiz bloklangan'), 403);
+    if (!empty($d['start_param'])) rp_src($u['id'], $d['start_param']);
     sec_rate($u['id']);
     return $u;
 }
@@ -5066,8 +5082,8 @@ function nk_st($ps) {
 function sec_conf() {
     static $c = null;
     if ($c === null) {
-        $c = array('wl' => array(), 'rl' => 120);
-        try { foreach (q("SELECT k,v FROM settings WHERE k IN ('sec_wl','sec_rl')")->fetchAll() as $r) { if ($r['k'] === 'sec_rl') $c['rl'] = max(30, min(5000, (int)$r['v'])); else foreach (explode(',', (string)$r['v']) as $x) { $x = (int)trim($x); if ($x > 0) $c['wl'][$x] = 1; } } } catch (Exception $e) {}
+        $c = array('wl' => array(), 'rl' => 120, 'slow' => 700);
+        try { foreach (q("SELECT k,v FROM settings WHERE k IN ('sec_wl','sec_rl','sec_slow')")->fetchAll() as $r) { if ($r['k'] === 'sec_rl') $c['rl'] = max(30, min(5000, (int)$r['v'])); elseif ($r['k'] === 'sec_slow') $c['slow'] = max(20, (int)$r['v']); else foreach (explode(',', (string)$r['v']) as $x) { $x = (int)trim($x); if ($x > 0) $c['wl'][$x] = 1; } } } catch (Exception $e) {}
     }
     return $c;
 }
@@ -5201,7 +5217,7 @@ function sec_backup_run($force = false) {
 function sec_clean() {
     $day = date('Ymd'); if (setting('sec_cl_day', '') === $day) return 0;
     setset('sec_cl_day', $day); $n = 0;
-    foreach (array("DELETE FROM pay_log WHERE at < NOW() - INTERVAL 30 DAY", "DELETE FROM sms_in WHERE at < NOW() - INTERVAL 90 DAY", "DELETE FROM audit_logs WHERE at < NOW() - INTERVAL 400 DAY", "DELETE FROM sec_rl WHERE w < " . ((int)floor(time() / 60) - 10), "DELETE FROM settings WHERE k LIKE 'sec\\_ab\\_%' AND k NOT LIKE '%" . $day . "'") as $sql) { try { $n += q($sql)->rowCount(); } catch (Exception $e) {} }
+    foreach (array("DELETE FROM sec_slow WHERE at < NOW() - INTERVAL 30 DAY", "DELETE FROM pay_log WHERE at < NOW() - INTERVAL 30 DAY", "DELETE FROM sms_in WHERE at < NOW() - INTERVAL 90 DAY", "DELETE FROM audit_logs WHERE at < NOW() - INTERVAL 400 DAY", "DELETE FROM sec_rl WHERE w < " . ((int)floor(time() / 60) - 10), "DELETE FROM settings WHERE k LIKE 'sec\\_ab\\_%' AND k NOT LIKE '%" . $day . "'") as $sql) { try { $n += q($sql)->rowCount(); } catch (Exception $e) {} }
     return 'tozalandi: ' . $n;
 }
 function sec_find_user($qs) {
@@ -5294,6 +5310,132 @@ function bal_low($uid) {
 }
 function bal_low_later($uid) { register_shutdown_function('bal_low', (int)$uid); }
 function gift_cfg() { return array('on' => setting('g_on', '1') === '1', 'min' => max(100, (int)setting('g_min', '1000')), 'max' => max(1000, (int)setting('g_max', '5000000')), 'day' => max(1000, (int)setting('g_day', '10000000')), 'fee' => max(0, min(20, (float)setting('g_fee', '0')))); }
+/* ---------- HISOBOTLAR: kunlik/oylik daromad, prognoz, top mijozlar, manba (UTM), sekin so'rovlar, bugungi ishlar ---------- */
+function rp_shift() {   /* PHP va MySQL soat farqi (soat zonalari mos kelmasa ham sana chegaralari to'g'ri bo'lishi uchun) */
+    static $s = null;
+    if ($s === null) { try { $s = (int)(round((time() - strtotime((string)q('SELECT NOW()')->fetchColumn())) / 900) * 900); } catch (Exception $e) { $s = 0; } }
+    return $s;
+}
+function rp_db($ts) { return date('Y-m-d H:i:s', $ts - rp_shift()); }
+function rp_src($uid, $src) {
+    $src = trim((string)$src); if (!preg_match('/^[A-Za-z0-9_-]{1,40}$/', $src)) return;
+    try { q("UPDATE users SET src=? WHERE id=? AND src=''", array($src, (int)$uid)); } catch (Exception $e) {}
+}
+function rp_src_text($uid, $text) { if (preg_match('/^\/start(?:@\w+)?\s+(\S+)/', (string)$text, $m)) rp_src($uid, $m[1]); }
+function sec_slow_log($a) {
+    $ms = (int)round((microtime(true) - (isset($GLOBALS['T0']) ? $GLOBALS['T0'] : microtime(true))) * 1000);
+    if ($ms < sec_conf()['slow']) return;
+    try { q('INSERT INTO sec_slow (a,ms,at) VALUES (?,?,NOW())', array(mb_substr($a, 0, 40), $ms)); } catch (Exception $e) {}
+}
+/* [t0, t1) oralig'idagi ko'rsatkichlar (t0/t1 — PHP vaqt tamg'alari) */
+function rp_data($t0, $t1) {
+    $a = rp_db($t0); $b = rp_db($t1); $o = array();
+    $one = function ($sql, $p = null) use ($a, $b) { return q($sql, $p === null ? array($a, $b) : $p)->fetch(PDO::FETCH_NUM); };
+    $r = $one("SELECT COUNT(*), COALESCE(SUM(amount),0) FROM topups WHERE status='approved' AND decided_at>=? AND decided_at<?"); $o['tp_n'] = (int)$r[0]; $o['tp'] = (int)$r[1];
+    $r = $one("SELECT COALESCE(SUM(amount),0) FROM topups WHERE status='approved' AND flag LIKE 'avto:%' AND decided_at>=? AND decided_at<?"); $o['tp_auto'] = (int)$r[0];
+    $r = $one("SELECT COUNT(*), COALESCE(SUM(amount),0) FROM withdrawals WHERE status='approved' AND decided_at>=? AND decided_at<?"); $o['wd_n'] = (int)$r[0]; $o['wd'] = (int)$r[1];
+    $r = $one("SELECT COUNT(*), COALESCE(SUM(o.price-o.refunded),0), COALESCE(SUM(COALESCE(o.cost, o.qty/1000*s.rate)),0) FROM nk_ord o LEFT JOIN nk_svc s ON s.id=o.sid WHERE o.created>=? AND o.created<? AND o.st IN ('wait','done','part','unk')"); $o['nk_n'] = (int)$r[0]; $o['nk_rev'] = (int)$r[1]; $usd = nk_usd(); $o['nk_cost'] = (int)round((float)$r[2] * $usd); $o['nk_profit'] = $o['nk_rev'] - $o['nk_cost'];
+    $r = $one("SELECT COALESCE(SUM(refunded),0) FROM nk_ord WHERE created>=? AND created<?"); $o['nk_ref'] = (int)$r[0];
+    $r = $one("SELECT COUNT(*), COALESCE(SUM(price-refunded),0), COALESCE(SUM(pcost),0) FROM vs_ord WHERE created>=? AND created<? AND st IN ('got','wait','unk')"); $o['vs_n'] = (int)$r[0]; $o['vs_rev'] = (int)$r[1]; $o['vs_cost'] = (int)round((float)$r[2] * max(0, vs_rate())); $o['vs_profit'] = $o['vs_rev'] - $o['vs_cost'];
+    $r = $one("SELECT COALESCE(SUM(refunded),0) FROM vs_ord WHERE created>=? AND created<?"); $o['vs_ref'] = (int)$r[0];
+    $r = $one("SELECT COALESCE(SUM(fee),0) FROM auc_orders WHERE paid=1 AND dispute<>3 AND decided_at>=? AND decided_at<?", array($t0, $t1)); $o['auc'] = (int)$r[0];
+    $r = $one("SELECT COALESCE(SUM(price),0) FROM ad_orders WHERE status IN ('done','sending') AND decided_at>=? AND decided_at<?"); $o['ads'] = (int)$r[0];
+    $r = $one("SELECT COALESCE(SUM(amount),0) FROM bonus_log WHERE at>=? AND at<?"); $o['bonus'] = (int)$r[0];
+    $r = $one("SELECT COUNT(*), COALESCE(SUM(fee),0) FROM gift_log WHERE at>=? AND at<?"); $o['gift_n'] = (int)$r[0]; $o['gift_fee'] = (int)$r[1];
+    $r = $one("SELECT COUNT(*) FROM users WHERE created_at>=? AND created_at<?"); $o['users'] = (int)$r[0];
+    $o['profit'] = $o['nk_profit'] + $o['vs_profit'] + $o['auc'] + $o['ads'] + $o['gift_fee'] - $o['bonus'];
+    return $o;
+}
+function rp_money($n) { return ($n < 0 ? '−' : '') . number_format(abs((int)$n), 0, '', ' ') . ' so\'m'; }
+function rp_text($d, $title) {
+    $t = $title . "\n\n💰 Kirim: " . rp_money($d['tp']) . ' (' . $d['tp_n'] . " ta" . ($d['tp'] ? ', shundan avto: ' . rp_money($d['tp_auto']) : '') . ")\n➖ Yechildi: " . rp_money($d['wd']) . ' (' . $d['wd_n'] . " ta)\n\n";
+    $t .= '🚀 Nakrutka: ' . $d['nk_n'] . ' ta · tushum ' . rp_money($d['nk_rev']) . ' · foyda ' . rp_money($d['nk_profit']) . "\n";
+    $t .= '📲 Virtual raqam: ' . $d['vs_n'] . ' ta · tushum ' . rp_money($d['vs_rev']) . ' · foyda ' . rp_money($d['vs_profit']) . "\n";
+    if ($d['auc'] || $d['ads'] || $d['gift_fee']) $t .= '🤝 Birja komissiyasi: ' . rp_money($d['auc']) . ' · E\'lonlar: ' . rp_money($d['ads']) . ' · Sovg\'a komissiyasi: ' . rp_money($d['gift_fee']) . "\n";
+    $t .= '🎁 Bonus xarajati: ' . rp_money($d['bonus']) . "\n↩️ Qaytarilgan: " . rp_money($d['nk_ref'] + $d['vs_ref']) . "\n\n";
+    $t .= '📈 Taxminiy sof foyda: ' . rp_money($d['profit']) . "\n👤 Yangi foydalanuvchi: " . $d['users'];
+    return $t;
+}
+function rp_prov_text() {
+    $o = ''; try {
+        $c = json_decode((string)setting('nk_bal_c', ''), true); if (is_array($c) && !empty($c['ok'])) $o .= "\nprm4u balansi: " . ($c['cur'] === 'USD' ? '$' : '') . number_format((float)$c['balance'], 2) . ' ' . ($c['cur'] !== 'USD' ? $c['cur'] : '');
+        $s = json_decode((string)setting('sm_bal_c', ''), true); if (is_array($s) && !empty($s['ok'])) $o .= "\n5sim balansi: " . number_format((float)$s['balance'], 2) . ' ' . sm_cur();
+    } catch (Exception $e) {}
+    return $o;
+}
+function rp_day($ts = null) { $ts = $ts ?: time(); $t0 = strtotime(date('Y-m-d 00:00:00', $ts)); return array($t0, $t0 + 86400); }
+function rp_csv($y, $m) {
+    $rows = array(array('Sana', 'Kirim n', 'Kirim', 'Yechildi', 'Nakrutka tushum', 'Nakrutka xarajat', 'Virtual tushum', 'Virtual xarajat', 'Birja komissiya', 'Elon', 'Sovga komissiya', 'Bonus', 'Foyda'));
+    $tot = array_fill(0, 12, 0); $n = (int)date('t', strtotime("$y-$m-01"));
+    for ($d = 1; $d <= $n; $d++) {
+        $t0 = strtotime(sprintf('%04d-%02d-%02d 00:00:00', $y, $m, $d)); $r = rp_data($t0, $t0 + 86400);
+        $v = array($r['tp_n'], $r['tp'], $r['wd'], $r['nk_rev'], $r['nk_cost'], $r['vs_rev'], $r['vs_cost'], $r['auc'], $r['ads'], $r['gift_fee'], $r['bonus'], $r['profit']);
+        foreach ($v as $i => $x) $tot[$i] += $x;
+        $rows[] = array_merge(array(sprintf('%04d-%02d-%02d', $y, $m, $d)), $v);
+    }
+    $rows[] = array_merge(array('JAMI'), $tot);
+    return csv_make($rows);
+}
+function rp_send_csv($chat, $y, $m) { return tg_doc($chat, rp_csv($y, $m), sprintf('tartibon_hisobot_%04d-%02d.csv', $y, $m), '🧾 ' . sprintf('%04d-%02d', $y, $m) . ' oylik hisobot (soliq/hisobchi uchun)'); }
+function rp_daily() {
+    if (setting('rp_on', '1') !== '1') return 'o\'chiq';
+    $today = date('Y-m-d'); $out = array();
+    if ((int)date('j') === 1 && date('H') >= '09' && setting('rp_mon', '') !== date('Y-m')) {
+        setset('rp_mon', date('Y-m')); $pm = strtotime('-1 month'); $y = (int)date('Y', $pm); $m = (int)date('n', $pm);
+        foreach (array_map('trim', explode(',', ADMIN_IDS)) as $id) if ($id !== '') rp_send_csv($id, $y, $m);
+        $out[] = 'oylik CSV';
+    }
+    if (date('H:i') >= setting('rp_time', '23:30') && setting('rp_day', '') !== $today) {
+        if (!(int)q("SELECT GET_LOCK('kp_rp', 0)")->fetchColumn()) return 'band';
+        setset('rp_day', $today); $r = rp_day();
+        notify_admins(rp_text(rp_data($r[0], $r[1]), '📊 Kunlik hisobot — ' . date('d.m.Y')) . rp_prov_text());
+        q("SELECT RELEASE_LOCK('kp_rp')"); $out[] = 'kunlik';
+    }
+    return $out ? implode(', ', $out) : 0;
+}
+/* ---- provayder balansi prognozi: so'nggi 7 kun sarfiga qarab necha kunga yetishi ---- */
+function rp_prog($p) {
+    try {
+        if ($p === 'nk') {
+            $b = json_decode((string)setting('nk_bal_c', ''), true); if (!is_array($b) || empty($b['ok'])) return null;
+            $sp = (float)q("SELECT COALESCE(SUM(COALESCE(o.cost, o.qty/1000*s.rate)),0) FROM nk_ord o LEFT JOIN nk_svc s ON s.id=o.sid WHERE o.created > NOW() - INTERVAL 7 DAY AND o.st IN ('wait','done','part','unk')")->fetchColumn();
+            $bal = (float)$b['balance'];
+        } else {
+            $b = json_decode((string)setting('sm_bal_c', ''), true); if (!is_array($b) || empty($b['ok'])) return null;
+            $sp = (float)q("SELECT COALESCE(SUM(pcost),0) FROM vs_ord WHERE created > NOW() - INTERVAL 7 DAY AND st IN ('got','wait','unk')")->fetchColumn();
+            $bal = (float)$b['balance'];
+        }
+        return array('spent7' => round($sp, 2), 'days' => $sp > 0 ? (int)floor($bal / ($sp / 7)) : null);
+    } catch (Exception $e) { return null; }
+}
+function rp_prog_run() {
+    $lim = (int)setting('pg_days', '3'); if ($lim <= 0 || date('H') < '09' || setting('pg_day', '') === date('Y-m-d')) return 0;
+    setset('pg_day', date('Y-m-d')); $t = '';
+    foreach (array('nk' => 'prm4u (Nakrutka)', 'vs' => '5sim (Virtual raqam)') as $k => $n) { $r = rp_prog($k); if ($r && $r['days'] !== null && $r['days'] < $lim) $t .= "\n• " . $n . ': hozirgi sarfda taxminan ' . $r['days'] . ' kunga yetadi'; }
+    if ($t !== '') { notify_admins('⚠️ Provayder balansini to\'ldiring:' . $t); return 'ogohlantirish'; }
+    return 0;
+}
+/* ---- bugungi ishlar ---- */
+function tod_items() {
+    $it = array(); $add = function ($k, $ic, $t, $n, $note = '') use (&$it) { if ($n > 0) $it[] = array('k' => $k, 'ic' => $ic, 't' => $t, 'n' => (int)$n, 'note' => $note); };
+    $c = function ($sql, $p = array()) { try { return (int)q($sql, $p)->fetchColumn(); } catch (Exception $e) { return 0; } };
+    $add('topups', '🧾', 'Tasdiqlanmagan to\'lov cheklari', $c("SELECT COUNT(*) FROM topups WHERE status='pending'"));
+    $add('wd', '➖', 'Pul yechish so\'rovlari', $c("SELECT COUNT(*) FROM withdrawals WHERE status='pending'"));
+    $add('sms', '🔔', 'Bank SMS i: tasdiq kutmoqda', $c("SELECT COUNT(*) FROM sms_in WHERE st='review'"));
+    $add('disp', '⚖️', 'Nizolar (reklama birjasi)', $c("SELECT COUNT(*) FROM auc_orders WHERE dispute=1 AND paid=0"));
+    $add('ads', '📢', 'E\'lon buyurtmalari', $c("SELECT COUNT(*) FROM ad_orders WHERE status IN ('pending','sending')"));
+    $add('unk', '🔍', 'Holati noma\'lum buyurtmalar (Nakrutka)', $c("SELECT COUNT(*) FROM nk_ord WHERE st='unk'"), 'Provayder panelida tekshirib, «Qaytarish» yoki «Yuborilgan» ni bosing');
+    $add('unkv', '🔍', 'Holati noma\'lum buyurtmalar (Virtual raqam)', $c("SELECT COUNT(*) FROM vs_ord WHERE st='unk'"), '5sim panelida tekshiring');
+    foreach (array('nk' => array('nk_bal_c', 'prm4u', 'nk_low', '5'), 'vs' => array('sm_bal_c', '5sim', 'sm_low', '3')) as $k => $x) {
+        $b = json_decode((string)setting($x[0], ''), true); if (is_array($b) && !empty($b['ok']) && (float)$b['balance'] < (float)setting($x[2], $x[3])) $add('plow', '💰', $x[1] . ' balansi past', 1, number_format((float)$b['balance'], 2));
+        $pg = rp_prog($k); $lim = (int)setting('pg_days', '3'); if ($pg && $pg['days'] !== null && $pg['days'] < $lim) $add('plow', '📉', $x[1] . ' balansi ' . $pg['days'] . ' kunga yetadi', 1);
+        if (sec_down($k)) $add('pdown', '⛔', sec_pname($k) . ': avto-to\'xtatilgan', 1);
+    }
+    $add('subs', '🔐', 'Pullik kanal: 3 kun ichida tugaydigan obunalar', $c("SELECT COUNT(*) FROM pc_subs WHERE until BETWEEN ? AND ? AND kicked=0", array(time(), time() + 3 * 86400)));
+    $bk = strtotime((string)setting('sec_bk_at', '')) ?: 0; if (setting('sec_bk_on', '1') === '1' && time() - $bk > 2 * 86400) $add('bk', '🗄', 'Zaxira nusxa 2 kundan beri olinmagan', 1);
+    $cm = strtotime((string)setting('cron_min_at', '')) ?: 0; if (time() - $cm > 900) $add('cron', '⏱', 'Cron ishlamayapti (15 daqiqadan beri signal yo\'q)', 1);
+    return $it;
+}
 function nk_tell($uid, $text) { try { tg('sendMessage', array('chat_id' => $uid, 'text' => $text)); } catch (Exception $e) {} }
 /* Pulni qaytarish va holatni yopish — faqat bir marta (new/wait/unk dan). */
 function nk_refund($oid, $amt, $st, $ps = '', $rem = null, $cost = null) {
@@ -6630,7 +6772,7 @@ function cron_minute() {
         q("SELECT RELEASE_LOCK('kp_watch')");
     }
     foreach (array('Tongi xabar' => function () { return cron_daily(); }, 'Bayram' => function () { return bt_run(); }, 'Kechki xabar' => function () { return ev_run(); }, 'Ob-havo ogohlantirishi' => function () { return wa_run(); }, 'Avto-o\'chirish' => function () { return autodel_run(); }, 'Namoz' => function () { return cron_prayer(); }, 'Postlar' => function () { return posts_run(30); }, 'Kapcha' => function () { captcha_expire(50); tmp_run(50); return 'ok'; },
-        'Bank kurslari' => function () { return xb_fetch(); }, 'Statistika' => function () { stats_run(30); return 'ok'; }, 'Marra' => function () { return ms_run(); }, 'TOP-10' => function () { return top10_run(); }, 'Hisobot' => function () { return report_run(20); }, 'Konkurs' => function () { gw_run(10); return 'ok'; }, 'Bosh sahifa' => function () { $h = pr_home(); return $h['ok'] ? 'ok' : 'xato'; }, 'Namoz rasmi' => function () { return pimg_run(40); }, 'Ob-havo' => function () { return cron_weather(); }, 'Krossvord' => function () { return quiz_run(); }, 'Tozalash' => function () { return cleanup_run(25); }, 'Ogohlantirish' => function () { alert_run(); return 'ok'; }, 'Nakrutka' => function () { return nk_run(); }, '5sim' => function () { return sm_run(); }, 'Virtual raqam' => function () { return vs_run(); }, 'Zaxira' => function () { return sec_backup_run(); }, 'Tozalash' => function () { return sec_clean(); }, 'Chek eslatma' => function () { return tp_remind(); }, 'Eslatmalar' => function () { return rem_run(); }, 'Guruh ochish' => function () { return lock_run(); }, 'Juma sukuti' => function () { return juma_run(); }, 'RSS' => function () { return rss_run(); }, 'Pullik obuna' => function () { return pc_run(); }, 'Reklama birjasi' => function () { return auc_run(); }, 'Monitoring' => function () { return mon_run(); }, 'Kun kanali' => function () { return kk_run(); }, 'Sanoq' => function () { return cd_run(); }, 'E\'lonlar' => function () { return ad_cron(); }) as $k => $f) {
+        'Bank kurslari' => function () { return xb_fetch(); }, 'Statistika' => function () { stats_run(30); return 'ok'; }, 'Marra' => function () { return ms_run(); }, 'TOP-10' => function () { return top10_run(); }, 'Hisobot' => function () { return report_run(20); }, 'Konkurs' => function () { gw_run(10); return 'ok'; }, 'Bosh sahifa' => function () { $h = pr_home(); return $h['ok'] ? 'ok' : 'xato'; }, 'Namoz rasmi' => function () { return pimg_run(40); }, 'Ob-havo' => function () { return cron_weather(); }, 'Krossvord' => function () { return quiz_run(); }, 'Tozalash' => function () { return cleanup_run(25); }, 'Ogohlantirish' => function () { alert_run(); return 'ok'; }, 'Nakrutka' => function () { return nk_run(); }, '5sim' => function () { return sm_run(); }, 'Virtual raqam' => function () { return vs_run(); }, 'Zaxira' => function () { return sec_backup_run(); }, 'Tozalash' => function () { return sec_clean(); }, 'Chek eslatma' => function () { return tp_remind(); }, 'Kunlik hisobot' => function () { return rp_daily(); }, 'Prognoz' => function () { return rp_prog_run(); }, 'Eslatmalar' => function () { return rem_run(); }, 'Guruh ochish' => function () { return lock_run(); }, 'Juma sukuti' => function () { return juma_run(); }, 'RSS' => function () { return rss_run(); }, 'Pullik obuna' => function () { return pc_run(); }, 'Reklama birjasi' => function () { return auc_run(); }, 'Monitoring' => function () { return mon_run(); }, 'Kun kanali' => function () { return kk_run(); }, 'Sanoq' => function () { return cd_run(); }, 'E\'lonlar' => function () { return ad_cron(); }) as $k => $f) {
         try { $o[] = $k . ': ' . $f(); } catch (Exception $e) { $o[] = $k . ': xato'; }
     }
     return implode(' | ', $o);
@@ -6758,6 +6900,7 @@ if (isset($_GET['hook'])) {
             $fu = $u['message']['from']; $now = date('Y-m-d H:i:s');
             q('INSERT INTO users (id,username,name,created_at,last_seen) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE username=VALUES(username), name=VALUES(name), last_seen=VALUES(last_seen)',
                 array((int)$fu['id'], isset($fu['username']) ? $fu['username'] : '', uname($fu), $now, $now));
+            rp_src_text((int)$fu['id'], $u['message']['text']);
             azo_file_add($fu['id']);
         }
         tg('sendMessage', array('chat_id' => $u['message']['chat']['id'], 'text' => "⚡️ <b>TartibOn</b> — Tartib bu erkinlik!\n\nKanal va guruhlaringizni tartibli boshqarishga yordam beruvchi ishonchli ko'makchingiz.", 'parse_mode' => 'HTML',
@@ -6766,7 +6909,7 @@ if (isset($_GET['hook'])) {
     exit('ok');
 }
 if (isset($_GET['api'])) {
-    $u = auth_user(); mig(); $adm = is_admin($u['id']); $a = (string)$_GET['api']; $GLOBALS['CO_UID'] = (int)$u['id'];
+    $GLOBALS['T0'] = microtime(true); $u = auth_user(); mig(); $adm = is_admin($u['id']); $a = (string)$_GET['api']; register_shutdown_function('sec_slow_log', $a); $GLOBALS['CO_UID'] = (int)$u['id'];
     $in = json_decode(file_get_contents('php://input'), true); if (!is_array($in)) $in = array();
     $audit = function ($act, $det) use ($u) { q('INSERT INTO audit_logs (admin,action,detail,at) VALUES (?,?,?,NOW())', array($u['id'], $act, $det)); };
     $hasPhone = $adm || (bool)q('SELECT phone FROM users WHERE id=?', array($u['id']))->fetchColumn();
@@ -8195,7 +8338,7 @@ if (isset($_GET['api'])) {
             $pd = $sp / 7; $days = ($b['ok'] && $pd > 0) ? (int)floor($b['balance'] / $pd) : null;
             $sb = sm_key() === '' ? array('t' => time(), 'ok' => false, 'balance' => null, 'err' => 'API kalit kiritilmagan') : sm_balance(!empty($in['force'])); $sl = (float)setting('sm_low', '3');
             out(array('ok' => true, 'sm' => array('cur' => sm_cur(), 'rub' => (float)setting('sm_rub', '0'), 'key_set' => sm_key() !== '', 'key_tail' => sm_key() !== '' ? substr(sm_key(), -4) : '', 'key_const' => defined('SM_API_KEY')), 'providers' => array(array('id' => 'prm4u', 'name' => 'prm4u', 'desc' => 'Nakrutka (obunachi, ko\'rish, reaksiya)', 'site' => 'https://prm4u.com', 'conf' => $cf[1] !== '', 'ok' => $b['ok'], 'bal' => $b['balance'], 'cur' => $b['cur'],
-                'uzs' => ($b['ok'] && $b['cur'] === 'USD' && $usd > 0) ? (int)round($b['balance'] * $usd) : null, 'low' => $b['ok'] ? ($b['balance'] < $low) : false, 'limit' => $low, 'err' => $b['err'], 'at' => date('H:i', (int)$b['t']), 'spent7' => round($sp, 2), 'days' => $days), array('id' => '5sim', 'name' => '5sim', 'desc' => 'Virtual raqamlar (SMS-kod)', 'site' => 'https://5sim.net', 'conf' => sm_key() !== '', 'ok' => $sb['ok'], 'bal' => $sb['balance'], 'cur' => sm_cur(), 'uzs' => $sb['ok'] ? sm_uzs($sb['balance']) : null, 'low' => $sb['ok'] ? ($sb['balance'] < $sl) : false, 'limit' => $sl, 'err' => $sb['err'], 'at' => date('H:i', (int)$sb['t']), 'spent7' => 0, 'days' => null))));
+                'uzs' => ($b['ok'] && $b['cur'] === 'USD' && $usd > 0) ? (int)round($b['balance'] * $usd) : null, 'low' => $b['ok'] ? ($b['balance'] < $low) : false, 'limit' => $low, 'err' => $b['err'], 'at' => date('H:i', (int)$b['t']), 'spent7' => round($sp, 2), 'days' => $days), array('id' => '5sim', 'name' => '5sim', 'desc' => 'Virtual raqamlar (SMS-kod)', 'site' => 'https://5sim.net', 'conf' => sm_key() !== '', 'ok' => $sb['ok'], 'bal' => $sb['balance'], 'cur' => sm_cur(), 'uzs' => $sb['ok'] ? sm_uzs($sb['balance']) : null, 'low' => $sb['ok'] ? ($sb['balance'] < $sl) : false, 'limit' => $sl, 'err' => $sb['err'], 'at' => date('H:i', (int)$sb['t']), 'spent7' => ($pg5 = rp_prog('vs')) ? $pg5['spent7'] : 0, 'days' => $pg5 ? $pg5['days'] : null))));
         }
         if ($a === 'nk_adm_limit') {
             $lim = (string)(isset($in['limit']) ? $in['limit'] : ''); if (!is_numeric($lim) || (float)$lim < 0 || (float)$lim > 100000) out(array('ok' => false, 'error' => 'Chegara 0 dan 100000 gacha raqam bo\'lsin'), 422);
@@ -8388,6 +8531,34 @@ if (isset($_GET['api'])) {
                 $v = (float)$g('value'); if ($v < 1000 || $v > 100000) out(array('ok' => false, 'error' => 'Kurs 1 000 – 100 000 oralig\'ida bo\'lsin'), 422);
                 setset('nk_usd', (string)$v); out(array('ok' => true, 'eff' => nk_usd()));
             }
+            out(array('ok' => false, 'error' => 'Noma\'lum bo\'lim'), 422);
+        }
+    }
+    if (strpos($a, 'rp_adm') === 0 || $a === 'tod_adm_get') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
+        $g = function ($k) use ($in) { return trim((string)(isset($in[$k]) ? $in[$k] : '')); };
+        if ($a === 'tod_adm_get') out(array('ok' => true, 'items' => tod_items()));
+        if ($a === 'rp_adm_get') {
+            $d0 = rp_day(); $ms = strtotime(date('Y-m-01 00:00:00')); $ser = array();
+            for ($i = 6; $i >= 0; $i--) { $r = rp_data($d0[0] - $i * 86400, $d0[1] - $i * 86400); $ser[] = array('d' => date('d.m', $d0[0] - $i * 86400), 'p' => $r['profit'], 'k' => $r['tp']); }
+            $tot = (int)q("SELECT COALESCE(SUM(amount),0) FROM topups WHERE status='approved'")->fetchColumn();
+            $top = q("SELECT u.id,u.name,u.username,SUM(t.amount) tot, SUM(CASE WHEN t.decided_at > NOW() - INTERVAL 30 DAY THEN t.amount ELSE 0 END) m30, (SELECT COALESCE(SUM(price-refunded),0) FROM nk_ord WHERE uid=u.id) + (SELECT COALESCE(SUM(price-refunded),0) FROM vs_ord WHERE uid=u.id) spent FROM topups t JOIN users u ON u.id=t.user_id WHERE t.status='approved' GROUP BY u.id,u.name,u.username ORDER BY tot DESC LIMIT 10")->fetchAll();
+            foreach ($top as $i => $r) { $top[$i]['tot'] = (int)$r['tot']; $top[$i]['m30'] = (int)$r['m30']; $top[$i]['spent'] = (int)$r['spent']; }
+            $src = q("SELECT u.src, COUNT(*) n, (SELECT COALESCE(SUM(t.amount),0) FROM topups t JOIN users u2 ON u2.id=t.user_id WHERE u2.src=u.src AND t.status='approved') money FROM users u GROUP BY u.src ORDER BY n DESC LIMIT 20")->fetchAll();
+            foreach ($src as $i => $r) { $src[$i]['n'] = (int)$r['n']; $src[$i]['money'] = (int)$r['money']; }
+            $slow = q("SELECT a, COUNT(*) n, ROUND(AVG(ms)) av, MAX(ms) mx FROM sec_slow WHERE at > NOW() - INTERVAL 7 DAY GROUP BY a ORDER BY AVG(ms)*COUNT(*) DESC LIMIT 10")->fetchAll();
+            $months = array(); for ($i = 0; $i < 12; $i++) { $t = strtotime(date('Y-m-01') . " -$i month"); $months[] = array('v' => date('Y-m', $t), 't' => date('m.Y', $t)); }
+            out(array('ok' => true, 'today' => rp_data($d0[0], $d0[1]), 'month' => rp_data($ms, time() + 1), 'ser' => $ser, 'top' => $top, 'top_total' => $tot, 'src' => $src, 'slow' => $slow, 'months' => $months, 'bot' => BOT_USERNAME,
+                'prog' => array('nk' => rp_prog('nk'), 'vs' => rp_prog('vs')), 'conf' => array('on' => setting('rp_on', '1') === '1', 'time' => setting('rp_time', '23:30'), 'pg' => (int)setting('pg_days', '3'), 'slow' => sec_conf()['slow'])));
+        }
+        if ($a === 'rp_adm_set') {
+            $p = $g('p');
+            if ($p === 'conf') {
+                $tm = $g('time'); $pg = (int)$g('pg'); $sl = (int)$g('slow'); if (!preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $tm) || $pg < 0 || $pg > 60 || $sl < 20 || $sl > 20000) out(array('ok' => false, 'error' => 'Vaqt SS:DD, prognoz 0–60 kun, sekin chegarasi 20–20000 ms bo\'lsin'), 422);
+                setset('rp_on', !empty($in['on']) ? '1' : '0'); setset('rp_time', $tm); setset('pg_days', (string)$pg); setset('sec_slow', (string)$sl); out(array('ok' => true));
+            }
+            if ($p === 'csv') { if (!preg_match('/^(\d{4})-(\d{2})$/', $g('ym'), $m) || (int)$m[2] < 1 || (int)$m[2] > 12) out(array('ok' => false, 'error' => 'Oy noto\'g\'ri'), 422); $r = rp_send_csv($u['id'], (int)$m[1], (int)$m[2]); out(array('ok' => !empty($r['ok']), 'error' => !empty($r['ok']) ? '' : 'Telegramga yuborib bo\'lmadi (botga /start bosganmisiz?)')); }
+            if ($p === 'now') { $r = rp_day(); $x = tg('sendMessage', array('chat_id' => $u['id'], 'text' => rp_text(rp_data($r[0], $r[1]), '📊 Bugungi hisobot (hozirgacha) — ' . date('d.m.Y H:i')) . rp_prov_text())); out(array('ok' => !empty($x['ok']))); }
             out(array('ok' => false, 'error' => 'Noma\'lum bo\'lim'), 422);
         }
     }
@@ -9596,11 +9767,11 @@ if(v==='home'){var pt=AD.pay.topups.filter(function(t){return t.status==="pendin
 var A=function(ic,c,t,v,a,bd){return '<button class="ar" onclick="'+a+'"><span class="ai '+c+'">'+sv2(ic)+'</span><b>'+t+'</b>'+(bd?'<span class="an">'+bd+'</span>':v?'<span class="av2">'+v+'</span>':'')+'<span class="ac2">›</span></button>'},B=function(ic,t,a){return '<button class="ar bl" onclick="'+a+'"><span class="ai">'+sv2(ic)+'</span><b>'+t+'</b></button>'};
 s+='<div class="ahd"><div class="aav"><svg viewBox="0 0 24 24"><path d="M21.4 3.3 2.9 10.5c-1 .4-.9 1.7.1 2l4.6 1.4 1.8 5.5c.3.8 1.3 1 1.9.4l2.6-2.6 4.8 3.5c.7.5 1.6.1 1.8-.7L23 4.6c.2-1-.7-1.6-1.6-1.3z"/></svg></div><b>Bot egasi</b><span>@'+esc(BOTU)+' · Admin panel</span></div><div class="tq-st">'+T('us','c1','#1d84f2','Obunachi',ST3.u||AD.users.length,"av('users')")+T('pl','c2','#16a34a','Kanal',cc('Kanal').length,"av('Kanal')")+T('gr','c4','#7c3aed','Guruh',cc('Guruh').length,"av('Guruh')")+'</div>'
 +'<div class="pvh">💰 Provayder balanslari</div><div class="pvs" id="pvs">'+pvtiles()+'</div>'+'<div class="ag">'+B('pl','Xabar yuborish',"ma('users')")+B('rp','Bank kurslarini hozir yangilash',"xbNow()")+'</div>'
-+'<div class="ag">'+A('sh','c2','Bot holati','',"av('bot')")+A('sx','c5','Statistika',nf(AD.s['Bugun yuborilgan']||0)+' bugun',"av('stat')")+A('co','c7','To\'lovlar','',"av('topups')",pt||0)+A('co','c8','Pul yechish','',"av('wd')",(AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+A('sh','c3','Nizolar (reklama birjasi)','',"av('disp')",(AD.pay.disputes||[]).length)+A('li','c8','E\'lon buyurtmalari','',"av('orders')",pd||0)+'</div>'
++'<div class="ag">'+A('li','c8','Bugungi ishlar','',"av('tod')",pt+((AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+((AD.pay.disputes||[]).length)+pd)+A('sx','c5','Hisobotlar','Foyda · mijozlar · manba',"av('rep')")+A('sh','c2','Bot holati','',"av('bot')")+A('sx','c5','Statistika',nf(AD.s['Bugun yuborilgan']||0)+' bugun',"av('stat')")+A('co','c7','To\'lovlar','',"av('topups')",pt||0)+A('co','c8','Pul yechish','',"av('wd')",(AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+A('sh','c3','Nizolar (reklama birjasi)','',"av('disp')",(AD.pay.disputes||[]).length)+A('li','c8','E\'lon buyurtmalari','',"av('orders')",pd||0)+'</div>'
 +'<div class="ag">'+A('rp','c3','Bank kurslari','',"MED=null;MBK=null;av('manual')")+A('dc','c6','Post matnlari','',"av('auto')")+A('mn','c9','Tongi xabar','',"av('dp')")+A('mq','c1','Namoz xabarnomalari','',"pra()")+'</div>'
 +'<div class="ag">'+A('sh','c3','Guruh himoyasi','',"gda()")+A('qz','c5','Testlar','',"go('qz')")+A('gr','c4','A\'zolar bazasi','',"av('menu')")+A('qz','c9','Menyu bo\'limlari','',"av('menu')")+'</div>'
 +'<div class="ag">'+A('cd','c2','Karta, bonus, sovg\'a','Ko\'p karta · bonus · eslatma · kurs',"av('bnx')")+A('sh','c7','Xavfsizlik va holat','Zaxira · provayder · himoya',"av('sec')")+A('cd','c7','Avto-to\'lov (Karta SMS)','',"av('apay')")+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
-else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='apay'){s+='<h1>💳 Avto-to\'lov</h1><div id="apb"><div class="sk"></div></div>'}else if(v==='sec'){s+='<h1>🛡 Xavfsizlik va holat</h1><div id="secb"><div class="sk"></div></div>'}else if(v==='bnx'){s+='<h1>💳 Karta, bonus va eslatmalar</h1><div id="bnxb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
+else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='apay'){s+='<h1>💳 Avto-to\'lov</h1><div id="apb"><div class="sk"></div></div>'}else if(v==='sec'){s+='<h1>🛡 Xavfsizlik va holat</h1><div id="secb"><div class="sk"></div></div>'}else if(v==='bnx'){s+='<h1>💳 Karta, bonus va eslatmalar</h1><div id="bnxb"><div class="sk"></div></div>'}else if(v==='rep'){s+='<h1>📊 Hisobotlar</h1><div id="repb"><div class="sk"></div></div>'}else if(v==='tod'){s+='<h1>✅ Bugungi ishlar</h1><div id="todb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
 else if(v==='wd'){s+='<h1>➖ Pul yechish</h1>'+((AD.pay.wds||[]).length?AD.pay.wds.map(function(t){var p=t.status==='pending';return '<div class="card"><div class="row"><b>'+fmt(t.amount)+'</b><span class="tag">'+TS[t.status]+'</span></div><div class="sub">'+esc(t.name||t.uid)+(t.username?' · @'+esc(t.username):'')+' · '+esc(t.created_at)+'</div><div class="sub" style="margin-top:6px">Karta: <b>'+esc(String(t.card).replace(/(\d{4})(?=\d)/g,'$1 '))+'</b><br>Egasi: <b>'+esc(t.holder)+'</b><br>Balans: '+fmt(t.balance)+'</div>'+(p?'<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="tw('+t.id+',\'approve\')">✅ Tasdiqlash</button><button class="btn s" onclick="tw('+t.id+',\'reject\')">❌ Rad etish</button></div>':'')+'</div>'}).join(''):'<div class="card sub">Hozircha yechish so\'rovlari yo\'q</div>')}
 else if(v==='stat'){s+='<h1>📊 Statistika</h1>'+Object.keys(AD.s).map(function(k){return '<div class="card row"><span class="sub">'+k+'</span><b>'+AD.s[k]+'</b></div>'}).join('')+'<div class="card row"><span class="sub">Kurs yangilangan</span><b>'+esc(AD.last_ok||'—')+'</b></div>'+(AD.last_err?'<div class="card"><div class="row"><span class="sub">Oxirgi urinish</span><b>'+esc(AD.last_try||'—')+'</b></div><div class="sub" style="color:var(--r);margin-top:6px">⚠️ Kurs olinmadi: '+esc(AD.last_err)+'</div></div>':'')}
 else if(v==='bot'){s+='<h1>🤖 Bot holati</h1><div id="botst"><div class="card sub">Tekshirilmoqda…</div></div>';setTimeout(function(){botchk()},0)}
@@ -9875,7 +10046,7 @@ PV.d.forEach(function(p){var ic=PVI[p.id]||PVI.prm4u;h+='<div class="card"><div 
 el.innerHTML=h}
 function pvsave(id){api('nk_adm_limit',{id:id,limit:$('pvlm_'+id).value}).then(function(j){if(j.ok){toast('Saqlandi');pvl(0)}})}
 function pvsite(u){try{tg.openLink(u)}catch(e){window.open(u,'_blank')}}
-var _avN=av;av=function(v){_avN(v);if(v==='home'||v==='pv')pvl(0);if(v==='apay')apl();if(v==='sec')secl();if(v==='bnx')bnl()};
+var _avN=av;av=function(v){_avN(v);if(v==='home'||v==='pv')pvl(0);if(v==='apay')apl();if(v==='sec')secl();if(v==='bnx')bnl();if(v==='rep')repl();if(v==='tod')todl()};
 
 function pvsm(p){var s=PV.sm||{};return '<div class="sub" style="margin-bottom:4px">API kalit ('+(s.key_set?'saqlangan ••••'+esc(s.key_tail):'kiritilmagan')+') — 5sim → Settings → «API key for 5SIM protocol»</div><input id="smk" type="password" autocomplete="off" placeholder="'+(s.key_set?'Yangi kalit (o\'zgartirish uchun)':'API kalitni shu yerga qo\'ying')+'"'+(s.key_const?' disabled':'')+'><div class="sub" style="margin-bottom:4px">Balans valyutasi (5sim API qaysi valyutada qaytarsa shuni tanlang — saytdagi bilan solishtiring)</div><div class="cps"><button class="chip'+(s.cur==='RUB'?' on':'')+'" id="smc_RUB" onclick="smcur(\'RUB\')">₽ RUB</button><button class="chip'+(s.cur==='USD'?' on':'')+'" id="smc_USD" onclick="smcur(\'USD\')">$ USD</button></div><input id="smr" type="number" inputmode="decimal" value="'+(s.rub||'')+'" placeholder="1 rubl necha so\'m (faqat RUB uchun, ixtiyoriy)"><button class="btn" onclick="smsave()">💾 Kalit va valyutani saqlash</button>'}
 function smcur(c){PV.sm.cur=c;['RUB','USD'].forEach(function(x){var b=$('smc_'+x);if(b)b.classList.toggle('on',x===c)})}
@@ -10007,6 +10178,34 @@ function bnbonus(){var j=BNX.j,t=[0,1,2].map(function(i){return [$('bnt'+i).valu
 function bnlb(){var j=BNX.j;api('bon_adm_set',{p:'lb',on:j.lb.on?1:0,min:$('lbm').value,days:$('lbd').value}).then(function(r){if(r.ok){toast('Saqlandi');bnl()}})}
 function bngift(){var j=BNX.j;api('bon_adm_set',{p:'gift',on:j.gift.on?1:0,min:$('gmn').value,max:$('gmx').value,day:$('gdy').value,fee:$('gfe').value||0}).then(function(r){if(r.ok){toast('Saqlandi');bnl()}})}
 function bnusd(m){api('bon_adm_set',{p:'usd',mode:m,value:($('bnu')||{}).value}).then(function(r){if(r.ok){toast('Kurs: '+fmt(r.eff));bnl()}})}
+/* ---------- HISOBOTLAR va BUGUNGI ISHLAR (admin) ---------- */
+var RP={j:null},TOD={j:null};
+function todl(){api('tod_adm_get',{}).then(function(j){if(!j.ok)return;TOD.j=j;todr()})}
+function todr(){var el=$('todb');if(!el||!TOD.j)return;var A={topups:"av('topups')",wd:"av('wd')",sms:"av('apay')",disp:"av('disp')",ads:"av('orders')",unk:"go('nk')",unkv:"go('vs')",plow:"av('pv')",pdown:"av('sec')",bk:"av('sec')",cron:"av('bot')"},it=TOD.j.items;
+el.innerHTML=it.length?'<div class="ag">'+it.map(function(x){return '<button class="ar"'+(A[x.k]?' onclick="'+A[x.k]+'"':'')+'><span style="font-size:20px;width:34px;text-align:center">'+x.ic+'</span><b style="text-align:left;flex:1">'+esc(x.t)+(x.note?'<div class="sub" style="font-weight:400;font-size:12px">'+esc(x.note)+'</div>':'')+'</b><span class="an">'+x.n+'</span>'+(A[x.k]?'<span class="ac2">›</span>':'')+'</button>'}).join('')+'</div>':'<div class="card" style="text-align:center"><div style="font-size:36px">✅</div><b>Hammasi joyida</b><div class="sub">Hozir sizdan hech narsa kutilmayapti.</div></div>'}
+function repl(){api('rp_adm_get',{}).then(function(j){if(!j.ok)return;RP.j=j;repr()})}
+function rpcard(t,d){var r=function(a,b,c){return '<div class="row" style="padding:5px 0;margin:0"><span class="sub">'+a+'</span><span style="text-align:right"><b>'+b+'</b>'+(c?'<div class="sub" style="font-size:12px">'+c+'</div>':'')+'</span></div>'};
+return '<div class="card"><b>'+t+'</b>'+r('💰 Kirim',fmt(d.tp),d.tp_n+' ta'+(d.tp_auto?' · avto '+fmt(d.tp_auto):''))+r('➖ Yechildi',fmt(d.wd),d.wd_n+' ta')+r('🚀 Nakrutka',fmt(d.nk_profit),d.nk_n+' ta · tushum '+fmt(d.nk_rev))+r('📲 Virtual raqam',fmt(d.vs_profit),d.vs_n+' ta · tushum '+fmt(d.vs_rev))+((d.auc||d.ads||d.gift_fee)?r('🤝 Komissiya/e\'lon',fmt(d.auc+d.ads+d.gift_fee),''):'')+r('🎁 Bonus xarajati','−'+fmt(d.bonus),'')+r('↩️ Qaytarilgan',fmt(d.nk_ref+d.vs_ref),'')+'<div class="row" style="padding:8px 0 0;margin:6px 0 0;border-top:1px solid var(--ln)"><b>📈 Sof foyda</b><b style="font-size:19px;color:'+(d.profit<0?'#d92d20':'#1a9e4f')+'">'+fmt(d.profit)+'</b></div><div class="sub" style="font-size:12px;margin-top:4px">👤 Yangi foydalanuvchi: '+d.users+'. Foyda taxminiy: tannarx hozirgi dollar/rubl kursidan hisoblanadi.</div></div>'}
+function repr(){var j=RP.j,el=$('repb');if(!el||!j)return;var h=rpcard('📅 Bugun',j.today)+rpcard('🗓 Shu oy',j.month);
+var mx=Math.max.apply(null,j.ser.map(function(x){return Math.abs(x.p)}).concat([1]));
+h+='<div class="card"><b>📊 Oxirgi 7 kun foydasi</b><div style="display:flex;gap:6px;align-items:flex-end;height:110px;margin-top:10px">'+j.ser.map(function(x){var hh=Math.max(3,Math.round(Math.abs(x.p)/mx*80));return '<div style="flex:1;text-align:center"><div style="font-size:10px;color:var(--sub)">'+(x.p?Math.round(x.p/1000)+'k':'0')+'</div><div style="height:'+hh+'px;background:'+(x.p<0?'#d92d20':'#1d84f2')+';border-radius:6px 6px 2px 2px;margin:2px 0"></div><div style="font-size:10px;color:var(--sub)">'+x.d+'</div></div>'}).join('')+'</div></div>';
+var pg=function(n,p){return p?'<div class="row" style="padding:5px 0;margin:0"><span class="sub">'+n+'</span><b>'+(p.days===null?'sarf yo\'q':'~ '+p.days+' kunga yetadi')+'</b></div>':'<div class="row" style="padding:5px 0;margin:0"><span class="sub">'+n+'</span><span class="sub">ma\'lumot yo\'q</span></div>'};
+h+='<div class="card"><b>⏳ Provayder balansi prognozi</b><div class="sub" style="margin:2px 0 4px">So\'nggi 7 kun sarfiga qarab</div>'+pg('prm4u (Nakrutka)',j.prog.nk)+pg('5sim (Virtual raqam)',j.prog.vs)+'</div>';
+var tt=0;j.top.forEach(function(u){tt+=u.tot});
+h+='<div class="card"><b>🏆 Eng yaxshi 10 mijoz</b>'+(j.top.length?'<div class="sub" style="margin:2px 0 6px">Jami to\'ldirishning '+(j.top_total?Math.round(tt/j.top_total*100):0)+'% ini shular bergan</div>'+j.top.map(function(u,i){return '<div class="row" style="border-top:1px solid var(--ln);padding:8px 0;margin:0"><div><b>'+(i+1)+'. '+esc(u.name||'—')+'</b><div class="sub" style="font-size:12px">'+u.id+(u.username?' · @'+esc(u.username):'')+' · 30 kun: '+fmt(u.m30)+' · sarflagan: '+fmt(u.spent)+'</div></div><b>'+fmt(u.tot)+'</b></div>'}).join(''):'<div class="sub" style="margin-top:6px">Hali to\'lov yo\'q.</div>')+'</div>';
+h+='<div class="card"><b>🔗 Mijoz qayerdan keldi (manba)</b><div class="sub" style="margin:2px 0 6px">Har reklama uchun alohida havola yarating — qaysi biri mijoz va pul keltirishini ko\'rasiz.</div>'
++j.src.map(function(s){return '<div class="row" style="border-top:1px solid var(--ln);padding:6px 0;margin:0"><span>'+(s.src?esc(s.src):'<span class="sub">to\'g\'ridan-to\'g\'ri</span>')+'</span><span style="text-align:right"><b>'+s.n+' ta</b><div class="sub" style="font-size:12px">'+fmt(s.money)+'</div></span></div>'}).join('')
++'<input id="rpsrc" placeholder="Manba nomi: masalan insta1, kanal_x" autocapitalize="off" maxlength="40" oninput="rpl2()" style="margin-top:8px"><div id="rplk" class="sub" style="word-break:break-all;margin-bottom:6px"></div><button class="btn s" onclick="rpcp()">📋 Havolani nusxalash</button></div>';
+h+='<div class="card"><b>🐢 Sekin so\'rovlar (7 kun)</b>'+(j.slow.length?j.slow.map(function(s){return '<div class="row" style="border-top:1px solid var(--ln);padding:6px 0;margin:0"><span class="sub">'+esc(s.a)+'</span><span><b>'+s.av+' ms</b> <span class="sub">· eng sekin '+s.mx+' · '+s.n+' marta</span></span></div>'}).join(''):'<div class="sub" style="margin-top:6px">'+j.conf.slow+' ms dan sekin so\'rov bo\'lmadi.</div>')+'</div>';
+h+='<div class="card"><b>🧾 Oylik hisobot (soliq/hisobchi uchun)</b><div class="sub" style="margin:2px 0 6px">Kunma-kun jadval CSV (Excel) fayl bo\'lib Telegramga yuboriladi. Har oyning 1-kuni o\'tgan oy hisoboti o\'zi keladi.</div><select id="rpm" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--ln);background:var(--soft);margin-bottom:8px">'+j.months.map(function(m){return '<option value="'+m.v+'">'+m.t+'</option>'}).join('')+'</select><button class="btn" onclick="rpcsv()">📤 CSV yuborish</button></div>';
+var c=j.conf;
+h+='<div class="card"><b>⚙️ Hisobot sozlamalari</b><div class="cps"><button class="chip'+(c.on?' on':'')+'" onclick="RP.j.conf.on=!RP.j.conf.on;this.classList.toggle(\'on\',RP.j.conf.on)">✅ Kunlik hisobot</button></div><div class="sub" style="margin:6px 0 2px">Yuborish vaqti (SS:DD)</div><input id="rpt" value="'+esc(c.time)+'" maxlength="5"><div class="sub" style="margin:6px 0 2px">Balans necha kundan kamga yetsa ogohlantirilsin (0 = o\'chiq)</div><input id="rpg" type="number" inputmode="numeric" value="'+c.pg+'"><div class="sub" style="margin:6px 0 2px">So\'rov necha ms dan sekin bo\'lsa yozib borilsin</div><input id="rps" type="number" inputmode="numeric" value="'+c.slow+'"><button class="btn" onclick="rpsave()">💾 Saqlash</button><button class="btn s" style="margin-top:8px" onclick="rpnow()">📩 Hisobotni hozir yuborish</button></div>';
+el.innerHTML=h}
+function rpl2(){var v=($('rpsrc').value||'').replace(/[^A-Za-z0-9_-]/g,'');$('rpsrc').value=v;$('rplk').textContent=v?'https://t.me/'+RP.j.bot+'?startapp='+v:''}
+function rpcp(){var v=$('rpsrc').value;if(!v){toast('Manba nomini yozing');return}vscp('https://t.me/'+RP.j.bot+'?startapp='+v)}
+function rpcsv(){toast('Yuborilmoqda...');api('rp_adm_set',{p:'csv',ym:$('rpm').value}).then(function(r){if(r.ok)toast('Telegramga yuborildi')})}
+function rpsave(){var c=RP.j.conf;api('rp_adm_set',{p:'conf',on:c.on?1:0,time:$('rpt').value,pg:$('rpg').value||0,slow:$('rps').value}).then(function(r){if(r.ok){toast('Saqlandi');repl()}})}
+function rpnow(){api('rp_adm_set',{p:'now'}).then(function(r){toast(r.ok?'Telegramga yuborildi':'Yuborib bo\'lmadi')})}
 function sall(){$('saleb').innerHTML='<div class="sk"></div>';api('sale_list').then(function(j){if(!j.ok)return;SAD=j;var h='<p class="sub" style="margin:-6px 2px 12px">Sotuvdagi kanal va guruhlar. Raqamlar TartibOn statistikasidan olinadi — soxta emas. Xavfsiz savdo uchun «🛡 Vositachi» tugmasini bosing (haqi '+j.fee+'%).</p>';
 h+=j.list.length?j.list.map(function(c){var g=c.m30?(+c.members-c.m30):null,age=Math.max(0,Math.round((Date.now()/1000-new Date(String(c.created_at).replace(' ','T')).getTime()/1000)/86400));return '<div class="card"><div class="row"><div style="min-width:0"><b>🏷 '+esc(c.username)+(c.verified==1?' <span title="TartibOn tasdiqlagan">✅</span>':'')+'</b><div class="sub">'+(c.members?nf(+c.members)+' '+(c.ctype==='Kanal'?'obunachi':'a\'zo'):'')+(g!=null?' · 30 kunda '+(g>=0?'+':'')+nf(g):'')+(c.vz_cat?' · '+esc(c.vz_cat):'')+'</div></div><b style="flex:none">'+fmt(+c.price)+'</b></div>'+(c.descr?'<div class="sub" style="margin-top:6px">'+esc(c.descr)+'</div>':'')+'<div class="sub" style="margin-top:4px">✅ TartibOn\'da '+age+' kundan beri · statistika tasdiqlangan</div>'+(c.own==1?'<div class="sub" style="margin-top:8px">👤 Bu sizning e\'loningiz</div>':'<div style="display:flex;gap:8px;margin-top:8px"><button class="btn s" onclick="salm('+c.id+')">📩 Sotuvchiga yozish</button><button class="btn s" onclick="sals('+c.id+')">🛡 Vositachi</button></div>')+'</div>'}).join(''):'<div class="card sub">Hozircha sotuvda kanal yo\'q.</div>';h+='<div class="card"><b>➕ Kanalimni sotuvga qo\'yish</b>'+(j.mine&&j.mine.length?j.mine.map(function(c){return '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--ln)"><div class="row"><b>'+(c.ctype==='Kanal'?'📢 ':'👥 ')+esc(c.username)+'</b>'+(c.on_==1?'<span class="tag">✅ Sotuvda</span>':'<button class="btn s" onclick="slOpen('+c.id+',\'slm\')">🏷 Sotuvga qo\'yish</button>')+'</div><div id="slm'+c.id+'"></div>'+(c.on_==1?'<button class="btn s" style="margin-top:6px" onclick="slOpen('+c.id+',\'slm\')">✏️ O\'zgartirish</button>':'')+'</div>'}).join(''):'<p class="sub" style="margin:6px 0 0">Avval «Kanal qo\'shish» orqali kanal yoki guruhingizni ulang.</p>')+'</div>';$('saleb').innerHTML=h})}
 var MK={p:'ig',d:null,tab:'list',ed:null};
