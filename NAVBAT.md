@@ -142,3 +142,15 @@ Narx taqqoslash jadvali · taymerli taklif · so'nggi xaridorlar lentasi · kafo
 Nakrutka: avto-provayder tanlash · refill (30 kun) · drip-feed · havolani oldindan tekshirish
 Raqam: tarmoqqa mos tavsiya · "paydo bo'lganda xabar ber"
 To'lov: to'lov kutilmoqda holati · "Nima yangi" oynasi · kunlik topshiriq
+
+## TANLANGAN (9-ro'yxat — tezlik va sifat)
+- 1. Ilovani tezlashtirish (1.5 MB fayl; sahifalarni kerak bo'lganda yuklash / lazy load)
+- 3. Keshlash (kurs, narx, ro'yxatlar bir necha daqiqaga eslab qolinadi)
+- 4. Bazaga indekslar tekshiruvi (buyurtmalar ko'paygach sekinlashmasligi uchun)
+- 5. Provayder uzilishini oldindan sezish (ketma-ket 3 xato → xizmat vaqtincha o'chadi + admin xabari); "provayder ishdan chiqsa avto-o'chirish" bilan birlashtiriladi
+- 7. Buyurtma navbatini aniq ko'rsatish ("sizdan oldin 3 ta, taxminan 15 daqiqa")
+- 9. Eng yaxshi 10 mijoz (daromadning katta qismini kim keltirayotgani)
+(Yuk sinovi bilan birga: 1+3+4 → 5)
+
+## Tanlanmagan (eslab qolish uchun)
+Rasm siqish (WebP) · ikkinchi provayder zaxirasi · mijoz profili · mijoz vaqt zonasi · bosh sahifani moslash (icon joyini siljitish) · tezkor tugmalar · shaxsiy tavsiya
