@@ -74,3 +74,14 @@ Tavsiya tartibi: 5 → 8 → 6 → 2 → 3 → 11
 - 15. 14 kun kirmaganlarga eslatma + bonus
 - 16. Tug'ilgan kun/bayram bonusi
 (Tavsiya: 12 → 14 → 10 → 2/3 → 15/16 → 5 → 11 → 13)
+
+## TANLANGAN (3-ro'yxat) — qulaylik va savdo
+- 1. Kam balans eslatmasi (Telegram xabar + to'ldirish tugmasi)
+- 2. Buyurtma tugaganda bot xabari (nakrutka bajarildi, raqamga kod keldi)
+- 3. Takroriy buyurtma/obuna ("har hafta 500 obunachi" avtomatik)
+- 4. Savat: bir necha xizmat, bitta to'lov
+- 7. Qora/oq ro'yxat (firibgar bloklash, ishonchli mijozga tezroq)
+- 8. Xizmat holati sahifasi (admin "vaqtincha ishlamaydi" + sabab yozadi)
+- 9. «🔥 Eng ko'p olinadi» belgisi
+- 13. Eski jurnallarni avto-tozalash (pay_log, sms_in ...)
+(Tavsiya: 2 → 1 → 8 → 9 → 13 → 7 → 4 → 3)
