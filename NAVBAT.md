@@ -250,3 +250,4 @@ Virtual raqam:
 - «Virtual raqam» → «eSIM»: avval davlat, keyin ijtimoiy tarmoq, keyin takliflar (offerlardan avtomatik).
 - Avto-import: Nakrutka (provayder katalogidan har platforma×tur uchun 3 tadan eng arzon) va eSIM (barcha davlat × 8 mashhur tarmoq). Admin panelda «⚡ Avtomatik» tugmasi; cron'da baza bo'sh bo'lsa bir marta o'zi bajaradi.
 - eSIM narx: 5sim butun narx jadvali bitta so'rovda; RUB kursi bankdan avtomatik; admin ro'yxati qidiruv va sahifalash bilan.
+- eSIM sahifasi Nakrutka uslubida: Davlat chiplari → Ijtimoiy tarmoq chiplari → raqamlar («Olish»). Admin: faqat ustama %, qo'lda boshqarish yashirin; sahifa ochilganda narxlar o'zi yangilanadi.
