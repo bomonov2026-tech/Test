@@ -340,7 +340,7 @@ function mig() {
         setset('mig_lo1', '1');
     }
     if (setting('mig_s61', '') !== '1') {   /* Qurilma nazorati, dars jadvali, avtomobil, shaxsiy ob-havo, ro'za eslatmasi, ilova reklamasi */
-        foreach (array("ALTER TABLE users ADD dev CHAR(32) NOT NULL DEFAULT ''") as $sql) { try { db()->exec($sql); } catch (Exception $e) {} }
+        $s61 = true; foreach (array("ALTER TABLE users ADD dev CHAR(32) NOT NULL DEFAULT ''") as $sql) { try { db()->exec($sql); } catch (Exception $e) {} }
         foreach (array(
             "dev_log (dev CHAR(32) NOT NULL, uid BIGINT UNSIGNED NOT NULL, at DATETIME NOT NULL, PRIMARY KEY (dev, uid), KEY u (uid))",
             "hw_sch (id INT AUTO_INCREMENT PRIMARY KEY, uid BIGINT UNSIGNED NOT NULL, dow TINYINT NOT NULL, t CHAR(5) NOT NULL, subj VARCHAR(40) NOT NULL, KEY u (uid))",
@@ -350,8 +350,11 @@ function mig() {
             "wx_user (uid BIGINT UNSIGNED PRIMARY KEY, city VARCHAR(30) NOT NULL, rain TINYINT NOT NULL DEFAULT 1, cold TINYINT NOT NULL DEFAULT 1, cold_t TINYINT NOT NULL DEFAULT 0, hot TINYINT NOT NULL DEFAULT 1, last_day CHAR(10) NOT NULL DEFAULT '')",
             "rz_sub (uid BIGINT UNSIGNED PRIMARY KEY, region VARCHAR(30) NOT NULL, lead_m TINYINT NOT NULL DEFAULT 15, sa_day CHAR(10) NOT NULL DEFAULT '', if_day CHAR(10) NOT NULL DEFAULT '')",
             "app_ads (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(80) NOT NULL, body VARCHAR(200) NOT NULL DEFAULT '', img VARCHAR(300) NOT NULL DEFAULT '', url VARCHAR(300) NOT NULL, st TINYINT NOT NULL DEFAULT 1, d1 DATE NULL, d2 DATE NULL, imp INT NOT NULL DEFAULT 0, clk INT NOT NULL DEFAULT 0, note VARCHAR(100) NOT NULL DEFAULT '', created DATETIME NOT NULL)",
-            "ad_seen (ad INT NOT NULL, uid BIGINT UNSIGNED NOT NULL, day CHAR(10) NOT NULL, k CHAR(1) NOT NULL, PRIMARY KEY (ad, uid, day, k))") as $x) db()->exec('CREATE TABLE IF NOT EXISTS ' . $x . ' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
-        setset('mig_s61', '1');
+            "ad_seen (ad INT NOT NULL, uid BIGINT UNSIGNED NOT NULL, day CHAR(10) NOT NULL, k CHAR(1) NOT NULL, PRIMARY KEY (ad, uid, day, k))") as $x) {
+            try { db()->exec('CREATE TABLE IF NOT EXISTS ' . $x . ' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'); }
+            catch (Exception $e) { $s61 = false; @file_put_contents(__DIR__ . '/fatal.log', date('Y-m-d H:i:s') . ' MIG ' . strtok($x, ' ') . ' | ' . mb_substr(str_replace("\n", ' ', $e->getMessage()), 0, 400) . "\n", FILE_APPEND); }
+        }
+        if ($s61) setset('mig_s61', '1');
     }
     if (setting('mig_guard3', '') !== '1') {
         try { db()->exec('ALTER TABLE group_guard ADD COLUMN words TEXT NULL, ADD COLUMN noad TINYINT NOT NULL DEFAULT 0'); } catch (Exception $e) {}
