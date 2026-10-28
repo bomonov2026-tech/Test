@@ -19,6 +19,13 @@ define('STALE_H', 8);
 define('AI_KEY', '');                   /* Anthropic API kaliti (console.anthropic.com) — guruhda porno/spamni AI bilan aniqlash uchun; bo'sh bo'lsa AI o'chiq */
 define('AI_MODEL', 'claude-opus-5-5');  /* arzonroq: 'claude-haiku-5-5' */         /* shuncha soatdan eski kurs "eskirgan" */
 error_reporting(0); date_default_timezone_set('Asia/Tashkent');
+register_shutdown_function(function () {   /* halokatli xato bo'lsa fatal.log ga yoziladi (.htaccess *.log ni tashqaridan yopadi) */
+    $e = error_get_last();
+    if ($e && in_array($e['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR), true)) {
+        $f = __DIR__ . '/fatal.log'; if (is_file($f) && filesize($f) > 200000) @unlink($f);
+        @file_put_contents($f, date('Y-m-d H:i:s') . ' PHP ' . PHP_VERSION . ' | ' . $e['message'] . ' @' . basename($e['file']) . ':' . $e['line'] . "\n", FILE_APPEND);
+    }
+});
 $CUR = array('USD' => 'AQSH dollari', 'EUR' => 'Yevro', 'RUB' => 'Rossiya rubli', 'GBP' => 'Britaniya funti', 'CNY' => 'Xitoy yuani', 'KZT' => 'Qozog\'iston tengesi');
 
 function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
