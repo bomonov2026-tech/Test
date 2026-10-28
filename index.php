@@ -2959,10 +2959,10 @@ function dp_item($d) {
     if ($ref) {
         $p = array('from_chat_id' => $ref[0], 'message_id' => $ref[1]);
         if ($txt !== '') { $p['caption'] = mb_substr($txt, 0, 1024); $p['parse_mode'] = 'HTML'; }
-        return array('copyMessage', $p);
+        return array('copyMessage', $p, (string)setting('dp_a' . $d, ''));
     }
     if ($txt === '') return null;
-    return array('sendMessage', array('text' => mb_substr($txt, 0, 4096), 'parse_mode' => 'HTML', 'disable_web_page_preview' => true));
+    return array('sendMessage', array('text' => mb_substr($txt, 0, 4096), 'parse_mode' => 'HTML', 'disable_web_page_preview' => true), (string)setting('dp_a' . $d, ''));
 }
 /* HTML xato bo'lsa (masalan yopilmagan teg) — oddiy matn sifatida qayta yuboriladi */
 function dp_plain($p) {
@@ -2970,17 +2970,24 @@ function dp_plain($p) {
     foreach (array('caption', 'text') as $k) if (isset($p[$k])) $p[$k] = html_entity_decode(strip_tags($p[$k]), ENT_QUOTES, 'UTF-8');
     return $p;
 }
-function dp_send($method, $items) {
-    $res = tg_multi($method, $items); $again = array();
+function dp_send($method, $items, $vo = '') {
+    $res = tg_multi($method, $items); $again = array(); $GLOBALS['VO_ERR'] = '';
     foreach ($res as $k => $r) if (empty($r['ok']) && isset($r['description']) && stripos($r['description'], 'parse entities') !== false) $again[$k] = dp_plain($items[$k]);
     if ($again) foreach (tg_multi($method, $again) as $k => $r) $res[$k] = $r;
+    $ref = $vo !== '' ? dp_ref($vo) : null;   /* ovoz (mp3): baza kanaldan nusxa, yuborilgan xabarga javob sifatida — video+matn tagida */
+    if ($ref) {
+        $vi = array();
+        foreach ($res as $k => $r) if (!empty($r['ok']) && isset($r['result']['message_id']) && isset($items[$k]['chat_id'])) $vi[$k] = array('chat_id' => $items[$k]['chat_id'], 'from_chat_id' => $ref[0], 'message_id' => $ref[1], 'reply_parameters' => array('message_id' => (int)$r['result']['message_id'], 'allow_sending_without_reply' => true));
+        if ($vi) { if (count($vi) > 3) usleep(700000); foreach (tg_multi('copyMessage', $vi) as $r) if (empty($r['ok'])) { $GLOBALS['VO_ERR'] = isset($r['description']) ? $r['description'] : 'ovoz yuborilmadi'; break; } }
+    }
     return $res;
 }
+function dp_sendi($it, $items) { return dp_send($it[0], $items, isset($it[2]) ? (string)$it[2] : ''); }
 function dp_cfg() {
     global $DAYS;
     $r = array('on' => setting('dp_on', '0') === '1', 'time' => setting('dp_time', '06:00'), 'last' => setting('dp_last', ''),
         'n' => (int)q("SELECT COUNT(*) FROM chats WHERE dp_on=1 AND status='approved' AND blocked=0")->fetchColumn(), 'days' => array());
-    foreach ($DAYS as $d => $nm) $r['days'][] = array('d' => $d, 'name' => $nm, 'o' => setting('dp_o' . $d, '1') === '1', 'v' => setting('dp_v' . $d, ''), 't' => setting('dp_t' . $d, dp_def($d)));
+    foreach ($DAYS as $d => $nm) $r['days'][] = array('d' => $d, 'name' => $nm, 'o' => setting('dp_o' . $d, '1') === '1', 'v' => setting('dp_v' . $d, ''), 'a' => setting('dp_a' . $d, ''), 't' => setting('dp_t' . $d, dp_def($d)));
     return $r;
 }
 function cron_daily() {
@@ -2996,7 +3003,7 @@ function cron_daily() {
         $items = array();
         foreach ($ch as $c) if (q('UPDATE chats SET dp_date=? WHERE id=? AND (dp_date IS NULL OR dp_date<?)', array($today, $c['id'], $today))->rowCount() === 1) $items[$c['id']] = array('chat_id' => $c['chat_id']) + $it[1];
         if (!$items) continue;
-        foreach (dp_send($it[0], $items) as $id => $r) {
+        foreach (dp_sendi($it, $items) as $id => $r) {
             $ok = !empty($r['ok']);
             q('INSERT INTO post_logs (chat_id,ok,info,at) VALUES (?,?,?,NOW())', array($id, $ok ? 1 : 0, mb_substr('ertalabki post' . ($ok ? '' : ': ' . (isset($r['description']) ? $r['description'] : 'yuborilmadi')), 0, 255)));
             if (!$ok && isset($r['description'])) chat_lost($id, $r['description']);
@@ -3012,11 +3019,11 @@ define('DEF_EV', "🌙 <b>Xayrli tun, azizlar!</b>\n\nKuningiz barakali o'tdi de
 function ev_item() {
     global $DAYS; $txt = trim(strtr((string)setting('ev_t', DEF_EV), array('{sana}' => date('d.m.Y'), '{kun}' => isset($DAYS[(int)date('N')]) ? $DAYS[(int)date('N')] : '')));
     $ref = dp_ref(setting('ev_v', ''));
-    if ($ref) { $p = array('from_chat_id' => $ref[0], 'message_id' => $ref[1]); if ($txt !== '') { $p['caption'] = mb_substr($txt, 0, 1024); $p['parse_mode'] = 'HTML'; } return array('copyMessage', $p); }
+    if ($ref) { $p = array('from_chat_id' => $ref[0], 'message_id' => $ref[1]); if ($txt !== '') { $p['caption'] = mb_substr($txt, 0, 1024); $p['parse_mode'] = 'HTML'; } return array('copyMessage', $p, (string)setting('ev_a', '')); }
     if ($txt === '') return null;
-    return array('sendMessage', array('text' => mb_substr($txt, 0, 4096), 'parse_mode' => 'HTML', 'disable_web_page_preview' => true));
+    return array('sendMessage', array('text' => mb_substr($txt, 0, 4096), 'parse_mode' => 'HTML', 'disable_web_page_preview' => true), (string)setting('ev_a', ''));
 }
-function ev_cfg() { return array('on' => setting('ev_on', '1') === '1', 'time' => setting('ev_time', '21:30'), 'v' => setting('ev_v', ''), 't' => setting('ev_t', DEF_EV), 'last' => setting('ev_last', ''), 'n' => (int)q("SELECT COUNT(*) FROM chats WHERE ev_on=1 AND status='approved' AND blocked=0")->fetchColumn()); }
+function ev_cfg() { return array('on' => setting('ev_on', '1') === '1', 'time' => setting('ev_time', '21:30'), 'v' => setting('ev_v', ''), 'a' => setting('ev_a', ''), 't' => setting('ev_t', DEF_EV), 'last' => setting('ev_last', ''), 'n' => (int)q("SELECT COUNT(*) FROM chats WHERE ev_on=1 AND status='approved' AND blocked=0")->fetchColumn()); }
 function ev_run() {
     if (setting('ev_on', '1') !== '1') return 'o\'chiq';
     $today = date('Y-m-d'); $start = strtotime($today . ' ' . setting('ev_time', '21:30'));
@@ -3029,7 +3036,7 @@ function ev_run() {
         $items = array();
         foreach ($ch as $c) if (q('UPDATE chats SET ev_date=? WHERE id=? AND (ev_date IS NULL OR ev_date<?)', array($today, $c['id'], $today))->rowCount() === 1) $items[$c['id']] = array('chat_id' => $c['chat_id']) + $it[1];
         if (!$items) continue;
-        foreach (dp_send($it[0], $items) as $id => $r) {
+        foreach (dp_sendi($it, $items) as $id => $r) {
             $ok = !empty($r['ok']);
             q('INSERT INTO post_logs (chat_id,ok,info,at) VALUES (?,?,?,NOW())', array($id, $ok ? 1 : 0, mb_substr('kechki xabar' . ($ok ? '' : ': ' . (isset($r['description']) ? $r['description'] : 'yuborilmadi')), 0, 255)));
             if (!$ok && isset($r['description'])) chat_lost($id, $r['description']);
@@ -3124,16 +3131,16 @@ function bt_item($k) {   /* array(metod, parametrlar) — chat_id ni chaqiruvchi
     if ($ref) {
         $p = array('from_chat_id' => $ref[0], 'message_id' => $ref[1]);
         if ($txt !== '') { $p['caption'] = mb_substr($txt, 0, 1024); $p['parse_mode'] = 'HTML'; }
-        return array('copyMessage', $p);
+        return array('copyMessage', $p, (string)setting('bt_a_' . $k, ''));
     }
     if ($txt === '') return null;
-    return array('sendMessage', array('text' => mb_substr($txt, 0, 4096), 'parse_mode' => 'HTML', 'disable_web_page_preview' => true));
+    return array('sendMessage', array('text' => mb_substr($txt, 0, 4096), 'parse_mode' => 'HTML', 'disable_web_page_preview' => true), (string)setting('bt_a_' . $k, ''));
 }
 function bt_cfg() {
     $r = array('on' => setting('bt_on', '1') === '1', 'time' => setting('bt_time', '08:00'), 'last' => setting('bt_last', ''), 'items' => array(),
         'n' => (int)q("SELECT COUNT(*) FROM chats WHERE bt_on=1 AND status='approved' AND blocked=0")->fetchColumn());
     foreach ($GLOBALS['BT'] as $k => $x) $r['items'][] = array('k' => $k, 'name' => $x[0], 'fix' => $x[1], 'next' => bt_next($k), 'o' => setting('bt_o_' . $k, '1') === '1',
-        'v' => setting('bt_v_' . $k, ''), 't' => setting('bt_t_' . $k, bt_def($k)), 'd' => setting('bt_d_' . $k, ''));
+        'v' => setting('bt_v_' . $k, ''), 'a' => setting('bt_a_' . $k, ''), 't' => setting('bt_t_' . $k, bt_def($k)), 'd' => setting('bt_d_' . $k, ''));
     return $r;
 }
 function bt_run() {
@@ -3148,7 +3155,7 @@ function bt_run() {
         $items = array();
         foreach ($ch as $c) if (q('UPDATE chats SET bt_date=? WHERE id=? AND (bt_date IS NULL OR bt_date<?)', array($today, $c['id'], $today))->rowCount() === 1) $items[$c['id']] = array('chat_id' => $c['chat_id']) + $it[1];
         if (!$items) continue;
-        foreach (dp_send($it[0], $items) as $id => $r) {
+        foreach (dp_sendi($it, $items) as $id => $r) {
             $ok = !empty($r['ok']);
             q('INSERT INTO post_logs (chat_id,ok,info,at) VALUES (?,?,?,NOW())', array($id, $ok ? 1 : 0, mb_substr('bayram tabrigi' . ($ok ? '' : ': ' . (isset($r['description']) ? $r['description'] : 'yuborilmadi')), 0, 255)));
             if (!$ok && isset($r['description'])) chat_lost($id, $r['description']);
@@ -7652,7 +7659,7 @@ if (isset($_GET['api'])) {
         out($r);
     }
     if ($a === 'ev_info') out(array('ok' => true, 'adm' => $adm, 'cfg' => $adm ? ev_cfg() : array('on' => setting('ev_on', '1') === '1', 'time' => setting('ev_time', '21:30')), 'wa' => setting('wa_on', '1') === '1', 'wa_last' => setting('wa_last', '')));
-    if ($a === 'ev_test') { $it = ev_item(); if (!$it) out(array('ok' => false, 'error' => 'Kechki xabar uchun video ham, matn ham yo\'q'), 422); $r = dp_send($it[0], array(array('chat_id' => $u['id']) + $it[1])); $r = $r[0]; out(array('ok' => !empty($r['ok']), 'error' => !empty($r['ok']) ? '' : (isset($r['description']) ? $r['description'] : 'Yuborilmadi'))); }
+    if ($a === 'ev_test') { $it = ev_item(); if (!$it) out(array('ok' => false, 'error' => 'Kechki xabar uchun video ham, matn ham yo\'q'), 422); $r = dp_sendi($it, array(array('chat_id' => $u['id']) + $it[1])); $r = $r[0]; out(array('vo' => isset($GLOBALS['VO_ERR']) ? $GLOBALS['VO_ERR'] : '', 'ok' => !empty($r['ok']), 'error' => !empty($r['ok']) ? '' : (isset($r['description']) ? $r['description'] : 'Yuborilmadi'))); }
     if ($a === 'adm_ev' || $a === 'adm_wa') {
         if (!$adm) out(array('ok' => false, 'error' => 'Ruxsat yo\'q'), 403);
         if ($a === 'adm_wa') { setset('wa_on', !empty($in['on']) ? '1' : '0'); out(array('ok' => true, 'wa' => setting('wa_on', '1') === '1')); }
@@ -7660,7 +7667,8 @@ if (isset($_GET['api'])) {
         $v = trim((string)(isset($in['v']) ? $in['v'] : '')); $t = trim(str_replace("\r", '', (string)(isset($in['t']) ? $in['t'] : '')));
         if ($v !== '' && !dp_ref($v)) out(array('ok' => false, 'error' => 'Video havolasi noto\'g\'ri. Masalan: https://t.me/c/1234567890/45'), 422);
         if (mb_strlen($t) > 1024) out(array('ok' => false, 'error' => 'Matn 1024 belgidan oshmasin'), 422);
-        setset('ev_on', !empty($in['on']) ? '1' : '0'); setset('ev_time', $tm); setset('ev_v', $v); setset('ev_t', $t);
+        $av = trim((string)(isset($in['a']) ? $in['a'] : '')); if ($av !== '' && !dp_ref($av)) out(array('ok' => false, 'error' => 'Ovoz havolasi noto\'g\'ri. Masalan: https://t.me/c/1234567890/46'), 422);
+        setset('ev_on', !empty($in['on']) ? '1' : '0'); setset('ev_time', $tm); setset('ev_v', $v); setset('ev_a', $av); setset('ev_t', $t);
         $audit('kechki_xabar', $tm); out(array('ok' => true, 'cfg' => ev_cfg()));
     }
     if (strpos($a, 'vz_') === 0) {   /* o'zaro reklama almashuvi */
@@ -8144,8 +8152,8 @@ if (isset($_GET['api'])) {
     if ($a === 'bt_test') {   /* tabrik namunasi — o'ziga */
         $k = (string)(isset($in['k']) ? $in['k'] : ''); if (!isset($GLOBALS['BT'][$k])) out(array('ok' => false, 'error' => 'Bayram topilmadi'), 404);
         $it = bt_item($k); if (!$it) out(array('ok' => false, 'error' => 'Bu bayram uchun video ham, matn ham yo\'q'), 422);
-        $r = dp_send($it[0], array(array('chat_id' => $u['id']) + $it[1])); $r = $r[0];
-        out(array('ok' => !empty($r['ok']), 'error' => !empty($r['ok']) ? '' : (isset($r['description']) ? $r['description'] . ($adm ? ' (bot baza kanalda administratormi?)' : '') : 'Yuborilmadi')));
+        $r = dp_sendi($it, array(array('chat_id' => $u['id']) + $it[1])); $r = $r[0];
+        out(array('vo' => isset($GLOBALS['VO_ERR']) ? $GLOBALS['VO_ERR'] : '', 'ok' => !empty($r['ok']), 'error' => !empty($r['ok']) ? '' : (isset($r['description']) ? $r['description'] . ($adm ? ' (bot baza kanalda administratormi?)' : '') : 'Yuborilmadi')));
     }
     if ($a === 'dp_my_set') {
         q('UPDATE chats SET dp_on=?, dp_days=IF(dp_on=1 AND dp_days=\'0000000\',NULL,dp_days) WHERE id=? AND owner=?', array(!empty($in['on']) ? 1 : 0, (int)(isset($in['id']) ? $in['id'] : 0), $u['id']));
@@ -9382,9 +9390,10 @@ if (isset($_GET['api'])) {
             $v = trim((string)(isset($x['v']) ? $x['v'] : '')); $t = trim((string)(isset($x['t']) ? $x['t'] : ''));
             if ($v !== '' && !dp_ref($v)) out(array('ok' => false, 'error' => $nm . ': video havolasi noto\'g\'ri. Masalan: https://t.me/c/1234567890/45'), 422);
             if (mb_strlen($t) > 1024) out(array('ok' => false, 'error' => $nm . ': matn 1024 belgidan oshmasin'), 422);
+            $av = trim((string)(isset($x['a']) ? $x['a'] : '')); if ($av !== '' && !dp_ref($av)) out(array('ok' => false, 'error' => $nm . ': ovoz havolasi noto\'g\'ri. Masalan: https://t.me/c/1234567890/46'), 422);
         }
         setset('dp_time', $tm);
-        foreach ($DAYS as $d => $nm) { $x = isset($days[$d]) && is_array($days[$d]) ? $days[$d] : array(); setset('dp_v' . $d, trim((string)(isset($x['v']) ? $x['v'] : ''))); setset('dp_t' . $d, trim((string)(isset($x['t']) ? $x['t'] : ''))); }
+        foreach ($DAYS as $d => $nm) { $x = isset($days[$d]) && is_array($days[$d]) ? $days[$d] : array(); setset('dp_v' . $d, trim((string)(isset($x['v']) ? $x['v'] : ''))); setset('dp_a' . $d, trim((string)(isset($x['a']) ? $x['a'] : ''))); setset('dp_t' . $d, trim((string)(isset($x['t']) ? $x['t'] : ''))); }
         $audit('daily_post', 'sozlama ' . $tm); out(array('ok' => true, 'dp' => dp_cfg()));
     }
     if ($a === 'adm_bt') {
@@ -9397,10 +9406,11 @@ if (isset($_GET['api'])) {
             if ($v !== '' && !dp_ref($v)) out(array('ok' => false, 'error' => $x[0] . ': video havolasi noto\'g\'ri. Masalan: https://t.me/c/1234567890/45'), 422);
             if (mb_strlen($t) > 1024) out(array('ok' => false, 'error' => $x[0] . ': matn 1024 belgidan oshmasin'), 422);
             if ($d !== '' && !preg_match('/^20\d\d-[01]\d-[0-3]\d$/', $d)) out(array('ok' => false, 'error' => $x[0] . ': sana noto\'g\'ri'), 422);
-            $save[$k] = array($v, $t, $x[1] === '' ? $d : '');
+            $av = trim((string)(isset($y['a']) ? $y['a'] : '')); if ($av !== '' && !dp_ref($av)) out(array('ok' => false, 'error' => $x[0] . ': ovoz havolasi noto\'g\'ri. Masalan: https://t.me/c/1234567890/46'), 422);
+            $save[$k] = array($v, $t, $x[1] === '' ? $d : '', $av);
         }
         setset('bt_time', $tm);
-        foreach ($save as $k => $z) { setset('bt_v_' . $k, $z[0]); setset('bt_t_' . $k, $z[1]); if ($GLOBALS['BT'][$k][1] === '') setset('bt_d_' . $k, $z[2]); }
+        foreach ($save as $k => $z) { setset('bt_v_' . $k, $z[0]); setset('bt_a_' . $k, $z[3]); setset('bt_t_' . $k, $z[1]); if ($GLOBALS['BT'][$k][1] === '') setset('bt_d_' . $k, $z[2]); }
         $audit('bayram', 'sozlama ' . $tm); out(array('ok' => true, 'bt' => bt_cfg()));
     }
     if ($a === 'adm_bt_flag') {   /* k='' — butun bo'lim, aks holda bitta bayram */
@@ -9416,8 +9426,8 @@ if (isset($_GET['api'])) {
     if ($a === 'adm_dp_test') {
         $d = (int)(isset($in['d']) ? $in['d'] : 0); if (!isset($DAYS[$d])) out(array('ok' => false, 'error' => 'Kun noto\'g\'ri'), 422);
         $it = dp_item($d); if (!$it) out(array('ok' => false, 'error' => 'Bu kun uchun video ham, matn ham yo\'q'), 422);
-        $r = dp_send($it[0], array(array('chat_id' => $u['id']) + $it[1])); $r = $r[0];
-        out(array('ok' => !empty($r['ok']), 'error' => !empty($r['ok']) ? '' : (isset($r['description']) ? $r['description'] . ' (bot baza kanalda administratormi?)' : 'Yuborilmadi')));
+        $r = dp_sendi($it, array(array('chat_id' => $u['id']) + $it[1])); $r = $r[0];
+        out(array('vo' => isset($GLOBALS['VO_ERR']) ? $GLOBALS['VO_ERR'] : '', 'ok' => !empty($r['ok']), 'error' => !empty($r['ok']) ? '' : (isset($r['description']) ? $r['description'] . ' (bot baza kanalda administratormi?)' : 'Yuborilmadi')));
     }
     if ($a === 'adm_support') {   /* Support: foydalanuvchilar yozadigan Telegram akkaunt (bo'sh — o'chirilgan, katak ko'rinmaydi) */
         $v = trim((string)(isset($in['u']) ? $in['u'] : ''));
@@ -10323,9 +10333,9 @@ function coAdd(id){var v=$('coi'+id).value.trim();if(!v)return;api('co_add',{id:
 function coDel(id,uid){cf('Hamkor admin olib tashlansinmi?',function(y){if(y)api('co_del',{id:id,uid:uid}).then(function(j){if(j.ok)coDraw(id,j)})})}
 var EVC=null;
 function evl(){api('ev_info').then(function(j){if(!j.ok)return;EVC=j;var C=j.cfg,e=$('evtm');if(e)e.textContent='Har kuni '+C.time+' da · «Xayrli tun»'+(C.on?'':' · hozir o\'chirilgan');var b=$('evb');if(!b)return;if(!j.adm){b.innerHTML='';return}
-b.innerHTML='<div class="card" style="margin-top:12px"><div class="row"><b>⚙️ Kechki xabar sozlamasi (admin)</b><span style="cursor:pointer" onclick="EVC.cfg.on=!EVC.cfg.on;this.firstChild.classList.toggle(\'on\')">'+ck(C.on)+'</span></div><p class="sub" style="margin:8px 0 4px">Vaqt (Toshkent)</p><input id="ev_tm" type="time" value="'+esc(C.time)+'"><p class="sub" style="margin:8px 0 4px">Video havolasi (baza kanaldagi post, ixtiyoriy)</p><input id="ev_v" placeholder="https://t.me/c/1234567890/45" value="'+esc(C.v)+'"><p class="sub" style="margin:8px 0 4px">Matn — {sana}, {kun}; qalin: &lt;b&gt;..&lt;/b&gt;</p><textarea id="ev_t" rows="6" maxlength="1024">'+esc(C.t)+'</textarea><button class="btn" onclick="evs()">💾 Saqlash</button><p class="sub" style="margin-top:6px">'+C.n+' ta kanal/guruhga yoqilgan · oxirgi: '+esc(C.last||'—')+'</p></div>'})}
-function evs(){api('adm_ev',{on:EVC.cfg.on?1:0,time:$('ev_tm').value,v:$('ev_v').value.trim(),t:$('ev_t').value}).then(function(j){if(j.ok){toast('Saqlandi ✅');evl()}})}
-function evt(){toast('Yuborilmoqda...');api('ev_test').then(function(j){if(j.ok)toast('Sizga yuborildi ✅')})}
+b.innerHTML='<div class="card" style="margin-top:12px"><div class="row"><b>⚙️ Kechki xabar sozlamasi (admin)</b><span style="cursor:pointer" onclick="EVC.cfg.on=!EVC.cfg.on;this.firstChild.classList.toggle(\'on\')">'+ck(C.on)+'</span></div><p class="sub" style="margin:8px 0 4px">Vaqt (Toshkent)</p><input id="ev_tm" type="time" value="'+esc(C.time)+'"><p class="sub" style="margin:8px 0 4px">Video havolasi (baza kanaldagi post, ixtiyoriy)</p><input id="ev_v" placeholder="https://t.me/c/1234567890/45" value="'+esc(C.v)+'"><p class="sub" style="margin:8px 0 4px">🔊 Ovoz (mp3) havolasi — video va matn tagida alohida xabar (ixtiyoriy)</p><input id="ev_a" placeholder="https://t.me/c/1234567890/46" value="'+esc(C.a||'')+'"><p class="sub" style="margin:8px 0 4px">Matn — {sana}, {kun}; qalin: &lt;b&gt;..&lt;/b&gt;</p><textarea id="ev_t" rows="6" maxlength="1024">'+esc(C.t)+'</textarea><button class="btn" onclick="evs()">💾 Saqlash</button><p class="sub" style="margin-top:6px">'+C.n+' ta kanal/guruhga yoqilgan · oxirgi: '+esc(C.last||'—')+'</p></div>'})}
+function evs(){api('adm_ev',{on:EVC.cfg.on?1:0,time:$('ev_tm').value,v:$('ev_v').value.trim(),a:$('ev_a').value.trim(),t:$('ev_t').value}).then(function(j){if(j.ok){toast('Saqlandi ✅');evl()}})}
+function evt(){toast('Yuborilmoqda...');api('ev_test').then(function(j){if(j.ok)toast(j.vo?'Tabrik ketdi, lekin ovoz yuborilmadi: '+j.vo:'Sizga yuborildi ✅')})}
 function wal(){api('ev_info').then(function(j){var b=$('wab');if(!b||!j.ok)return;b.innerHTML='<div class="card" style="margin-top:10px"><div class="row"><div><b>⚠️ Ob-havo ogohlantirishi</b><div class="sub">Kuchli shamol, jazirama, qattiq sovuq, do\'l, kuchli qor yoki jala kutilsa — ob-havo yoqilgan kanal va guruhlarga ertalab alohida ogohlantirish keladi.'+(j.wa_last?' Oxirgi: '+esc(j.wa_last):'')+'</div></div>'+(j.adm?'<span style="cursor:pointer;flex:none" onclick="waf(this)">'+ck(j.wa)+'</span>':'')+'</div></div>'})}
 function waf(el){var on=!el.firstChild.classList.contains('on');api('adm_wa',{on:on?1:0}).then(function(j){if(j.ok){el.firstChild.classList.toggle('on',j.wa);toast(j.wa?'Yoqildi ✅':'O\'chirildi')}})}
 var VZ={cat:'',my:null,list:null};
@@ -10402,7 +10412,7 @@ else if(v==='topups'){s+='<h1>💰 To\'lovlar</h1>'+(AD.pay.topups.length?AD.pay
 else if(v==='orders'){s+='<h1>📋 E\'lon buyurtmalari</h1>'+(AD.pay.orders.length?AD.pay.orders.map(function(o){var pe=o.status==='pending',sg=o.status==='sending';return '<div class="card"><div class="row"><b>'+AL[o.kind]+' · '+fmt(o.price)+'</b><span class="tag">'+TS[o.status]+'</span></div><div class="sub">'+esc(o.name||'')+(o.username?' · @'+esc(o.username):'')+' · '+esc(o.created_at)+'</div><div style="white-space:pre-wrap;word-break:break-word;margin:8px 0">'+esc(o.body)+'</div>'+(+o.has_i?'<button class="btn s" onclick="vimg(\'a\','+o.id+')">🖼 Rasmni ko\'rish</button><div id="im_a'+o.id+'"></div>':'')+'<div class="sub" id="ast'+o.id+'">'+((o.status==='sent'||sg)?'✅ '+o.sent_n+' · ❌ '+o.fail_n+' ('+o.done+' ta ko\'rildi)':'')+'</div>'+((pe||sg)?'<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adsend('+o.id+')">'+(sg?'▶️ Davom ettirish':'📤 Yuborish')+'</button>'+(pe?'<button class="btn s" onclick="adrej('+o.id+')">❌ Rad etish</button>':'')+'</div>':'')+'</div>'}).join(''):'<div class="card sub">Hozircha buyurtmalar yo\'q</div>')}
 else if(v==='paycfg'){var P=AD.pay;s+='<h1>💳 Karta va narxlar</h1><div class="card"><b>Karta ma\'lumotlari</b><input id="pc_card" inputmode="numeric" placeholder="Karta raqami (16 xonali)" value="'+esc(P.card)+'"><input id="pc_name" placeholder="Karta egasi (ism familiya)" value="'+esc(P.holder)+'"></div><div class="card"><b>E\'lon narxlari (so\'m)</b><p class="sub" style="font-size:12px;margin:8px 0 0">Kanalga e\'lon</p><input id="pp_Kanal" type="number" inputmode="numeric" value="'+P.prices.Kanal+'"><p class="sub" style="font-size:12px;margin:0">Guruhga e\'lon</p><input id="pp_Guruh" type="number" inputmode="numeric" value="'+P.prices.Guruh+'"><p class="sub" style="font-size:12px;margin:0">Foydalanuvchilarga e\'lon</p><input id="pp_users" type="number" inputmode="numeric" value="'+P.prices.users+'"><p class="sub" style="font-size:12px">Narx 0 bo\'lsa, xizmat «Tez orada» ko\'rinadi.</p></div><div class="card"><b>⏳ Kanal/guruhdagi e\'lon o\'chirilishi</b><p class="sub" style="font-size:12px;margin:6px 0">«1/24» formati: e\'lon shuncha soatdan keyin kanal va guruhlardan o\'zi o\'chadi (0 — o\'chmaydi)</p><input id="pp_del" type="number" inputmode="numeric" min="0" max="168" value="'+(P.del_h||0)+'"></div><button class="btn" onclick="pcs()">Saqlash</button>'}
 else if(v==='menu'){var MM=AD.mn||{};s+='<h1>🧩 Menyu bo\'limlari</h1><p class="sub" style="margin-bottom:12px">O\'chirilsa bo\'lim hech kimga ko\'rinmaydi. Yoqilsa menyuda hammaga ko\'rinadi.</p>'+[['bal','💰','Balans'],['ads','📢','E\'lon']].map(function(x){var on=!!MM[x[0]];return '<div class="card row"><div><b>'+x[1]+' '+x[2]+'</b><div class="sub">'+(on?'✅ Yoqilgan — hammaga ko\'rinadi':'⛔ O\'chirilgan — hech kimga ko\'rinmaydi')+'</div></div><button class="btn s" onclick="mt(\''+x[0]+'\','+(on?0:1)+')">'+(on?'O\'chirish':'Yoqish')+'</button></div>'}).join('')+'<div class="card"><b>🎧 Support</b><div class="sub" style="margin:4px 0 10px">'+(AD.sup?'✅ Bosh sahifadagi «Savol va takliflar» katagi @'+esc(AD.sup)+' ga yozadi':'⛔ Kiritilmagan — «Savol va takliflar» katagi ko\'rinmaydi')+'</div><input id="sp_u" placeholder="@support_username" value="'+(AD.sup?'@'+esc(AD.sup):'')+'"><div style="display:flex;gap:8px;margin-top:10px"><button class="btn" style="flex:1" onclick="sps()">Saqlash</button>'+(AD.sup?'<button class="btn s" onclick="sps(1)">O\'chirish</button>':'')+'</div></div><div class="card"><b>📥 A\'zolar bazasi</b><div class="sub" style="margin:4px 0 10px">Bazada: <b>'+nf(AD.azo||0)+'</b> ta ID · faylda: <b>'+nf((AD.af||{}).file||0)+'</b> ta'+((AD.af||{}).wait?' · <b style="color:var(--g)">yuklanmagan yangi: '+nf(AD.af.wait)+'</b>':'')+'<br>Botga /start bosgan har bir yangi foydalanuvchi azo_dat.txt fayliga o\'zi yozib boriladi. «Yuklash» ni bosganingizda yangilari Obunachilar soniga qo\'shiladi.</div><button class="btn s" onclick="az()">📥 Yuklash</button></div>'}
-else if(v==='dp'){var D=AD.dp;s+='<h1>🌅 Tongi xabar</h1><p class="sub" style="margin-bottom:12px">Video baza kanaldan olinadi: botni baza kanalga administrator qiling, videoni joylang va post havolasini (Копировать ссылку) kiriting. Matnda {kun} — hafta kuni, {sana} — bugungi sana, {hijriy} — hijriy sana. Qalin: &lt;b&gt;...&lt;/b&gt;. Yoqish/o\'chirish — Menyu → 🌅 Tongi xabar.</p><div class="card"><b>⏰ Yuborish vaqti (Toshkent)</b><input id="dp_time" type="time" value="'+esc(D.time)+'"><div class="sub">'+(D.on?'✅ Yoqilgan':'⛔ O\'chirilgan')+' · '+D.n+' ta kanal · oxirgi: '+esc(D.last||'—')+'</div></div>'+D.days.map(function(x){return '<div class="card"><div class="row"><b>'+esc(x.name)+'</b><span class="sub">'+(x.o?'✅':'⬜')+'</span></div><input id="dp_v'+x.d+'" placeholder="Video: https://t.me/c/1234567890/45" value="'+esc(x.v)+'"><textarea id="dp_t'+x.d+'" rows="7" maxlength="1024" placeholder="Matn...">'+esc(x.t)+'</textarea><button class="btn s" onclick="dpt('+x.d+')">🧪 Menga yuborish</button></div>'}).join('')+'<button class="btn" onclick="dps()">Saqlash</button>'}
+else if(v==='dp'){var D=AD.dp;s+='<h1>🌅 Tongi xabar</h1><p class="sub" style="margin-bottom:12px">Video baza kanaldan olinadi: botni baza kanalga administrator qiling, videoni joylang va post havolasini (Копировать ссылку) kiriting. Matnda {kun} — hafta kuni, {sana} — bugungi sana, {hijriy} — hijriy sana. Qalin: &lt;b&gt;...&lt;/b&gt;. Yoqish/o\'chirish — Menyu → 🌅 Tongi xabar.</p><div class="card"><b>⏰ Yuborish vaqti (Toshkent)</b><input id="dp_time" type="time" value="'+esc(D.time)+'"><div class="sub">'+(D.on?'✅ Yoqilgan':'⛔ O\'chirilgan')+' · '+D.n+' ta kanal · oxirgi: '+esc(D.last||'—')+'</div></div>'+D.days.map(function(x){return '<div class="card"><div class="row"><b>'+esc(x.name)+'</b><span class="sub">'+(x.o?'✅':'⬜')+'</span></div><input id="dp_v'+x.d+'" placeholder="Video: https://t.me/c/1234567890/45" value="'+esc(x.v)+'"><input id="dp_a'+x.d+'" placeholder="🔊 Ovoz (mp3): https://t.me/c/1234567890/46" value="'+esc(x.a||'')+'"><textarea id="dp_t'+x.d+'" rows="7" maxlength="1024" placeholder="Matn...">'+esc(x.t)+'</textarea><button class="btn s" onclick="dpt('+x.d+')">🧪 Menga yuborish</button></div>'}).join('')+'<button class="btn" onclick="dps()">Saqlash</button>'}
 else if(v==='pr'){var P=PRA;s+='<h1>🕌 Namoz xabarnomalari</h1><div class="card"><b>➕ Kanal yoki guruh qo\'shish</b><input id="pr_t" maxlength="80" placeholder="Nomi (masalan: Mening kanalim)"><input id="pr_c" placeholder="chat_id: -1001234567890 yoki @username"><select id="pr_r">'+rgo(P.regions,'Toshkent')+'</select><button class="btn" onclick="prad()">Qo\'shish</button><p class="sub" style="margin:8px 0 0">Avval botni kanal/guruhga administrator qiling (kanalda «Xabar joylash» huquqi bilan).</p></div>'+(P.dests.length?P.dests.map(prd).join(''):'<div class="card sub">Hali kanal yoki guruh qo\'shilmagan.</div>')+'<h1 style="font-size:18px;margin-top:18px">📜 Oxirgi xabarlar</h1>'+prlg(P.logs.slice(0,20))+'<div class="card"><b>⚙️ Sozlamalar</b><p class="sub" style="margin:8px 0 0">API keshini yangilash oralig\'i (daqiqa, 15–1440)</p><input id="pr_ttl" type="number" inputmode="numeric" min="15" max="1440" value="'+P.ttl+'"><button class="btn s" onclick="prttl()">Saqlash</button><p class="sub" style="margin:12px 0 4px">Namoz vaqtlari API hostingdan ochilyaptimi?</p><button class="btn s" onclick="prdg()">🔍 API\'ni tekshirish</button><div id="prdg"></div><p class="sub" style="margin:12px 0 4px">Cron buyrug\'i (har daqiqada):</p><div class="sub" style="word-break:break-all;-webkit-user-select:all;user-select:all;background:#eef1f6;border-radius:10px;padding:10px">'+esc(P.cron_cli)+'</div><p class="sub" style="margin:8px 0 4px">yoki URL orqali:</p><div class="sub" style="word-break:break-all;-webkit-user-select:all;user-select:all;background:#eef1f6;border-radius:10px;padding:10px">'+esc(P.cron_url)+'</div><p class="sub" style="margin:8px 0 0">Manba: islomapi.uz (islom.uz taqvimi asosida). Server vaqti: '+esc(P.now)+' (Asia/Tashkent)</p></div>'}
 else if(v==='gd'){var G=GDA,A=G.ai;setTimeout(gbl,50);s+='<h1>🛡 Guruh himoyasi</h1><div class="card"><b>🚫 Umumiy qora ro\'yxat</b><div id="gbl"></div></div><div class="card"><b>🤖 Sun\'iy intellekt (AI)</b><div class="sub" style="margin:6px 0">'+(A.on?'✅ Ulangan · '+esc(A.model)+' · bugun '+A.used+' / '+A.limit+' so\'rov':'⛔ Ulanmagan — index.php dagi AI_KEY ga Anthropic API kalitini yozing. Kalitsiz AI qoidalari ishlamaydi, qolganlari ishlayveradi.')+'</div>'+(A.err?'<div class="sub" style="color:var(--r)">Oxirgi xato: '+esc(A.err)+'</div>':'')+'<p class="sub" style="margin:8px 0 0">Kunlik limit (so\'rov; 0 — AI o\'chiq)</p><input id="ai_l" type="number" inputmode="numeric" value="'+A.limit+'"><button class="btn s" onclick="ail()">Saqlash</button>'+(A.on?'<p class="sub" style="margin:12px 0 0">Matnni sinash</p><textarea id="ai_t" rows="3" placeholder="masalan: Kunlik 500$ daromad! Batafsil @kanalga yozing"></textarea><button class="btn s" onclick="ait()">🧪 Tekshirish</button><div id="ai_r" class="sub"></div>':'')+'</div>'+(G.groups.length?G.groups.map(function(g,i){return gdc(g,i,1)}).join(''):'<div class="card sub">Hali guruh qo\'shilmagan.</div>')+'<div class="card"><b>🔞 Qo\'shimcha so\'kinish so\'zlari</b><div class="sub" style="margin:6px 0">Har qatorda bitta so\'z yoki so\'z boshi (kamida 3 harf). Kirill/lotin farqi yo\'q, so\'z boshidan qidiriladi. Ichki ro\'yxat: '+G.base.split('\n').length+' ta ildiz.</div><textarea id="gd_w" rows="6" maxlength="5000" placeholder="masalan:&#10;ahmoq&#10;tentak">'+esc(G.words)+'</textarea><button class="btn s" onclick="gdw()">Saqlash</button></div>'}
 else if(v==='manual'){var E=MED,K=MKB||{};s+='<h1>🏦 Banklar bo\'yicha kurslar</h1>'+cdcard()+(XBK?xbcard():'')+(E?'<div class="card"><b>✏️ Tahrirlash: '+esc(E.bank)+' ('+esc(E.cur)+')</b><select id="mc">'+CS.map(function(x){return '<option'+(E&&E.cur===x?' selected':'')+'>'+x+'</option>'}).join('')+'</select><input id="mb" placeholder="Bank nomi" value="'+(E?esc(E.bank):'')+'"><div style="display:flex;gap:8px"><input id="mbu" type="number" inputmode="decimal" placeholder="Olish" value="'+(E&&E.buy!=null?+E.buy:'')+'"><input id="ms" type="number" inputmode="decimal" placeholder="Sotish" value="'+(E&&E.sell!=null?+E.sell:'')+'"></div><div style="display:flex;gap:8px"><button class="btn" onclick="mn()">'+(E?'💾 Saqlash':'➕ Qo\'shish')+'</button>'+(E?'<button class="btn s" onclick="MED=null;av(\'manual\')">Bekor</button>':'')+'</div><div class="sub" style="margin-top:8px">Faqat admin ko\'radi va o\'zgartiradi. Foydalanuvchilar bosh sahifada faqat ko\'radi.</div></div>':'')
@@ -11045,14 +11055,14 @@ function btl(){$('btb').innerHTML='<div class="sk"></div><div class="sk"></div>'
 function btdf(d){if(!d)return '';var p=d.split('-');return p[2]+'.'+p[1]+'.'+p[0]}
 function btr(){var j=BTC,C=j.cfg,A=j.adm,h='<p class="sub" style="margin:-6px 2px 12px">Har Juma va bayram kunlari soat <b>'+esc(C.time)+'</b> da kanal va guruhlaringizga video tabrik (tagida matn bilan) yuboriladi.'+(C.on?'':' <b style="color:var(--r)">Hozir o\'chirilgan.</b>')+'</p>';
 if(A)h+='<div class="card row" style="cursor:pointer" onclick="btf(\'\')"><div style="display:flex;align-items:center;gap:10px">'+ck(C.on)+'<div><b>Bayram tabriklari</b><div class="sub">'+C.n+' ta kanal/guruh · oxirgi: '+esc(C.last||'—')+'</div></div></div></div>';
-h+='<div class="row" style="margin:4px 2px 8px"><b>Bayramlar</b></div>'+C.items.map(function(x){var nx=x.next?btdf(x.next):(x.fix===''?'sana kiritilmagan':'');return '<div class="card"><div class="row"><div style="display:flex;align-items:center;gap:10px;min-width:0">'+(A?'<span style="cursor:pointer;flex:none" onclick="btf(\''+x.k+'\')">'+ck(x.o)+'</span>':'')+'<div style="min-width:0"><b>'+(x.k==='juma'?'🕌 ':'🎉 ')+esc(x.name)+'</b><div class="sub">'+(x.fix==='fri'?'Har Juma · keyingisi: ':'')+esc(nx)+' · '+(x.v?'🎬 video':'📝 matn')+(x.o?'':' · ⛔ o\'chirilgan')+'</div></div></div><button class="btn s" style="flex:none" onclick="btt(\''+x.k+'\')">📩 Namuna</button></div>'
-+(A?'<details style="margin-top:8px"><summary class="sub">✏️ Video va matnni o\'zgartirish</summary>'+(x.fix===''?'<p class="sub" style="margin:8px 0 4px">Bayram sanasi (har yili o\'zgaradi):</p><input id="btd_'+x.k+'" type="date" value="'+esc(x.d)+'">':'')+'<p class="sub" style="margin:8px 0 4px">Video havolasi (baza kanaldagi post):</p><input id="btv_'+x.k+'" placeholder="https://t.me/c/1234567890/45" value="'+esc(x.v)+'"><p class="sub" style="margin:8px 0 4px">Video tagidagi matn — {sana}, {yil}, {yosh}, {bayram}; qalin: &lt;b&gt;..&lt;/b&gt;</p><textarea id="btt_'+x.k+'" rows="7" maxlength="1024">'+esc(x.t)+'</textarea><button class="btn" onclick="bts()">💾 Saqlash</button></details>':'')+'</div>'}).join('');
+h+='<div class="row" style="margin:4px 2px 8px"><b>Bayramlar</b></div>'+C.items.map(function(x){var nx=x.next?btdf(x.next):(x.fix===''?'sana kiritilmagan':'');return '<div class="card"><div class="row"><div style="display:flex;align-items:center;gap:10px;min-width:0">'+(A?'<span style="cursor:pointer;flex:none" onclick="btf(\''+x.k+'\')">'+ck(x.o)+'</span>':'')+'<div style="min-width:0"><b>'+(x.k==='juma'?'🕌 ':'🎉 ')+esc(x.name)+'</b><div class="sub">'+(x.fix==='fri'?'Har Juma · keyingisi: ':'')+esc(nx)+' · '+(x.v?'🎬 video':'📝 matn')+(x.a?' + 🔊 ovoz':'')+(x.o?'':' · ⛔ o\'chirilgan')+'</div></div></div><button class="btn s" style="flex:none" onclick="btt(\''+x.k+'\')">📩 Namuna</button></div>'
++(A?'<details style="margin-top:8px"><summary class="sub">✏️ Video va matnni o\'zgartirish</summary>'+(x.fix===''?'<p class="sub" style="margin:8px 0 4px">Bayram sanasi (har yili o\'zgaradi):</p><input id="btd_'+x.k+'" type="date" value="'+esc(x.d)+'">':'')+'<p class="sub" style="margin:8px 0 4px">Video havolasi (baza kanaldagi post):</p><input id="btv_'+x.k+'" placeholder="https://t.me/c/1234567890/45" value="'+esc(x.v)+'"><p class="sub" style="margin:8px 0 4px">Video tagidagi matn — {sana}, {yil}, {yosh}, {bayram}; qalin: &lt;b&gt;..&lt;/b&gt;</p><textarea id="btt_'+x.k+'" rows="7" maxlength="1024">'+esc(x.t)+'</textarea><p class="sub" style="margin:8px 0 4px">🔊 Ovoz (mp3) havolasi — baza kanaldagi post; video va matn tagida alohida xabar bo\'lib ketadi (ixtiyoriy):</p><input id="bta_'+x.k+'" placeholder="https://t.me/c/1234567890/46" value="'+esc(x.a||'')+'"><button class="btn" onclick="bts()">💾 Saqlash</button></details>':'')+'</div>'}).join('');
 if(A)h+='<div class="card"><b>⏰ Yuborish vaqti (Toshkent)</b><input id="bt_time" type="time" value="'+esc(C.time)+'"><button class="btn s" onclick="bts()">Saqlash</button><p class="sub" style="margin-top:6px">Video baza kanaldan olinadi: botni baza kanalga administrator qiling, videoni joylang va post havolasini (Копировать ссылку) kiriting. Bir kunga bayram va Juma to\'g\'ri kelsa — bayram tabrigi yuboriladi.</p></div>';
 h+='<div class="row" style="margin:12px 2px 8px"><b>Kanallarim</b>'+(j.chats.length?'<button class="btn s" onclick="btall()">✅ Hammasi</button>':'')+'</div>'+(j.chats.length?j.chats.map(function(c,i){return '<div class="card row" style="cursor:pointer" onclick="btc('+i+')"><div style="display:flex;align-items:center;gap:10px">'+ck(c.bt_on==1)+'<b>'+esc(c.username)+'</b></div><span class="sub">'+esc(c.ctype)+'</span></div>'}).join(''):'<div class="card sub">Tasdiqlangan kanal yoki guruh yo\'q. Avval «Kanal qo\'shish» orqali qo\'shing.</div>');
 $('btb').innerHTML=h}
 function btf(k){var C=BTC.cfg,on=k?!C.items.filter(function(x){return x.k===k})[0].o:!C.on;api('adm_bt_flag',{k:k,on:on?1:0}).then(function(j){if(j.ok){BTC.cfg=j.bt;btr()}})}
-function bts(){var o={time:($('bt_time')||{}).value||BTC.cfg.time,items:{}};BTC.cfg.items.forEach(function(x){var v=$('btv_'+x.k),t=$('btt_'+x.k),d=$('btd_'+x.k);o.items[x.k]={v:v?v.value.trim():x.v,t:t?t.value:x.t,d:d?d.value:x.d}});api('adm_bt',o).then(function(j){if(j.ok){BTC.cfg=j.bt;btr();toast('Saqlandi ✅')}})}
-function btt(k){toast('Yuborilmoqda...');api('bt_test',{k:k}).then(function(j){if(j.ok)toast('Sizga yuborildi ✅')})}
+function bts(){var o={time:($('bt_time')||{}).value||BTC.cfg.time,items:{}};BTC.cfg.items.forEach(function(x){var v=$('btv_'+x.k),t=$('btt_'+x.k),d=$('btd_'+x.k),a=$('bta_'+x.k);o.items[x.k]={v:v?v.value.trim():x.v,a:a?a.value.trim():(x.a||''),t:t?t.value:x.t,d:d?d.value:x.d}});api('adm_bt',o).then(function(j){if(j.ok){BTC.cfg=j.bt;btr();toast('Saqlandi ✅')}})}
+function btt(k){toast('Yuborilmoqda...');api('bt_test',{k:k}).then(function(j){if(j.ok)toast(j.vo?'Tabrik ketdi, lekin ovoz yuborilmadi: '+j.vo:'Sizga yuborildi ✅')})}
 function btc(i){var c=BTC.chats[i],on=c.bt_on==1?0:1;api('bt_my_set',{id:c.id,on:on}).then(function(j){if(j.ok){c.bt_on=on;btr();toast(on?'Yoqildi ✅':'O\'chirildi')}})}
 function btall(){api('bt_my_set',{id:0,on:1}).then(function(j){if(j.ok){BTC.chats.forEach(function(c){c.bt_on=1});btr();toast('Hamma kanal va guruhlarga yoqildi ✅')}})}
 function dpl(){$('dpb').innerHTML='<div class="sk"></div>';api('dp_my').then(function(j){if(j.ok){DPC=j;dpr()}})}
@@ -11071,9 +11081,9 @@ function prh(){api('pr_home').then(function(j){var e=$('prh');if(!e)return;if(!j
 e.innerHTML='<div class="sc" style="cursor:pointer" onclick="go(\'pr\')"><div class="sh2">Namoz vaqtlari <span class="sub">· '+j.icon+' '+(j.tomorrow?'Ertaga ':'')+esc(j.name)+' · '+(j.started?'vaqti kirdi':hm2(j.mins)+' qoldi')+'</span><span class="chv2">›</span></div><div class="pgr">'+j.rows.map(function(x){return '<div'+(x.r===my?' class="me"':'')+'><span>'+esc(x.n)+'</span><b>'+esc(x.t)+'</b></div>'}).join('')+'</div></div>'})}
 setInterval(function(){var p=$('p-pnm');if(p&&p.classList.contains('on'))prh()},120000);
 function dpc(i){var c=DPC.chats[i],on=c.dp_on==1?0:1;api('dp_my_set',{id:c.id,on:on}).then(function(j){if(j.ok){c.dp_on=on;dpr();toast(on?'Yoqildi ✅':'O\'chirildi')}})}
-function dpv(){var o={time:$('dp_time').value,days:{}};AD.dp.days.forEach(function(x){o.days[x.d]={v:$('dp_v'+x.d).value.trim(),t:$('dp_t'+x.d).value}});return o}
+function dpv(){var o={time:$('dp_time').value,days:{}};AD.dp.days.forEach(function(x){o.days[x.d]={v:$('dp_v'+x.d).value.trim(),a:$('dp_a'+x.d).value.trim(),t:$('dp_t'+x.d).value}});return o}
 function dps(cb){api('adm_dp',dpv()).then(function(j){if(!j.ok)return;AD.dp=j.dp;if(cb)cb();else{toast('Saqlandi ✅');av('dp')}})}
-function dpt(d){dps(function(){api('adm_dp_test',{d:d}).then(function(j){if(j.ok)toast('Sizga yuborildi ✅')})})}
+function dpt(d){dps(function(){api('adm_dp_test',{d:d}).then(function(j){if(j.ok)toast(j.vo?'Tabrik ketdi, lekin ovoz yuborilmadi: '+j.vo:'Sizga yuborildi ✅')})})}
 /* ---- 🚗 PRAVA: nazariy imtihonga tayyorgarlik ---- */
 var DV={v:'home',d:null,run:null,al:null,af:{t:-1,tp:0,s:'',p:0},ed:null,ai:null};
 function dvl(){if(!DV.d)$('dvb').innerHTML='<div class="sk"></div><div class="sk"></div>';api('pv_home').then(function(j){if(!j.ok)return;DV.d=j;if(DV.v!=='run')dvr()})}

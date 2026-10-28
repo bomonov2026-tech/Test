@@ -229,3 +229,8 @@ Virtual raqam:
 - 🚗 Avtomobil: raqam, sug'urta/texnik ko'rik/moy muddatlari, 30/7/1/0 kun oldin eslatma (jarimani tekshirish my.gov.uz havolasi orqali — to'g'ridan-to'g'ri jarima API yo'q)
 - 🌦 Shaxsiy ob-havo ogohlantirishi (Profilda): shahar, yomg'ir/sovuq/issiq tanlovi, ertalab 06–11 da xabar
 - 📣 Ilova reklamasi: bosh sahifa bloki, admin «Ilova reklamasi» (sarlavha, matn, rasm, https havola, muddat); eng kam ko'rilgan reklama navbati, bir foydalanuvchiga kuniga 1 ko'rinish va 1 bosish sanaladi; ko'rinish/bosish statistikasi
+
+### 7-qadam: tabrik / tongi / kechki xabar tagida OVOZ (b7_test 17/17, b7_ui 3/3)
+- Har bayram, har hafta kuni (Tongi xabar) va Kechki xabar uchun «🔊 Ovoz (mp3) havolasi» maydoni (baza kanaldagi post havolasi)
+- Yuborish: avval video+matn, darhol ovoz — baza kanaldan copyMessage, birinchi xabarga reply sifatida (xabar tagida turadi). Ovoz yuborilmasa tabrik baribir ketadi; «Namuna» tugmasi xatoni ko'rsatadi
+- Telegram bitta xabarga video+matn+alohida ovozni birga qo'shishga ruxsat bermaydi, shuning uchun ikki xabar
