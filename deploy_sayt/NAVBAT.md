@@ -234,3 +234,10 @@ Virtual raqam:
 - Har bayram, har hafta kuni (Tongi xabar) va Kechki xabar uchun «🔊 Ovoz (mp3) havolasi» maydoni (baza kanaldagi post havolasi)
 - Yuborish: avval video+matn, darhol ovoz — baza kanaldan copyMessage, birinchi xabarga reply sifatida (xabar tagida turadi). Ovoz yuborilmasa tabrik baribir ketadi; «Namuna» tugmasi xatoni ko'rsatadi
 - Telegram bitta xabarga video+matn+alohida ovozni birga qo'shishga ruxsat bermaydi, shuning uchun ikki xabar
+
+### 8-qadam: admin panelni tartiblash (b8_ui 35/35 + barcha eski UI sinovlar qayta o'tdi)
+- Admin panel endi **alohida sahifa**: sarlavhadagi 🛡 tugma (faqat adminga, kutilayotgan ishlar soni nishonchada). Profil — faqat foydalanuvchi profili (avval admin panel profil ostiga yopishib chiqardi)
+- Admin paneldagi bo'limlar funksiyasiga qarab 6 guruhga ajratildi: Kunlik ishlar · Mijozlar va chatlar · Moliya va to'lov · Xizmatlar va daromad · Avto xabarlar va kontent · Himoya va tizim
+- Bosh sahifa bo'limlari ichidagi admin boshqaruvi olib tashlandi va admin panelga ko'chirildi: Nakrutka sozlamalari, Virtual raqam sozlamalari, Kechki xabar, Ob-havo ogohlantirishi, Tilaklar, Bayram tabriklari, Prava savollari, Testlar savollar bazasi, Kanal Savdo (Instagram/YouTube) moderatsiyasi, Bosh sahifa katak tartibi
+- Bosh sahifadagi «🛠 Admin: N ta so'rov» banneri va doimiy «✎ Tahrirlash» paneli, tugmani uzoq bosib tahrirlash olib tashlandi
+- «Admin rejimi»: sahifa admin paneldan ochilsa «‹ Orqaga» admin panelga qaytaradi; bosh sahifadan ochilsa admin boshqaruvi ko'rinmaydi
