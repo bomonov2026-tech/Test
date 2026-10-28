@@ -254,3 +254,4 @@ Virtual raqam:
 - eSIM: raqam va kod katta shriftda, bosib yoki tugma orqali nusxalanadi.
 - eSIM narx: 5sim javob tartibi ikkala shaklda o'qiladi; muvaffaqiyatsizlik sababi admin kartasida ko'rinadi.
 - Avtomobil bo'limi butunlay olib tashlandi (UI, API, cron; bazadagi eski jadvallarga tegilmadi). Ilova faqat qorong'i rejimda; kunduzgi rejim va almashtirgich olib tashlandi. Kanal/Guruh qo'shish tugmalarida «+» belgisi.
+- Bosh sahifa katak tartibi kodda mahkamlandi (Kanallarim, Guruhlarim, Guruh himoyasi, ... Ilova haqida); eski saqlangan tartib bir marta tozalanadi.
