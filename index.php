@@ -348,7 +348,7 @@ function mig() {
             "car (id INT AUTO_INCREMENT PRIMARY KEY, uid BIGINT UNSIGNED NOT NULL, plate VARCHAR(12) NOT NULL, name VARCHAR(40) NOT NULL DEFAULT '', ins DATE NULL, tech DATE NULL, oil DATE NULL, created DATETIME NOT NULL, KEY u (uid))",
             "car_rem (car INT NOT NULL, f CHAR(4) NOT NULL, due DATE NOT NULL, d TINYINT NOT NULL, PRIMARY KEY (car, f, due, d))",
             "wx_user (uid BIGINT UNSIGNED PRIMARY KEY, city VARCHAR(30) NOT NULL, rain TINYINT NOT NULL DEFAULT 1, cold TINYINT NOT NULL DEFAULT 1, cold_t TINYINT NOT NULL DEFAULT 0, hot TINYINT NOT NULL DEFAULT 1, last_day CHAR(10) NOT NULL DEFAULT '')",
-            "rz_sub (uid BIGINT UNSIGNED PRIMARY KEY, region VARCHAR(30) NOT NULL, lead TINYINT NOT NULL DEFAULT 15, sa_day CHAR(10) NOT NULL DEFAULT '', if_day CHAR(10) NOT NULL DEFAULT '')",
+            "rz_sub (uid BIGINT UNSIGNED PRIMARY KEY, region VARCHAR(30) NOT NULL, lead_m TINYINT NOT NULL DEFAULT 15, sa_day CHAR(10) NOT NULL DEFAULT '', if_day CHAR(10) NOT NULL DEFAULT '')",
             "app_ads (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(80) NOT NULL, body VARCHAR(200) NOT NULL DEFAULT '', img VARCHAR(300) NOT NULL DEFAULT '', url VARCHAR(300) NOT NULL, st TINYINT NOT NULL DEFAULT 1, d1 DATE NULL, d2 DATE NULL, imp INT NOT NULL DEFAULT 0, clk INT NOT NULL DEFAULT 0, note VARCHAR(100) NOT NULL DEFAULT '', created DATETIME NOT NULL)",
             "ad_seen (ad INT NOT NULL, uid BIGINT UNSIGNED NOT NULL, day CHAR(10) NOT NULL, k CHAR(1) NOT NULL, PRIMARY KEY (ad, uid, day, k))") as $x) db()->exec('CREATE TABLE IF NOT EXISTS ' . $x . ' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
         setset('mig_s61', '1');
@@ -5802,7 +5802,7 @@ function rz_run() {
     $now = (int)date('G') * 60 + (int)date('i'); $n = 0;
     foreach (q('SELECT * FROM rz_sub LIMIT 300')->fetchAll() as $s) {
         $p = pr_get(rz_region($s['region']), $today, false); if (empty($p['ok'])) continue;
-        $tm = function ($v) { $a = explode(':', $v); return (int)$a[0] * 60 + (int)$a[1]; }; $sa = $tm($p['times']['bomdod']); $ifm = $tm($p['times']['shom']); $lead = max(5, min(60, (int)$s['lead']));
+        $tm = function ($v) { $a = explode(':', $v); return (int)$a[0] * 60 + (int)$a[1]; }; $sa = $tm($p['times']['bomdod']); $ifm = $tm($p['times']['shom']); $lead = max(5, min(60, (int)$s['lead_m']));
         if ($s['sa_day'] !== $today && $now >= $sa - $lead && $now < $sa) { q('UPDATE rz_sub SET sa_day=? WHERE uid=?', array($today, $s['uid'])); nk_tell($s['uid'], "🌙 Saharlik tugashiga " . max(1, $sa - $now) . " daqiqa qoldi!\n📍 " . pr_region_name($s['region']) . "\n⏰ Bomdod: " . $p['times']['bomdod'] . "\n\n🤲 Saharlik duosi:\n" . RZ_DUA_S); $n++; }
         if ($s['if_day'] !== $today && $now >= $ifm && $now < $ifm + 30) { q('UPDATE rz_sub SET if_day=? WHERE uid=?', array($today, $s['uid'])); nk_tell($s['uid'], "🌇 Iftor vaqti bo'ldi!\n📍 " . pr_region_name($s['region']) . "\n⏰ Shom: " . $p['times']['shom'] . "\n\n🤲 Iftor duosi:\n" . RZ_DUA_I); $n++; }
     }
@@ -8758,14 +8758,14 @@ if (isset($_GET['api'])) {
         if ($a === 'rz_get') {
             $sub = q('SELECT * FROM rz_sub WHERE uid=?', array($uid))->fetch(); $reg = rz_region(isset($in['region']) && $in['region'] !== '' ? (string)$in['region'] : ($sub ? $sub['region'] : 'Toshkent'));
             $d = rz_data($reg, date('Y-m-d'));
-            $ok0(array('data' => $d, 'regname' => pr_region_name($reg), 'regions' => pr_regions(), 'sub' => $sub ? array('region' => $sub['region'], 'lead' => (int)$sub['lead']) : null, 'dua' => array('s' => RZ_DUA_S, 'i' => RZ_DUA_I)));
+            $ok0(array('data' => $d, 'regname' => pr_region_name($reg), 'regions' => pr_regions(), 'sub' => $sub ? array('region' => $sub['region'], 'lead' => (int)$sub['lead_m']) : null, 'dua' => array('s' => RZ_DUA_S, 'i' => RZ_DUA_I)));
         }
         if ($a === 'ad_get') $ok0(array('ad' => ad_pick($uid)));
         if (in_array($a, array('rz_get', 'hw_get', 'car_get', 'wxu_get'), true) === false && $_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
         if ($a === 'rz_sub') {
             if (empty($in['on'])) { q('DELETE FROM rz_sub WHERE uid=?', array($uid)); $ok0(); }
             $reg = rz_region(isset($in['region']) ? (string)$in['region'] : 'Toshkent'); $lead = (int)(isset($in['lead']) ? $in['lead'] : 15); if (!in_array($lead, array(10, 15, 30, 45), true)) $lead = 15;
-            q('INSERT INTO rz_sub (uid,region,lead) VALUES (?,?,?) ON DUPLICATE KEY UPDATE region=VALUES(region), lead=VALUES(lead)', array($uid, $reg, $lead)); $ok0();
+            q('INSERT INTO rz_sub (uid,region,lead_m) VALUES (?,?,?) ON DUPLICATE KEY UPDATE region=VALUES(region), lead_m=VALUES(lead_m)', array($uid, $reg, $lead)); $ok0();
         }
         if ($a === 'hw_get') {
             $sch = q('SELECT id,dow,t,subj FROM hw_sch WHERE uid=? ORDER BY dow,t,id', array($uid))->fetchAll(); foreach ($sch as $i => $r) { $sch[$i]['id'] = (int)$r['id']; $sch[$i]['dow'] = (int)$r['dow']; }
