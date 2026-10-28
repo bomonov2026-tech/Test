@@ -248,3 +248,4 @@ Virtual raqam:
 - Minimal to'ldirish 10 000; karta orqali avto-to'lov aniq summa bo'yicha (to'qnashuvda +1..99).
 - Nakrutka: platforma → xizmat turi (Obuna / Layk / Izoh / Ko'rish / Boshqa) — xizmat nomidan avtomatik aniqlanadi.
 - «Virtual raqam» → «eSIM»: avval davlat, keyin ijtimoiy tarmoq, keyin takliflar (offerlardan avtomatik).
+- Avto-import: Nakrutka (provayder katalogidan har platforma×tur uchun 3 tadan eng arzon) va eSIM (barcha davlat × 8 mashhur tarmoq). Admin panelda «⚡ Avtomatik» tugmasi; cron'da baza bo'sh bo'lsa bir marta o'zi bajaradi.

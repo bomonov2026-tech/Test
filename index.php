@@ -5905,6 +5905,37 @@ function nk_sync($lim = 40, $age = 25, $uid = 0, $t = 30) {
     }
     return $n;
 }
+/* Provayder katalogidan avtomatik: har platforma x tur uchun eng arzon N ta xizmat */
+function nk_auto_import($per = 3) {
+            $per = max(1, min(10, (int)$per));
+            $r = nk_call(array('action' => 'services'), 60);
+            if (!$r['ok']) return array('ok' => false, 'error' => $r['err']);
+            if (!is_array($r['j']) || !$r['j']) return array('ok' => false, 'error' => 'Xizmatlar ro\'yxati o\'qilmadi');
+            $pm = array('tg' => '/telegram/', 'ig' => '/instagram/', 'yt' => '/youtube/', 'tt' => '/tiktok/', 'fb' => '/facebook/', 'x' => '/twitter|\bx\.com|\bx \(/', 'th' => '/threads/', 'vk' => '/\bvk\b|vkontakte/', 'sp' => '/spotify/', 'tw' => '/twitch/');
+            $tm = array('cmt' => '/comment/', 'sub' => '/subscri|follower|member/', 'like' => '/like|reaction/', 'view' => '/view|watch/');
+            $bad = '/drip|custom|test|dislike|poll|vote|\bbot\b|mention|review|\bsave|share|impression|reach/';
+            $pick = array();
+            foreach ($r['j'] as $sv) {
+                if (!is_array($sv) || !isset($sv['service'], $sv['name'], $sv['rate'], $sv['min'], $sv['max'])) continue;
+                if (isset($sv['type']) && strtolower(trim((string)$sv['type'])) !== 'default') continue;
+                $nm1 = mb_strtolower((string)$sv['name']); $nm = $nm1 . ' ' . mb_strtolower((string)(isset($sv['category']) ? $sv['category'] : ''));
+                if (preg_match($bad, $nm1)) continue;
+                $pl = ''; foreach ($pm as $k => $re) if (preg_match($re, $nm)) { $pl = $k; break; } if ($pl === '' || !isset(nk_plats()[$pl])) continue;
+                $ty = ''; foreach ($tm as $k => $re) if (preg_match($re, $nm1)) { $ty = $k; break; } if ($ty === '') continue;
+                $mn = (int)$sv['min']; $mx = (int)$sv['max']; $rt = (float)$sv['rate']; if ($mn < 1 || $mx < $mn || $rt <= 0) continue;
+                $pick[$pl . '|' . $ty][] = array((int)$sv['service'], mb_substr(trim((string)$sv['name']), 0, 100), $rt, $mn, $mx);
+            }
+            $added = 0; $skip = 0;
+            foreach ($pick as $key => $L) {
+                usort($L, function ($a1, $b1) { return $a1[2] < $b1[2] ? -1 : ($a1[2] > $b1[2] ? 1 : 0); });
+                $pl = explode('|', $key); $pl = $pl[0];
+                foreach (array_slice($L, 0, $per) as $x) {
+                    if (q('INSERT IGNORE INTO nk_svc (pid,plat,title,rate,min_q,max_q,act,sort,upd) VALUES (?,?,?,?,?,?,1,0,NOW())', array($x[0], $pl, $x[1], $x[2], $x[3], $x[4]))->rowCount() === 1) $added++; else $skip++;
+                }
+            }
+            return array('ok' => true, 'added' => $added, 'skipped' => $skip, 'groups' => count($pick));
+
+}
 function nk_refresh_svcs() {
     $res = nk_call(array('action' => 'services'), 60);
     if (!$res['ok'] || !is_array($res['j']) || count($res['j']) < 1) return 'xato';
@@ -5925,6 +5956,7 @@ function nk_run() {
     try {
         $st = q("UPDATE nk_ord SET st='unk', err='Jarayon uzildi', upd=NOW() WHERE st='new' AND created < NOW() - INTERVAL 300 SECOND")->rowCount();
         if ($st) notify_admins('🔍 Nakrutka: ' . $st . ' ta buyurtma holati noma\'lum (provayderga yuborilgani aniq emas). Ilova → Nakrutka → Admin bo\'limida tekshiring: pul ushlab turilgan.');
+        if (setting('nk_auto_done', '') !== '1' && !(int)q('SELECT COUNT(*) FROM nk_svc')->fetchColumn()) { setset('nk_auto_done', '1'); $ai = nk_auto_import(3); $o[] = 'avto-import ' . ($ai['ok'] ? $ai['added'] : 'xato'); }
         $o[] = 'holat ' . nk_sync(40, 25);
         if (time() - (int)strtotime((string)setting('nk_svc_at', '2000-01-01')) > 6 * 3600) { setset('nk_svc_at', date('Y-m-d H:i:s')); $o[] = 'xizmatlar ' . nk_refresh_svcs(); }
         if (time() - (int)strtotime((string)setting('nk_bal_at', '2000-01-01')) > 1800) {
@@ -6073,6 +6105,13 @@ function vs_check_one($o) {
     }
     q('UPDATE vs_ord SET upd=NOW() WHERE id=?', array($o['id'])); return 'wait';
 }
+function vs_auto_import() {
+            $prods = array('telegram', 'whatsapp', 'instagram', 'facebook', 'google', 'tiktok', 'twitter', 'viber'); $added = 0; $skip = 0;
+            foreach (vs_countries() as $k => $c) foreach ($prods as $p) { if (q("INSERT IGNORE INTO vs_off (country,product,operator,title,price,act,sort) VALUES (?,?,'any',?,0,1,0)", array($k, $p, $c[0] . ' ' . $c[1]))->rowCount() === 1) $added++; else $skip++; }
+            if ($added) { try { vs_refresh_prices(true); } catch (Exception $e) {} }
+            return array('ok' => true, 'added' => $added, 'skipped' => $skip);
+
+}
 function vs_sync($lim = 30, $age = 4, $uid = 0) {
     $w = $uid ? ' AND uid=' . (int)$uid : '';
     $rows = q("SELECT * FROM vs_ord WHERE st='wait' AND porder IS NOT NULL AND upd < NOW() - INTERVAL " . (int)$age . " SECOND" . $w . ' ORDER BY upd LIMIT ' . (int)$lim)->fetchAll();
@@ -6086,6 +6125,7 @@ function vs_run() {
     try {
         $st = q("UPDATE vs_ord SET st='unk', err='Jarayon uzildi', upd=NOW() WHERE st='new' AND created < NOW() - INTERVAL 300 SECOND")->rowCount();
         if ($st) notify_admins('🔍 eSIM: ' . $st . ' ta buyurtma holati noma\'lum (provayderga yuborilgani aniq emas). Admin bo\'limida tekshiring: pul ushlab turilgan.');
+        if (setting('vs_auto_done', '') !== '1' && !(int)q('SELECT COUNT(*) FROM vs_off')->fetchColumn()) { setset('vs_auto_done', '1'); $ai = vs_auto_import(); $o[] = 'avto-import ' . $ai['added']; }
         $o[] = 'holat ' . vs_sync(30, 3); $o[] = 'narx ' . vs_refresh_prices(false);
     } catch (Exception $e) { $o[] = 'xato'; }
     q("SELECT RELEASE_LOCK('kp_vs')");
@@ -8864,6 +8904,9 @@ if (isset($_GET['api'])) {
             }
             out(array('ok' => true, 'list' => $res));
         }
+        if ($a === 'nk_adm_auto') {
+            $x = nk_auto_import(isset($in['per']) ? $in['per'] : 3); out($x, $x['ok'] ? 200 : 422);
+        }
         if ($a === 'nk_adm_add') {
             $pid = (int)(isset($in['pid']) ? $in['pid'] : 0); $pl = (string)(isset($in['plat']) ? $in['plat'] : ''); $title = trim(mb_substr(strip_tags((string)(isset($in['title']) ? $in['title'] : '')), 0, 100));
             if ($pid <= 0 || !isset(nk_plats()[$pl]) || $title === '') out(array('ok' => false, 'error' => 'Platforma va nomni kiriting'), 422);
@@ -8971,6 +9014,7 @@ if (isset($_GET['api'])) {
             if ($added) { try { vs_refresh_prices(true); } catch (Exception $e) {} }
             out(array('ok' => true, 'added' => $added, 'skipped' => $skip));
         }
+        if ($a === 'vs_adm_auto') { out(vs_auto_import()); }
         if ($a === 'vs_adm_off') {
             $id = (int)(isset($in['id']) ? $in['id'] : 0); $o = q('SELECT * FROM vs_off WHERE id=?', array($id))->fetch(); if (!$o) out(array('ok' => false, 'error' => 'Topilmadi'), 404);
             if (!empty($in['del'])) { q('DELETE FROM vs_off WHERE id=?', array($id)); out(array('ok' => true)); }
@@ -10748,13 +10792,14 @@ var q=(r.st==='wait'&&r.ahead!=null)?'<div class="sub" style="margin-top:6px">�
 h+='<div class="card" onclick="nkto('+r.id+')" style="cursor:pointer"><div class="row" style="margin:0"><b>#'+r.id+' · '+esc(r.title)+'</b><span style="color:'+st[2]+';font-weight:700;font-size:13px;white-space:nowrap">'+st[0]+' '+st[1]+'</span></div><div class="sub" style="margin-top:3px;word-break:break-all">'+esc(r.link)+'</div><div class="sub">'+nkn(r.qty)+' ta · '+fmt(r.price)+' · '+esc(r.created)+(r.refunded>0?' · qaytdi: '+fmt(r.refunded):'')+'</div>'+pr+q+(NK.open===r.id?nktl(r)+((r.st==='done'||r.st==='part')?fbui('nk',r.id,r.rated):''):'')+'</div>'});}
 el.innerHTML=h}
 /* --- admin --- */
+function nkauto(){nkcf('Provayder katalogidan xizmatlar avtomatik qo\'shilsinmi? Narx avto hisoblanadi.',function(){api('nk_adm_auto',{per:3}).then(function(j){if(j.ok){toast('Qo\'shildi: '+j.added+' ta ('+j.groups+' guruh)');nka();nkl()}})})}
 function nka(){api('nk_adm_get',{}).then(function(j){if(!j.ok)return;NK.A=j;nkar()})}
 function nkar(){var j=NK.A,el=$('nka');if(!el||!j)return;var h='<div class="card" style="border:1px dashed #1d84f2"><b>⚙️ Admin: Nakrutka sozlamalari</b><div class="sub" style="margin:4px 0 8px">Provayder: prm4u.com (API v2). Narx = provayder narxi × dollar kursi × (1 + ustama).</div>'
 +'<input id="nku" value="'+esc(j.url)+'" placeholder="API manzil"'+(j.url_const?' disabled':'')+'><input id="nkk" type="password" autocomplete="off" placeholder="'+(j.key_set?'API kalit saqlangan (••••'+esc(j.key_tail)+') — o\'zgartirish uchun yangisini kiriting':'API kalit (prm4u.com → Account → API)')+'"'+(j.key_const?' disabled':'')+'>'
 +'<input id="nkus" type="number" inputmode="decimal" value="'+(j.usd||'')+'" placeholder="Dollar kursi (bo\'sh = avtomatik: '+(j.usd_eff?fmt(j.usd_eff):'topilmadi')+')"><input id="nkm" type="number" inputmode="decimal" value="'+j.mk+'" placeholder="Ustama, % (masalan 40)">'+nkch('nkm',j.mk,0)+'<input id="nkd" type="number" inputmode="numeric" value="'+j.day+'" placeholder="Bir foydalanuvchiga kunlik buyurtma chegarasi">'
 +'<div class="cps"><button class="chip'+(j.on?' on':'')+'" id="nkon" onclick="nkton()">'+(j.on?'✅ Xizmat yoqilgan':'⛔ Xizmat o\'chirilgan')+'</button></div>'
 +'<div style="display:flex;gap:8px"><button class="btn" onclick="nkas()">💾 Saqlash</button><button class="btn s" style="width:auto;flex:none" onclick="nkat()">🔌 Tekshirish</button></div><div id="nkar" class="sub" style="margin-top:8px"></div></div>';
-h+='<div class="card" style="border:1px dashed #1d84f2"><b>🧩 Xizmatlar ('+j.svcs.length+')</b>';
+h+='<div class="card" style="border:1px dashed #1d84f2"><b>🧩 Xizmatlar ('+j.svcs.length+')</b><div class="sub" style="margin:4px 0 6px">Provayder katalogidan avtomatik: har platforma va tur (Obuna, Layk, Izoh, Ko\'rish) uchun eng arzon 3 tadan xizmat qo\'shiladi. Mavjudlari o\'zgarmaydi.</div><button class="btn" onclick="nkauto()">⚡ Avtomatik qo\'shish</button>';
 if(!j.svcs.length)h+='<div class="sub" style="margin:6px 0">Hali xizmat qo\'shilmagan. Pastdan qidirib qo\'shing.</div>';
 j.svcs.forEach(function(s){h+='<div style="border-top:1px solid var(--ln);margin-top:10px;padding-top:8px"><div class="sub">'+NKP[s.plat]+' · ID '+s.pid+' · $'+s.rate+'/1000 · '+nkn(s.min_q)+'–'+nkn(s.max_q)+' · narx '+fmt(s.p1000)+'</div><input id="nkst'+s.id+'" value="'+esc(s.title)+'" maxlength="100"><input id="nksm'+s.id+'" type="number" inputmode="decimal" value="'+(s.mk===null?'':s.mk)+'" placeholder="Ustama % (bo\'sh = umumiy)">'+nkch('nksm'+s.id,s.mk,1)+'<div style="display:flex;gap:8px"><button class="btn s" style="flex:1" onclick="nksave('+s.id+',0)">💾</button><button class="btn s" style="flex:1" onclick="nksave('+s.id+',1)">'+(s.act==1?'⛔ O\'chirish':'✅ Yoqish')+'</button><button class="btn s" style="flex:1" onclick="nkdel('+s.id+')">🗑</button></div></div>'});
 h+='<div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>➕ Provayderdan xizmat qo\'shish</b><div class="cps">'+Object.keys(NKP).map(function(p){return '<button class="chip'+(NK.fp===p?' on':'')+'" onclick="NK.fp=\''+p+'\';nkar()">'+NKP[p]+'</button>'}).join('')+'</div><input id="nkfq" placeholder="Qidiruv: masalan «telegram members»" onkeydown="if(event.key===\'Enter\')nkaf()"><button class="btn s" onclick="nkaf()">🔎 Qidirish</button><div id="nkfr" style="margin-top:8px"></div></div></div>';
@@ -10969,7 +11014,8 @@ function rpnow(){api('rp_adm_set',{p:'now'}).then(function(r){toast(r.ok?'Telegr
 function bnvol(){var t=[0,1,2].map(function(i){return [$('nvq'+i).value||0,$('nvp'+i).value||0]});api('bon_adm_vol',{tiers:t}).then(function(r){if(r.ok){toast('Saqlandi');bnl()}})}
 function vsbulk(){if(!VS.cm){if(!VS.cml){VS.cml=1;api('vs_adm_countries',{}).then(function(j){if(j.ok){VS.cm=j.list;vsar()}})}return ''}
 var sel=VS.bk||(VS.bk={}),n=Object.keys(sel).filter(function(k){return sel[k]}).length;
-return '<div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>🌍 Davlatlarni ommaviy qo\'shish</b><div class="sub" style="margin:4px 0 6px">Tarmoq nomini yozing, kerakli davlatlarni belgilang — hammasi narxi avto (tannarx + ustama) bilan qo\'shiladi. Mavjudlari o\'zgarmaydi.</div><input id="vbp" placeholder="Tarmoq: telegram" autocapitalize="off" value="'+esc(VS.bkp||'')+'" oninput="VS.bkp=this.value"><div class="cps" style="max-height:260px;overflow:auto">'+VS.cm.map(function(c){return '<button class="chip'+(sel[c.k]?' on':'')+'" onclick="vsbk(\''+c.k+'\')">'+c.f+' '+esc(c.n)+'</button>'}).join('')+'</div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn s" style="flex:1" onclick="vsbka(1)">Hammasi</button><button class="btn s" style="flex:1" onclick="vsbka(0)">Tozalash</button></div><button class="btn" style="margin-top:8px" onclick="vsbkgo()">➕ Tanlanganlarni qo\'shish ('+n+')</button></div>'}
+return '<div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>⚡ Avtomatik</b><div class="sub" style="margin:4px 0 6px">Barcha davlatlar × mashhur tarmoqlar (Telegram, WhatsApp, Instagram, Facebook, Google, TikTok, X, Viber) — narx avto. Raqami yo\'q takliflar o\'zi yashiriladi.</div><button class="btn" onclick="vsauto()">⚡ Hammasini avtomatik qo\'shish</button></div><div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>🌍 Davlatlarni ommaviy qo\'shish</b><div class="sub" style="margin:4px 0 6px">Tarmoq nomini yozing, kerakli davlatlarni belgilang — hammasi narxi avto (tannarx + ustama) bilan qo\'shiladi. Mavjudlari o\'zgarmaydi.</div><input id="vbp" placeholder="Tarmoq: telegram" autocapitalize="off" value="'+esc(VS.bkp||'')+'" oninput="VS.bkp=this.value"><div class="cps" style="max-height:260px;overflow:auto">'+VS.cm.map(function(c){return '<button class="chip'+(sel[c.k]?' on':'')+'" onclick="vsbk(\''+c.k+'\')">'+c.f+' '+esc(c.n)+'</button>'}).join('')+'</div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn s" style="flex:1" onclick="vsbka(1)">Hammasi</button><button class="btn s" style="flex:1" onclick="vsbka(0)">Tozalash</button></div><button class="btn" style="margin-top:8px" onclick="vsbkgo()">➕ Tanlanganlarni qo\'shish ('+n+')</button></div>'}
+function vsauto(){nkcf('Barcha davlat va mashhur tarmoqlar avtomatik qo\'shilsinmi? Mavjudlari o\'zgarmaydi.',function(){api('vs_adm_auto',{}).then(function(j){if(j.ok){toast('Qo\'shildi: '+j.added+' ta');vsa();vsl(1)}})})}
 function vsbk(k){VS.bk=VS.bk||{};VS.bk[k]=!VS.bk[k];vsar()}
 function vsbka(on){VS.bk={};if(on)VS.cm.forEach(function(c){VS.bk[c.k]=1});vsar()}
 function vsbkgo(){var p=(VS.bkp||'').trim().toLowerCase(),ks=Object.keys(VS.bk||{}).filter(function(k){return VS.bk[k]});if(!p||!ks.length){toast('Tarmoq va kamida bitta davlatni tanlang');return}api('vs_adm_bulk',{product:p,countries:ks}).then(function(j){if(j.ok){toast('Qo\'shildi: '+j.added+' ta'+(j.skipped?', mavjud: '+j.skipped:''));VS.bk={};vsa()}})}
