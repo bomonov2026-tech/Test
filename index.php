@@ -6005,7 +6005,7 @@ function sm_balance($force = false) {
     else $c = array('t' => time(), 'ok' => false, 'balance' => null, 'err' => $r['ok'] ? 'Javobda balans yo\'q' : $r['err']);
     $c['k'] = md5(sm_key() . setting('sm_cur', 'RUB')); setset('sm_bal_c', json_encode($c)); return $c;
 }
-function sm_uzs($bal) { $cur = sm_cur(); if ($cur === 'USD') { $u = nk_usd(); return $u > 0 ? (int)round($bal * $u) : null; } $r = (float)setting('sm_rub', '0'); return $r > 0 ? (int)round($bal * $r) : null; }
+function sm_uzs($bal) { $cur = sm_cur(); if ($cur === 'USD') { $u = nk_usd(); return $u > 0 ? (int)round($bal * $u) : null; } $r = sm_rub_rate(); return $r > 0 ? (int)round($bal * $r) : null; }
 function sm_run() {
     if (sm_key() === '') return 'kalit yo\'q';
     if (time() - (int)strtotime((string)setting('sm_chk_at', '2000-01-01')) < 1800) return 'kutish';
@@ -6018,7 +6018,12 @@ function sm_run() {
 
 /* ---------- VIRTUAL RAQAM (5sim aktivatsiya): raqam olish -> SMS kod -> kod kelmasa pul qaytadi ---------- */
 function vs_on() { return setting('vs_on', '1') === '1' && sm_key() !== ''; }
-function vs_rate() { if (sm_cur() === 'USD') return nk_usd(); return (float)setting('sm_rub', '0'); }
+function sm_rub_rate() {
+    $m = (float)setting('sm_rub', '0'); if ($m > 0) return $m;
+    try { $r = (float)q("SELECT MAX(sell) FROM rates WHERE cur='RUB' AND kind='bank'")->fetchColumn(); } catch (Exception $e) { $r = 0; }
+    return $r > 20 ? $r : 0;
+}
+function vs_rate() { if (sm_cur() === 'USD') return nk_usd(); return sm_rub_rate(); }
 function vs_cost_uzs($o) { $r = vs_rate(); if ($r <= 0 || $o['pcost'] === null) return null; return (int)round((float)$o['pcost'] * $r); }
 function vs_price($o, $uid = 0) {   /* narx > 0 — qat'iy (admin yozgan); 0 — avto: tannarx × (1 + umumiy ustama %), 100 so'mgacha yuqoriga yaxlitlanadi */
     if ((int)$o['price'] > 0) return (int)$o['price'];
@@ -6031,26 +6036,46 @@ function vs_hidden($o) {   /* narxi hisoblanmasa yoki tannarx narxdan baland / f
     $c = vs_cost_uzs($o); if ($c === null) return false;
     return $p < $c * (1 + (float)setting('vs_minm', '15') / 100);
 }
+function vs_apply_prices($o, $ops) {
+    $best = null; $cnt = 0;
+    foreach ($ops as $name => $v) {
+        if (!is_array($v) || !isset($v['cost'])) continue;
+        if ($o['operator'] !== 'any' && $name !== $o['operator']) continue;
+        if ((int)(isset($v['count']) ? $v['count'] : 0) < 1) continue;
+        $cnt += (int)$v['count']; if ($best === null || (float)$v['cost'] < $best) $best = (float)$v['cost'];
+    }
+    q('UPDATE vs_off SET pcost=?, pcount=?, pat=NOW() WHERE id=?', array($best, $cnt, $o['id']));
+    $hid = $best !== null && vs_hidden(array_merge($o, array('pcost' => $best)));
+    if (!$hid && setting('vs_g' . $o['id'], '') === '1') setset('vs_g' . $o['id'], '');
+    if ($hid && setting('vs_g' . $o['id'], '') !== '1') {
+        setset('vs_g' . $o['id'], '1');
+        return $o['title'];
+    }
+    return '';
+}
 function vs_refresh_prices($force = false) {
-    $n = 0;
+    $n = 0; $hidn = array();
+    $tot = (int)q('SELECT COUNT(*) FROM vs_off WHERE act=1')->fetchColumn();
+    if ($tot > 12) {   /* ko'p taklif: 5sim ning butun narx jadvali bitta so'rovda */
+        if (!$force && time() - (int)strtotime((string)setting('vs_pall_at', '2000-01-01')) < 600) return 0;
+        $r = sm_call('/guest/prices', 40); setset('vs_pall_at', date('Y-m-d H:i:s'));
+        if ($r['ok'] && is_array($r['j'])) {
+            foreach (q('SELECT * FROM vs_off WHERE act=1')->fetchAll() as $o) {
+                $ops = isset($r['j'][$o['product']][$o['country']]) && is_array($r['j'][$o['product']][$o['country']]) ? $r['j'][$o['product']][$o['country']] : array();
+                $h = vs_apply_prices($o, $ops); $n++; if ($h !== '') $hidn[] = $h;
+            }
+            if (count($hidn) > 0 && count($hidn) <= 3) notify_admins('⚠️ eSIM: «' . implode('», «', $hidn) . '» tannarxi oshdi — narx foyda chegarasidan past, sotuvdan vaqtincha yashirildi. Ilova → eSIM → Admin bo\'limida narxni oshiring.');
+            elseif (count($hidn) > 3) notify_admins('⚠️ eSIM: ' . count($hidn) . ' ta taklif foyda chegarasidan past bo\'lgani uchun yashirildi. Ilova → eSIM → Admin bo\'limida ustamani tekshiring.');
+            return $n;
+        }
+    }
     foreach (q('SELECT * FROM vs_off WHERE act=1 ORDER BY pat IS NULL DESC, pat LIMIT 12')->fetchAll() as $o) {
         if (!$force && $o['pat'] && time() - strtotime($o['pat']) < 600) continue;
         $r = sm_call('/guest/prices?country=' . rawurlencode($o['country']) . '&product=' . rawurlencode($o['product']), 20);
         if (!$r['ok']) { q('UPDATE vs_off SET pat=NOW() WHERE id=?', array($o['id'])); continue; }
         $ops = isset($r['j'][$o['product']][$o['country']]) && is_array($r['j'][$o['product']][$o['country']]) ? $r['j'][$o['product']][$o['country']] : array();
-        $best = null; $cnt = 0;
-        foreach ($ops as $name => $v) {
-            if (!is_array($v) || !isset($v['cost'])) continue;
-            if ($o['operator'] !== 'any' && $name !== $o['operator']) continue;
-            if ((int)(isset($v['count']) ? $v['count'] : 0) < 1) continue;
-            $cnt += (int)$v['count']; if ($best === null || (float)$v['cost'] < $best) $best = (float)$v['cost'];
-        }
-        q('UPDATE vs_off SET pcost=?, pcount=?, pat=NOW() WHERE id=?', array($best, $cnt, $o['id'])); $n++;
-        $hid = $best !== null && vs_hidden(array_merge($o, array('pcost' => $best)));
-        if (!$hid && setting('vs_g' . $o['id'], '') === '1') setset('vs_g' . $o['id'], '');
-        if ($hid && setting('vs_g' . $o['id'], '') !== '1') {
-            setset('vs_g' . $o['id'], '1'); notify_admins('⚠️ eSIM: «' . $o['title'] . '» tannarxi oshdi — narx foyda chegarasidan past, bu raqam sotuvdan vaqtincha yashirildi. Ilova → eSIM → Admin bo\'limida narxni oshiring.');
-        }
+        $h = vs_apply_prices($o, $ops); $n++;
+        if ($h !== '') notify_admins('⚠️ eSIM: «' . $h . '» tannarxi oshdi — narx foyda chegarasidan past, bu raqam sotuvdan vaqtincha yashirildi. Ilova → eSIM → Admin bo\'limida narxni oshiring.');
     }
     return $n;
 }
@@ -10881,8 +10906,11 @@ function vsar(){var j=VS.A,el=$('vsa');if(!el||!j)return;var h='<div class="card
 +'<div class="cps"><button class="chip'+(j.on?' on':'')+'" id="vson" onclick="VS.A.on=!VS.A.on;this.className=\'chip\'+(VS.A.on?\' on\':\'\');this.textContent=VS.A.on?\'✅ Xizmat yoqilgan\':\'⛔ Xizmat o\\\'chirilgan\'">'+(j.on?'✅ Xizmat yoqilgan':'⛔ Xizmat o\'chirilgan')+'</button></div><button class="btn" onclick="vsas()">💾 Saqlash</button>'
 +'<div class="sub" style="margin-top:8px">So\'nggi 30 kun: sotildi <b>'+j.sold.n+'</b> ta · tushum <b>'+fmt(j.sold.sum)+'</b>'+(j.sold.cost!=null?' · tannarx '+fmt(j.sold.cost)+' · foyda <b>'+fmt(j.sold.sum-j.sold.cost)+'</b>':'')+'</div></div>';
 h+='<div class="card" style="border:1px dashed #1d84f2"><b>🔎 5sim narxini ko\'rish</b><div class="sub" style="margin:4px 0 6px">Davlat va tarmoq nomi inglizcha, kichik harfda (usa, canada, indonesia, russia · telegram, whatsapp, instagram)</div><input id="vfc" placeholder="Davlat: indonesia" autocapitalize="off"><input id="vfp" placeholder="Tarmoq: telegram" autocapitalize="off"><button class="btn s" onclick="vsaf()">🔎 Narxlarni ko\'rish</button><div id="vfr" style="margin-top:8px"></div></div>';
-h+='<div class="card" style="border:1px dashed #1d84f2"><b>🧩 Takliflar ('+j.offers.length+')</b>'+(j.offers.length?'':'<div class="sub" style="margin:6px 0">Hali qo\'shilmagan. Yuqorida narxni ko\'ring, so\'ng qo\'shing.</div>');
-j.offers.forEach(function(o){h+='<div style="border-top:1px solid var(--ln);margin-top:10px;padding-top:8px"><div class="sub">'+esc(o.product)+' · '+esc(o.country)+' · operator: '+esc(o.operator)+' · qoldiq: '+nkn(o.pcount)+(o.pcost!==null?' · tannarx '+o.pcost+' '+j.cur+(o.cost_uzs!=null?' (≈ '+fmt(o.cost_uzs)+')':''):'')+'</div>'+(o.auto?'<div class="sub" style="color:#1d84f2">⚙️ AVTO narx: '+(o.eff!=null?fmt(o.eff)+' (ustama '+j.mk+'%)':'hisoblanmadi — qoldiq yoki kurs yo\'q')+'</div>':'')+(o.profit!=null?'<div class="sub" style="color:'+(o.hidden?'#d92d20':'#1a9e4f')+'">Foyda: '+fmt(o.profit)+(o.hidden?' — foyda chegarasidan past, YASHIRILGAN':'')+'</div>':'')+'<input id="vot'+o.id+'" value="'+esc(o.title)+'" maxlength="100"><input id="vop'+o.id+'" type="number" inputmode="numeric" value="'+(o.auto?'':o.price)+'" placeholder="Narx, so\'m (bo\'sh = avto)"><div style="display:flex;gap:8px"><button class="btn s" style="flex:1" onclick="vsos('+o.id+',0)">💾</button><button class="btn s" style="flex:1" onclick="vsos('+o.id+',1)">'+(o.act?'⛔ O\'chirish':'✅ Yoqish')+'</button><button class="btn s" style="flex:1" onclick="vsod('+o.id+')">🗑</button></div></div>'});
+h+='<div class="card" style="border:1px dashed #1d84f2"><b>🧩 Takliflar ('+j.offers.length+')</b>'+(j.offers.length?'':'<div class="sub" style="margin:6px 0">Hali qo\'shilmagan. Yuqorida narxni ko\'ring, so\'ng qo\'shing.</div>')+(j.offers.length>20?'<input id="vsf" placeholder="🔎 Davlat yoki tarmoq (Enter)" autocapitalize="off" value="'+esc(VS.of||'')+'" onchange="VS.of=this.value;VS.on=20;vsar()">':'');
+var vfq=String(VS.of||'').trim().toLowerCase(),vfl=j.offers.filter(function(o){return !vfq||(o.product+' '+o.country+' '+o.title).toLowerCase().indexOf(vfq)>=0}),vfn=VS.on||20;
+if(vfl.length>vfn)h+='<div class="sub" style="margin:6px 0">Ko\'rsatilgan: '+vfn+' / '+vfl.length+'</div>';
+vfl.slice(0,vfn).forEach(function(o){h+='<div style="border-top:1px solid var(--ln);margin-top:10px;padding-top:8px"><div class="sub">'+esc(o.product)+' · '+esc(o.country)+' · operator: '+esc(o.operator)+' · qoldiq: '+nkn(o.pcount)+(o.pcost!==null?' · tannarx '+o.pcost+' '+j.cur+(o.cost_uzs!=null?' (≈ '+fmt(o.cost_uzs)+')':''):'')+'</div>'+(o.auto?'<div class="sub" style="color:#1d84f2">⚙️ AVTO narx: '+(o.eff!=null?fmt(o.eff)+' (ustama '+j.mk+'%)':'hisoblanmadi — qoldiq yoki kurs yo\'q')+'</div>':'')+(o.profit!=null?'<div class="sub" style="color:'+(o.hidden?'#d92d20':'#1a9e4f')+'">Foyda: '+fmt(o.profit)+(o.hidden?' — foyda chegarasidan past, YASHIRILGAN':'')+'</div>':'')+'<input id="vot'+o.id+'" value="'+esc(o.title)+'" maxlength="100"><input id="vop'+o.id+'" type="number" inputmode="numeric" value="'+(o.auto?'':o.price)+'" placeholder="Narx, so\'m (bo\'sh = avto)"><div style="display:flex;gap:8px"><button class="btn s" style="flex:1" onclick="vsos('+o.id+',0)">💾</button><button class="btn s" style="flex:1" onclick="vsos('+o.id+',1)">'+(o.act?'⛔ O\'chirish':'✅ Yoqish')+'</button><button class="btn s" style="flex:1" onclick="vsod('+o.id+')">🗑</button></div></div>'});
+if(vfl.length>vfn)h+='<button class="btn s" style="margin-top:10px" onclick="VS.on='+(vfn+30)+';vsar()">Yana ko\'rsatish</button>';
 h+=vsbulk();
 h+='<div style="border-top:1px solid var(--ln);margin-top:12px;padding-top:10px"><b>➕ Taklif qo\'shish</b><input id="vac" placeholder="Davlat: indonesia" autocapitalize="off"><input id="vap" placeholder="Tarmoq: telegram" autocapitalize="off"><input id="vao" placeholder="Operator (bo\'sh = any, eng arzon)" autocapitalize="off"><input id="vat" placeholder="Nomi: 🇮🇩 Indoneziya" maxlength="100"><input id="vaq" type="number" inputmode="numeric" placeholder="Narx, so\'m (BO\'SH = avto-ustama)"><button class="btn" onclick="vsaa()">➕ Qo\'shish</button></div></div>';
 var bad=j.orders.filter(function(r){return r.st==='unk'||r.st==='new'});
