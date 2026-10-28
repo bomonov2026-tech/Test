@@ -253,3 +253,4 @@ Virtual raqam:
 - eSIM sahifasi Nakrutka uslubida: Davlat chiplari → Ijtimoiy tarmoq chiplari → raqamlar («Olish»). Admin: faqat ustama %, qo'lda boshqarish yashirin; sahifa ochilganda narxlar o'zi yangilanadi.
 - eSIM: raqam va kod katta shriftda, bosib yoki tugma orqali nusxalanadi.
 - eSIM narx: 5sim javob tartibi ikkala shaklda o'qiladi; muvaffaqiyatsizlik sababi admin kartasida ko'rinadi.
+- Avtomobil bo'limi butunlay olib tashlandi (UI, API, cron; bazadagi eski jadvallarga tegilmadi). Ilova faqat qorong'i rejimda; kunduzgi rejim va almashtirgich olib tashlandi. Kanal/Guruh qo'shish tugmalarida «+» belgisi.
