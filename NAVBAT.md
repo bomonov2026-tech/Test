@@ -252,3 +252,4 @@ Virtual raqam:
 - eSIM narx: 5sim butun narx jadvali bitta so'rovda; RUB kursi bankdan avtomatik; admin ro'yxati qidiruv va sahifalash bilan.
 - eSIM sahifasi Nakrutka uslubida: Davlat chiplari → Ijtimoiy tarmoq chiplari → raqamlar («Olish»). Admin: faqat ustama %, qo'lda boshqarish yashirin; sahifa ochilganda narxlar o'zi yangilanadi.
 - eSIM: raqam va kod katta shriftda, bosib yoki tugma orqali nusxalanadi.
+- eSIM narx: 5sim javob tartibi ikkala shaklda o'qiladi; muvaffaqiyatsizlik sababi admin kartasida ko'rinadi.
