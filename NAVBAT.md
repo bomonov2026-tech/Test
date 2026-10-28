@@ -241,3 +241,10 @@ Virtual raqam:
 - Bosh sahifa bo'limlari ichidagi admin boshqaruvi olib tashlandi va admin panelga ko'chirildi: Nakrutka sozlamalari, Virtual raqam sozlamalari, Kechki xabar, Ob-havo ogohlantirishi, Tilaklar, Bayram tabriklari, Prava savollari, Testlar savollar bazasi, Kanal Savdo (Instagram/YouTube) moderatsiyasi, Bosh sahifa katak tartibi
 - Bosh sahifadagi «🛠 Admin: N ta so'rov» banneri va doimiy «✎ Tahrirlash» paneli, tugmani uzoq bosib tahrirlash olib tashlandi
 - «Admin rejimi»: sahifa admin paneldan ochilsa «‹ Orqaga» admin panelga qaytaradi; bosh sahifadan ochilsa admin boshqaruvi ko'rinmaydi
+
+## 8-bosqich (J/K dizayn, Ramazon, to'lov, Nakrutka turlari, eSIM)
+- J (yorug') va K (tungi) dizayn butun ilova va admin panelga qo'llandi.
+- Ro'za taqvimi Ramazon taqvimiga birlashtirildi; Payme/Click qoldiqlari olib tashlandi.
+- Minimal to'ldirish 10 000; karta orqali avto-to'lov aniq summa bo'yicha (to'qnashuvda +1..99).
+- Nakrutka: platforma → xizmat turi (Obuna / Layk / Izoh / Ko'rish / Boshqa) — xizmat nomidan avtomatik aniqlanadi.
+- «Virtual raqam» → «eSIM»: avval davlat, keyin ijtimoiy tarmoq, keyin takliflar (offerlardan avtomatik).
