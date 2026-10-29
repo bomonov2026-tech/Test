@@ -257,4 +257,4 @@ Virtual raqam:
 - Bosh sahifa katak tartibi kodda mahkamlandi (Kanallarim, Guruhlarim, Guruh himoyasi, ... Ilova haqida); eski saqlangan tartib bir marta tozalanadi.
 - Bosh sahifa ikonkalari: 28 ta 3D shisha uslubidagi rasm (192 px WebP) `index.php` ichiga joylandi (`?hxd=nom`), nomiga mos katakka avtomatik qo'yiladi. Admin o'z rasmini qo'ysa (🖼), o'sha ustun turadi.
 - VIDEO QO'LLANMA va DARS-REKLAMA videolari shu ko'rinishda olinadi: qorong'i rejim, shisha 3D ikonkalar, mahkamlangan katak tartibi (Kanallarim, Guruhlarim, Guruh himoyasi, ... Ilova haqida). Tartib va ikonkalarni o'zgartirmang.
-- «Bot rivoji uchun hisob balansi» katagi logosi yangi hamyon ikonkasi bilan almashtirildi (?hxd=donat).
+- «Bot rivoji uchun hisob balansi» katagi logosi yangi hamyon ikonkasi bilan almashtirildi (?hxd=balans, ma'lumotlar bazasi ikonkasi).
