@@ -10283,6 +10283,16 @@ html .sk{background:linear-gradient(90deg,var(--cd),var(--in),var(--cd));backgro
 html .hob .st b{color:var(--tx)}html .hob .st.ok b{color:var(--sub)}
 html [style*="background:#fee4e2"]{background:var(--badb)!important}html [style*="background:#fff4e5"]{background:var(--warnb)!important}html [style*="background:#e3f8ea"]{background:var(--okb)!important}
 html.dark [style*="color:#b42318"]{color:#ff9aa5!important}html.dark [style*="color:#8a5a00"]{color:#fcd34d!important}html.dark [style*="color:#d92d20"]{color:#ff8b97!important}html.dark [style*="color:#1a9e4f"]{color:#86efac!important}
+
+/* Profil: yorqin sarlavha + bitta ro'yxat qatorlari */
+#me.card{display:flex;align-items:center;gap:16px;padding:18px 16px;border-radius:26px;background:linear-gradient(135deg,rgba(94,234,212,.16),rgba(124,92,255,.22));border:1px solid var(--ln);margin-bottom:14px}
+.mav{position:relative;flex:none;width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#5eead4,#7c5cff);box-shadow:0 0 0 3px rgba(255,255,255,.18),0 10px 22px rgba(0,0,0,.4);overflow:hidden}
+.mav span{font-size:30px;font-weight:800;color:#06283a}.mav img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mnm{min-width:0}.mnm b{display:block;font-size:21px;font-weight:800;letter-spacing:-.3px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mnm .sub{margin-top:2px}.mch{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.mch span{font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--in);color:var(--sub)}.mch .ma{background:linear-gradient(135deg,#5eead4,#7c5cff);color:#06283a}
+.mlist{background:var(--cd);border-radius:24px;overflow:hidden;margin-bottom:14px;border:1px solid var(--ln)}.mlin{margin-top:-1px}
+.mlist .acl{background:none;border-radius:0;margin:0;border-top:1px solid var(--ln)}.mlist .acp{margin:0}.mlist .acbp .card{background:var(--in)}
+.mlist #mych>.card.sub{margin:0}
 </style>
 <!-- TartibOn intro: ilova har ochilganda ko'rsatiladi -->
 <script>document.documentElement.classList.add("sp-intro")</script></head><body>
@@ -10425,7 +10435,7 @@ html.sp-wait #tartibon-splash{animation:sp-hide .4s ease 8s forwards} /* zaxira:
 <div id="p-bal" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>💰 Balans</h1><div id="balb"></div></div>
 <div id="p-ads" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>📢 E'lon</h1><div id="adsb"></div></div>
 <div id="p-soon" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1 id="sn"></h1><div class="card">Bu bo'lim tez orada ishga tushadi.</div></div>
-<div id="p-me" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>👤 Profil</h1><div class="card" id="me"></div><div id="mych"></div><div id="clubb"></div><div id="p5x"></div></div>
+<div id="p-me" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>👤 Profil</h1><div class="card" id="me"></div><div class="mlist"><div class="mlin"><div id="mych"></div><div id="clubb"></div><div id="p5x"></div></div></div></div>
 <div id="p-adm" class="pg"><div id="adm"></div></div>
 </div>
 
@@ -11546,7 +11556,7 @@ function load(){api('me').then(function(j){if(!j.ok){$('cards').innerHTML='<p cl
 function sps(del){api('adm_support',{u:del?'':$('sp_u').value}).then(function(j){if(j.ok){AD.sup=j.sup;SUP=j.sup;tqm();toast(del?'O\'chirildi':'Saqlandi ✅');av('menu')}})}
 function mt(k,on){api('adm_menu',{k:k,on:!!on}).then(function(j){if(j.ok){AD.mn=j.mn;MN=j.mn;dr();tqm();toast('Saqlandi ✅');av('menu')}})}
 function az(){cf('azo_dat.txt dagi IDlar Obunachilar soniga qo\'shilsinmi?',function(y){if(!y)return;api('adm_azo').then(function(j){if(j.ok){AD.azo=j.total;AD.af=j.af;ST3.u=j.subs;dr();toast('Qo\'shildi: +'+j.added+' ta ✅');av('menu')}})})}
-function load2(){tqs();api('rates').then(function(j){if(!j.ok){$('cards').innerHTML='<p class="sub">Ilovani Telegram ichida oching.</p>';return}ADM=j.admin;document.body.classList.toggle('adm',!!j.admin);dnl();hst();stp();draw(j);prh();wxh();api('menu').then(function(m){if(m.ok){MN=m.mn;ST3=m.st;SUP=m.sup||'';dr();tqm();tqc()}});var u=(tg.initDataUnsafe||{}).user||{};hdr(u);$('me').innerHTML='<b>'+esc(u.first_name||'')+'</b><div class="sub">ID: '+esc(u.id||'')+(ADM?' · admin':'')+'</div>'})}
+function load2(){tqs();api('rates').then(function(j){if(!j.ok){$('cards').innerHTML='<p class="sub">Ilovani Telegram ichida oching.</p>';return}ADM=j.admin;document.body.classList.toggle('adm',!!j.admin);dnl();hst();stp();draw(j);prh();wxh();api('menu').then(function(m){if(m.ok){MN=m.mn;ST3=m.st;SUP=m.sup||'';dr();tqm();tqc()}});var u=(tg.initDataUnsafe||{}).user||{};hdr(u);var nm0=String(u.first_name||u.username||'').trim(),ini=(nm0.replace(/[^\p{L}\p{N}]/gu,'').charAt(0)||String(u.id||'?').charAt(0)).toUpperCase();$('me').innerHTML='<div class="mav"><span>'+esc(ini)+'</span>'+(u.photo_url?'<img src="'+esc(u.photo_url)+'" alt="" onerror="this.remove()">':'')+'</div><div class="mnm"><b>'+esc(u.first_name||u.username||'Foydalanuvchi')+'</b>'+(u.username?'<div class="sub">@'+esc(u.username)+'</div>':'')+'<div class="mch"><span>ID: '+esc(u.id||'')+'</span>'+(ADM?'<span class="ma">Admin</span>':'')+'</div></div>'})}
 function hdr(u){var a=$('ava');if(!a)return;a.textContent=String(u.first_name||u.username||'?').charAt(0).toUpperCase();if(u.photo_url){var i=new Image();i.alt='';i.onerror=function(){i.remove()};i.src=u.photo_url;a.appendChild(i)}}
 function bnk(){go('home');setTimeout(function(){var e=$('bnk');if(e)e.scrollIntoView({behavior:'smooth',block:'start'});else toast('Bank kurslari hali kiritilmagan')},80)}
 function mkNow(){toast('Yangilanmoqda...');var run=function(){api('adm_mkb',{on:MKB.on?1:0,urls:MKB.urls||'',int:MKB.int||15,run:1}).then(function(j){if(!j.ok)return;MKB=j.mkb;MBK=j.banks;api('adm_tb',{run:1}).then(function(t){if(t.ok)TBK=t.tb});toast(j.msg&&j.msg.indexOf('OK')===0?'Yangilandi ✅':(j.msg||'Yangilanmadi'));api('rates').then(function(r){if(r.ok)draw(r)})})};if(MKB)run();else api('adm_banks').then(function(j){if(j.ok){MBK=j.banks;MKB=j.mkb;TBK=j.tb;XBK=j.xb;run()}})}
@@ -11560,6 +11570,7 @@ var ACS={
  gw:[{sel:'#gwb>.card, #gcb>.card',m:'title',def:0}],
  ads:[{sel:'#adsa>.card',m:'title',skip:/^Balans/}],
  chats:[{sel:'#p-chats>.card',m:'title',def:0}],
+ me:[{sel:'#mych',m:'item'},{sel:'#p5x>.card',m:'title',only:/daraja/,vf:function(c){var b=c.querySelector('.sub b');return b?b.textContent:''}},{sel:'#p5x>.card',m:'title',only:/Hamkor/,vf:function(c){var b=c.querySelector('.sub b');return b?b.textContent+' komissiya':''}},{sel:'#p5x>.card',m:'title',skip:/daraja|Hamkor/},{sel:'#wxux>.card',m:'title'}],
  
  gd:[{sel:'#gdb>.card',m:'gd'}],
  rf:[{sel:'#rfb>.card',m:'item',only:/Havolamni olish/},{sel:'#rfb>h1+.card',m:'fixprev'}],
@@ -11573,6 +11584,11 @@ var ACS={
  vz:[{sel:'#vzb>.card',m:'item',only:/Katalogda ko'rsatish/}]
 };
 var ACE={
+ '🥉':['#d98a4a','#a8602a','M12 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM8.5 14.2 7 21l5-2.5 5 2.5-1.5-6.8'],'🥈':['#a9b3c4','#7d8799','M12 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM8.5 14.2 7 21l5-2.5 5 2.5-1.5-6.8'],'🥇':['#ffc83d','#e09a00','M12 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM8.5 14.2 7 21l5-2.5 5 2.5-1.5-6.8'],
+ '🎂':['#ff6b9a','#e0407a','M4 20h16M5 20v-6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6M5 15c2 1.5 3 1.5 5 0s3-1.5 5 0 3 1.5 4 .5M12 12V9M12 7.5c-1-1 0-2 0-3 1 1 1 2 0 3z'],
+ '💡':['#ffcc00','#e0a800','M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z'],
+ '❓':['#5ac8fa','#2f9ee0','M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01'],
+ '🌦':['#32ade6','#1a8cc4','M7 17a4 4 0 0 1 .5-8A5.5 5.5 0 0 1 18 10a3.5 3.5 0 0 1 0 7zM12 3v1.5M5.5 5.5l1 1M18.5 5.5l-1 1'],
  '➕':['#34c759','#22a64a','M12 5v14M5 12h14'],'➖':['#ff9500','#e07d00','M5 12h14'],
  '🗓':['#5ac8fa','#2f9ee0','M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3zM4 10h16M9 3v3M15 3v3'],
  '📰':['#ff6b57','#e0452f','M5 5h11a2 2 0 0 1 2 2v12H7a2 2 0 0 1-2-2zM18 9h2v8a2 2 0 0 1-2 2M8 9h7M8 13h7M8 16h4'],
@@ -11613,7 +11629,7 @@ var ACE={
  '🔥':['#ff3b30','#d6281f','M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 0-6 1-9z']
 };
 var ACP=[['#2f80ed','#1d63c8'],['#34c759','#22a64a'],['#ff9500','#e07d00'],['#af52de','#8a3fc0'],['#ff2d55','#d81b44'],['#5ac8fa','#2f9ee0'],['#5856d6','#4140b8']];
-var ACN={'Avtomatik xabarlar':'🔔','Kimga e\'lon beramiz?':'📢','Himoya qoidalari':'🛡'};
+var ACN={'Kanal va guruhlarim':'📢','Avtomatik xabarlar':'🔔','Kimga e\'lon beramiz?':'📢','Himoya qoidalari':'🛡'};
 function accIcon(t){var kc=t.match(/^\s*([0-9])\uFE0F?\u20E3\s*/);if(kc){var g=ACP[(+kc[1])%ACP.length];return {h:'<span class="aci" style="background:linear-gradient(160deg,'+g[0]+','+g[1]+')"><i style="color:#fff;font-weight:700;font-size:18px">'+kc[1]+'</i></span>',t:t.slice(kc[0].length).trim()}}
  var nm=ACN[t.trim()];if(nm)t=nm+' '+t.trim();var m=t.match(/^\s*(\p{Extended_Pictographic}|[☀-➿]|[⬀-⯿])(️|‍)?/u),k=m?m[1]:'',rest=m?t.slice(m[0].length).trim():t.trim();
  var e=ACE[k]||null,h=0,i;if(!e){for(i=0;i<rest.length;i++)h=(h*31+rest.charCodeAt(i))>>>0;var c=ACP[h%ACP.length];e=[c[0],c[1],'M5 7h14M5 12h14M5 17h9'];if(!k||!m)e=[c[0],c[1],null]}
@@ -11653,7 +11669,7 @@ function accBuild(pg){var sp=ACS[pg.id.replace(/^p-/,'')];if(!sp)return;var pid=
     else{var b=k.querySelector('b');if(b){secs.push({t:txt(b),n:[k],db:b})}}});
    if(rows.length)secs.unshift({t:'🛡 Himoya qoidalari',n:rows,v:on+'/'+rows.length});
    secs.forEach(function(sc){if(sc.db)sc.h=[sc.db]})}
-  else{var fb=kids[0];if(!fb||!(fb.tagName==='B'||fb.classList.contains('sh2')||fb.tagName==='H3'))return;secs.push({t:txt(fb),n:kids.slice(1),h:[fb]});drop.push(fb)}
+  else{var fb=kids[0];if(!fb||!(fb.tagName==='B'||fb.classList.contains('sh2')||fb.tagName==='H3'))return;secs.push({t:txt(fb),n:kids.slice(1),h:[fb],v:S.vf?S.vf(c):''});drop.push(fb)}
   if(!secs.length)return;c.dataset.acc='1';drop.forEach(function(d){if(d.parentNode===c)c.removeChild(d)});
   var grp=document.createElement('div');grp.className='acl';
   if(S.m==='sh2'||S.m==='gd'){c.classList.add('acx')}else{c.classList.remove('card');c.classList.add('acp')}
