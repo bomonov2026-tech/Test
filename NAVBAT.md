@@ -260,3 +260,4 @@ Virtual raqam:
 - «Bot rivoji uchun hisob balansi» katagi logosi yangi hamyon ikonkasi bilan almashtirildi (?hxd=balans, ma'lumotlar bazasi ikonkasi).
 - Bosh sahifadagi «Balans» katagi ikonkasi: hamyon; «Bot rivoji» katagi: ma'lumotlar bazasi.
 - Reklama bloki: rasm/GIF banner (3:1, tavsiya 1200×400), admin paneldan yoqish/o'chirish/tahrirlash, ilovalar tagida ko'rinadi. Admin sahifasi bo'sh chiqish xatosi (takroriy id=adsb) tuzatildi; jadvallar avtomatik yaratiladi.
+- Tungi xabar («Xayrli tun») alohida bosh sahifa katagi: Tongi xabar bilan 1/1 (haftaning 7 kuniga 7 xil matn, video, ovoz, kunlar tanlovi, admin per-day tahrir). Tongi xabar sahifasidan olib tashlandi. Katak Tongi xabar yonida (tartib yana kodga qaytarildi).
