@@ -264,3 +264,4 @@ Virtual raqam:
 - Profil sahifasi: yorqin sarlavha (avatar, ism, ID) + bitta ro'yxatda qator-bo'limlar (Kanal va guruhlarim, daraja, hamkor, tug'ilgan kun, tilaklar, FAQ, ob-havo); har biri qatorda ochiladi.
 - Eng kam balans to'ldirish 5 000 (admin: Avto-to'lov → Summa chegarasi orqali o'zgartiriladi; qo'lda chek ham shu chegaradan foydalanadi).
 - Kartaga avto-to'lov (SMS orqali tasdiq) butunlay olib tashlandi: foydalanuvchi sahifasi, admin paneli («Avto-to'lov»), server API va SMS manzili. Faqat qo'lda (chek bilan) to'ldirish qoldi. Bot rivoji uchun o'tkazishda eng kam summa cheklovi olib tashlandi (kamida 1 so'm). Eski jadvallar (pay_tx, sms_in) bazada qoldi.
+- «Ilova haqida» sahifasi qayta yozildi (hamma bo'lim yangi tartibda, nakrutka, eSIM, dars jadvali, profil qo'shildi). Balans sahifasida «Adminga murojaat» qatori; admin panelda username kiritiladi (Moliya va to'lov → Adminga murojaat).
