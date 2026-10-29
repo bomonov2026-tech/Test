@@ -273,3 +273,10 @@ Virtual raqam:
 - Namoz: ikkinchi manba api.aladhan.com (islomapi.uz ishlamasa), keyin zaxira hisob. Diagnostikada Aladhan zondi.
 
 - Mening sahifam (link-in-bio): sahifa FAQAT Telegram Mini App ichida (t.me/BOT?startapp=p_nom), saytda ochilmaydi. 2 tagacha bepul, keyingisi 25 000 so'm (balansdan, bir marta; sozlamalar: lb_free, lb_price). 5 dizayn, shikoyat (3 shikoyat = avto-yashirish), admin jurnali, tashqi havola ogohlantirishi.
+
+## 📋 REJADAGI G'OYALAR (keyin qilinadi — foydalanuvchi tanlagan)
+1. **Promo-kod tizimi** — admin kod yaratadi (masalan TARTIB10): kiritganga balansga summa yoki chegirma; amal qilish muddati va necha marta ishlatilishi cheklanadi. Marketing/bloger/konkurslar uchun. Hajmi: kam.
+2. **Tabrik kartasi generatori** — foydalanuvchi ism yozadi, tug'ilgan kun/bayram kartasi rasmi chiqadi, do'stiga Telegram'da yuboradi; kartada «@TartibOnBot» yozuvi (o'zi tarqaladigan reklama). Hajmi: o'rta.
+
+### Ko'rib chiqilgan, hozircha tanlanmagan
+Link-in-bio kengaytmalari (ariza formasi, 7 kunlik statistika+QR, mini-katalog, ish vaqti/xarita, taymerli aksiya), AI post yordamchisi, qisqa havola statistikasi, Pro tarif (oylik), raqib monitoringi, Band qilish (navbat), lead magnet (obuna→sovg'a), kunlik dars boti, reklama kartasi (media-kit), post dizayn generatori, avto-tarjima uz↔ru, xarajatlar daftari, oltin/kripto kursi, vakansiya bo'limi, kunlik bonus, mijoz bilan chat, qarz daftari, kanal auditi, A/B post testi, hujjat/rasm asboblari, ovozdan matn.
