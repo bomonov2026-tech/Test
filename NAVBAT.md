@@ -267,3 +267,5 @@ Virtual raqam:
 - «Ilova haqida» sahifasi qayta yozildi (hamma bo'lim yangi tartibda, nakrutka, eSIM, dars jadvali, profil qo'shildi). Balans sahifasida «Adminga murojaat» qatori; admin panelda username kiritiladi (Moliya va to'lov → Adminga murojaat).
 
 - Kurs posti: har 4 soatda bir marta (Toshkent 00/04/08/12/16/20), narx o'zgargan-o'zgarmagani muhim emas (KURS_SLOT).
+
+- Cron: bitta topshiriq, har daqiqada (php index.php watch). Qulf (kp_all) — ikkita nusxa bir vaqtda ishlamaydi; admin panel faqat bitta buyruq ko'rsatadi.

@@ -1,7 +1,7 @@
 <?php
 /* TartibOn — Telegram Mini App (bitta fayl, PHP 7.4 + MySQL)
    O'rnatish: konfiguratsiyani to'ldiring -> ?setup=KALIT oching (jadvallar + webhook).
-   Cron (cPanel): har 5 daqiqada:   curl -s "APP_URL?cron=KALIT&job=watch"
+   Cron (BITTA, har daqiqada):   php /yo'l/index.php watch    (yoki: curl -s "APP_URL?cron=KALIT&job=watch")
    (watch = kursni yangilaydi; kanal/guruhga kurs posti har 4 soatda bir marta ketadi — narx o'zgargan-o'zgarmagani muhim emas)
    Ertalabki post: shu cron har chaqirilganda tekshiriladi — belgilangan vaqtdan (masalan 06:00) keyingi birinchi tickda
    haftaning shu kuniga mos matn + video (baza kanaldan copyMessage) "🌅" yoqilgan kanallarga bir marta ketadi.
@@ -2909,7 +2909,7 @@ function alert_run() {   /* ikkala cron va webhook chaqiradi — bittasi to'xtas
     if ((int)setting('al_tick', '0') > time() - 120) return; setset('al_tick', (string)time());
     $age = function ($k) { $v = (string)setting($k, ''); return $v === '' ? -1 : time() - strtotime($v); };
     $w = $age('cron_watch_at');   /* hech qachon ishlamagan bo'lsa (cron hali qo'yilmagan) — xabar yo'q */
-    if ($w >= 0) alert_admins('cronw', $w > 15 * 60, "Kurs cron'i (har 5 daqiqa) " . round($w / 60) . " daqiqadan beri ishlamayapti — kurslar yangilanmaydi, kanalga kurs xabari ketmaydi.\nHostingdagi Cron'ni tekshiring.", "Kurs cron'i yana ishlayapti.");
+    if ($w >= 0) alert_admins('cronw', $w > 15 * 60, "Kurs cron'i " . round($w / 60) . " daqiqadan beri ishlamayapti — kurslar yangilanmaydi, kanalga kurs xabari ketmaydi.\nHostingdagi Cron'ni tekshiring.", "Kurs cron'i yana ishlayapti.");
     $m = $age('cron_min_at');
     if ($m >= 0) alert_admins('cronm', $m > 10 * 60, "Daqiqalik cron " . round($m / 60) . " daqiqadan beri ishlamayapti — namoz, ob-havo, tongi xabar va bank kurslari to'xtadi.\nHostingdagi Cron'ni tekshiring.", "Daqiqalik cron yana ishlayapti.");
     $L = xb_list(); $st = xb_st(); $bad = array();
@@ -7231,13 +7231,14 @@ if (isset($_GET['install'])) {
     $wi = tg('getWebhookInfo'); $wok = !empty($wi['ok']) && isset($wi['result']['url']) && $wi['result']['url'] === APP_URL . '?hook=' . KEY;
     echo 'Webhook: ' . ($wok ? 'OK' : "XATO — APP_URL https:// bilan va index.php gacha to'liq yozilganini tekshiring") . "\n";
     echo 'Kurslar: ' . (($e = fetch_all()) ? implode('; ', $e) : 'OK') . "\n\n";
-    echo "=== CRON (hosting → Планировщик CRON → Создать) ===\n\nHar 5 daqiqada (Минуты: */5, qolgani *):\ncurl -s \"" . APP_URL . '?cron=' . KEY . "&job=watch\"\n\nHar daqiqada (hammasi *):\ncurl -s \"" . APP_URL . '?prayer_cron=' . PR_KEY . "\"\n\n";
+    echo "=== CRON (hosting → Планировщик CRON → Создать): BITTA topshiriq, har daqiqada (hammasi *) ===\n\nphp " . __FILE__ . " watch\n\nyoki:\ncurl -s \"" . APP_URL . '?cron=' . KEY . "&job=watch\"\n\n";
     echo "curl ishlamasa «curl -s» o'rniga «wget -q -O /dev/null» yozing.\nTayyor! Endi Telegram'da botingizga /start bosing va ilovani oching.\n";
     exit;
 }
 if (PHP_SAPI === 'cli' && isset($argv[1]) && ($argv[1] === 'prayer' || $argv[1] === 'minute')) { mig(); echo date('Y-m-d H:i') . ' ' . cron_minute() . "\n"; exit; }
 if (PHP_SAPI === 'cli' && isset($argv[1]) && $argv[1] === 'watch') {   /* kurslar (5 daqiqada) — kalitsiz, bot tokeni almashsa ham buzilmaydi */
-    mig(); setset('cron_watch_at', date('Y-m-d H:i:s')); $e = fetch_all();
+    mig(); if (!(int)q("SELECT GET_LOCK('kp_all', 0)")->fetchColumn()) { echo date('Y-m-d H:i') . " oldingi cron hali tugamagan — o'tkazib yuborildi\n"; exit; }   /* bir vaqtda ikkita nusxa ishlamasin */
+    setset('cron_watch_at', date('Y-m-d H:i:s')); $e = fetch_all();
     echo date('Y-m-d H:i') . ' ' . ($e ? implode('; ', $e) . ' | ' : '') . 'Yuborildi: ' . cron_post() . ' | ' . cron_minute() . "\n"; exit;
 }
 if (isset($_GET['prayer_cron'])) {
@@ -7265,7 +7266,8 @@ if (isset($_GET['diag'])) {
 }
 if (isset($_GET['cron'])) {
     if (!hash_equals(KEY, (string)$_GET['cron'])) { http_response_code(403); exit; }
-    mig(); setset('cron_watch_at', date('Y-m-d H:i:s'));
+    mig(); if (!(int)q("SELECT GET_LOCK('kp_all', 0)")->fetchColumn()) { echo 'oldingi cron hali tugamagan'; exit; }
+    setset('cron_watch_at', date('Y-m-d H:i:s'));
     if (isset($_GET['job']) && $_GET['job'] === 'fetch') { $e = fetch_all(); echo $e ? implode('; ', $e) : 'OK'; }
     elseif (isset($_GET['job']) && $_GET['job'] === 'watch') { $e = fetch_all(); echo ($e ? implode('; ', $e) . ' | ' : '') . 'Yuborildi: ' . cron_post(); }
     else echo 'Yuborildi: ' . cron_post();
@@ -10478,9 +10480,9 @@ var AD=null,AV='home',MSG=null;
 function admin(){api('adm_stats').then(function(j){if(!j.ok)return;AD=j;av(AV)})}
 function cc(t){return AD.chats.filter(function(c){return c.ctype===t})}
 function crn(j,r){var c=j.cron||{},ago=function(t,lim){if(!t)return '❌ Hech ishlamagan';var m=Math.round((new Date(c.now.replace(' ','T'))-new Date(t.replace(' ','T')))/60000);return (m<=lim?'✅ ':'❌ ')+(m<1?'hozirgina':m<120?m+' daqiqa oldin':Math.round(m/60)+' soat oldin')},bx=function(t){return '<div class="sub" style="word-break:break-all;-webkit-user-select:all;user-select:all;background:#eef1f6;border-radius:10px;padding:8px 10px;margin:4px 0 8px">'+esc(t)+'</div>'},bad=!c.watch_at||!c.min_at||ago(c.watch_at,12).charAt(0)==='❌'||ago(c.min_at,5).charAt(0)==='❌';
-return r('Kurs cron (har 5 daqiqa)',ago(c.watch_at,12))+r('Daqiqalik cron (namoz, tongi xabar, ob-havo…)',ago(c.min_at,5))+r('Bugun yuborildi / xato',nf(j.sent_today||0)+' / '+nf(j.fail_today||0))
+return r('Kurs cron',ago(c.watch_at,12))+r('Daqiqalik cron (namoz, tongi xabar, ob-havo…)',ago(c.min_at,5))+r('Bugun yuborildi / xato',nf(j.sent_today||0)+' / '+nf(j.fail_today||0))
 +(j.fails&&j.fails.length?'<p class="sub" style="margin:8px 0 4px">Oxirgi yuborish xatolari:</p>'+j.fails.map(function(f){return '<div class="sub" style="padding:3px 0;color:var(--r)">'+esc(f.username||'')+' — '+esc(f.info||'')+' · '+esc(f.at)+'</div>'}).join(''):'')
-+'<details'+(bad?' open':'')+' style="margin:8px 0"><summary class="sub" style="cursor:pointer"><b>⏱ Cron buyruqlari</b>'+(bad?' — cron ishlamayapti, quyidagilarni hostingdagi Cron Jobs ga qo\'ying':'')+'</summary><p class="sub" style="margin:8px 0 2px">Har 5 daqiqada (*/5 * * * *):</p>'+bx(c.watch_cli)+'<p class="sub" style="margin:0 0 2px">Har daqiqada (* * * * *):</p>'+bx(c.min_cli)+'<p class="sub" style="margin:6px 0 2px">yoki URL orqali (bot tokeni almashsa, kalit ham o\'zgaradi):</p>'+bx(c.watch_url)+bx(c.min_url)+'</details>'}
++'<details'+(bad?' open':'')+' style="margin:8px 0"><summary class="sub" style="cursor:pointer"><b>⏱ Cron buyruqlari</b>'+(bad?' — cron ishlamayapti, quyidagilarni hostingdagi Cron Jobs ga qo\'ying':'')+'</summary><p class="sub" style="margin:8px 0 2px">BITTA topshiriq, har daqiqada (* * * * *) — kurs, namoz, xabarlar, postlar hammasi shu bilan ishlaydi:</p>'+bx(c.watch_cli)+'<p class="sub" style="margin:6px 0 2px">yoki URL orqali (bot tokeni almashsa, kalit ham o\'zgaradi):</p>'+bx(c.watch_url)+'</details>'}
 function clr(c){if(!c)return '';var s=c.st||{},r=function(a,b){return '<div class="row" style="padding:5px 0"><span class="sub">'+a+'</span><b style="text-align:right">'+b+'</b></div>'},ph={c:'kanal va guruhlar',u:'foydalanuvchilar',a:'eski /start ro\'yxati'};
 return '<div style="margin:10px 0;padding:12px;border-radius:14px;background:#eef1f6"><b>🧹 Eski bot qoldiqlarini tozalash</b><p class="sub" style="margin:6px 0 8px">Yangi bot administrator bo\'lmagan kanal/guruhlar va yangi botni ishga tushirmagan foydalanuvchilar bazadan o\'chiriladi — bosh sahifada faqat botdan foydalanayotganlar qoladi.</p>'
 +(c.on||s.c||s.u?r('Kanal/guruh: tekshirildi / o\'chirildi',nf(s.c||0)+' / '+nf(s.cd||0)+' <span class="sub">(qoldi '+nf(c.tot.c)+')</span>')+r('Foydalanuvchi: tekshirildi / o\'chirildi',nf(s.u||0)+' / '+nf(s.ud||0)+' <span class="sub">(qoldi '+nf(c.tot.u)+')</span>')+r('Eski ro\'yxat: tekshirildi / o\'chirildi',nf(s.a||0)+' / '+nf(s.ad||0)):'')
@@ -10495,8 +10497,8 @@ var c=j.cron||{},rt=j.rate||{},mk=j.mkb||{},tb=j.tb||{},xb=j.xb||{},now=new Date
 var K=[
 [j.token_ok,'Bot',j.token_ok?esc(j.bot)+' — ulangan':'Token noto\'g\'ri','config.php dagi BOT_TOKEN ni tekshiring.'],
 [j.hook_ok,'Xabarlarni qabul qilish (webhook)',j.hook_ok?'Ulangan':'Ulanmagan','Pastdagi «🔧 Webhookni qayta ulash» tugmasini bosing.'],
-[mins(c.watch_at)<=12,'Kurs postlari (har 5 daqiqa)','Oxirgi ishga tushgan: '+ago(c.watch_at),'Hostingdagi Cron\'ga «Har 5 daqiqada» buyrug\'ini qo\'ying (pastda).'],
-[mins(c.min_at)<=5,'Namoz, tongi xabar, ob-havo (har daqiqa)','Oxirgi ishga tushgan: '+ago(c.min_at),'Hostingdagi Cron\'ga «Har daqiqada» buyrug\'ini qo\'ying (pastda).']
+[mins(c.watch_at)<=12,'Kurs va postlar (cron)','Oxirgi ishga tushgan: '+ago(c.watch_at),'Hostingdagi Cron\'ga bitta «har daqiqada» buyrug\'ini qo\'ying (pastda).'],
+[mins(c.min_at)<=5,'Namoz, tongi xabar, ob-havo (cron)','Oxirgi ishga tushgan: '+ago(c.min_at),'Hostingdagi Cron\'ga bitta «har daqiqada» buyrug\'ini qo\'ying (pastda).']
 ];
 if(xb.on)K.push([!xb.bad,'Bank kurslari ('+xb.on+' ta bank)',xb.bad?xb.bad+' tasidan kurs olinmayapti':'Hammasi yangilanmoqda','Admin panel → «Bank kurslari» da «Banklarni tekshirish» ni bosing.']);
 var bad=K.filter(function(k){return !k[0]}).length;
@@ -10507,7 +10509,7 @@ h+='<div class="card"><b>🌐 Kurs manbalari</b><p class="sub" style="margin:4px
 if(j.fails&&j.fails.length)h+='<div class="card"><b>Oxirgi 24 soatdagi yuborish xatolari</b>'+j.fails.map(function(f){return '<div class="sub" style="padding:4px 0;color:var(--r)">'+esc(f.username||'')+' — '+esc(f.info||'')+' · '+esc(f.at)+'</div>'}).join('')+'</div>';
 var bx=function(t){return '<div class="sub" style="word-break:break-all;-webkit-user-select:all;user-select:all;background:#eef1f6;border-radius:10px;padding:8px 10px;margin:4px 0 8px">'+esc(t)+'</div>'};
 var cb=mins(c.watch_at)>12||mins(c.min_at)>5;
-h+='<div class="card"><details'+(cb?' open':'')+'><summary style="cursor:pointer"><b>⏱ Cron buyruqlari</b></summary><p class="sub" style="margin:8px 0 2px">Hosting → Планировщик (CRON) → Создать. Avval URL variantini qo\'ying:</p><p class="sub" style="margin:6px 0 2px"><b>Har 5 daqiqada</b> (Минуты: */5, qolgani *):</p>'+bx(c.watch_url)+'<p class="sub" style="margin:0 0 2px"><b>Har daqiqada</b> (hammasi *):</p>'+bx(c.min_url)+'<p class="sub" style="margin:6px 0 2px">curl ishlamasa — «curl -s» o\'rniga «wget -q -O /dev/null» yozing. PHP buyrug\'i bilan:</p>'+bx(c.watch_cli)+bx(c.min_cli)+'</details></div>';
+h+='<div class="card"><details'+(cb?' open':'')+'><summary style="cursor:pointer"><b>⏱ Cron buyruqlari</b></summary><p class="sub" style="margin:8px 0 2px">Hosting → Планировщик (CRON) → Создать. Faqat BITTA topshiriq kerak — <b>har daqiqada</b> (hammasi *). Kurs, namoz, xabarlar va postlarning hammasi shu bilan ishlaydi:</p>'+bx(c.watch_cli)+'<p class="sub" style="margin:6px 0 2px">PHP buyrug\'i ishlamasa, URL bilan (curl ishlamasa — «curl -s» o\'rniga «wget -q -O /dev/null» yozing):</p>'+bx(c.watch_url)+'</details></div>';
 h+='<div class="card"><details><summary style="cursor:pointer"><b>👥 Foydalanuvchilar</b></summary>'+[['Bazada',j.users],['Eski ro\'yxatdan (azo_dat)',j.azo],['Obunachilar (takrorsiz)',j.subs],['Bugun /start bosgan',j.today]].map(function(a){return '<div class="row" style="padding:6px 0"><span class="sub">'+a[0]+'</span><b>'+nf(a[1])+'</b></div>'}).join('')+'<p class="sub" style="margin:8px 0 4px">Oxirgi qo\'shilganlar:</p>'+(j.last||[]).map(function(u){return '<div class="sub" style="padding:3px 0">'+esc(u.name||'')+(u.username?' @'+esc(u.username):'')+' · '+esc(u.created_at)+'</div>'}).join('')+'</details></div>';
 h+='<div class="card" id="clst" style="padding:0">'+clr(j.clean)+'</div>';
 h+=(j.hook_ok&&j.token_ok?'':'<button class="btn" style="margin-top:4px" onclick="botchk(1)">🔧 Webhookni qayta ulash</button>')+'<button class="btn s" style="margin-top:8px;width:100%" onclick="botchk()">🔄 Yangilash</button>';
