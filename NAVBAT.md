@@ -269,3 +269,5 @@ Virtual raqam:
 - Kurs posti: har 4 soatda bir marta (Toshkent 00/04/08/12/16/20), narx o'zgargan-o'zgarmagani muhim emas (KURS_SLOT).
 
 - Cron: bitta topshiriq, har daqiqada (php index.php watch). Qulf (kp_all) — ikkita nusxa bir vaqtda ishlamaydi; admin panel faqat bitta buyruq ko'rsatadi.
+
+- Namoz: ikkinchi manba api.aladhan.com (islomapi.uz ishlamasa), keyin zaxira hisob. Diagnostikada Aladhan zondi.
