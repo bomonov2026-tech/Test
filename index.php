@@ -11,7 +11,7 @@
 require __DIR__ . '/config.php';
 define('KEY', 'up_' . substr(md5(BOT_TOKEN . 'usdpremium'), 0, 20));
 define('MIN_GAP_MIN', 5);   /* kurs o'zgarganda ketma-ket xabarlar orasida eng kamida shuncha daqiqa */
-define('PAY_MIN', 10000);   /* balans to'ldirish: eng kam */
+define('PAY_MIN', 5000);   /* balans to'ldirish: eng kam */
 define('PAY_MAX', 3000000);  /* balans to'ldirish: eng ko'pi */
 define('WD_MIN', 50000);     /* balansdan yechish: eng kam */
 define('DN_MIN', 25000);     /* bot rivoji uchun o'tkazma: eng kam */
@@ -349,6 +349,7 @@ function mig() {
             "ALTER TABLE app_ads MODIFY title VARCHAR(80) NOT NULL DEFAULT ''") as $x) { try { db()->exec($x); } catch (Exception $e) {} }
         setset('mig_ads2', '1');
     }
+    if (setting('mig_pmin5', '') !== '1') { setset('pay_amin', '5000'); setset('mig_pmin5', '1'); }   /* eng kam to'ldirish 5 000 */
     if (setting('mig_hxo1', '') !== '1') { setset('hx_ord', ''); setset('mig_hxo1', '1'); }
     if (setting('mig_hxo2', '') !== '1') { setset('hx_ord', ''); setset('mig_hxo2', '1'); }   /* «Tungi xabar» katagi qo'shildi: tartib yana bir marta kodga qaytariladi */   /* bosh sahifa katak tartibi kodda mahkamlandi: eski saqlangan tartib bir marta tozalanadi */
     if (setting('mig_s61', '') !== '1') {   /* Qurilma nazorati, dars jadvali, avtomobil, shaxsiy ob-havo, ro'za eslatmasi, ilova reklamasi */
@@ -5068,7 +5069,7 @@ function sms_handle() {
 
 /* ---------- AVTOMATIK TO'LOV: karta SMS orqali balansni to'ldirish ---------- */
 function pay_set($k, $d = '') { return trim((string)setting($k, $d)); }
-function pay_min() { return max(1000, (int)setting('pay_amin', '10000')); }
+function pay_min() { return max(1000, (int)setting('pay_amin', (string)PAY_MIN)); }
 function pay_max() { return min(100000000, max(pay_min(), (int)setting('pay_amax', (string)PAY_MAX))); }
 function pay_ms() { return (int)round(microtime(true) * 1000); }
 function pay_log($p, $req, $res) {
@@ -8561,7 +8562,7 @@ if (isset($_GET['api'])) {
     if ($a === 'wallet') {
         $cfg = pay_cfg();
         out(array('ok' => true, 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn(),
-            'card' => $cfg['card'], 'holder' => $cfg['holder'], 'prices' => $cfg['prices'], 'min' => PAY_MIN, 'max' => PAY_MAX,
+            'card' => $cfg['card'], 'holder' => $cfg['holder'], 'prices' => $cfg['prices'], 'min' => pay_min(), 'max' => PAY_MAX,
             'cnt' => array('Kanal' => (int)q('SELECT COUNT(*) ' . ad_aud('Kanal')[0])->fetchColumn() > 0 ? 1 : 0, 'Guruh' => (int)q('SELECT COUNT(*) ' . ad_aud('Guruh')[0])->fetchColumn() > 0 ? 1 : 0, 'users' => (int)q('SELECT COUNT(*) ' . ad_aud('users')[0])->fetchColumn() > 0 ? 1 : 0),   /* soni e'lon beruvchiga ko'rsatilmaydi — faqat bor/yo'q */
             'topups' => q('SELECT id,amount,status,created_at FROM topups WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll(),
             'sms' => sms_on(), 'bn' => bonus_info($u['id']), 'wd_lock' => bonus_locked($u['id']), 'gift' => ($gf = gift_cfg())['on'] ? array('min' => $gf['min'], 'max' => $gf['max'], 'fee' => $gf['fee']) : null, 'pay_min' => pay_min(), 'pay_max' => pay_max(), 'wd_min' => WD_MIN, 'dn_min' => DN_MIN, 'wd_hold' => (int)q("SELECT COALESCE(SUM(amount),0) FROM withdrawals WHERE user_id=? AND status='pending'", array($u['id']))->fetchColumn(),
@@ -8570,7 +8571,7 @@ if (isset($_GET['api'])) {
     }
     if ($a === 'topup_new') {
         $amt = (int)(isset($in['amount']) ? $in['amount'] : 0);
-        if ($amt < PAY_MIN || $amt > PAY_MAX) out(array('ok' => false, 'error' => 'Summa ' . money(PAY_MIN) . ' dan ' . money(PAY_MAX) . ' gacha bo\'lishi kerak'), 422);
+        if ($amt < pay_min() || $amt > PAY_MAX) out(array('ok' => false, 'error' => 'Summa ' . money(pay_min()) . ' dan ' . money(PAY_MAX) . ' gacha bo\'lishi kerak'), 422);
         $bin = img_decode(isset($in['receipt']) ? $in['receipt'] : '', 2000000, false);
         if ($bin === false) out(array('ok' => false, 'error' => 'To\'lov chekining rasmini yuklang'), 422);
         $cfg = pay_cfg(); if ($cfg['card'] === '') out(array('ok' => false, 'error' => 'Karta ma\'lumotlari hali kiritilmagan'), 503);

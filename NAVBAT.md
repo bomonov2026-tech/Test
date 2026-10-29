@@ -262,3 +262,4 @@ Virtual raqam:
 - Reklama bloki: rasm/GIF banner (3:1, tavsiya 1200×400), admin paneldan yoqish/o'chirish/tahrirlash, ilovalar tagida ko'rinadi. Admin sahifasi bo'sh chiqish xatosi (takroriy id=adsb) tuzatildi; jadvallar avtomatik yaratiladi.
 - Tungi xabar («Xayrli tun») alohida bosh sahifa katagi: Tongi xabar bilan 1/1 (haftaning 7 kuniga 7 xil matn, video, ovoz, kunlar tanlovi, admin per-day tahrir). Tongi xabar sahifasidan olib tashlandi. Katak Tongi xabar yonida (tartib yana kodga qaytarildi).
 - Profil sahifasi: yorqin sarlavha (avatar, ism, ID) + bitta ro'yxatda qator-bo'limlar (Kanal va guruhlarim, daraja, hamkor, tug'ilgan kun, tilaklar, FAQ, ob-havo); har biri qatorda ochiladi.
+- Eng kam balans to'ldirish 5 000 (admin: Avto-to'lov → Summa chegarasi orqali o'zgartiriladi; qo'lda chek ham shu chegaradan foydalanadi).
