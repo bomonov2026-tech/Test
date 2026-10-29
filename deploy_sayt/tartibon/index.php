@@ -14,7 +14,7 @@ define('MIN_GAP_MIN', 5);   /* kurs o'zgarganda ketma-ket xabarlar orasida eng k
 define('PAY_MIN', 5000);   /* balans to'ldirish: eng kam */
 define('PAY_MAX', 3000000);  /* balans to'ldirish: eng ko'pi */
 define('WD_MIN', 50000);     /* balansdan yechish: eng kam */
-define('DN_MIN', 25000);     /* bot rivoji uchun o'tkazma: eng kam */
+define('DN_MIN', 1);     /* bot rivoji uchun o'tkazma: cheklov yo'q (kamida 1 so'm) */
 define('STALE_H', 8);
 define('AI_KEY', '');                   /* Anthropic API kaliti (console.anthropic.com) — guruhda porno/spamni AI bilan aniqlash uchun; bo'sh bo'lsa AI o'chiq */
 define('AI_MODEL', 'claude-opus-5-5');  /* arzonroq: 'claude-haiku-5-5' */         /* shuncha soatdan eski kurs "eskirgan" */
@@ -5015,59 +5015,7 @@ function promo_use($code, $uid) {
 }
 function pay_from($uid, $sum) { $ok = q('UPDATE users SET balance=balance-? WHERE id=? AND balance>=?', array($sum, $uid, $sum))->rowCount() === 1; if ($ok) bal_low_later($uid); return $ok; }
 
-/* ---------- KARTAGA O'TKAZMA: Humo SMS orqali avto-tasdiq (iPhone Shortcuts SMS ni shu manzilga yuboradi) ---------- */
-function sms_on() { return setting('sms_on', '0') === '1' && setting('sms_token', '') !== '' && pay_first() !== null; }
-function sms_num($s) {
-    $s = preg_replace('/\s+/u', '', (string)$s);
-    if (strpos($s, ',') !== false && strpos($s, '.') !== false) $s = str_replace(',', '', $s); else $s = str_replace(',', '.', $s);
-    return is_numeric($s) ? (float)$s : null;
-}
-/* "HUMOCARD *6662: popolnenie 10000.00 UZS; PAYNET P2P HUM2HUM>T; 26-10-27 21:46;  Dostupno: 10000.00 UZS" */
-function sms_parse($t) {
-    $t = trim(preg_replace('/\s+/u', ' ', (string)$t));
-    if (!preg_match('/\*\s*(\d{4})\s*:/u', $t, $c) || !preg_match('/Dostupno\s*:\s*(-?[\d\s.,]+?)\s*UZS/iu', $t, $b)) return null;
-    $bal = sms_num($b[1]); if ($bal === null) return null;
-    $in = (bool)preg_match('/popolnenie|пополнение/iu', $t); $amt = null;
-    if ($in) { if (!preg_match('/(?:popolnenie|пополнение)\s*([\d\s.,]+?)\s*UZS/iu', $t, $a)) return null; $amt = sms_num($a[1]); if ($amt === null) return null; }
-    $ts = null; if (preg_match('/(\d{2})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/', $t, $d)) $ts = strtotime('20' . $d[1] . '-' . $d[2] . '-' . $d[3] . ' ' . $d[4] . ':' . $d[5] . ':00');
-    return array('card4' => $c[1], 'in' => $in, 'amount' => $amt, 'bal' => $bal, 'ts' => $ts ?: null);
-}
-function sms_stale() { try { q("UPDATE pay_tx SET st='cancel', ctime2=?, upd=NOW() WHERE prov='card' AND st='new' AND created < NOW() - INTERVAL 40 MINUTE", array(pay_ms())); if (mt_rand(1, 30) === 1) q('DELETE FROM sms_in WHERE at < NOW() - INTERVAL 30 DAY'); } catch (Exception $e) {} }
-function sms_note($st, $text) { notify_admins($text); }
-function sms_handle() {
-    header('Content-Type: application/json; charset=utf-8');
-    $tok = setting('sms_token', '');
-    if ($tok === '' || !hash_equals($tok, (string)$_GET['sms']) || setting('sms_on', '0') !== '1') { http_response_code(403); echo json_encode(array('ok' => false)); exit; }
-    $raw = file_get_contents('php://input'); $text = isset($_POST['text']) ? (string)$_POST['text'] : '';
-    if ($text === '' && $raw !== '') { $j = json_decode($raw, true); $text = is_array($j) && isset($j['text']) ? (string)$j['text'] : (string)$raw; }
-    $text = mb_substr(trim($text), 0, 600); $out = function ($st) { echo json_encode(array('ok' => true, 'status' => $st)); exit; };
-    if ($text === '') $out('empty');
-    sms_stale();
-    $p = sms_parse($text);
-    if (!$p || !in_array($p['card4'], pay_all_c4(), true)) $out('ignored');
-    $h = md5(preg_replace('/\s+/u', ' ', $text));
-    if (q('INSERT IGNORE INTO sms_in (h,raw,amount,bal,st,at) VALUES (?,?,?,?,?,NOW())', array($h, $text, $p['in'] ? (int)round($p['amount']) : 0, $p['bal'], 'new'))->rowCount() !== 1) $out('dup');
-    $sid = (int)db()->lastInsertId(); $set = function ($st, $tx = null, $note = '') use ($sid) { q('UPDATE sms_in SET st=?, tx=?, note=? WHERE id=?', array($st, $tx, mb_substr($note, 0, 190), $sid)); };
-    $lbk = sms_lbk($p['card4']); $last = setting($lbk, ''); setset($lbk, $p['bal']);
-    if (!$p['in']) { $set('bal'); $out('balance'); }
-    $amt = (int)round($p['amount']);
-    if (abs($p['amount'] - $amt) > 0.001 || $amt < 1000) { $set('ignored', null, 'summa butun emas yoki juda kichik'); $out('ignored'); }
-    $why = '';
-    if ($p['ts'] === null || abs(time() - $p['ts']) > 3 * 3600) $why = 'SMS vaqti hozirgi vaqtga mos emas';
-    if ($why === '' && $last !== '' && abs((float)$last + $p['amount'] - $p['bal']) > 0.5) $why = 'balans zanjiri mos emas (SMS yo\'qolgan yoki soxta bo\'lishi mumkin)';
-    $tx = q("SELECT * FROM pay_tx WHERE prov='card' AND st='new' AND amount=? AND (c4='' OR c4=?) AND created > NOW() - INTERVAL 40 MINUTE ORDER BY id DESC LIMIT 1", array($amt, $p['card4']))->fetch();
-    if (!$tx) {
-        $old = q("SELECT * FROM pay_tx WHERE prov='card' AND st='cancel' AND amount=? AND created > NOW() - INTERVAL 24 HOUR ORDER BY id DESC LIMIT 1", array($amt))->fetch();
-        if ($old) { $set('review', $old['id'], 'to\'lov kech keldi (so\'rov muddati o\'tgan)'); sms_note('review', "🔔 Kartaga " . money($amt) . " tushdi, lekin so'rov muddati o'tgan (#" . $old['id'] . "). Admin → Avto-to'lov bo'limida «Hisoblash» ni bosing."); $out('review'); }
-        $set('nomatch', null, 'mos so\'rov topilmadi'); sms_note('nomatch', "🔔 Kartaga " . money($amt) . " tushdi, lekin mos to'lov so'rovi topilmadi (noyob summa o'zgargan bo'lishi mumkin). Admin → Avto-to'lov bo'limida ko'ring."); $out('nomatch');
-    }
-    if ($why === '' && $amt > (int)setting('sms_max', '1000000')) $why = 'summa avto-tasdiq chegarasidan katta';
-    if ($why !== '') { $set('review', $tx['id'], $why); sms_note('review', "🔔 Kartaga " . money($amt) . " tushdi (so'rov #" . $tx['id'] . "), lekin avto-tasdiq to'xtadi: " . $why . ". Admin → Avto-to'lov bo'limida «Hisoblash» ni bosing."); $out('review'); }
-    if (pay_credit($tx['id'])) { $set('ok', $tx['id']); $out('ok'); }
-    $set('review', $tx['id'], 'balansga qo\'shib bo\'lmadi'); $out('review');
-}
-
-/* ---------- AVTOMATIK TO'LOV: karta SMS orqali balansni to'ldirish ---------- */
+/* ---------- TO'LOV CHEGARALARI ---------- */
 function pay_set($k, $d = '') { return trim((string)setting($k, $d)); }
 function pay_min() { return max(1000, (int)setting('pay_amin', (string)PAY_MIN)); }
 function pay_max() { return min(100000000, max(pay_min(), (int)setting('pay_amax', (string)PAY_MAX))); }
@@ -5079,24 +5027,6 @@ function pay_log($p, $req, $res) {
     } catch (Exception $e) {}
 }
 /* To'lov muvaffaqiyatli bo'lganda balansga bir marta qo'shish. Qaytaradi: true (hozir qo'shildi) / false (allaqachon yoki mumkin emas) */
-function pay_credit($id) {
-    $pdo = db(); $done = false; $tx = null; $bn = array(0, '');
-    try {
-        $pdo->beginTransaction();
-        $tx = q('SELECT * FROM pay_tx WHERE id=? FOR UPDATE', array($id))->fetch();
-        if ($tx && in_array($tx['st'], array('new', 'wait'), true)) {
-            q("UPDATE pay_tx SET st='paid', ptime=?, upd=NOW() WHERE id=?", array(pay_ms(), $id));
-            q('UPDATE users SET balance=balance+? WHERE id=?', array($tx['amount'], $tx['uid']));
-            $bn = bonus_give($tx['uid'], (int)$tx['amount'], 0);
-            q("INSERT INTO topups (user_id,amount,status,created_at,decided_at,flag) VALUES (?,?,'approved',NOW(),NOW(),?)", array($tx['uid'], $tx['amount'], 'avto: ' . $tx['prov'] . ' #' . $id));
-            $done = true;
-        }
-        $pdo->commit();
-    } catch (Exception $e) { if ($pdo->inTransaction()) $pdo->rollBack(); return false; }
-    if ($done) { nk_tell($tx['uid'], "✅ Balans to'ldirildi: +" . money($tx['amount']) . " (" . 'Karta' . ")"); if ($bn[0] > 0) bonus_tell($tx['uid'], $bn); }
-    return $done;
-}
-
 /* ---------- NAKRUTKA: prm4u.com (SMM panel, API v2) orqali obunachi / ko'rish / reaksiya ---------- */
 function nk_cfg() {
     $u = defined('NK_API_URL') ? (string)NK_API_URL : (string)setting('nk_url', 'https://prm4u.com/api/v2');
@@ -5320,27 +5250,14 @@ function pay_cards() {
 }
 function pay_active() { return array_values(array_filter(pay_cards(), function ($c) { return $c['on']; })); }
 function pay_first() { $a = pay_active(); return $a ? $a[0] : null; }
-function pay_all_c4() { $o = array(); foreach (pay_cards() as $c) if (preg_match('/^\d{4}$/', $c['c4'])) $o[] = $c['c4']; return array_values(array_unique($o)); }
 /* Yangi to'lov uchun karta: faol kartalar navbat bilan beriladi (yuk bir kartaga tushmaydi) */
-function pay_pick() {
-    $a = pay_active(); if (!$a) return null; if (count($a) === 1) return $a[0];
-    $n = (int)setting('pay_rr', '0'); setset('pay_rr', (string)($n + 1)); return $a[$n % count($a)];
-}
-function sms_lbk($c4) { $c = pay_cards(); return ($c && $c[0]['id'] === 0 && $c[0]['c4'] === $c4) ? 'sms_lastbal' : 'sms_lastbal_' . $c4; }
-/* Cheka mos SMS bormi — adminga tezroq tasdiqlash uchun ishora */
-function sms_hint($amt) {
-    try { $r = q("SELECT at FROM sms_in WHERE amount=? AND st IN ('nomatch','review','new') AND at > NOW() - INTERVAL 3 HOUR ORDER BY id DESC LIMIT 1", array((int)$amt))->fetch(); } catch (Exception $e) { return ''; }
-    return $r ? "🟢 Shu summaga mos bank SMS bor (kartaga pul tushgan: " . date('H:i', strtotime($r['at'])) . "). Chekni tekshirib, tezda tasdiqlang.\n\n" : '';
-}
 function tp_remind() {
     if (time() - (int)setting('tp_rem_at', '0') < 1800) return 0;
     $r = q("SELECT COUNT(*) c, MIN(created_at) m FROM topups WHERE status='pending' AND created_at < NOW() - INTERVAL 15 MINUTE")->fetch();
-    $s = 0; try { $s = (int)q("SELECT COUNT(*) FROM sms_in WHERE st='review'")->fetchColumn(); } catch (Exception $e) {}
-    if ((int)$r['c'] === 0 && $s === 0) return 0;
+    if ((int)$r['c'] === 0) return 0;
     setset('tp_rem_at', (string)time());
     $t = ''; if ((int)$r['c'] > 0) $t .= '🧾 ' . (int)$r['c'] . ' ta to\'lov cheki tasdiqlanmagan (eng eskisi ' . max(1, (int)round((time() - strtotime($r['m'])) / 60)) . ' daqiqa). ';
-    if ($s > 0) $t .= '🔔 ' . $s . ' ta bank SMS i tasdiq kutmoqda. ';
-    notify_admins('⏳ ' . trim($t) . 'Admin → To\'lovlar / Avto-to\'lov bo\'limini oching.');
+    notify_admins('⏳ ' . trim($t) . 'Admin → To\'lovlar bo\'limini oching.');
     return 'eslatma';
 }
 /* ---- bonuslar: birinchi to'ldirish va katta summaga ---- */
@@ -5505,7 +5422,6 @@ function tod_items() {
     $c = function ($sql, $p = array()) { try { return (int)q($sql, $p)->fetchColumn(); } catch (Exception $e) { return 0; } };
     $add('topups', '🧾', 'Tasdiqlanmagan to\'lov cheklari', $c("SELECT COUNT(*) FROM topups WHERE status='pending'"));
     $add('wd', '➖', 'Pul yechish so\'rovlari', $c("SELECT COUNT(*) FROM withdrawals WHERE status='pending'"));
-    $add('sms', '🔔', 'Bank SMS i: tasdiq kutmoqda', $c("SELECT COUNT(*) FROM sms_in WHERE st='review'"));
     $add('disp', '⚖️', 'Nizolar (reklama birjasi)', $c("SELECT COUNT(*) FROM auc_orders WHERE dispute=1 AND paid=0"));
     $add('ads', '📢', 'E\'lon buyurtmalari', $c("SELECT COUNT(*) FROM ad_orders WHERE status IN ('pending','sending')"));
     $add('unk', '🔍', 'Holati noma\'lum buyurtmalar (Nakrutka)', $c("SELECT COUNT(*) FROM nk_ord WHERE st='unk'"), 'Provayder panelida tekshirib, «Qaytarish» yoki «Yuborilgan» ni bosing');
@@ -7418,7 +7334,6 @@ if (isset($_GET['l'])) {   /* qisqa havola: bosishlar sanaladi va manzilga yo'na
     if (!preg_match('/bot|crawl|spider|preview|facebookexternalhit|whatsapp/i', isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '')) q('UPDATE short_links SET clicks=clicks+1 WHERE id=?', array($r['id']));   /* havola ko'rinishini tayyorlovchi botlar sanalmaydi */
     header('Location: ' . $r['url'], true, 302); exit;
 }
-if (isset($_GET['sms'])) { mig(); sms_handle(); }
 if (isset($_GET['hook'])) {
     if (!hash_equals(KEY, (string)$_GET['hook'])) { http_response_code(403); exit; }
     $u = json_decode(file_get_contents('php://input'), true); mig();
@@ -8565,7 +8480,7 @@ if (isset($_GET['api'])) {
             'card' => $cfg['card'], 'holder' => $cfg['holder'], 'prices' => $cfg['prices'], 'min' => pay_min(), 'max' => PAY_MAX,
             'cnt' => array('Kanal' => (int)q('SELECT COUNT(*) ' . ad_aud('Kanal')[0])->fetchColumn() > 0 ? 1 : 0, 'Guruh' => (int)q('SELECT COUNT(*) ' . ad_aud('Guruh')[0])->fetchColumn() > 0 ? 1 : 0, 'users' => (int)q('SELECT COUNT(*) ' . ad_aud('users')[0])->fetchColumn() > 0 ? 1 : 0),   /* soni e'lon beruvchiga ko'rsatilmaydi — faqat bor/yo'q */
             'topups' => q('SELECT id,amount,status,created_at FROM topups WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll(),
-            'sms' => sms_on(), 'bn' => bonus_info($u['id']), 'wd_lock' => bonus_locked($u['id']), 'gift' => ($gf = gift_cfg())['on'] ? array('min' => $gf['min'], 'max' => $gf['max'], 'fee' => $gf['fee']) : null, 'pay_min' => pay_min(), 'pay_max' => pay_max(), 'wd_min' => WD_MIN, 'dn_min' => DN_MIN, 'wd_hold' => (int)q("SELECT COALESCE(SUM(amount),0) FROM withdrawals WHERE user_id=? AND status='pending'", array($u['id']))->fetchColumn(),
+            'bn' => bonus_info($u['id']), 'wd_lock' => bonus_locked($u['id']), 'gift' => ($gf = gift_cfg())['on'] ? array('min' => $gf['min'], 'max' => $gf['max'], 'fee' => $gf['fee']) : null, 'pay_min' => pay_min(), 'pay_max' => pay_max(), 'wd_min' => WD_MIN, 'dn_min' => DN_MIN, 'wd_hold' => (int)q("SELECT COALESCE(SUM(amount),0) FROM withdrawals WHERE user_id=? AND status='pending'", array($u['id']))->fetchColumn(),
             'wds' => q('SELECT id,amount,status,created_at,card FROM withdrawals WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll(),
             'orders' => q('SELECT id,kind,price,status,created_at FROM ad_orders WHERE user_id=? ORDER BY id DESC LIMIT 10', array($u['id']))->fetchAll()));
     }
@@ -8578,7 +8493,7 @@ if (isset($_GET['api'])) {
         if ((int)q("SELECT COUNT(*) FROM topups WHERE user_id=? AND status='pending'", array($u['id']))->fetchColumn() >= 3) out(array('ok' => false, 'error' => 'Kutilayotgan so\'rovlaringiz ko\'p. Admin tasdiqlashini kuting.'), 429);
         $rh = md5($bin); $flag = topup_flag($u['id'], $amt, $rh);
         q("INSERT INTO topups (user_id,amount,status,receipt,created_at,rhash,flag) VALUES (?,?,'pending',?,NOW(),?,?)", array($u['id'], $amt, base64_encode($bin), $rh, $flag)); $tid = (int)db()->lastInsertId();
-        notify_admins_photo($bin, ($flag ? "⚠️ SHUBHALI: " . $flag . "\n\n" : '') . sms_hint($amt) . "💰 Yangi to'lov so'rovi #" . $tid . "\n" . trim($u['first_name'] . ' ' . (isset($u['last_name']) ? $u['last_name'] : '')) . (!empty($u['username']) ? ' (@' . $u['username'] . ')' : '') . "\nSumma: " . money($amt),
+        notify_admins_photo($bin, ($flag ? "⚠️ SHUBHALI: " . $flag . "\n\n" : '') . "💰 Yangi to'lov so'rovi #" . $tid . "\n" . trim($u['first_name'] . ' ' . (isset($u['last_name']) ? $u['last_name'] : '')) . (!empty($u['username']) ? ' (@' . $u['username'] . ')' : '') . "\nSumma: " . money($amt),
             json_encode(array('inline_keyboard' => array(array(array('text' => '✅ Tasdiqlash', 'callback_data' => 'tp:ok:' . $tid), array('text' => '❌ Rad etish', 'callback_data' => 'tp:no:' . $tid))))));
         out(array('ok' => true));
     }
@@ -8827,29 +8742,6 @@ if (isset($_GET['api'])) {
             if (!$b['ok']) out(array_merge(array('ok' => false, 'error' => $b['error']), !empty($b['need_topup']) ? array('need_topup' => true) : array()), $b['st']);
             out(array_merge(array('ok' => true, 'id' => $b['id']), !empty($b['check']) ? array('check' => true) : array()));
         }
-    }
-    if ($a === 'pay_status') {
-        $r = q('SELECT id,prov,amount,st FROM pay_tx WHERE id=? AND uid=?', array((int)(isset($in['id']) ? $in['id'] : 0), $u['id']))->fetch(); if (!$r) out(array('ok' => false, 'error' => 'Topilmadi'), 404);
-        out(array('ok' => true, 'st' => $r['st'], 'balance' => (int)q('SELECT balance FROM users WHERE id=?', array($u['id']))->fetchColumn()));
-    }
-    if ($a === 'sms_new') {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
-        if (!sms_on()) out(array('ok' => false, 'error' => 'Bu usul hozir ishlamayapti'), 503);
-        $amt = (int)(isset($in['amount']) ? $in['amount'] : 0); if ($amt < pay_min() || $amt > pay_max()) out(array('ok' => false, 'error' => 'Summa ' . money(pay_min()) . ' dan ' . money(pay_max()) . ' gacha bo\'lishi kerak'), 422);
-        sms_stale();
-        if ((int)q("SELECT COUNT(*) FROM pay_tx WHERE uid=? AND prov='card' AND st='new'", array($u['id']))->fetchColumn() >= 2) out(array('ok' => false, 'error' => 'Sizda kutilayotgan to\'lovlar bor. Avval ularni yakunlang yoki 40 daqiqa kuting'), 429);
-        $pk = pay_pick(); if (!$pk) out(array('ok' => false, 'error' => 'Karta hozir mavjud emas, birozdan keyin urinib ko\'ring'), 503);
-        $pdo = db(); $id = 0; $final = 0;
-        try {
-            $pdo->beginTransaction(); q("SELECT GET_LOCK('kp_cardtx', 5)");
-            $busy = array(); foreach (q("SELECT amount FROM pay_tx WHERE prov='card' AND st='new'")->fetchAll() as $r) $busy[(int)$r['amount']] = 1;
-            $offs = range(1, 99); shuffle($offs); array_unshift($offs, 0);   /* avval aynan kiritilgan summa (bir-ma-bir); band bo'lsagina +1…+99 so'm */
-            foreach ($offs as $o) if (!isset($busy[$amt + $o])) { $final = $amt + $o; break; }
-            if ($final > 0) { q("INSERT INTO pay_tx (uid,prov,amount,st,c4,created,upd) VALUES (?,'card',?,'new',?,NOW(),NOW())", array($u['id'], $final, $pk['c4'])); $id = (int)$pdo->lastInsertId(); }
-            $pdo->commit(); q("SELECT RELEASE_LOCK('kp_cardtx')");
-        } catch (Exception $e) { if ($pdo->inTransaction()) $pdo->rollBack(); out(array('ok' => false, 'error' => 'Xatolik, qayta urinib ko\'ring'), 500); }
-        if ($final === 0) out(array('ok' => false, 'error' => 'Hozir band, birozdan keyin urinib ko\'ring'), 429);
-        out(array('ok' => true, 'id' => $id, 'amount' => $final, 'card' => $pk['card'], 'holder' => $pk['holder'], 'left' => 2400));
     }
     if ($a === 'gift_send') {   /* balansni boshqa foydalanuvchiga sovg'a qilish */
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
@@ -9153,44 +9045,6 @@ if (isset($_GET['api'])) {
                 q("UPDATE vs_ord SET st='wait', porder=?, phone=?, err='', expires=?, upd=NOW() WHERE id=? AND st IN ('new','unk')", array($po, mb_substr($ph, 0, 32), date('Y-m-d H:i:s', time() + 15 * 60), $id)); out(array('ok' => true));
             }
             out(array('ok' => false, 'error' => 'Noto\'g\'ri amal'), 422);
-        }
-        out(array('ok' => false, 'error' => 'Noma\'lum amal'), 404);
-    }
-    if (strpos($a, 'pay_adm') === 0) {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(array('ok' => false, 'error' => 'Faqat POST so\'rov'), 405);
-        if ($a === 'pay_adm_get') {
-            $tx = q('SELECT t.id,t.uid,t.prov,t.amount,t.st,t.created,u.name,u.username FROM pay_tx t LEFT JOIN users u ON u.id=t.uid ORDER BY t.id DESC LIMIT 25')->fetchAll();
-            foreach ($tx as $i => $r) { $tx[$i]['created'] = date('d.m H:i', strtotime($r['created'])); $tx[$i]['amount'] = (int)$r['amount']; }
-            $lg = q('SELECT prov,req,res,at FROM pay_log ORDER BY id DESC LIMIT 8')->fetchAll();
-            foreach ($lg as $i => $r) $lg[$i]['at'] = date('d.m H:i:s', strtotime($r['at']));
-            out(array('ok' => true, 'min' => pay_min(), 'max' => pay_max(), 'app' => APP_URL, 
-                'tx' => $tx, 'log' => $lg, 'sms' => array('on' => setting('sms_on', '0') === '1', 'ready' => sms_on(), 'token' => setting('sms_token', ''), 'url' => APP_URL . '?sms=' . setting('sms_token', ''), 'card4' => setting('sms_card4', ''), 'max' => (int)setting('sms_max', '1000000'), 'bal' => setting('sms_lastbal', ''), 'card_set' => pay_cfg()['card'] !== '',
-                    'list' => array_map(function ($r) { $r['at'] = date('d.m H:i', strtotime($r['at'])); $r['raw'] = mb_substr(preg_replace('/\*\s*(\d{4})/', '*$1', (string)$r['raw']), 0, 160); return $r; }, q('SELECT id,amount,bal,st,tx,note,raw,at FROM sms_in ORDER BY id DESC LIMIT 15')->fetchAll())),
-                'sum' => array('n' => (int)q("SELECT COUNT(*) FROM pay_tx WHERE st='paid' AND created > NOW() - INTERVAL 30 DAY")->fetchColumn(), 'sum' => (int)q("SELECT COALESCE(SUM(amount),0) FROM pay_tx WHERE st='paid' AND created > NOW() - INTERVAL 30 DAY")->fetchColumn())));
-        }
-        if ($a === 'pay_adm_set') {
-            $p = (string)(isset($in['p']) ? $in['p'] : ''); $g = function ($k) use ($in) { return trim((string)(isset($in[$k]) ? $in[$k] : '')); };
-            if ($p === 'sms') {
-                $c4 = $g('card4'); $mx = (int)$g('max');
-                if ($c4 !== '' && !preg_match('/^\d{4}$/', $c4)) out(array('ok' => false, 'error' => 'Karta raqamining oxirgi 4 ta raqamini kiriting (SMS dagi *6662 kabi)'), 422);
-                if ($mx < 10000 || $mx > 100000000) out(array('ok' => false, 'error' => 'Avto-tasdiq chegarasi 10 000 dan 100 000 000 gacha bo\'lsin'), 422);
-                if ($c4 !== '') setset('sms_card4', $c4); setset('sms_max', $mx);
-                if (setting('sms_token', '') === '' || !empty($in['regen'])) setset('sms_token', bin2hex(random_bytes(16)));
-                setset('sms_on', !empty($in['on']) ? '1' : '0'); out(array('ok' => true));
-            }
-            if ($p === 'limits') {
-                $mn = (int)$g('min'); $mx = (int)$g('max'); if ($mn < 1000 || $mx < $mn || $mx > 100000000) out(array('ok' => false, 'error' => 'Eng kam 1 000 dan, eng ko\'p eng kamidan katta va 100 000 000 dan oshmasin'), 422);
-                setset('pay_amin', $mn); setset('pay_amax', $mx); out(array('ok' => true));
-            }
-            out(array('ok' => false, 'error' => 'Noma\'lum bo\'lim'), 422);
-        }
-        if ($a === 'pay_adm_sms') {
-            $id = (int)(isset($in['id']) ? $in['id'] : 0); $r = q('SELECT * FROM sms_in WHERE id=?', array($id))->fetch();
-            if (!$r || $r['st'] !== 'review' || !$r['tx']) out(array('ok' => false, 'error' => 'Bu yozuvni hisoblab bo\'lmaydi'), 422);
-            if (q("UPDATE sms_in SET st='ok', note=CONCAT('admin tasdiqladi: ', note) WHERE id=? AND st='review'", array($id))->rowCount() !== 1) out(array('ok' => false, 'error' => 'Allaqachon hal qilingan'), 409);
-            q("UPDATE pay_tx SET st='new' WHERE id=? AND prov='card' AND st='cancel'", array($r['tx']));
-            if (!pay_credit((int)$r['tx'])) { q("UPDATE sms_in SET st='review' WHERE id=?", array($id)); out(array('ok' => false, 'error' => 'Balansga qo\'shib bo\'lmadi (allaqachon to\'langan bo\'lishi mumkin)'), 409); }
-            out(array('ok' => true));
         }
         out(array('ok' => false, 'error' => 'Noma\'lum amal'), 404);
     }
@@ -10399,7 +10253,7 @@ html.sp-wait #tartibon-splash{animation:sp-hide .4s ease 8s forwards} /* zaxira:
 </div>
 <div class="card abg"><b>💳 Hisob va to'lovlar</b><details class="abx"><summary><span class="abi c2">💰</span><b>Balans</b></summary><div class="abd"><p>Ilova ichidagi hisobingiz. To'lovlar (e'lon, pullik kanal, reklama) shu hisobdan o'tadi.</p><p><b>To'ldirish:</b> kartaga pul o'tkazasiz, chekning rasmini yuklaysiz, admin tasdiqlagach summa balansingizga tushadi (eng kam 100 000, eng ko'p 3 000 000 so'm).</p><p><b>Yechish:</b> summa va karta raqamini yozasiz (eng kam 50 000 so'm). Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi; rad etilsa, balans o'zgarmaydi.</p><p><b>Reklama birjasi va pullik kanal:</b> tushgan pul (xizmat haqi ayrilgach) ham shu balansga tushadi.</p></div></details>
 <details class="abx"><summary><span class="abi c9">📢</span><b>E'lon berish</b></summary><div class="abd"><p>Botning kanal, guruh yoki foydalanuvchilariga pullik e'lon yuborasiz.</p><p><b>Qanday?</b> auditoriyani tanlaysiz, 16:9 rasm yuklaysiz va matn yozasiz. Narx balansdan olinadi, admin tasdiqlagach e'lon yuboriladi. Kanal va guruhlarga e'londa havola bo'lmaydi (havola faqat foydalanuvchilarga e'londa mumkin). Rad etilsa, pul balansga qaytariladi.</p></div></details>
-<details class="abx"><summary><span class="abi c1">🤝</span><b>Bot rivoji</b></summary><div class="abd"><p>Bosh sahifadagi «Bot rivoji uchun hisob balansi» — botni rivojlantirishga o'tkazilgan umumiy summa. Kartani bossangiz o'tkazganlar ro'yxati chiqadi.</p><p><b>O'tkazish:</b> «Balans» sahifasida «Bot rivoji uchun o'tkazish» (eng kam 25 000 so'm). Summa darhol balansingizdan yechiladi.</p></div></details>
+<details class="abx"><summary><span class="abi c1">🤝</span><b>Bot rivoji</b></summary><div class="abd"><p>Bosh sahifadagi «Bot rivoji uchun hisob balansi» — botni rivojlantirishga o'tkazilgan umumiy summa. Kartani bossangiz o'tkazganlar ro'yxati chiqadi.</p><p><b>O'tkazish:</b> «Balans» sahifasida «Bot rivoji uchun o'tkazish» (istalgan summa). Summa darhol balansingizdan yechiladi.</p></div></details>
 </div>
 <div class="card"><b>❓ Ko'p beriladigan savollar</b><p class="sub abq"><b>Xabarlar kanalga bormayapti?</b><br>Bot kanalda administrator ekanini va «Xabar joylash» huquqi borligini tekshiring. Bosh sahifada «Kanal» yoki «Guruh» holatini ko'ring.</p><p class="sub abq"><b>Kurs xabari nega har soatda kelmaydi?</b><br>Kurs xabarlari faqat narx o'zgarganda yuboriladi — o'zgarish bo'lmasa takror ketmaydi.</p><p class="sub abq"><b>Xabarlarni qanday to'xtataman?</b><br>Tegishli bo'limdagi kalitni o'chiring yoki chatda belgini olib «Saqlash» ni bosing. Botni kanal/guruhdan chiqarsangiz ham yuborish to'xtaydi.</p><p class="sub abq"><b>Balansdagi pul qayerga ketadi?</b><br>E'lon, pullik kanal va reklama xizmatlari uchun. Ortig'ini «Balans» sahifasidan yechib olishingiz mumkin.</p><p class="sub abq"><b>Guruhda bot javob bermayapti?</b><br>Botga «Xabarlarni o'chirish» va «Foydalanuvchilarni bloklash» huquqlarini bering; himoya va test buyruqlari faqat ulangan guruhlarda ishlaydi.</p></div>
 <p class="sub" style="text-align:center;margin:14px 0 4px">TartibOn © 2026</p></div>
@@ -10507,11 +10361,11 @@ function pickR(i){var f=i.files[0];if(!f)return;imgfit(f,1280,1280,false,functio
 function pickA(i){var f=i.files[0];if(!f)return;imgfit(f,1280,720,true,function(d){AIMG=d;$('apv').innerHTML=pvA()})}
 function aks(k){var t=$('atx');if(t)ATXT=t.value;AKS=k;rads()}
 function rbal(){var h='<div class="card"><div class="sub">Sizning balansingiz</div><div style="font-size:30px;font-weight:700;margin-top:4px">'+fmt(W.balance)+'</div></div>';
-h+='<div class="card"><b>➕ Balansni to\'ldirish</b>'+(W.bn?'<div class="sub" style="margin:2px 0 8px;color:#1a9e4f"><b>🎁 '+esc(W.bn)+'</b></div>':'')+payui()+'<input id="ta" type="number" inputmode="numeric" placeholder="Summani kiriting (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.min)+', eng ko\'pi '+fmt(W.max)+'.</p>';
+h+='<div class="card"><b>➕ Balansni to\'ldirish</b>'+(W.bn?'<div class="sub" style="margin:2px 0 8px;color:#1a9e4f"><b>🎁 '+esc(W.bn)+'</b></div>':'')+'<input id="ta" type="number" inputmode="numeric" placeholder="Summani kiriting (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.min)+', eng ko\'pi '+fmt(W.max)+'.</p>';
 if(W.card){h+='<div class="cbx"><div class="sub" style="font-size:12px">Karta raqami</div><div class="row" style="margin:2px 0 8px"><b style="font-size:18px;letter-spacing:.5px">'+esc(W.card)+'</b><button class="cp" onclick="cpy()" aria-label="Nusxalash"><svg viewBox="0 0 24 24" fill="none" stroke="#2f80ed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div><div class="sub" style="font-size:12px">Karta egasi</div><b>'+esc(W.holder)+'</b></div><p class="sub" style="font-size:12px;margin:0 0 6px">Shu kartaga to\'lov qiling, to\'lov chekining rasmini yuklang va «To\'lov qildim» ni bosing. Admin tasdiqlagach summa balansingizga tushadi.</p><label class="up">🧾 To\'lov chekini yuklang<input type="file" accept="image/*" style="display:none" onchange="pickR(this)"></label><div id="rpv">'+pvR()+'</div><button class="btn" onclick="tn()">To\'lov qildim</button>'}else h+='<p class="sub">Karta ma\'lumotlari hali kiritilmagan.</p>';
 h+='</div>';
 h+=giftui();
-h+='<div class="card"><b>🤝 Bot rivoji uchun o\'tkazish</b><input id="da" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.dn_min)+'. Summa darhol balansingizdan yechiladi va bot rivojiga yo\'naltiriladi.</p><button class="btn" onclick="dns()">O\'tkazish</button></div>';
+h+='<div class="card"><b>🤝 Bot rivoji uchun o\'tkazish</b><input id="da" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Summa darhol balansingizdan yechiladi va bot rivojiga yo\'naltiriladi.</p><button class="btn" onclick="dns()">O\'tkazish</button></div>';
 h+='<div class="card"><b>➖ Balansdan yechish</b><input id="wa" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><input id="wc" inputmode="numeric" maxlength="19" placeholder="Karta raqami (16 xonali)"><input id="wh" maxlength="60" placeholder="Karta egasi (ism familiya)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.wd_min)+'.'+(W.wd_hold?' Kutilayotgan so\'rovlar: '+fmt(W.wd_hold)+'.':'')+' Admin tasdiqlagach summa balansingizdan yechiladi va kartangizga o\'tkaziladi.</p><button class="btn" onclick="wn()">Yechishni so\'rash</button></div>';
 if((W.wds||[]).length)h+='<div class="card"><b>➖ So\'nggi yechishlar</b>'+W.wds.map(function(t){return '<div class="row" style="margin-top:10px"><div><b>'+fmt(t.amount)+'</b><div class="sub" style="font-size:12px">**** '+esc(String(t.card).slice(-4))+' · '+esc(t.created_at)+'</div></div><span class="tag">'+TS[t.status]+'</span></div>'}).join('')+'</div>';
 if(W.topups.length)h+='<div class="card"><b>🧾 So\'nggi to\'ldirishlar</b>'+W.topups.map(function(t){return '<div class="row" style="margin-top:10px"><div><b>'+fmt(t.amount)+'</b><div class="sub" style="font-size:12px">'+esc(t.created_at)+'</div></div><span class="tag">'+TS[t.status]+'</span></div>'}).join('')+'</div>';
@@ -10674,8 +10528,8 @@ if(v==='home'){var pt=AD.pay.topups.filter(function(t){return t.status==="pendin
 var A=function(ic,c,t,v,a,bd){return '<button class="ar" onclick="'+a+'"><span class="ai '+c+'">'+sv2(ic)+'</span><b>'+t+'</b>'+(bd?'<span class="an">'+bd+'</span>':v?'<span class="av2">'+v+'</span>':'')+'<span class="ac2">›</span></button>'},B=function(ic,t,a){return '<button class="ar bl" onclick="'+a+'"><span class="ai">'+sv2(ic)+'</span><b>'+t+'</b></button>'};
 s+='<div class="ahd"><div class="aav"><svg viewBox="0 0 24 24"><path d="M21.4 3.3 2.9 10.5c-1 .4-.9 1.7.1 2l4.6 1.4 1.8 5.5c.3.8 1.3 1 1.9.4l2.6-2.6 4.8 3.5c.7.5 1.6.1 1.8-.7L23 4.6c.2-1-.7-1.6-1.6-1.3z"/></svg></div><b>Bot egasi</b><span>@'+esc(BOTU)+' · Admin panel</span></div><div class="tq-st">'+T('us','c1','#1d84f2','Obunachi',ST3.u||AD.users.length,"av('users')")+T('pl','c2','#16a34a','Kanal',cc('Kanal').length,"av('Kanal')")+T('gr','c4','#7c3aed','Guruh',cc('Guruh').length,"av('Guruh')")+'</div>'
 +'<div class="pvh">💰 Provayder balanslari</div><div class="pvs" id="pvs">'+pvtiles()+'</div>'+'<div class="ag">'+B('pl','Xabar yuborish',"ma('users')")+B('rp','Bank kurslarini hozir yangilash',"xbNow()")+'</div>'
-+'<div class="agt">📌 Kunlik ishlar</div><div class="ag">'+A('li','c8','Bugungi ishlar','Hammasi bir joyda',"av('tod')",pt+((AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+((AD.pay.disputes||[]).length)+pd)+A('co','c7','To\'lovlar','Tasdiqlash kutmoqda',"av('topups')",pt||0)+A('co','c8','Pul yechish','',"av('wd')",(AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+A('li','c8','E\'lon buyurtmalari','',"av('orders')",pd||0)+A('sh','c3','Nizolar (reklama birjasi)','',"av('disp')",(AD.pay.disputes||[]).length)+'</div>'+'<div class="agt">👥 Mijozlar va chatlar</div><div class="ag">'+A('us','c1','Foydalanuvchilar','',"av('users')")+A('pl','c2','Kanallar','',"av('Kanal')")+A('gr','c4','Guruhlar','',"av('Guruh')")+A('su','c9','Tilaklar qutisi','Mijozlar takliflari',"av('wsx')")+A('gr','c4','Menyu · Support · A\'zolar','',"av('menu')")+'</div>'+'<div class="agt">💰 Moliya va to\'lov</div><div class="ag">'+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('cd','c7','Avto-to\'lov (Karta SMS)','',"av('apay')")+A('cd','c2','Karta, bonus, sovg\'a','',"av('bnx')")+A('co','c8','Provayder balanslari','prm4u · 5sim',"av('pv')")+'</div>'+'<div class="agt">🛒 Xizmatlar va daromad</div><div class="ag">'+A('tr','c5','Nakrutka sozlamalari','',"av('nkx')")+A('ch','c1','eSIM sozlamalari','',"av('vsx')")+A('li','c8','Ilova reklamasi','Bosh sahifa bloki',"av('ads')")+A('sx','c3','Kanal Savdo: Instagram','',"MK.p='ig';ago('mk')")+A('sx','c4','Kanal Savdo: YouTube','',"MK.p='yt';ago('mk')")+A('qz','c5','Prava savollari','',"DV.want='adm';ago('dv')")+A('qz','c9','Testlar savollar bazasi','Guruh testlari',"SJ.wantTab='bank';ago('psj')")+'</div>'+'<div class="agt">📨 Avto xabarlar va kontent</div><div class="ag">'+A('mn','c9','Tongi xabar','',"av('dp')")+A('mn','c1','Tungi xabar','',"av('evx')")+A('dc','c6','Bayram tabriklari','',"ago('bt')")+A('mq','c1','Namoz xabarnomalari','',"pra()")+A('wx','c2','Ob-havo ogohlantirishi','',"av('wax')")+A('rp','c3','Bank kurslari','Qo\'lda · avto',"MED=null;MBK=null;av('manual')")+A('dc','c6','Post matnlari','Rasm tagidagi matnlar',"av('auto')")+'</div>'+'<div class="agt">🛡 Himoya va tizim</div><div class="ag">'+A('sh','c3','Guruh himoyasi','',"gda()")+A('sh','c7','Xavfsizlik va holat','',"av('sec')")+A('sh','c2','Bot holati','Cron · webhook',"av('bot')")+A('sx','c5','Hisobotlar','Foyda · mijozlar · manba',"av('rep')")+A('sx','c5','Statistika',nf(AD.s['Bugun yuborilgan']||0)+' bugun',"av('stat')")+A('sh','c7','Bosh sahifa katak tartibi','',"go('home');hxedit(1)")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
-else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='apay'){s+='<h1>💳 Avto-to\'lov</h1><div id="apb"><div class="sk"></div></div>'}else if(v==='sec'){s+='<h1>🛡 Xavfsizlik va holat</h1><div id="secb"><div class="sk"></div></div>'}else if(v==='bnx'){s+='<h1>💳 Karta, bonus va eslatmalar</h1><div id="bnxb"><div class="sk"></div></div>'}else if(v==='rep'){s+='<h1>📊 Hisobotlar</h1><div id="repb"><div class="sk"></div></div>'}else if(v==='tod'){s+='<h1>✅ Bugungi ishlar</h1><div id="todb"><div class="sk"></div></div>'}else if(v==='ads'){s+='<h1>📣 Ilova reklamasi</h1><div id="adsa"><div class="sk"></div></div>'}else if(v==='nkx'){s+='<h1>🚀 Nakrutka sozlamalari</h1><div id="nka"><div class="sk"></div></div>'}else if(v==='vsx'){s+='<h1>📲 eSIM sozlamalari</h1><div id="vsa"><div class="sk"></div></div>'}else if(v==='evx'){s+='<h1>🌙 Tungi xabar</h1><div id="evba"><div class="sk"></div></div>'}else if(v==='wax'){s+='<h1>🌤 Ob-havo ogohlantirishi</h1><div id="waba"><div class="sk"></div></div>'}else if(v==='wsx'){s+='<h1>💡 Tilaklar qutisi</h1><div id="wsb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
++'<div class="agt">📌 Kunlik ishlar</div><div class="ag">'+A('li','c8','Bugungi ishlar','Hammasi bir joyda',"av('tod')",pt+((AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+((AD.pay.disputes||[]).length)+pd)+A('co','c7','To\'lovlar','Tasdiqlash kutmoqda',"av('topups')",pt||0)+A('co','c8','Pul yechish','',"av('wd')",(AD.pay.wds||[]).filter(function(t){return t.status==='pending'}).length)+A('li','c8','E\'lon buyurtmalari','',"av('orders')",pd||0)+A('sh','c3','Nizolar (reklama birjasi)','',"av('disp')",(AD.pay.disputes||[]).length)+'</div>'+'<div class="agt">👥 Mijozlar va chatlar</div><div class="ag">'+A('us','c1','Foydalanuvchilar','',"av('users')")+A('pl','c2','Kanallar','',"av('Kanal')")+A('gr','c4','Guruhlar','',"av('Guruh')")+A('su','c9','Tilaklar qutisi','Mijozlar takliflari',"av('wsx')")+A('gr','c4','Menyu · Support · A\'zolar','',"av('menu')")+'</div>'+'<div class="agt">💰 Moliya va to\'lov</div><div class="ag">'+A('cd','c2','Karta va narxlar','',"av('paycfg')")+A('cd','c2','Karta, bonus, sovg\'a','',"av('bnx')")+A('co','c8','Provayder balanslari','prm4u · 5sim',"av('pv')")+'</div>'+'<div class="agt">🛒 Xizmatlar va daromad</div><div class="ag">'+A('tr','c5','Nakrutka sozlamalari','',"av('nkx')")+A('ch','c1','eSIM sozlamalari','',"av('vsx')")+A('li','c8','Ilova reklamasi','Bosh sahifa bloki',"av('ads')")+A('sx','c3','Kanal Savdo: Instagram','',"MK.p='ig';ago('mk')")+A('sx','c4','Kanal Savdo: YouTube','',"MK.p='yt';ago('mk')")+A('qz','c5','Prava savollari','',"DV.want='adm';ago('dv')")+A('qz','c9','Testlar savollar bazasi','Guruh testlari',"SJ.wantTab='bank';ago('psj')")+'</div>'+'<div class="agt">📨 Avto xabarlar va kontent</div><div class="ag">'+A('mn','c9','Tongi xabar','',"av('dp')")+A('mn','c1','Tungi xabar','',"av('evx')")+A('dc','c6','Bayram tabriklari','',"ago('bt')")+A('mq','c1','Namoz xabarnomalari','',"pra()")+A('wx','c2','Ob-havo ogohlantirishi','',"av('wax')")+A('rp','c3','Bank kurslari','Qo\'lda · avto',"MED=null;MBK=null;av('manual')")+A('dc','c6','Post matnlari','Rasm tagidagi matnlar',"av('auto')")+'</div>'+'<div class="agt">🛡 Himoya va tizim</div><div class="ag">'+A('sh','c3','Guruh himoyasi','',"gda()")+A('sh','c7','Xavfsizlik va holat','',"av('sec')")+A('sh','c2','Bot holati','Cron · webhook',"av('bot')")+A('sx','c5','Hisobotlar','Foyda · mijozlar · manba',"av('rep')")+A('sx','c5','Statistika',nf(AD.s['Bugun yuborilgan']||0)+' bugun',"av('stat')")+A('sh','c7','Bosh sahifa katak tartibi','',"go('home');hxedit(1)")+A('sh','c7','Qo\'shimcha','2FA · jurnal',"XT=null;av('xt')")+'</div>'}
+else if(v==='pv'){s+='<h1>💰 Provayder balanslari</h1><div id="pvb"><div class="sk"></div></div>'}else if(v==='sec'){s+='<h1>🛡 Xavfsizlik va holat</h1><div id="secb"><div class="sk"></div></div>'}else if(v==='bnx'){s+='<h1>💳 Karta, bonus va eslatmalar</h1><div id="bnxb"><div class="sk"></div></div>'}else if(v==='rep'){s+='<h1>📊 Hisobotlar</h1><div id="repb"><div class="sk"></div></div>'}else if(v==='tod'){s+='<h1>✅ Bugungi ishlar</h1><div id="todb"><div class="sk"></div></div>'}else if(v==='ads'){s+='<h1>📣 Ilova reklamasi</h1><div id="adsa"><div class="sk"></div></div>'}else if(v==='nkx'){s+='<h1>🚀 Nakrutka sozlamalari</h1><div id="nka"><div class="sk"></div></div>'}else if(v==='vsx'){s+='<h1>📲 eSIM sozlamalari</h1><div id="vsa"><div class="sk"></div></div>'}else if(v==='evx'){s+='<h1>🌙 Tungi xabar</h1><div id="evba"><div class="sk"></div></div>'}else if(v==='wax'){s+='<h1>🌤 Ob-havo ogohlantirishi</h1><div id="waba"><div class="sk"></div></div>'}else if(v==='wsx'){s+='<h1>💡 Tilaklar qutisi</h1><div id="wsb"><div class="sk"></div></div>'}else if(v==='disp'){s+='<h1>⚖️ Nizolar</h1>'+((AD.pay.disputes||[]).length?AD.pay.disputes.map(function(o){return '<div class="card"><div class="row"><b>#'+o.id+' · '+esc(o.username)+'</b><b>'+fmt(+o.price)+'</b></div><div class="sub" style="margin-top:4px">Xaridor: '+esc(o.bname||o.buyer)+(o.buser?' (@'+esc(o.buser)+')':'')+'<br>Sotuvchi: '+esc(o.oname||o.owner)+(o.ouser?' (@'+esc(o.ouser)+')':'')+'</div><div style="margin:8px 0;white-space:pre-wrap">💬 '+esc(o.dnote||'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="adres('+o.id+',\'owner\')">💰 Sotuvchiga to\'lash</button><button class="btn s" onclick="adres('+o.id+',\'buyer\')">↩️ Xaridorga qaytarish</button></div></div>'}).join(''):'<div class="card sub">Ochiq nizo yo\'q</div>')}
 else if(v==='wd'){s+='<h1>➖ Pul yechish</h1>'+((AD.pay.wds||[]).length?AD.pay.wds.map(function(t){var p=t.status==='pending';return '<div class="card"><div class="row"><b>'+fmt(t.amount)+'</b><span class="tag">'+TS[t.status]+'</span></div><div class="sub">'+esc(t.name||t.uid)+(t.username?' · @'+esc(t.username):'')+' · '+esc(t.created_at)+'</div><div class="sub" style="margin-top:6px">Karta: <b>'+esc(String(t.card).replace(/(\d{4})(?=\d)/g,'$1 '))+'</b><br>Egasi: <b>'+esc(t.holder)+'</b><br>Balans: '+fmt(t.balance)+'</div>'+(p?'<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn s" onclick="tw('+t.id+',\'approve\')">✅ Tasdiqlash</button><button class="btn s" onclick="tw('+t.id+',\'reject\')">❌ Rad etish</button></div>':'')+'</div>'}).join(''):'<div class="card sub">Hozircha yechish so\'rovlari yo\'q</div>')}
 else if(v==='stat'){s+='<h1>📊 Statistika</h1>'+Object.keys(AD.s).map(function(k){return '<div class="card row"><span class="sub">'+k+'</span><b>'+AD.s[k]+'</b></div>'}).join('')+'<div class="card row"><span class="sub">Kurs yangilangan</span><b>'+esc(AD.last_ok||'—')+'</b></div>'+(AD.last_err?'<div class="card"><div class="row"><span class="sub">Oxirgi urinish</span><b>'+esc(AD.last_try||'—')+'</b></div><div class="sub" style="color:var(--r);margin-top:6px">⚠️ Kurs olinmadi: '+esc(AD.last_err)+'</div></div>':'')}
 else if(v==='bot'){s+='<h1>🤖 Bot holati</h1><div id="botst"><div class="card sub">Tekshirilmoqda…</div></div>';setTimeout(function(){botchk()},0)}
@@ -10985,7 +10839,7 @@ PV.d.forEach(function(p){var ic=PVI[p.id]||PVI.prm4u;h+='<div class="card"><div 
 el.innerHTML=h}
 function pvsave(id){api('nk_adm_limit',{id:id,limit:$('pvlm_'+id).value}).then(function(j){if(j.ok){toast('Saqlandi');pvl(0)}})}
 function pvsite(u){try{tg.openLink(u)}catch(e){window.open(u,'_blank')}}
-var _avN=av;av=function(v){_avN(v);if(v==='home'||v==='pv')pvl(0);if(v==='apay')apl();if(v==='sec')secl();if(v==='bnx')bnl();if(v==='ads')adsl();if(v==='nkx')nka();if(v==='vsx')vsa();if(v==='evx')evla();if(v==='wax')wala();if(v==='wsx')wsl();if(v==='rep')repl();if(v==='tod')todl()};
+var _avN=av;av=function(v){_avN(v);if(v==='home'||v==='pv')pvl(0);if(v==='sec')secl();if(v==='bnx')bnl();if(v==='ads')adsl();if(v==='nkx')nka();if(v==='vsx')vsa();if(v==='evx')evla();if(v==='wax')wala();if(v==='wsx')wsl();if(v==='rep')repl();if(v==='tod')todl()};
 
 function pvsm(p){var s=PV.sm||{};return '<div class="sub" style="margin-bottom:4px">API kalit ('+(s.key_set?'saqlangan ••••'+esc(s.key_tail):'kiritilmagan')+') — 5sim → Settings → «API key for 5SIM protocol»</div><input id="smk" type="password" autocomplete="off" placeholder="'+(s.key_set?'Yangi kalit (o\'zgartirish uchun)':'API kalitni shu yerga qo\'ying')+'"'+(s.key_const?' disabled':'')+'><div class="sub" style="margin-bottom:4px">Balans valyutasi (5sim API qaysi valyutada qaytarsa shuni tanlang — saytdagi bilan solishtiring)</div><div class="cps"><button class="chip'+(s.cur==='RUB'?' on':'')+'" id="smc_RUB" onclick="smcur(\'RUB\')">₽ RUB</button><button class="chip'+(s.cur==='USD'?' on':'')+'" id="smc_USD" onclick="smcur(\'USD\')">$ USD</button></div><input id="smr" type="number" inputmode="decimal" value="'+(s.rub||'')+'" placeholder="1 rubl necha so\'m (faqat RUB uchun, ixtiyoriy)"><button class="btn" onclick="smsave()">💾 Kalit va valyutani saqlash</button>'}
 function smcur(c){PV.sm.cur=c;['RUB','USD'].forEach(function(x){var b=$('smc_'+x);if(b)b.classList.toggle('on',x===c)})}
@@ -11059,36 +10913,6 @@ function vsos(id,tg2){var o=null;VS.A.offers.forEach(function(x){if(x.id===id)o=
 function vsod(id){nkcf('Taklif o\'chirilsinmi? (Eski buyurtmalar saqlanadi)',function(){api('vs_adm_off',{id:id,del:1}).then(function(j){if(j.ok){toast('O\'chirildi');vsl(1)}})})}
 function vsfx(id,d){nkcf(d==='refund'?'Buyurtma #'+id+' uchun pul foydalanuvchiga qaytarilsinmi?':'Buyurtma 5sim ga yuborilgan deb belgilansinmi?',function(){api('vs_adm_fix',{id:id,do:d,porder:($('vpo'+id)||{}).value||'',phone:($('vph'+id)||{}).value||''}).then(function(j){if(j.ok){toast('Bajarildi');vsl(1)}})})}
 
-/* ---------- AVTOMATIK TO'LOV (Karta SMS) ---------- */
-var PAYW={t:0,ap:null,go:0};
-function payui(){var c=W&&W.sms;if(!c)return '';var btn='';
-if(c)btn+='<button class="btn" style="flex:1 1 100%;background:#1a9e4f" onclick="cardn()">💳 Kartaga o\'tkazish (avto-tasdiq)</button>';
-return '<div style="border-bottom:1px solid var(--ln);padding:8px 0 12px;margin-bottom:10px"><b>⚡ Avtomatik to\'ldirish</b><div class="sub" style="margin:2px 0 8px">Summa to\'lovdan keyin darrov balansingizga tushadi — chek yuborish va kutish shart emas.</div><input id="pa" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><div class="cps">'+[10000,50000,100000,200000,500000].map(function(v){return '<button class="chip" onclick="$(\'pa\').value='+v+'">'+nkn(v)+'</button>'}).join('')+'</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">'+btn+'</div><div id="pcard"></div><p class="sub" style="font-size:12px;margin:8px 0 0">Eng kam '+fmt(W.pay_min)+', eng ko\'pi '+fmt(W.pay_max)+'.</p></div><div class="sub" style="margin:0 0 8px"><b>Yoki qo\'lda</b> (kartaga o\'tkazib, chek yuklash):</div>'}
-function cardn(){var v=parseInt(($('pa')||{}).value,10)||0;if(v<W.pay_min||v>W.pay_max){toast('Summa '+fmt(W.pay_min)+' dan '+fmt(W.pay_max)+' gacha bo\'lsin');return}
-api('sms_new',{amount:v}).then(function(j){if(!j.ok)return;PAYW.id=j.id;PAYW.b0=W.balance;PAYW.cl=j.left;var e=$('pcard');if(!e)return;
-e.innerHTML='<div style="background:var(--soft);border-radius:14px;padding:12px;margin-top:10px"><div class="sub">Aynan shu summani o\'tkazing (noyob summa — to\'lovingizni avtomatik aniqlash uchun):</div><div class="row" style="margin:2px 0 8px"><b style="font-size:26px;letter-spacing:.5px">'+fmt(j.amount)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="vscp(\''+j.amount+'\')">📋</button></div><div class="sub">Karta raqami</div><div class="row" style="margin:2px 0 8px"><b style="font-size:19px;letter-spacing:.5px">'+esc(j.card)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="vscp(\''+esc(String(j.card).replace(/\s/g,''))+'\')">📋</button></div><div class="sub">Karta egasi: <b>'+esc(j.holder)+'</b></div><div class="sub" style="margin-top:8px">⏳ 40 daqiqa ichida o\'tkazing. To\'lov tushishi bilan balans <b>avtomatik</b> to\'ldiriladi. Summani o\'zgartirmang!</div></div>';payw()})}
-function payw(){clearInterval(PAYW.t);var n=0;PAYW.t=setInterval(function(){n++;if(n>90){clearInterval(PAYW.t);return}api('pay_status',{id:PAYW.id}).then(function(j){if(!j.ok)return;if(j.st==='paid'){clearInterval(PAYW.t);toast('✅ Balans to\'ldirildi');W.balance=j.balance;if(window.wallet)wallet()}})},4000)}
-document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&PAYW.id&&window.wallet&&['p-bal','p-ads','p-nk','p-vs'].some(function(i){var e=$(i);return e&&e.classList.contains('on')}))wallet()});
-/* --- admin --- */
-function apl(){api('pay_adm_get',{}).then(function(j){if(!j.ok)return;PAYW.ap=j;apr()})}
-function apcopy(u){vscp(u)}
-function apr(){var j=PAYW.ap,el=$('apb');if(!el||!j)return;var chip=function(on,t){return '<span style="font-size:12px;font-weight:700;border-radius:9px;padding:3px 9px;'+(on?'color:#1a9e4f;background:#e3f8ea">✓ '+t:'color:#7d8799;background:#eef1f6">'+t)+'</span>'};
-var h='';
-h+='<div class="card"><div class="sub">So\'nggi 30 kun: to\'lovlar <b>'+j.sum.n+'</b> ta · jami <b>'+fmt(j.sum.sum)+'</b></div></div>';
-var s=j.sms;h+='<div class="card"><div class="row" style="margin:0 0 6px"><b style="font-size:17px">💳 Karta (Humo SMS)</b>'+chip(s.ready,s.ready?'Faol':'Sozlanmagan')+'</div><div class="sub" style="margin-bottom:8px">Pul kartangizga tushganda bank SMS i iPhone dan shu manzilga avtomatik yuboriladi va balans o\'zi to\'ldiriladi.'+(s.card_set?'':' <b style="color:#d92d20">Avval «Karta va narxlar» da karta raqami va egasini kiriting.</b>')+'</div>'
-+'<input id="smc" value="'+esc(s.card4)+'" placeholder="Karta oxirgi 4 raqami (SMS dagi *6662 kabi)" inputmode="numeric" maxlength="4"><input id="smx" type="number" value="'+s.max+'" placeholder="Avto-tasdiq chegarasi, so\'m"><div class="sub" style="margin:-4px 0 8px">Undan katta summalar admin tasdig\'ini kutadi.</div>'
-+'<div class="cps"><button class="chip'+(s.on?' on':'')+'" onclick="PAYW.ap.sms.on=!PAYW.ap.sms.on;this.classList.toggle(\'on\',PAYW.ap.sms.on)">✅ Yoqilgan</button></div><button class="btn" onclick="pasave(\'sms\')">💾 Saqlash</button>'
-+(s.token?'<div class="sub" style="margin:12px 0 4px"><b>iPhone uchun manzil</b> (maxfiy — hech kimga bermang):</div><div class="row" style="margin:0 0 6px"><b style="font-size:12px;word-break:break-all">'+esc(s.url)+'</b><button class="btn s" style="width:auto;padding:6px 12px" onclick="apcopy(\''+esc(s.url)+'\')">📋</button></div><button class="btn s" onclick="pasave(\'sms\',1)">🔄 Yangi maxfiy manzil</button>':'')
-+'<div class="sub" style="margin-top:12px;line-height:1.5"><b>iPhone sozlash:</b><br>1) «Buyruqlar» (Shortcuts) → Avtomatlashtirish → <b>＋</b> → <b>Xabar</b> (Message).<br>2) «Xabar tarkibi» ga <b>HUMOCARD</b> yozing (yoki Jo\'natuvchi: HUMOCARD). «Darrov bajarish» (Run Immediately) ni yoqing.<br>3) Amal: <b>URL mazmunini olish</b> (Get Contents of URL): manzil — yuqoridagi, Usul: <b>POST</b>, So\'rov tanasi: <b>Forma</b>, maydon <b>text</b> = «Xabar» (Shortcut Input).<br>4) O\'zingizga 10 000 so\'m o\'tkazib sinab ko\'ring.</div>'
-+(s.bal!==''?'<div class="sub" style="margin-top:8px">Oxirgi ko\'rilgan karta balansi: <b>'+fmt(parseFloat(s.bal))+'</b></div>':'')
-+(s.list.length?'<div style="margin-top:10px"><b>So\'nggi SMS lar</b>'+s.list.map(function(x){var m={ok:['✅','Hisoblandi','#1a9e4f'],review:['🔔','Tasdiq kerak','#c77a00'],nomatch:['❓','So\'rov yo\'q','#d92d20'],bal:['ℹ️','Balans','#8e8e93'],ignored:['—','E\'tiborsiz','#8e8e93'],'new':['…','Yangi','#8e8e93']}[x.st]||['','','#888'];return '<div style="border-top:1px solid var(--ln);margin-top:8px;padding-top:8px"><div class="row" style="margin:0"><b>'+(x.amount>0?'+'+fmt(x.amount):'Balans '+fmt(parseFloat(x.bal)))+'</b><span style="color:'+m[2]+';font-weight:700;font-size:12.5px">'+m[0]+' '+m[1]+'</span></div><div class="sub">'+esc(x.at)+(x.tx?' · so\'rov #'+x.tx:'')+(x.note?' · '+esc(x.note):'')+'</div>'+(x.st==='review'?'<button class="btn s" style="margin-top:6px" onclick="paapp('+x.id+')">✅ Hisoblash</button>':'')+'</div>'}).join('')+'</div>':'')+'</div>';
-h+='<div class="card"><b>Summa chegarasi (so\'m)</b><input id="pnm" type="number" value="'+j.min+'"><input id="pnx" type="number" value="'+j.max+'"><button class="btn s" onclick="pasave(\'limits\')">💾 Saqlash</button></div>';
-h+='<div class="card"><b>🧾 So\'nggi to\'lovlar</b>'+(j.tx.length?j.tx.map(function(t){var s={paid:['✅','To\'langan','#1a9e4f'],wait:['⏳','Jarayonda','#1d84f2'],'new':['🆕','Boshlangan','#8e8e93'],cancel:['✖','Bekor','#d92d20'],refund:['↩️','Qaytarilgan','#d92d20']}[t.st]||['','','#888'];return '<div style="border-top:1px solid var(--ln);margin-top:8px;padding-top:8px"><div class="row" style="margin:0"><b>'+fmt(t.amount)+' · '+'Karta'+'</b><span style="color:'+s[2]+';font-weight:700;font-size:12.5px">'+s[0]+' '+s[1]+'</span></div><div class="sub">#'+t.id+' · '+esc(t.name||'')+(t.username?' @'+esc(t.username):'')+' · '+esc(t.created)+'</div></div>'}).join(''):'<div class="sub" style="margin-top:6px">Hali to\'lov yo\'q.</div>')+'</div>';
-if(j.log.length)h+='<div class="card"><b>🛰 So\'nggi so\'rovlar (provayderdan)</b>'+j.log.map(function(l){return '<div class="sub" style="border-top:1px solid var(--ln);margin-top:6px;padding-top:6px;word-break:break-all"><b>'+esc(l.prov)+'</b> '+esc(l.at)+'<br>'+esc(String(l.req).slice(0,140))+'<br>→ '+esc(String(l.res).slice(0,140))+'</div>'}).join('')+'</div>';
-el.innerHTML=h}
-function paapp(id){nkcf('Kartaga tushgan pul tasdiqlansinmi va foydalanuvchi balansiga qo\'shilsinmi?',function(){api('pay_adm_sms',{id:id}).then(function(r){if(r.ok){toast('Hisoblandi');apl()}})})}
-function pasave(p,regen){var j=PAYW.ap,b={p:p};if(p==='sms'){b.card4=$('smc').value;b.max=$('smx').value;b.on=j.sms.on?1:0;if(regen)b.regen=1}else{b.min=$('pnm').value;b.max=$('pnx').value}
-api('pay_adm_set',b).then(function(r){if(r.ok){toast('Saqlandi');apl()}})}
 /* ---------- XAVFSIZLIK VA HOLAT (admin) ---------- */
 var SEC={j:null};
 function secl(){api('sec_adm_get',{}).then(function(j){if(!j.ok)return;SEC.j=j;secr()})}
@@ -11146,7 +10970,7 @@ function bnusd(m){api('bon_adm_set',{p:'usd',mode:m,value:($('bnu')||{}).value})
 /* ---------- HISOBOTLAR va BUGUNGI ISHLAR (admin) ---------- */
 var RP={j:null},TOD={j:null};
 function todl(){api('tod_adm_get',{}).then(function(j){if(!j.ok)return;TOD.j=j;todr()})}
-function todr(){var el=$('todb');if(!el||!TOD.j)return;var A={topups:"av('topups')",wd:"av('wd')",sms:"av('apay')",disp:"av('disp')",ads:"av('orders')",unk:"go('nk')",unkv:"go('vs')",plow:"av('pv')",pdown:"av('sec')",bk:"av('sec')",cron:"av('bot')",dev:"av('rep')"},it=TOD.j.items;
+function todr(){var el=$('todb');if(!el||!TOD.j)return;var A={topups:"av('topups')",wd:"av('wd')",disp:"av('disp')",ads:"av('orders')",unk:"go('nk')",unkv:"go('vs')",plow:"av('pv')",pdown:"av('sec')",bk:"av('sec')",cron:"av('bot')",dev:"av('rep')"},it=TOD.j.items;
 el.innerHTML=it.length?'<div class="ag">'+it.map(function(x){return '<button class="ar"'+(A[x.k]?' onclick="'+A[x.k]+'"':'')+'><span style="font-size:20px;width:34px;text-align:center">'+x.ic+'</span><b style="text-align:left;flex:1">'+esc(x.t)+(x.note?'<div class="sub" style="font-weight:400;font-size:12px">'+esc(x.note)+'</div>':'')+'</b><span class="an">'+x.n+'</span>'+(A[x.k]?'<span class="ac2">›</span>':'')+'</button>'}).join('')+'</div>':'<div class="card" style="text-align:center"><div style="font-size:36px">✅</div><b>Hammasi joyida</b><div class="sub">Hozir sizdan hech narsa kutilmayapti.</div></div>'}
 function repl(){api('rp_adm_get',{}).then(function(j){if(!j.ok)return;RP.j=j;repr()})}
 function rpcard(t,d){var r=function(a,b,c){return '<div class="row" style="padding:5px 0;margin:0"><span class="sub">'+a+'</span><span style="text-align:right"><b>'+b+'</b>'+(c?'<div class="sub" style="font-size:12px">'+c+'</div>':'')+'</span></div>'};
