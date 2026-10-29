@@ -259,3 +259,4 @@ Virtual raqam:
 - VIDEO QO'LLANMA va DARS-REKLAMA videolari shu ko'rinishda olinadi: qorong'i rejim, shisha 3D ikonkalar, mahkamlangan katak tartibi (Kanallarim, Guruhlarim, Guruh himoyasi, ... Ilova haqida). Tartib va ikonkalarni o'zgartirmang.
 - «Bot rivoji uchun hisob balansi» katagi logosi yangi hamyon ikonkasi bilan almashtirildi (?hxd=balans, ma'lumotlar bazasi ikonkasi).
 - Bosh sahifadagi «Balans» katagi ikonkasi: hamyon; «Bot rivoji» katagi: ma'lumotlar bazasi.
+- Reklama bloki: rasm/GIF banner (3:1, tavsiya 1200×400), admin paneldan yoqish/o'chirish/tahrirlash, ilovalar tagida ko'rinadi. Admin sahifasi bo'sh chiqish xatosi (takroriy id=adsb) tuzatildi; jadvallar avtomatik yaratiladi.
