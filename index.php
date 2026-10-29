@@ -4268,7 +4268,7 @@ function pr_admin() {
     foreach ($ds as $i => $d) { $ds[$i]['chat_id'] = (string)$d['chat_id']; $ds[$i]['region_name'] = pr_region_name($d['region']); $ds[$i]['sch'] = pr_sched($d['id']); }
     return array('ok' => true, 'dests' => $ds, 'ttl' => pr_ttl(), 'regions' => pr_regions(), 'now' => date('d.m.Y H:i'),
         'logs' => q('SELECT l.dest_id,l.kind,l.day,l.status,l.tries,l.err,l.updated_at,d.title FROM prayer_sent_log l LEFT JOIN prayer_destinations d ON d.id=l.dest_id ORDER BY l.id DESC LIMIT 100')->fetchAll(),
-        'cron_cli' => 'php ' . __FILE__ . ' prayer', 'cron_url' => 'wget -q -O /dev/null "' . APP_URL . '?prayer_cron=' . PR_KEY . '"');
+        'cron_cli' => 'php ' . __FILE__ . ' watch', 'cron_url' => 'wget -q -O /dev/null "' . APP_URL . '?cron=' . KEY . '&job=watch"');
 }
 function pr_save_sched($id, $sch) {
     global $PR_K, $PR_X; $rows = array();
