@@ -271,3 +271,5 @@ Virtual raqam:
 - Cron: bitta topshiriq, har daqiqada (php index.php watch). Qulf (kp_all) — ikkita nusxa bir vaqtda ishlamaydi; admin panel faqat bitta buyruq ko'rsatadi.
 
 - Namoz: ikkinchi manba api.aladhan.com (islomapi.uz ishlamasa), keyin zaxira hisob. Diagnostikada Aladhan zondi.
+
+- Mening sahifam (link-in-bio): sahifa FAQAT Telegram Mini App ichida (t.me/BOT?startapp=p_nom), saytda ochilmaydi. 2 tagacha bepul, keyingisi 25 000 so'm (balansdan, bir marta; sozlamalar: lb_free, lb_price). 5 dizayn, shikoyat (3 shikoyat = avto-yashirish), admin jurnali, tashqi havola ogohlantirishi.
