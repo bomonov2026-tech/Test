@@ -255,3 +255,5 @@ Virtual raqam:
 - eSIM narx: 5sim javob tartibi ikkala shaklda o'qiladi; muvaffaqiyatsizlik sababi admin kartasida ko'rinadi.
 - Avtomobil bo'limi butunlay olib tashlandi (UI, API, cron; bazadagi eski jadvallarga tegilmadi). Ilova faqat qorong'i rejimda; kunduzgi rejim va almashtirgich olib tashlandi. Kanal/Guruh qo'shish tugmalarida «+» belgisi.
 - Bosh sahifa katak tartibi kodda mahkamlandi (Kanallarim, Guruhlarim, Guruh himoyasi, ... Ilova haqida); eski saqlangan tartib bir marta tozalanadi.
+- Bosh sahifa ikonkalari: 28 ta 3D shisha uslubidagi rasm (192 px WebP) `index.php` ichiga joylandi (`?hxd=nom`), nomiga mos katakka avtomatik qo'yiladi. Admin o'z rasmini qo'ysa (🖼), o'sha ustun turadi.
+- VIDEO QO'LLANMA va DARS-REKLAMA videolari shu ko'rinishda olinadi: qorong'i rejim, shisha 3D ikonkalar, mahkamlangan katak tartibi (Kanallarim, Guruhlarim, Guruh himoyasi, ... Ilova haqida). Tartib va ikonkalarni o'zgartirmang.
