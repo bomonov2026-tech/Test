@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,300
+Kanalingizga namoz vaqtlarini har kuni qo'lda yozib chiqasizmi?
+
+2
+00:00:04,360 --> 00:00:10,340
+Bot buni o'zi qiladi: o'n ikki viloyatning vaqti bitta chiroyli rasmga joylanadi.
+
+3
+00:00:10,400 --> 00:00:17,640
+Xabar azon vaqtida emas, har namozdan o'ttiz daqiqa keyin yuboriladi — odamlar namozni o'qib bo'lgach.
+
+4
+00:00:17,700 --> 00:00:22,840
+Hududni o'zingiz tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan.
+
+5
+00:00:22,900 --> 00:00:29,720
+Vaqtlar islom.uz taqvimi asosida. Manba ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi.
+
+6
+00:00:29,780 --> 00:00:31,980
+TartibOn. Telegramda qidiring.

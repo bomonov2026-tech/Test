@@ -1,0 +1,11 @@
+Kanalingizga namoz vaqtlarini har kuni qo'lda yozib chiqasizmi?
+
+Bot buni o'zi qiladi: o'n ikki viloyatning vaqti bitta chiroyli rasmga joylanadi.
+
+Xabar azon vaqtida emas, har namozdan o'ttiz daqiqa keyin yuboriladi — odamlar namozni o'qib bo'lgach.
+
+Hududni o'zingiz tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan.
+
+Vaqtlar islom.uz taqvimi asosida. Manba ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi.
+
+TartibOn. Telegramda qidiring.
