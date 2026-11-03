@@ -1,0 +1,1598 @@
+TartibOn — to'liq diktor matni (ElevenLabs uchun)
+
+Raqamlar so'z bilan yozilgan, qo'shtirnoqlar olib tashlangan.
+
+Har bo'lim orasida ==== chizig'i bor — alohida generatsiya qilish uchun.
+
+
+
+============================================================
+
+1. Video darslik · Bosh panel  (5:34)
+
+============================================================
+
+
+
+Assalomu alaykum! TartibOn video qo'llanmasiga xush kelibsiz.
+
+Bu qo'llanma oddiy foydalanuvchi uchun: ilovani birinchi marta ochgan paytingizdan boshlab, har bir bo'limdan qanday foydalanishni tartib bilan ko'rsataman.
+
+Hech qanday texnik bilim kerak emas — faqat Telegram kanalingiz yoki guruhingiz bo'lsa yetarli. Birinchi darsda bosh sahifa bilan tanishamiz va kanal hamda guruhni ulashni o'rganamiz.
+
+Ilovani ochganingizda sizni shu karta kutib oladi: Telegramni yanada tartibli boshqaring. Mana shu bitta ilovada kanal, guruh, post va boshqa xizmatlar jamlangan.
+
+Eng qulayi — bu mini-ilova Telegramning ichida ochiladi. Hech qanday dastur o'rnatmaysiz, ro'yxatdan o'tmaysiz, parol o'ylab topmaysiz.
+
+Ko'pchilik xizmat bepul: avtomatik postlar, guruh himoyasi, statistika, testlar. Faqat ayrim xizmatlar — masalan nakrutka va eSIM — balans orqali pullik.
+
+Bosh sahifani pastga surib boring: kataklar ramkalarga bo'lib qo'yilgan. Shu oltita darsda har bir ramkani alohida ko'rib chiqamiz.
+
+Ilovani ochganingizda eng tepada uchta raqam turadi. Birinchisi — Kanal. Bu botga ulangan kanallaringiz soni.
+
+Ikkinchisi — Guruh. Bot administrator qilib qo'shilgan guruhlaringiz soni shu yerda ko'rinadi.
+
+Uchinchisi — Foydalanuvchi. Bu yerda sizga tegishli jami odamlar soni turadi — mening ekranimda bu ming o'n ikki.
+
+Bu raqamlarni qo'lda kiritish shart emas. Bot administrator bo'lgan paytdan boshlab hammasini o'zi sanab boradi va har kuni yangilab turadi.
+
+Agar biror katak ustida qizil raqam paydo bo'lsa, demak o'sha joyda hal qilinishi kerak bo'lgan ish bor. Masalan, bot kanaldan chiqarib yuborilgan yoki huquqi yetmayapti.
+
+Bunday holatda bosh sahifada qizil ogohlantirish va Tuzatish tugmasi chiqadi. Uni bossangiz, muammo nimada ekani va qanday hal qilish yozilgan bo'ladi.
+
+Statistikaning tagida Bot rivoji balansi kartasi turadi. Bu — foydalanuvchilar tomonidan ilovani rivojlantirishga o'tkazgan umumiy summasi.
+
+Kartani bossangiz, kim qancha o'tkazgani — qo'llab-quvvatlaganlar ro'yxati ochiladi.
+
+O'zingiz o'tkazmoqchi bo'lsangiz: Balans sahifasiga kiring va Bot rivoji uchun o'tkazish qatorini tanlang. Summani o'zingiz belgilaysiz — chegara yo'q.
+
+O'tkazilgan summa shu zahoti shaxsiy balansingizdan yechiladi va umumiy hisobga qo'shiladi.
+
+Muhim: bu karta sizning pul hisobingiz emas. Sizning shaxsiy balansingiz Ilova bo'limidagi Balans katagida — uni oltinchi darsda batafsil ko'ramiz.
+
+Endi eng muhimi — kanalni ulash. Bosh sahifadagi ko'k Kanal qo'shish tugmasini bosing.
+
+Ochilgan oynada eng oson yo'l — Kanalni tanlash tugmasi. Uni bosing.
+
+Telegramning o'z oynasi ochiladi va kanallaringiz ro'yxati chiqadi. Botni ulamoqchi bo'lgan kanalni tanlang.
+
+So'ngra Administrator qilish ni tasdiqlaysiz. Kerakli huquqlar o'zi belgilangan bo'ladi — siz faqat tasdiqlaysiz, bot o'zi ulanadi.
+
+Agar ro'yxatdan tanlash ishlamasa, kanal @username yoki ID raqamini qo'lda kiritish ham mumkin.
+
+Kanal ulangani haqida bot sizga xabar yuboradi. Shu zahoti to'rtta xizmat avtomatik yoqiladi: dollar kursi, markaziy bank kurslari, namoz vaqtlari va har kuni ertalabki post.
+
+Agar bularning hammasi kerak bo'lmasa — Kanallarim bo'limida kanal kartasini ochib, Sozlash orqali keraksizini o'chirasiz yoki oraliqni o'zgartirasiz.
+
+Guruhni ulash ham shunga o'xshash. Yashil Guruh qo'shish tugmasini bosib, guruh @username yoki ID raqamini kiritasiz.
+
+Keyin botni guruhingizga administrator qilib qo'shasiz. Busiz bot hech narsa qila olmaydi.
+
+Guruh himoyasi ishlashi uchun botga ikkita huquq shart. Birinchisi — xabarlarni o'chirish. Busiz bot reklama va so'kinishni o'chira olmaydi.
+
+Ikkinchisi — foydalanuvchilarni bloklash. Bu spam tarqatuvchilarni chiqarib yuborish uchun kerak.
+
+Agar taklif havolalari va pullik kanal xizmatlaridan foydalanmoqchi bo'lsangiz, Taklif havolasi huquqini ham bering.
+
+Guruh ulangach, guruh himoyasi avtomatik ishga tushadi va avtomatik xabarlar ham yoqiladi. Qolganini keyin o'zingizga moslab sozlaysiz.
+
+Endi bosh sahifa qanday tuzilganiga qaraymiz. Birinchi ramka — Adminlar uchun. Bu yerda kanal va guruhni boshqarish vositalari: Kanallarim, Guruhlarim, himoya, rejalashtirilgan postlar, statistika, testlar, pullik kanallar va konkurs.
+
+Ikkinchi ramka — Kundalik xabarlar. Namoz vaqtlari, dollar kursi, ob-havo, tongi va tungi xabarlar, bayram tabriklari. Bularning hammasi avtomatik ishlaydi.
+
+Uchinchi ramka — Xizmatlar. Nakrutka, eSIM, Prava testlari, o'zaro reklama, kanal savdosi, reklama birjasi va kanallar reytingi.
+
+To'rtinchi ramka — Savdo admin. Taksi, avto savdo, ko'chmas mulk, vakansiya va boshqa biznes e'lonlari uchun tayyor post shablonlari.
+
+Beshinchi ramka — Ilova. Balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+
+Hammasini birdan o'rganish shart emas. Avval o'zingizga keragini tanlang: kanalingiz bo'lsa — ikkinchi darsdan, biznesingiz bo'lsa — beshinchi darsdan boshlang. Qolganini keyin ko'rasiz.
+
+Shu bilan birinchi dars tugadi. Endi sizda ulangan kanal va guruh bor, demak barcha xizmatlardan foydalanishga tayyorsiz.
+
+Keyingi darsda Adminlar uchun bo'limini — kanal va guruhni kundalik boshqarish vositalarini ko'rib chiqamiz.
+
+
+
+============================================================
+
+2. Video darslik · Adminlar uchun  (9:47)
+
+============================================================
+
+
+
+Bu — TartibOn qo'llanmasining ikkinchi darsi. Ramka nomi Adminlar uchun deyilgan, lekin bu ilova admini degani emas: bu — o'z kanali yoki guruhi bor har qanday foydalanuvchi uchun.
+
+Ya'ni siz uchun. Bugun shu ramkadagi to'qqizta katakni birma-bir ko'rib chiqamiz.
+
+Kanallarim — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
+
+Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
+
+Kanal imzosi — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
+
+Postlar tagiga doimiy tugmalar qo'shish mumkin: Do'stga ulashish va Qo'llab-quvvatlash. Ulashish tugmasi kanal o'sishiga yordam beradi.
+
+Qo'llab-quvvatlash tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
+
+Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
+
+Sayt yoki YouTube'dan avtomatik post — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
+
+Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, Kanallarim katagida qizil raqam turadi va Tuzatish tugmasi chiqadi.
+
+Guruhlarim — ulangan guruhlaringiz ro'yxati. Har bir guruh uchun alohida sozlama bor.
+
+Yangi guruh qo'shish uchun Guruh qo'shish tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
+
+Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
+
+Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
+
+Guruhda avtomatik test o'tkazishni ham shu yerdan yoqasiz — a'zolar faolligini oshirishning eng oson yo'li.
+
+Yana bir bor eslatma: bot guruhda administrator bo'lmasa, bu funksiyalarning hech biri ishlamaydi.
+
+Guruh himoyasi — eng kuchli funksiyalardan biri. Bot begona reklama va havolalarni avtomatik o'chiradi.
+
+So'kinish ishlatilgan xabarlar va spam — ya'ni tez-tez takrorlanadigan bir xil xabarlar ham o'chiriladi.
+
+Guruhlarga ko'p tashlanadigan arab botlar va arabcha reklama alohida filtr bilan to'siladi.
+
+Zararli bo'lishi mumkin bo'lgan fayllar — masalan apk va exe — guruhga o'tkazilmaydi.
+
+Sun'iy intellekt ulangan bo'lsa, bot noo'rin rasmlarni va yashirin reklamani ham taniydi.
+
+Yangi a'zolar uchun alohida rejim bor: birinchi yigirma to'rt soat davomida ular havola va fayl yubora olmaydi.
+
+Kirishda kapcha qo'yish mumkin — Men odamman tugmasini bosmagan akkaunt guruhga yoza olmaydi. Bu botlarni to'sadi.
+
+Yangi a'zoga kirish savolini berish yoki avtomatik salomlashish xabarini yuborish ham mumkin.
+
+Tungi rejimda faqat adminlar yozadi. Juma sukuti — Juma kuni belgilangan vaqtda guruh jim turadi.
+
+Har hafta eng faol o'nta a'zo e'lon qilinadi, a'zolarda reputatsiya ballari yig'iladi — bu guruhni jonlantiradi.
+
+Muhim: guruh adminlarining xabarlariga bot hech qachon tegmaydi. Qoidalar faqat oddiy a'zolarga ishlaydi.
+
+Guruhning o'zida /himoya deb yozsangiz, bot hozir qaysi qoidalar yoqilganini ro'yxat qilib ko'rsatadi. Har bir qoidani alohida yoqib-o'chirasiz.
+
+Yana takrorlayman: botga Xabarlarni o'chirish va Foydalanuvchilarni bloklash huquqlarini bering, aks holda himoya ishlamaydi.
+
+Bu bo'limda postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot uni o'zi chiqaradi.
+
+Takrorlanishni tanlaysiz: faqat bir marta, har kuni yoki har hafta. Doimiy rukniga juda qulay.
+
+Matn muharririda qalin, kursiv, havola, yashirin matn va iqtibos tugmalari bor.
+
+Emoji panelidan belgilarni bir bosishda qo'yasiz — klaviaturani almashtirish shart emas.
+
+Eng qulayi: post Telegramda aynan qanday ko'rinishi pastda darhol ko'rinib turadi. Ya'ni yuborishdan oldin natijani ko'rasiz.
+
+Yozgan matningiz avtomatik qoralama sifatida saqlanadi. Ilovadan chiqib ketsangiz ham yo'qolmaydi.
+
+Avval ishlatgan rasm va videolaringizni ro'yxatdan bir bosishda qayta tanlashingiz mumkin.
+
+Yoqqan postingizni Nusxa tugmasi bilan ko'paytirib, faqat kerakli joyini o'zgartirasiz.
+
+Ishonchingiz komil bo'lmasa, Menga yuborish tugmasini bosing — post avval faqat sizga keladi, ko'rib tekshirasiz.
+
+Postni belgilangan vaqtdan keyin avtomatik o'chirish ham mumkin. Kalendar orqali qaysi kunga nima rejalashtirilganini bir qarashda ko'rasiz.
+
+Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
+
+Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
+
+Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
+
+Maslahat: taklif havolalarini konkurs bilan birlashtiring — eng ko'p odam taklif qilgan uchtaga sovg'a deng, guruh tez o'sadi.
+
+Bu ishlashi uchun botga Havola orqali taklif qilish huquqini berish shart.
+
+Statistika bo'limi kanal va guruhingiz qanday o'sayotganini ko'rsatadi. Birinchi navbatda hozirgi obunachilar yoki a'zolar soni.
+
+Keyin o'zgarish: kecha qancha qo'shilgan, so'nggi yetti kunda va o'ttiz kunda qancha bo'lgan.
+
+So'nggi o'n to'rt kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+
+Guruh uchun qo'shimcha: guruhda nechta xabar yozilgani ham ko'rsatiladi. Bu guruh jonli yoki jonsizligini ko'rsatadi.
+
+Excel yuklab olish tugmasi bilan hisobotni fayl qilib olasiz — hisobot tayyorlash yoki reklama beruvchiga ko'rsatish uchun.
+
+Diqqat: kirdi-chiqdi faqat bot administrator bo'lgandan keyin hisoblanadi. Undan oldingi tarix ko'rinmaydi.
+
+Testlar bo'limi guruh va kanalda to'rt variantli viktorina o'tkazish imkonini beradi.
+
+Birinchi tur — Savol-javob. Maktab, litsey, kollej, oliy ta'lim va sertifikat imtihonlari mavzulari bo'yicha savollar bazasi bor.
+
+Ikkinchi tur — Prava testi. Yo'l harakati qoidalari bo'yicha, rasmli savollar bilan. Mavzuni ham o'zingiz tanlaysiz.
+
+Avtomatik test ni yoqsangiz, bot siz belgilagan oraliqda o'zi savol berib turadi. Masalan har ikki soatda.
+
+Qo'lda yuborish uchun Hozir savol tugmasi bor — bir bosasiz, savol chiqadi.
+
+To'g'ri javob uchun ochko beriladi, tezroq javob bergan ko'proq ochko oladi. Bu tezlik musobaqasini yaratadi.
+
+Oxirida eng yaxshi o'nta ishtirokchi e'lon qilinadi. Reyting umumiy bo'lib boradi.
+
+Guruh a'zolari o'zi ham savol chaqira oladi: /prava yoki /viktorina deb yozadi. Har ikki daqiqada bir marta ruxsat beriladi.
+
+Eslatma: kanalda so'rovlar anonim bo'lgani uchun u yerda ochko hisoblanmaydi. Reyting faqat guruhda ishlaydi.
+
+Bu bo'lim yopiq kanalingizga pullik obuna sotish imkonini beradi. Ya'ni kontentingizdan daromad olasiz.
+
+To'rtta paket bor: bir oylik, uch oylik, olti oylik va bir yillik obuna. Narxni o'zingiz qo'yasiz.
+
+Ko'p oyga chegirma foizini ham o'zingiz belgilaysiz. Masalan, o'n ikki oylikka o'ttiz foiz chegirma — bu odamlarni uzoq muddatga olishga undaydi.
+
+Bepul sinov muddatini yoqsangiz, har bir obunachi bir marta bepul kirib ko'ra oladi. Bir kundan yetti kungacha.
+
+Obunachi o'z balansidan to'laydi, pul xizmat haqi ayrilgach sizning balansingizga tushadi.
+
+To'lagan odamga kirish havolasi bot orqali yuboriladi — siz qo'lda hech narsa qilmaysiz.
+
+Muddat tugashiga uch kun qolganda obunachiga avtomatik eslatma boradi — bu uzaytirish foizini sezilarli oshiradi.
+
+Muddat tugagach bot obunachini kanaldan o'zi chiqaradi. Qo'lda kuzatib o'tirish shart emas.
+
+Shart: botga Taklif havolasi va Bloklash huquqlarini bering. Busiz bot odamni na kirgiza oladi, na chiqara oladi.
+
+Konkurs bo'limi orqali kanal yoki guruhda sovg'a o'yini o'tkazasiz.
+
+Birinchi qadam: konkurs qaysi kanal yoki guruhda e'lon qilinishini tanlaysiz.
+
+Keyin nechta g'olib bo'lishini belgilaysiz — bir kishimi yoki o'nta.
+
+Uchinchi qadam — konkurs qachon tugashini belgilash. Sana va soat.
+
+Xohlasangiz obuna shartini qo'yasiz: ishtirok etish uchun qaysi kanalga a'zo bo'lish kerakligini ko'rsatasiz. Bu kanalni o'stirishning tez usuli.
+
+Konkurs posti ishtirok tugmasi bilan chiqadi — odam bir bosadi va ro'yxatga tushadi.
+
+Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hammasi adolatli, hech kim aralasha olmaydi.
+
+Konkurs tugashidan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi. Ya'ni faqat haqiqiy obunachilar yutadi.
+
+G'oliblar ro'yxati kanalga o'zi e'lon qilinadi — sizdan qo'shimcha harakat talab etilmaydi.
+
+Adminlar uchun bo'limi shu bilan tugadi. Bu to'qqizta katak kanalingizni muntazam yuritish uchun yetarli.
+
+Keyingi darsda Kundalik xabarlar — har kuni o'zi ishlab turadigan avtomatik postlarni ko'ramiz.
+
+
+
+============================================================
+
+3. Video darslik · Kundalik xabarlar  (4:46)
+
+============================================================
+
+
+
+Uchinchi dars — Kundalik xabarlar ramkasi.
+
+Bu bo'limning eng kuchli tomoni shundaki, bir marta yoqib qo'ysangiz, keyin siz hech narsa qilmaysiz: bot har kuni belgilangan vaqtda o'zi post chiqarib turadi.
+
+Kanalingiz siz uxlayotganingizda ham jonli bo'ladi.
+
+Namoz vaqtlari kanal va guruhlaringizga namoz vaqti haqida xabar yuboradi.
+
+Xabar har bir namoz vaqti kirganidan o'ttiz daqiqa o'tgach yuboriladi. Ya'ni azon vaqtida emas, odamlar namozni o'qib bo'lgandan keyin.
+
+Sozlashda avval hududni tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan. Vaqtlar aynan shu hudud bo'yicha hisoblanadi.
+
+Xabarning matnini o'zingizga moslab yozishingiz mumkin — kanalingiz uslubiga mos qilib.
+
+Vaqtlar islom.uz taqvimi asosida olinadi — bu rasmiy va ishonchli manba.
+
+Agar manba vaqtincha ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi. Ya'ni uzilish bo'lmaydi.
+
+Bosh sahifadagi katakda o'n ikkita viloyat markazining vaqti ko'rinadi. Shahar darajasigacha aniqlik kerak bo'lsa, bo'limga kirib hudud tanlaysiz.
+
+Dollar kursi katagida o'zbek banklarining dollar uchun olish va sotish kurslari ko'rsatiladi.
+
+Mikrokreditbank, Turonbank va boshqa banklar — hammasi bir ro'yxatda, taqqoslab ko'rish qulay.
+
+Raqamlar bank saytlaridan avtomatik olinadi, qo'lda kiritilmaydi.
+
+Eng qulayi: kurs o'zgargan zahoti kanal va guruhingizga rasmli xabar o'zi chiqadi.
+
+Agar kurs o'zgarmagan bo'lsa, bot bir xil postni qayta yubormaydi. Obunachilaringiz bezovta bo'lmaydi.
+
+Bundan tashqari markaziy bank kurslari ham bor — ular har uch soatda yangilanib turadi.
+
+Bir eslatma: bankdagi haqiqiy kurs e'londagidan biroz farq qilishi mumkin. Katta summa almashtirishdan oldin bank bilan aniqlashtirishni tavsiya qiling.
+
+Ob-havo katagi o'n ikkita viloyatning ob-havosini bitta chiroyli postda yuboradi.
+
+Post har kuni ertalab soat oltida chiqadi — odamlar ishga chiqishdan oldin.
+
+Qulaylik: bosh sahifadagi katakda kalitni yoqsangiz, xizmat barcha ulangan chatlarga birdaniga yoqiladi. Har birini alohida sozlash shart emas.
+
+Alohida funksiya — ogohlantirish. Kuchli shamol, jazirama issiq yoki qattiq sovuq kutilsa, bot qo'shimcha xabar yuboradi.
+
+Do'l, kuchli yomg'ir yoki qor kutilganda ham ogohlantirish keladi. Bu obunachilaringiz uchun chinakam foydali ma'lumot.
+
+Profil bo'limida o'zingiz uchun shaxsiy ob-havo ogohlantirishini ham yoqib qo'yishingiz mumkin — u shaxsiy xabar bo'lib keladi.
+
+Tongi xabar — har kuni erta tongda kanal va guruhingizga video va matn bilan yuboriladigan xabar.
+
+Yuborish vaqti — soat to'rt yarim. Ya'ni obunachilaringiz uyg'onganda post allaqachon tayyor turadi.
+
+Matnda bugun haftaning qaysi kuni ekani, sana va hijriy sana avtomatik yoziladi. Siz hech narsa yozmaysiz.
+
+Sozlashda haftaning qaysi kunlarida yuborilishini belgilaysiz. Masalan, faqat ish kunlari yoki faqat dam olish kunlari.
+
+Yoqib qo'ygandan keyin bu xizmat butunlay avtomatik ishlaydi — kanalingiz har kuni jonli ko'rinadi.
+
+Tungi xabar — kechqurun yuboriladigan Xayrli tun posti. Matn va video bilan.
+
+Yuborish vaqti — kechki to'qqiz yarim. Odamlar telefonni eng ko'p ishlatadigan payt.
+
+Haftaning har kuni uchun alohida tayyor matn bor — ya'ni post har kuni bir xil bo'lib ketmaydi.
+
+Tongi xabardagidek, bu yerda ham haftaning qaysi kunlarida yuborilishini o'zingiz belgilaysiz.
+
+Tongi va tungi xabarni birga yoqsangiz, kanalingizda kuniga kamida ikkita post bo'ladi — bu obunachilarni ushlab turishga katta yordam beradi.
+
+Bayram tabriklari — har Juma va bayram kunlari kanal va guruhlaringizga yuboriladigan video tabrik.
+
+Tabrik o'sha kuni belgilangan vaqtda o'zi yuboriladi — siz eslab turishingiz shart emas.
+
+Savol: siz nima qilishingiz kerak? Hech narsa. Faqat kanalingiz ulangan bo'lsa yetarli.
+
+Sahifada tabriklar ro'yxati va keyingi bayram qachon ekani ko'rinib turadi — rejalashtirish uchun qulay.
+
+Namuna tugmasini bossangiz, tabrik kanalingizda qanday ko'rinishini oldindan ko'rasiz.
+
+Ko'rib turganingizdek, bu oltita katakni bir marta sozlab qo'ysangiz, kanalingizda har kuni oltitagacha tayyor post chiqadi.
+
+Keyingi darsda Xizmatlar ramkasini — nakrutka, eSIM, kanal savdosi va reklama birjasini ko'ramiz.
+
+
+
+============================================================
+
+4. Video darslik · Xizmatlar  (8:23)
+
+============================================================
+
+
+
+To'rtinchi dars — Xizmatlar ramkasi. Bu bo'limda to'qqizta katak bor: obunachi va layk buyurtma qilishdan tortib kanal sotib olish va reklama birjasigacha.
+
+Bu xizmatlarning aksariyati balans orqali ishlaydi, shuning uchun diqqat bilan tomosha qiling.
+
+Nakrutka bo'limi orqali ijtimoiy tarmoqlarda obunachi, layk, izoh va ko'rishlarni buyurtma qilasiz.
+
+Birinchi qadam: tarmoqni tanlaysiz. Telegram, Instagram, YouTube, TikTok va boshqalar.
+
+Ikkinchi qadam: xizmat turi. Obuna, layk, izoh yoki ko'rish.
+
+Uchinchi qadam: havolani va kerakli miqdorni kiritasiz.
+
+Narx shu zahoti ekranda ko'rinadi — buyurtma berishdan oldin qancha turishini bilasiz.
+
+To'lov sizning ilova ichidagi balansingizdan yechiladi.
+
+Agar buyurtma bajarilmasa, pul to'liq qaytariladi.
+
+Qisman bajarilgan bo'lsa, bajarilmagan qismining puli qaytariladi. Ya'ni faqat haqiqiy natija uchun to'laysiz.
+
+Katta miqdorga chegirma bor — bir martada ko'proq olish arzonroq tushadi.
+
+Avvalgi buyurtmani Takrorlash tugmasi bilan bir bosishda qayta berasiz — hamma ma'lumotni qaytadan yozish shart emas.
+
+Muhim shart: havola ochiq bo'lishi kerak. Yopiq kanal yoki yopiq sahifaga buyurtma bajarilmaydi.
+
+Natija tezligi tarmoqqa bog'liq. Buyurtma holati va butun tarix shu sahifada ko'rinib turadi.
+
+eSIM bo'limi ro'yxatdan o'tish uchun bir martalik virtual raqam va SMS kodni olish imkonini beradi.
+
+Birinchi qadam: davlatni tanlaysiz.
+
+Ikkinchi qadam: qaysi tarmoq uchun kerakligini belgilaysiz — Telegram, WhatsApp, Instagram va boshqalar.
+
+Uchinchi qadam: Olish tugmasini bosasiz va sizga raqam beriladi.
+
+Raqamni nusxalab, o'sha tarmoqning ro'yxatdan o'tish oynasiga kiritasiz.
+
+Kelgan SMS kod avtomatik ravishda shu sahifaning o'zida paydo bo'ladi — boshqa joyga qarash shart emas.
+
+Agar kod taxminan o'n besh daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
+
+Lekin diqqat: kod kelgandan keyin pul qaytarilmaydi. Shuning uchun kodni o'z vaqtida ishlating.
+
+Raqam yoqmasa, Boshqa raqam tugmasi bir yarim daqiqadan keyin ochiladi.
+
+Har bir yo'nalishda yulduzcha belgisi bor — bu so'nggi o'ttiz kunda kod kelish foizi va o'rtacha vaqtni ko'rsatadi. Tanlashdan oldin shunga qarang.
+
+Ochiq aytamiz: platforma raqamni qabul qilishi kafolatlanmaydi — bu virtual raqamlarning tabiati.
+
+Prava bo'limi — haydovchilik guvohnomasi nazariy imtihoniga bepul tayyorgarlik.
+
+Bazada bir ming ikki yuz qirqta original savol bor — barchasi yo'l harakati qoidalari asosida.
+
+Oltmish ikkita bilet tuzilgan, har birida yigirmata savol — xuddi haqiqiy imtihondagidek.
+
+Mavzular bo'yicha alohida mashq qilish mumkin — zaif joyingizni nishonga olasiz.
+
+Rasmli savollar bor: belgi, chiziq, svetofor va chorrahada kim birinchi o'tishi.
+
+Imtihon rejimi haqiqiysiga o'xshatilgan: odatda yigirma savol, yigirma besh daqiqa va ikkitagacha xatoga ruxsat.
+
+Xatolarim bo'limida noto'g'ri javob bergan savollaringiz to'planadi. Aynan shular ustida ishlang — natija tez ko'tariladi.
+
+Qiyin savolni yulduzcha bilan belgilab qo'yasiz, u Saqlanganlar ga tushadi.
+
+Tayyorgarlik foizingiz va oxirgi natijalaringiz ko'rinib turadi — o'sish aniq seziladi.
+
+Guruhda /prava deb yozsangiz, bot savol beradi — guruh a'zolari birga mashq qilishi mumkin.
+
+O'zaro reklama — kanal egalari bir-birini topib, bepul o'zaro reklama kelishadigan katalog.
+
+Birinchi qadam: kanalingizni mos kategoriya bilan katalogga qo'shasiz.
+
+Shundan keyin boshqa kanal egalari sizni ko'radi va taklif yuboradi.
+
+Siz ham katalogdan mavzuingizga yaqin kanalni qidirib, taklif yuborishingiz mumkin.
+
+Bu — pul sarflamasdan o'sishning eng yaxshi usuli. Auditoriyangizga yaqin kanalni tanlang, shunda natija kuchli bo'ladi.
+
+Kanal Savdo YouTube — YouTube kanallarini sotish va sotib olish uchun alohida bo'lim.
+
+Sotmoqchi bo'lsangiz, Mening e'lonlarim bo'limiga kirib e'lon qo'shasiz.
+
+Kanal manzili, obunachilar soni, mavzu, narx va tavsifni yozasiz.
+
+YouTube uchun alohida monetizatsiya belgisi bor — pul topishga ulangan kanal qimmatroq turadi, shuning uchun buni albatta ko'rsating.
+
+Ma'lumotni sotuvchi kiritadi. Admin tekshirgan e'lonlarga ko'k belgi qo'yiladi — bu ishonch belgisi.
+
+Xavfsiz savdo uchun Vositachi xizmati bor: pul admin orqali o'tadi va akkaunt topshirilgandan keyingina sotuvchiga beriladi. Vositachilik haqi olinadi.
+
+Maslahat: notanish odam bilan to'g'ridan-to'g'ri pul almashmang. Vositachi xizmati aynan aldanmaslik uchun o'ylab topilgan.
+
+Kanal Savdo Telegram — Telegram kanal va guruhlarini sotish va sotib olish bo'limi.
+
+Eng muhim farqi: bu yerdagi obunachi va o'sish raqamlari TartibOn statistikasidan olinadi.
+
+Ya'ni raqamlarni sotuvchi o'zi yozmaydi — bot o'zi hisoblaydi. Demak soxta ko'rsatkich qo'yib bo'lmaydi. Xaridor uchun bu katta ishonch.
+
+Sotish uchun shu sahifaning o'zida Kanalimni sotuvga qo'yish tugmasini bosasiz.
+
+Shart: kanalingiz botga ulangan bo'lishi kerak, aks holda statistika hisoblanmaydi.
+
+Bu yerda ham vositachi xizmati ishlaydi — pul admin orqali o'tadi va kanal topshirilgach sotuvchiga beriladi.
+
+Kanal Savdo Instagram — Instagram sahifalarini sotish va sotib olish bo'limi.
+
+E'lon qo'shish Mening e'lonlarim orqali: username, obunachilar soni, mavzu, narx va tavsif.
+
+Instagram raqamlarini bot tekshira olmaydi, ularni sotuvchi o'zi kiritadi.
+
+Admin tekshirgan e'lonlar ko'k belgi oladi — xarid qilishdan oldin shu belgiga e'tibor bering.
+
+Instagram akkauntlarida aldov xavfi yuqoriroq. Shuning uchun vositachi xizmatidan foydalanishni qattiq tavsiya qilamiz.
+
+Reklama birjasi — kanallar orasida reklama sotib olish va sotish maydoni.
+
+Sotuvchi bo'lsangiz: reklama narxini va formatini belgilaysiz.
+
+Format degani — reklama qancha turishi. Bir soat tepada va yigirma to'rt soat kanalda, ikki soat va qirq sakkiz soat, yoki umuman o'chirilmaydigan doimiy post.
+
+Buyurtma kelganda Joylash tugmasini bosasiz va reklama kanalingizga chiqadi.
+
+Eng muhim funksiya — pul kafolati. Xaridor to'lagan pul darhol sotuvchiga o'tmaydi.
+
+Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin pul o'zi sotuvchiga tushadi.
+
+Agar reklama muddatidan oldin o'chirilsa yoki kelishilgandek bo'lmasa, xaridor Nizo ochish tugmasini bosadi.
+
+Nizoni admin ko'rib chiqadi va qaror qabul qiladi: sotuvchiga to'lash yoki xaridorga pulni qaytarish.
+
+Xaridor bo'lsangiz, reklamani vositachisiz, to'g'ridan-to'g'ri kanal egasidan olasiz — ortiqcha ustama yo'q.
+
+Ko'k belgili kanallar TartibOn tomonidan tekshirilgan. Yangi bo'lsangiz, avval shunday kanallardan boshlang.
+
+Kanallar reytingi — so'nggi yetti kunda eng tez o'sgan o'nta kanal ro'yxati.
+
+Reyting har kuni yangilanadi, ya'ni ro'yxat doim jonli.
+
+Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Kichik kanallarning ham chiqish imkoni bor.
+
+Pullik xizmat ham bor: Kanalimni ko'tarish. Kanalingiz yetti kun davomida Tavsiya etiladi qatorida, eng tepada turadi.
+
+Ko'tarish narxini admin belgilaydi — joriy narx sahifada ko'rinadi.
+
+Bu xizmat yangi kanallar uchun ayniqsa foydali: hali obunachingiz kam bo'lsa ham, birinchi odamlarni olib kelishning tez yo'li.
+
+Xizmatlar bo'limi shu bilan tugadi. Esda tuting: barcha pullik xizmatlar balans orqali o'tadi va har birida pul qaytarish qoidasi aniq yozilgan.
+
+Keyingi darsda Savdo admin — biznes e'lonlari uchun tayyor post shablonlarini ko'ramiz.
+
+
+
+============================================================
+
+5. Video darslik · Savdo admin  (7:03)
+
+============================================================
+
+
+
+Beshinchi dars — Savdo admin ramkasi. Bu bo'lim biznes bilan shug'ullanadiganlar uchun: taksi, avto savdo, ko'chmas mulk, vakansiya, o'quv markazi va boshqalar.
+
+Mohiyati oddiy — siz ma'lumotni kiritasiz, bot chiroyli post rasmini o'zi chizib beradi va kanalingizga tugma bilan yuboradi. Dizayner ham, grafik dasturi ham kerak emas.
+
+Avval barcha post bo'limlariga xos bo'lgan umumiy tartibni tushuntiraman. Birinchi qadam: mavzuingizga mos katakni tanlaysiz.
+
+Ikkinchi qadam: bir dona, ikki yoki uchta rasm yuklaysiz. Rasm sifatli bo'lsa, post ham chiroyli chiqadi.
+
+Uchinchi qadam: narx, manzil, tavsif kabi maydonlarni to'ldirasiz. Har bo'limda maydonlar o'ziga xos.
+
+To'rtinchi qadam: bot ma'lumotlarni chiroyli post rasmiga joylaydi. Siz faqat natijani ko'rasiz.
+
+Beshinchi qadam: postni tugmasi bilan birga kanal yoki guruhingizga yuborasiz.
+
+Har bir e'londa mijoz bosadigan tugma bo'ladi — Bog'lanish, Bron qilish, Buyurtma berish kabi. Mijoz bir bosadi va sizga yoziladi.
+
+Eng muhim maslahat: ishni Brend to'plami dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlasangiz, barcha bo'limlar shuni avtomatik oladi.
+
+Taksi e'loni — taksi xizmati ko'rsatadiganlar uchun tayyor post shabloni.
+
+Avval yo'nalishni kiritasiz: qayerdan jo'nashingiz va qayerga borishingiz.
+
+Keyin sana va jo'nash vaqtini belgilaysiz.
+
+Nechta bo'sh joy borligini va mashina modelini yozasiz — yo'lovchi uchun bu eng muhim ma'lumot.
+
+Telefon raqamingizni kiritasiz, so'ng post rasmi tayyor bo'ladi.
+
+Post tagida Haydovchiga yozish tugmasi chiqadi — yo'lovchi bir bosib siz bilan bog'lanadi.
+
+Bu shablon mahalla guruhlari va yo'nalish guruhlari uchun juda qulay. Har kuni bir xil yo'nalishni yuboradigan bo'lsangiz, postni nusxalab qo'ying.
+
+Avto savdo — mashina sotish uchun post shabloni.
+
+Mashinaning suratlarini yuklaysiz, so'ng ishlab chiqarilgan yili, probegi va rangini kiritasiz.
+
+Narxni va mashina holatini yozasiz.
+
+Post tagida Sotuvchiga yozish tugmasi bo'ladi — xaridor darhol siz bilan bog'lanadi.
+
+Maslahat: probeg va holatni haqiqatga mos yozing. Avto guruhlarida ishonch eng qimmat narsa.
+
+Savdogar — umumiy savdo e'loni. Kiyim, texnika, uy jihozlari — istalgan mahsulot uchun ishlatiladi.
+
+Mahsulot rasmini yuklaysiz, nomini, narxini va qisqa tavsifini yozasiz.
+
+Post tagida Sotuvchi bilan bog'lanish tugmasi chiqadi va xaridor to'g'ridan-to'g'ri sizga yozadi.
+
+Barcha mahsulotlaringizni shu shablon bilan chiqarsangiz, postlaringiz bir xil uslubda bo'ladi va do'koningiz tanila boshlaydi.
+
+Sayohat e'loni — turagentliklar uchun maxsus tayyorlangan shablon.
+
+Uchta tayyor ko'rinish bor: oddiy tur paket, qaynoq tur va Umra shabloni.
+
+Yo'nalishni, sanani va narxni kiritasiz.
+
+Narxga nimalar kirishini alohida yozasiz — aviabilet, mehmonxona, ovqat, viza. Bu savollarning yarmini kamaytiradi.
+
+Post tagida Bron qilish tugmasi chiqadi va mijoz to'g'ridan-to'g'ri sizga yozadi.
+
+O'quv markazi — kurslarga qabul e'lonlari uchun shablon.
+
+Kursning boshlanish sanasini va necha oy davom etishini kiritasiz.
+
+Narxni va to'lov shartlarini yozasiz.
+
+Post tagida Kursga yozilish tugmasi bo'ladi — talaba bir bosadi va sizga tushadi.
+
+Maslahat: qabul tugashiga bir hafta qolganda postni qayta yuboring — joylar tugayapti degan post eng ko'p ariza keltiradi.
+
+Ko'chmas mulk — uy, kvartira sotish yoki ijaraga berish e'lonlari uchun.
+
+Obyekt suratlarini yuklaysiz va maydonini kvadrat metrda yozasiz.
+
+Qavat, umumiy qavatlar soni va narxni kiritasiz.
+
+Post tagida Bog'lanish tugmasi chiqadi.
+
+Maslahat: uchta suratni ham to'liq ishlating. Ko'chmas mulkda surat qancha ko'p bo'lsa, murojaat shuncha ko'p bo'ladi.
+
+Vakansiya — ishga odam qidirayotganlar uchun post shabloni.
+
+Lavozim nomini va maoshni yozasiz.
+
+Ish vaqtini va nomzodga qo'yilgan talablarni kiritasiz.
+
+Post tagida Rezyume yuborish tugmasi bo'ladi — nomzod to'g'ridan-to'g'ri sizga yozadi.
+
+Maslahat: maosh raqamini albatta yozing. Maoshi ko'rsatilmagan e'lonlar bir necha barobar kam javob oladi.
+
+Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
+
+Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
+
+Chegirma foizini yoki aksiya shartini ko'rsatasiz.
+
+Post tagida Buyurtma berish tugmasi chiqadi.
+
+Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
+
+Salon va klinika — go'zallik saloni yoki tibbiy klinika xizmatlari uchun shablon.
+
+Xizmatlar va ularning narxlari ro'yxatini kiritasiz.
+
+Vaqtinchalik aksiyani ham qo'shishingiz mumkin.
+
+Post tagida Navbatga yozilish tugmasi bo'ladi — mijoz bir bosib navbat so'raydi.
+
+Eslatma: tibbiyot sohasida natija kafolati kabi va'dalarni yozishda ehtiyot bo'ling — qonun talablariga rioya qiling.
+
+Statistikam bo'limi — siz yuborgan e'lonlardagi tugmalarni necha kishi bosgani sanaladi.
+
+Bog'lanish, Bron qilish, Buyurtma berish — qaysi tugma necha marta bosilgani alohida ko'rinadi.
+
+Shu orqali qaysi e'lon ishlayapti, qaysi biri bekorga ketayotganini aniq bilasiz.
+
+Agar hali e'lon yubormagan bo'lsangiz, bu bo'lim bo'sh turadi. Birinchi postni yuboring, raqamlar shundan keyin paydo bo'ladi.
+
+Maslahat: bitta mahsulotni ikki xil matn bilan sinab ko'ring va qaysi biri ko'proq bosilganini shu yerdan solishtiring.
+
+Brend to'plamida birinchi navbatda brend rangingizni tanlaysiz — postlar shu rangda chiziladi.
+
+Keyin aloqa uchun username'ingizni yozasiz — mijoz shu manzilga yoziladi.
+
+Tugmada qanday yozuv turishini ham o'zingiz belgilaysiz.
+
+Bir marta saqlasangiz, barcha post bo'limlari — Savdogar, Taksi, Sayohat va qolganlari — shu sozlamani avtomatik oladi.
+
+Shuning uchun aytdim: Savdo admin bilan ishlashni aynan shu katakdan boshlang. Bir martalik ish, lekin barcha postlaringiz bir xil, tanilarli ko'rinishga ega bo'ladi.
+
+Savdo admin bo'limi shunday ishlaydi. Esda tuting: avval Brend to'plami ni to'ldiring, keyin Statistikam orqali qaysi e'lon ishlayotganini kuzatib boring.
+
+Oxirgi, oltinchi darsda Ilova bo'limini — balans, bot yaratish va yordam xizmatini ko'ramiz.
+
+
+
+============================================================
+
+6. Video darslik · Ilova  (4:12)
+
+============================================================
+
+
+
+Oltinchi va oxirgi dars — Ilova ramkasi. Bu yerda to'rtta katak bor: balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+
+Balans eng muhimi — chunki barcha pullik xizmatlar aynan shu hisob orqali ishlaydi.
+
+Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+
+To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+
+Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+
+Uchinchi qadam: To'lov qildim tugmasini bosasiz.
+
+Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+
+Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+
+Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+
+Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+
+Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+
+Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+
+Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+
+Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+
+To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — Balans sahifasidagi Adminga murojaat qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+
+Bot yaratish — biznesingiz uchun alohida Telegram bot buyurtma qilish xizmati.
+
+Nima qilish mumkin: onlayn do'kon boti, navbat boti, to'lov qabul qiluvchi bot, sun'iy intellektli yordamchi va boshqalar.
+
+Birinchi qadam: Murojaat qilish tugmasini bosib, g'oyangizni yozasiz. Botingiz nima qilishi kerakligini oddiy so'z bilan tushuntirasiz.
+
+Ikkinchi qadam: sizga narx va muddat aytiladi, kelishib olasiz.
+
+Odatda bot uch kun ichida tayyor bo'ladi.
+
+Murojaat qilishdan oldin tayyor namunalarni so'rang — shunga qarab o'z botingizni aniqroq tasavvur qilasiz.
+
+Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+
+Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+
+Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, Balans sahifasidagi Adminga murojaat qatoridan foydalaning.
+
+Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+
+Profil bo'limida Tilaklar qutisi ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+
+Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
+
+Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
+
+Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
+
+Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
+
+Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
+
+Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
+
+Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
+
+Shu bilan TartibOn video qo'llanmasi yakunlandi. Oltita darsda bosh sahifadagi barcha bo'limlarni ko'rib chiqdik. Endi ilovani oching, kanalingizni ulang va keraklisini sinab ko'ring.
+
+Savol bo'lsa — Savol va takliflar orqali yozing. E'tiboringiz uchun rahmat!
+
+
+
+============================================================
+
+7. Reklama Post Tayorlash · Savdogar  (0:57)
+
+============================================================
+
+
+
+Telegram guruhlarida kiyim-kechak sotasizmi?
+
+Rasmingiz yuzlab boshqa postlar orasida yo'qolib ketyaptimi?
+
+Narxni va o'lchamni har safar izohga qaytadan yozyapsizmi?
+
+Endi bunday qilish shart emas. Bir daqiqada tayyor, chiroyli post olasiz.
+
+Birinchi qadam: mahsulotingizning suratini yuklaysiz.
+
+Ikkinchi qadam: mahsulot nomini yozasiz.
+
+Uchinchi qadam: qisqa tavsif. O'lchamlar, rang yoki yetkazib berish haqida bir qator.
+
+To'rtinchi qadam: narxni yozasiz. Narx post ustida yirik qilib chiqadi.
+
+Tamom. Post rasmi o'zi tayyor bo'ldi.
+
+Rasmni yuklab olasiz va guruhga tashlaysiz. Yoki ilovaning o'zidan to'g'ridan-to'g'ri yuborasiz.
+
+Endi postingiz ajralib turadi. Narx, tavsif va aloqa — hammasi bitta rasmda.
+
+Va bu butunlay bepul. Hech qanday to'lov yo'q.
+
+TartibOn. Telegramda qidiring va bugunoq birinchi postingizni yarating.
+
+
+
+============================================================
+
+8. Reklama Post Tayorlash · Reklama Post Tayorlash  (0:44)
+
+============================================================
+
+
+
+Biznesingiz bormi? Lekin e'lonlaringiz oddiy va ko'zga tashlanmaydimi?
+
+Dizayner yollash ham, grafik dastur o'rganish ham kerak emas.
+
+Mahsulot sotasizmi — Savdogar bo'limi.
+
+Mashina sotasizmi — Avto savdo.
+
+Uy yoki kvartira — Ko'chmas mulk.
+
+Ishga odam qidiryapsizmi — Vakansiya.
+
+Kursga qabul e'lon qilyapsizmi — O'quv markazi.
+
+Kafe yoki restoran bo'lsa — menyu va aksiya posti.
+
+Salon yoki klinika — narxlar ro'yxati bilan.
+
+Hammasi bir xil ishlaydi: rasm va bir nechta maydon — tayyor post.
+
+TartibOn. Telegramda qidiring — bepul sinab ko'ring.
+
+
+
+============================================================
+
+9. Reklama Post Tayorlash · Taksi e'loni  (0:32)
+
+============================================================
+
+
+
+Haydovchimisiz? Har kuni guruhga bir xil matn yozib charchadingizmi?
+
+Yo'nalishni kiritasiz: qayerdan va qayerga.
+
+Jo'nash sanasi, vaqti, bo'sh joylar soni va mashina modeli.
+
+Va mana — tayyor post. Telefon raqamingiz va aloqa manzilingiz bilan.
+
+Yo'lovchi post tagidagi Haydovchiga yozish tugmasini bosadi va to'g'ridan-to'g'ri sizga yoziladi.
+
+Har kuni qaytadan yozishning hojati yo'q — eski postni nusxalab, faqat sanani o'zgartirasiz.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+10. Reklama Post Tayorlash · Avto savdo  (0:27)
+
+============================================================
+
+
+
+Mashina sotyapsizmi?
+
+Telefonda olingan oddiy rasm xaridorda ishonch uyg'otmaydi. U yil, probeg va holatni qidiradi.
+
+Shu ilovada hammasi bitta chiroyli rasmga joylanadi: yil, probeg, rang, holati va narx.
+
+Post tagida Sotuvchiga yozish tugmasi — xaridor bir bosib siz bilan bog'lanadi.
+
+Avto guruhlarida e'loningiz boshqalardan darhol ajralib turadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+11. Reklama Post Tayorlash · Ko'chmas mulk  (0:27)
+
+============================================================
+
+
+
+Uy, kvartira sotyapsizmi yoki ijaraga beryapsizmi?
+
+Maydon, qavat va narx — bularning hammasi odatda izohda qolib ketadi va hech kim o'qimaydi.
+
+Endi bu ma'lumotlar rasmning o'zida, suratlar bilan birga chiqadi.
+
+Ta'mir holati, jihozlangani va hujjatlar — alohida belgilar bilan ko'rsatiladi.
+
+Post tagidagi Bog'lanish tugmasini bosgan mijoz to'g'ridan-to'g'ri sizga yoziladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+12. Reklama Post Tayorlash · Vakansiya  (0:25)
+
+============================================================
+
+
+
+Ishga odam qidiryapsizmi?
+
+Quruq matn ko'rinishidagi e'lonlarni odamlar oxirigacha o'qimaydi.
+
+Lavozim, maosh, ish vaqti va talablar — hammasi bitta chiroyli rasmda.
+
+Maosh raqamini albatta yozing — maoshi ko'rsatilgan e'lonlar bir necha barobar ko'p javob oladi.
+
+Nomzod Rezyume yuborish tugmasini bosadi va to'g'ridan-to'g'ri sizga yoziladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+13. Reklama Post Tayorlash · O'quv markazi  (0:26)
+
+============================================================
+
+
+
+O'quv markazingizga qabul e'lon qilyapsizmi?
+
+Har bir yangi guruh uchun dizaynerga buyurtma berish — vaqt va pul.
+
+Endi o'zingiz tayyorlaysiz: boshlanish sanasi, kurs davomiyligi va narx.
+
+Darslar soni, guruhdagi o'quvchilar, ustoz va sertifikat — alohida belgilar bilan.
+
+Kursga yozilish tugmasini bosgan talaba to'g'ridan-to'g'ri sizga tushadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+14. Reklama Post Tayorlash · Restoran va kafe  (0:26)
+
+============================================================
+
+
+
+Kafe yoki restoraningiz bormi?
+
+Menyu va aksiya rasmlaringiz har safar boshqacha, notekis chiqyaptimi?
+
+Kombo taomlar va narxlar — bitta tartibli, chiroyli rasmda.
+
+Aksiya va chegirmani ko'rsatsangiz, u rasmda yorqin belgida chiqadi.
+
+Maslahat: postni soat o'n birda, tushlikdan oldin yuboring — buyurtma aynan shu payt ko'p bo'ladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+15. Reklama Post Tayorlash · Salon va klinika  (0:24)
+
+============================================================
+
+
+
+Go'zallik saloni yoki klinikangiz bormi?
+
+Mijozlar har kuni bir xil savolni berib, narxlarni so'rayveradimi?
+
+Barcha xizmatlar va narxlarni bitta rasmga joylaysiz — savollar o'z-o'zidan kamayadi.
+
+Vaqtinchalik aksiyani ham qo'shasiz — bu yangi mijoz keltiradi.
+
+Mijoz Navbatga yozilish tugmasini bosadi va sizga yoziladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+16. Reklama Post Tayorlash · Sayohat e'loni  (0:31)
+
+============================================================
+
+
+
+Turagentlik bilan shug'ullanasizmi?
+
+Tur paket, qaynoq tur yoki Umra uchun chiroyli post kerakmi?
+
+Yo'nalish, sana, kecha soni va narxni kiritasiz — davlat bayrog'i o'zi qo'yiladi.
+
+Eng muhimi: narxga nima kirishini alohida ko'rsatasiz — aviabilet, mehmonxona, transfer va ovqatlanish.
+
+Shunda mijozlarning savollari ikki barobar kamayadi — chunki hammasi rasmda ko'rinadi.
+
+Post tagida Bron qilish tugmasi turadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+17. Adminlar uchun · Adminlar uchun  (0:41)
+
+============================================================
+
+
+
+Telegramda kanalingiz yoki guruhingiz bormi?
+
+Postni qo'lda yuborasiz, spamni qo'lda o'chirasiz, obunachilarni qo'lda sanaysiz.
+
+Barcha kanal va guruhlaringiz bitta ro'yxatda — har biri alohida sozlanadi.
+
+Reklama va spamni bot o'zi o'chiradi. Siz hatto ko'rmaysiz ham.
+
+Postni oldindan tayyorlab, kerakli kunga qo'yasiz — bot o'zi chiqaradi.
+
+O'sish grafigini ko'rib turasiz va hisobotni Excelga yuklab olasiz.
+
+Yopiq kanalingizga pullik obuna sotasiz — pul to'g'ridan-to'g'ri balansingizga tushadi.
+
+Jami to'qqizta vosita. Hammasi Telegramning ichida — hech narsa o'rnatmaysiz.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+18. Adminlar uchun · Kanallarim  (0:33)
+
+============================================================
+
+
+
+Bir nechta kanalingiz bormi? Har birini alohida ochib yurasizmi?
+
+Endi hammasi bitta ro'yxatda. Har bir kanal yonida obunachilar soni va bugungi o'sish turadi.
+
+Kanalni ochsangiz, unga qaysi avtomatik xabarlar yoqilganini belgilaysiz — bittasiga namoz vaqtlari, boshqasiga faqat dollar kursi.
+
+Ta'tilga chiqsangiz, bitta kalitni bosasiz — barcha avtomatik xabarlar to'xtaydi.
+
+Agar botni kanaldan chiqarib yuborishsa, qizil belgi darhol chiqadi va tuzatish yo'lini ko'rsatadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+19. Adminlar uchun · Guruh himoyasi  (0:38)
+
+============================================================
+
+
+
+Guruhingiz reklama va spamga to'lib ketyaptimi?
+
+Har kuni, hatto kechasi ham kirib qo'lda o'chirib chiqasizmi?
+
+Endi buni bot qiladi. Reklama, havola, so'kinish va spam — hammasi avtomatik o'chiriladi.
+
+Guruhlarga ko'p tashlanadigan arab botlar va zararli fayllar ham to'siladi.
+
+Yangi a'zolar birinchi sutkada havola yubora olmaydi. Kirishda kapcha qo'ysangiz, botlar umuman kira olmaydi.
+
+Guruh adminlarining xabarlariga esa hech qachon tegilmaydi.
+
+Va bu bepul. Guruhda himoya deb yozsangiz, qaysi qoidalar yoqilganini ko'rasiz.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+20. Adminlar uchun · Rejalashtirilgan postlar  (0:29)
+
+============================================================
+
+
+
+Har kuni belgilangan vaqtda post qo'yish uchun telefon qarab o'tirasizmi?
+
+Postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot o'zi chiqaradi.
+
+Takrorlanishni o'zingiz tanlaysiz: bir marta, har kuni yoki har hafta.
+
+Post Telegramda aynan qanday ko'rinishi ekranda darhol ko'rinib turadi — yuborishdan oldin.
+
+Ishonchingiz komil bo'lmasa, avval faqat o'zingizga yuborib tekshirasiz.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+21. Adminlar uchun · Taklif havolalari  (0:31)
+
+============================================================
+
+
+
+Guruhingiz o'smay qoldimi? Reklamaga pul sarflashni xohlamaysizmi?
+
+Unda a'zolaringizning o'zi odam olib kelsin. Har biriga shaxsiy taklif havolasi beriladi.
+
+Kim nechta odam olib kelgani aniq sanaladi va TOP ro'yxatda chiqadi.
+
+Shu ro'yxatning o'zi musobaqa yaratadi — odamlar bir-biridan o'zishga harakat qiladi.
+
+Eng kuchli usul: buni konkurs bilan birlashtiring. Eng ko'p odam taklif qilgan uchtaga sovg'a deng — guruh tez o'sadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+22. Adminlar uchun · Statistika  (0:30)
+
+============================================================
+
+
+
+Kanalingiz o'syaptimi yoki pasayyaptimi? Aniq bilasizmi?
+
+Statistika bo'limida hammasi ko'rinadi: kecha qancha qo'shilgan, yetti kunda va o'ttiz kunda qancha bo'lgan.
+
+O'n to'rt kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+
+Guruh uchun xabarlar soni ham chiqadi — guruhingiz jonli yoki jonsizligini shu ko'rsatadi.
+
+Hisobotni Excelga yuklab olasiz — reklama beruvchiga ko'rsatish uchun juda qulay.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+23. Adminlar uchun · Testlar  (0:30)
+
+============================================================
+
+
+
+Guruhingizda hech kim yozmay qo'ydimi?
+
+Bot belgilangan oraliqda o'zi savol berib turadi — to'rt variantli viktorina.
+
+Mavzuni o'zingiz tanlaysiz: maktab va imtihon savollari yoki yo'l harakati qoidalari bo'yicha Prava testi.
+
+To'g'ri javobga ochko beriladi, tezroq javob berganga ko'proq. Oxirida eng yaxshi o'nta e'lon qilinadi.
+
+Bir necha kundan keyin a'zolarning o'zi savol chaqira boshlaydi — guruh jonlanadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+24. Adminlar uchun · Pullik kanallar  (0:33)
+
+============================================================
+
+
+
+Kanalingizga mehnat qilasiz, lekin daromad yo'qmi?
+
+Yopiq kanalingizga pullik obuna soting. Pul to'g'ridan-to'g'ri balansingizga tushadi.
+
+Paketlar: bir, uch, olti va o'n ikki oylik. Narxni va uzoq muddatga chegirmani o'zingiz qo'yasiz.
+
+Bepul sinov muddatini yoqsangiz, har bir odam bir marta bepul kirib ko'radi — shundan keyin ko'pchilik qoladi.
+
+Qolgani avtomatik: kirish havolasi o'zi boradi, muddat tugashiga uch kun qolganda eslatma ketadi, tugaganda bot o'zi chiqaradi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+25. Adminlar uchun · Konkurs  (0:29)
+
+============================================================
+
+
+
+Kanalingizga tez obunachi kerakmi?
+
+Sovg'a o'yini o'tkazing. G'oliblar sonini va tugash vaqtini belgilaysiz — post tugmasi bilan chiqadi.
+
+Ishtirok etish uchun obuna bo'lish shartini qo'yasiz — bu kanalni o'stirishning eng tez yo'li.
+
+Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hech kim aralasha olmaydi — hammasi adolatli.
+
+Konkursdan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+26. Adminlar uchun · Guruhlarim  (0:26)
+
+============================================================
+
+
+
+Bir nechta guruh boshqarasizmi?
+
+Hammasi bitta ekranda: a'zolar soni va bugun nechta xabar yozilgani.
+
+Har bir guruh uchun alohida: himoya qoidalari, testlar va avtomatik xabarlar.
+
+Guruh qo'shish oson: username yoki ID kiritasiz va botni administrator qilasiz.
+
+Shu zahoti ishlay boshlaydi — guruh himoyasi avtomatik yoqiladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+27. Xizmatlar · Xizmatlar  (0:39)
+
+============================================================
+
+
+
+TartibOn ilovasida kanal boshqaruvidan tashqari yana to'qqizta xizmat bor.
+
+Ijtimoiy tarmoqlarga obunachi, layk va ko'rish buyurtma qilasiz.
+
+Ro'yxatdan o'tish uchun bir martalik raqam olasiz — SMS kod shu yerda chiqadi.
+
+Haydovchilik guvohnomasi imtihoniga bepul tayyorlanasiz — ming ikki yuz qirqta savol.
+
+Kanal sotib olasiz yoki sotasiz — Telegram, YouTube va Instagram uchun alohida bo'lim.
+
+Reklama birjasida pul kafolat ostida o'tadi — hech kim aldanmaydi.
+
+Barcha pullik xizmatlar balans orqali ishlaydi. Bajarilmasa, pul qaytariladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+28. Xizmatlar · Nakrutka  (0:25)
+
+============================================================
+
+
+
+Kanalingiz juda sekin o'syaptimi?
+
+Nakrutka bo'limida obunachi, layk, izoh va ko'rish buyurtma qilasiz. Narx darrov ko'rinadi.
+
+Telegram, Instagram, YouTube, TikTok — tarmoqni o'zingiz tanlaysiz.
+
+Buyurtma bajarilmasa pul to'liq qaytariladi. Qisman bajarilsa, bajarilmagan qismi qaytadi.
+
+Katta miqdorga chegirma bor. Avvalgi buyurtmani bir bosishda takrorlaysiz.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+29. Xizmatlar · eSIM  (0:30)
+
+============================================================
+
+
+
+Telegram yoki boshqa tarmoqda ro'yxatdan o'tish uchun raqam kerakmi?
+
+Buning uchun yangi SIM karta sotib olish shart emas.
+
+Davlat va tarmoqni tanlaysiz, raqam darhol beriladi. SMS kod shu sahifaning o'zida chiqadi.
+
+Agar kod o'n besh daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
+
+Tanlashdan oldin yulduzcha belgisiga qarang — u oxirgi o'ttiz kundagi kod kelish foizini ko'rsatadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+30. Xizmatlar · Prava  (0:32)
+
+============================================================
+
+
+
+Haydovchilik guvohnomasi imtihoniga tayyorlanyapsizmi?
+
+Kitob sotib olish ham, kursga borish ham shart emas. Hammasi telefoningizda va bepul.
+
+Ming ikki yuz qirqta original savol, oltmish ikkita bilet. Belgi, chiziq va chorraha bo'yicha rasmli savollar ham bor.
+
+Imtihon rejimi haqiqiysiga o'xshatilgan: yigirma savol, yigirma besh daqiqa, ikkitagacha xatoga ruxsat.
+
+Eng foydalisi — Xatolarim bo'limi. Noto'g'ri javob bergan savollaringiz to'planadi, aynan shular ustida ishlaysiz.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+31. Xizmatlar · O'zaro reklama  (0:24)
+
+============================================================
+
+
+
+Kanalingizni o'stirmoqchisiz, lekin reklamaga pul yo'qmi?
+
+Unda o'zaro reklama qiling: siz uning kanalini, u sizning kanalingizni e'lon qiladi. Bepul.
+
+Kanalingizni kategoriya bilan katalogga qo'shasiz. Boshqalar sizni topadi, siz ham qidirib taklif yuborasiz.
+
+Maslahat: mavzuingizga yaqin kanalni tanlang — natija bir necha barobar kuchli bo'ladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+32. Xizmatlar · Kanal Savdo · Telegram  (0:32)
+
+============================================================
+
+
+
+Telegram kanal sotib olmoqchimisiz yoki o'z kanalingizni sotmoqchimisiz?
+
+Eng katta muammo — raqamlar. Sotuvchi obunachilar sonini o'zi yozsa, unga qanday ishonasiz?
+
+Bu yerda raqamlar sotuvchidan emas — TartibOn statistikasidan avtomatik olinadi. Ya'ni soxta ko'rsatkich qo'yib bo'lmaydi.
+
+To'lov esa vositachi orqali: pul admin qo'lida turadi va kanal topshirilgandan keyingina sotuvchiga beriladi.
+
+Sotmoqchi bo'lsangiz, shu sahifada bitta tugma bosasiz — kanalingiz sotuvga chiqadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+33. Xizmatlar · Kanal Savdo · YouTube  (0:29)
+
+============================================================
+
+
+
+YouTube kanalingizni sotmoqchimisiz?
+
+Mening e'lonlarim bo'limiga kirib, kanal manzili, obunachilar soni, mavzu va narxni yozasiz.
+
+Agar kanal pul topishga ulangan bo'lsa, monetizatsiya belgisini albatta qo'ying — bunday kanal ancha qimmatroq turadi.
+
+Admin tekshirgan e'lonlarga ko'k belgi qo'yiladi — xaridorlar birinchi navbatda shularga ishonadi.
+
+Savdo vositachi orqali: pul admin qo'lida turadi, akkaunt topshirilgach sotuvchiga o'tadi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+34. Xizmatlar · Kanal Savdo · Instagram  (0:31)
+
+============================================================
+
+
+
+Instagram sahifangizni sotmoqchimisiz yoki tayyor sahifa sotib olmoqchimisiz?
+
+Barcha e'lonlar bitta joyda: username, obunachilar soni, mavzu va narx.
+
+Ochiq aytamiz: Instagram akkauntlarida aldov xavfi eng yuqori. Akkaunt pul o'tgandan keyin qaytarib olinishi mumkin.
+
+Shuning uchun vositachi xizmatidan foydalaning. Pul admin qo'lida turadi va akkaunt haqiqatan topshirilgach beriladi.
+
+Sotib olishdan oldin ko'k belgiga qarang — u admin tekshirganini bildiradi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+35. Xizmatlar · Reklama birjasi  (0:35)
+
+============================================================
+
+
+
+Reklama uchun pul to'ladingiz, lekin post bir soatdan keyin o'chirib yuborildimi?
+
+Reklama birjasida bunday bo'lmaydi. Chunki pul kafolat ostida turadi.
+
+To'lagan pulingiz darhol sotuvchiga o'tmaydi. Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin o'zi o'tadi.
+
+Agar reklama muddatidan oldin o'chirilsa, nizo ochasiz va qarorni admin chiqaradi: pul sizga qaytadi yoki sotuvchiga beriladi.
+
+Kanal egasi bo'lsangiz, narx va formatni o'zingiz belgilaysiz — buyurtma kelganda Joylash tugmasini bosasiz.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+36. Xizmatlar · Kanallar reytingi  (0:35)
+
+============================================================
+
+
+
+Kanalingiz yangi va uni hali hech kim bilmaydimi?
+
+Kanallar reytingida so'nggi yetti kunda eng tez o'sgan o'nta kanal chiqadi. Ro'yxat har kuni yangilanadi.
+
+Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Demak kichik kanalning ham imkoni bor.
+
+Tezroq natija kerak bo'lsa, pullik xizmat bor: kanalingiz yetti kun davomida Tavsiya etiladi qatorida, eng tepada turadi.
+
+Bu yangi kanallar uchun birinchi obunachilarni olib kelishning eng tez yo'li.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+37. Kundalik xabarlar · Kundalik xabarlar  (0:51)
+
+============================================================
+
+
+
+Kanalingizga har kuni nima post qilishni o'ylab charchadingizmi?
+
+TartibOn'da oltita avtomatik post bor. Bir marta yoqasiz — keyin hech narsa qilmaysiz.
+
+Namoz vaqtlari — har bir namozdan o'ttiz daqiqa keyin kanalingizga chiqadi.
+
+Dollar kursi — banklar kursi o'zgargan zahoti rasmli post o'zi chiqadi.
+
+Ob-havo — har kuni ertalab oltida o'n ikki viloyat ob-havosi yuboriladi.
+
+Tongi va tungi xabar — video bilan, ertalab va kechqurun.
+
+Bayram tabriklari esa har Juma va bayram kunlari o'zi ketadi.
+
+Kalitni bir marta bosasiz va u barcha kanal hamda guruhlaringizga birdaniga yoqiladi.
+
+Natija: kanalingiz har kuni jonli bo'ladi — siz uxlayotganingizda ham.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+38. Kundalik xabarlar · Namoz vaqtlari  (0:32)
+
+============================================================
+
+
+
+Kanalingizga namoz vaqtlarini har kuni qo'lda yozib chiqasizmi?
+
+Bot buni o'zi qiladi: o'n ikki viloyatning vaqti bitta chiroyli rasmga joylanadi.
+
+Xabar azon vaqtida emas, har namozdan o'ttiz daqiqa keyin yuboriladi — odamlar namozni o'qib bo'lgach.
+
+Hududni o'zingiz tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan.
+
+Vaqtlar islom.uz taqvimi asosida. Manba ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+39. Kundalik xabarlar · Dollar kursi  (0:33)
+
+============================================================
+
+
+
+Guruhingizda har kuni dollar kursi so'ralaveradimi?
+
+Barcha banklarning olish va sotish kursi bitta chiroyli rasmda — logotiplari bilan.
+
+Raqamlar bank saytlaridan avtomatik olinadi — qo'lda hech narsa kiritilmaydi.
+
+Kurs o'zgargan zahoti post o'zi chiqadi. O'zgarmagan bo'lsa, bir xil postni qayta yubormaydi — obunachilaringiz bezovta bo'lmaydi.
+
+Eng yuqori olish va eng arzon sotish narxi alohida belgilanadi — odam qaysi bankka borishni darrov ko'radi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+40. Kundalik xabarlar · Ob-havo  (0:28)
+
+============================================================
+
+
+
+Obunachilaringiz har kuni ochib ko'radigan post kerakmi?
+
+Har kuni ertalab oltida o'n ikki viloyatning ob-havosi bitta postda yuboriladi.
+
+Har bir viloyat uchun kunduzgi va tungi harorat alohida ko'rsatiladi.
+
+Kuchli shamol, jazirama issiq, qattiq sovuq yoki do'l kutilsa, bot alohida ogohlantirish yuboradi.
+
+Bosh sahifadagi kalitni yoqsangiz, xizmat barcha ulangan chatlarga birdaniga yoqiladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+41. Kundalik xabarlar · Tongi xabar  (0:32)
+
+============================================================
+
+
+
+Obunachilaringiz ertalab telefonni ochganda kanalingizda nima turadi?
+
+Tongi xabar har kuni soat to'rt yarimda video bilan yuboriladi — ular uyg'onguncha post allaqachon tayyor turadi.
+
+Matnda bugun haftaning qaysi kuni ekani, sana va hijriy sana avtomatik yoziladi. Siz hech narsa yozmaysiz.
+
+Haftaning qaysi kunlarida yuborilishini o'zingiz belgilaysiz — masalan, faqat ish kunlari.
+
+Amaliyot shuni ko'rsatadi: ertalabki post eng ko'p ko'riladigan post bo'ladi.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+42. Kundalik xabarlar · Tungi xabar  (0:28)
+
+============================================================
+
+
+
+Kechqurun soat to'qqizdan keyin odamlar telefonni eng ko'p ishlatadi.
+
+Aynan shu paytda tungi xabar chiqadi — Xayrli tun posti, video va matn bilan.
+
+Haftaning har kuni uchun alohida tayyor matn bor — post bir xil bo'lib ketmaydi.
+
+Tongi va tungi xabarni birga yoqsangiz, kanalingizda kuniga kamida ikkita post bo'ladi. Bu obunachilarni ushlab turishning eng oson yo'li.
+
+TartibOn. Telegramda qidiring.
+
+
+
+============================================================
+
+43. Kundalik xabarlar · Bayram tabriklari  (0:31)
+
+============================================================
+
+
+
+Bayram kuni kanalingizda tabrik bo'lmay qoldimi? Hamma tabrikladi, siz esdan chiqardingiz.
+
+Endi bot buni o'zi qiladi — har Juma va bayram kunlari video tabrik o'zi yuboriladi.
+
+Siz nima qilishingiz kerak? Hech narsa. Faqat kanalingiz botga ulangan bo'lsa yetarli.
+
+Sahifada tabriklar ro'yxati va keyingi bayram qachon ekani ko'rinib turadi.
+
+Namuna tugmasini bossangiz, tabrik kanalingizda qanday ko'rinishini oldindan ko'rasiz.
+
+TartibOn. Telegramda qidiring.
+
