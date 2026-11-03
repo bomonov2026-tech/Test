@@ -8,7 +8,7 @@ Har bo'lim orasida ==== chizig'i bor — alohida generatsiya qilish uchun.
 
 ============================================================
 
-1. Video darslik · Bosh panel  (5:43)
+1. Video darslik · Bosh panel  (5:51)
 
 ============================================================
 
@@ -18,7 +18,9 @@ Assalomu alaykum! TartibOn video qo'llanmasiga xush kelibsiz.
 
 Bu qo'llanma oddiy foydalanuvchi uchun: ilovani birinchi marta ochgan paytingizdan boshlab, har bir bo'limdan qanday foydalanishni tartib bilan ko'rsataman.
 
-Hech qanday texnik bilim kerak emas — faqat Telegram kanalingiz yoki guruhingiz bo'lsa yetarli. Birinchi darsda bosh sahifa bilan tanishamiz va kanal hamda guruhni ulashni o'rganamiz.
+Hech qanday texnik bilim kerak emas. Ilovadagi ko'p xizmatlardan — nakrutka, eSIM, Prava testlari, kanal savdosi — har kim foydalanishi mumkin.
+
+Kanal yoki guruhingiz bo'lsa esa, undan ham ko'proq imkoniyat ochiladi. Birinchi darsda bosh sahifa bilan tanishamiz.
 
 Ilovani ochganingizda sizni shu karta kutib oladi: Telegramni yanada tartibli boshqaring. Mana shu bitta ilovada kanal, guruh, post va boshqa xizmatlar jamlangan.
 
@@ -38,7 +40,7 @@ Uchinchisi — Foydalanuvchi. Bu ilovadan foydalanayotgan odamlarning umumiy son
 
 Nega bu raqamlar ko'rsatiladi? Ular ilova qanchalik keng ishlatilayotganini ko'rsatadi. Raqamlar o'sib borsa, demak xizmat ishlayapti.
 
-O'zingizning kanal va guruhlaringizni esa Kanallarim va Guruhlarim bo'limlarida ko'rasiz — ikkinchi darsda ularni batafsil ko'rib chiqamiz.
+Agar sizning ham kanalingiz yoki guruhingiz bo'lsa, ular Kanallarim va Guruhlarim bo'limlarida alohida ko'rinadi — ikkinchi darsda ko'rib chiqamiz.
 
 Agar biror katak ustida qizil raqam paydo bo'lsa, demak o'sha joyda hal qilinishi kerak bo'lgan ish bor. Masalan, bot kanaldan chiqarib yuborilgan yoki huquqi yetmayapti.
 

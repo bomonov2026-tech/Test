@@ -355,6 +355,7 @@ Keyingi darsda «Savdo admin» — biznes e'lonlari uchun tayyor post shablonlar
 
 ### Ishlab chiqarish uchun eslatma
 
-- Video **ovozsiz** tayyorlangan — ustiga diktor ovozini yozasiz.
+- Video **ovozsiz** va **subtitrsiz** — matn ekranda yozilmaydi, diktor ovozi gapiradi.
+- Kerak bo'lsa subtitrni keyin montajda `.srt` fayldan qo'shasiz.
 - Tayyor subtitr: `subtitr/4-xizmatlar.srt` (vaqtlari video bilan bir xil).
 - Ovoz yozilgach: `ffmpeg -i video/4-xizmatlar.mp4 -i ovoz.mp3 -c:v copy -map 0:v -map 1:a -shortest tayyor.mp4`
