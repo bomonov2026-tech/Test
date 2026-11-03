@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,300
+Instagram sahifangizni sotmoqchimisiz yoki tayyor sahifa sotib olmoqchimisiz?
+
+2
+00:00:04,360 --> 00:00:09,500
+Barcha e'lonlar bitta joyda: username, obunachilar soni, mavzu va narx.
+
+3
+00:00:09,560 --> 00:00:16,800
+Ochiq aytamiz: Instagram akkauntlarida aldov xavfi eng yuqori. Akkaunt pul o'tgandan keyin qaytarib olinishi mumkin.
+
+4
+00:00:16,860 --> 00:00:23,680
+Shuning uchun vositachi xizmatidan foydalaning. Pul admin qo'lida turadi va akkaunt haqiqatan topshirilgach beriladi.
+
+5
+00:00:23,740 --> 00:00:29,300
+Sotib olishdan oldin ko'k belgiga qarang — u admin tekshirganini bildiradi.
+
+6
+00:00:29,360 --> 00:00:31,560
+TartibOn. Telegramda qidiring.
