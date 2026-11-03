@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,040
+O'quv markazingizga qabul e'lon qilyapsizmi?
+
+2
+00:00:03,100 --> 00:00:09,080
+Har bir yangi guruh uchun dizaynerga buyurtma berish — vaqt va pul.
+
+3
+00:00:09,140 --> 00:00:13,860
+Endi o'zingiz tayyorlaysiz: boshlanish sanasi, kurs davomiyligi va narx.
+
+4
+00:00:13,920 --> 00:00:19,480
+Darslar soni, guruhdagi o'quvchilar, ustoz va sertifikat — alohida belgilar bilan.
+
+5
+00:00:19,540 --> 00:00:23,840
+«Kursga yozilish» tugmasini bosgan talaba to'g'ridan-to'g'ri sizga tushadi.
+
+6
+00:00:23,900 --> 00:00:26,100
+TartibOn. Telegramda qidiring.

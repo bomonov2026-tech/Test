@@ -6,3 +6,4 @@ app/composer.lock
 
 # Video qo'llanma: generatsiya qilingan mp4 fayllar (~150 MB) git tarixiga qo'shilmaydi
 tartibon-qollanma/video/
+tartibon-qollanma/reels/video/
