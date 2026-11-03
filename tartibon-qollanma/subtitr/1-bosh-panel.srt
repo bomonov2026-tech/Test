@@ -1,0 +1,155 @@
+1
+00:00:00,000 --> 00:00:04,100
+Assalomu alaykum! TartibOn video qo'llanmasiga xush kelibsiz.
+
+2
+00:00:04,180 --> 00:00:13,560
+Bu qo'llanma oddiy foydalanuvchi uchun: ilovani birinchi marta ochgan paytingizdan boshlab, har bir bo'limdan qanday foydalanishni tartib bilan ko'rsataman.
+
+3
+00:00:13,640 --> 00:00:25,560
+Hech qanday texnik bilim kerak emas — faqat Telegram kanalingiz yoki guruhingiz bo'lsa yetarli. Birinchi darsda bosh sahifa bilan tanishamiz va kanal hamda guruhni ulashni o'rganamiz.
+
+4
+00:00:25,640 --> 00:00:36,340
+Ilovani ochganingizda sizni shu karta kutib oladi: «Telegramni yanada tartibli boshqaring». Mana shu bitta ilovada kanal, guruh, post va boshqa xizmatlar jamlangan.
+
+5
+00:00:36,420 --> 00:00:44,920
+Eng qulayi — bu mini-ilova Telegramning ichida ochiladi. Hech qanday dastur o'rnatmaysiz, ro'yxatdan o'tmaysiz, parol o'ylab topmaysiz.
+
+6
+00:00:45,000 --> 00:00:55,260
+Ko'pchilik xizmat bepul: avtomatik postlar, guruh himoyasi, statistika, testlar. Faqat ayrim xizmatlar — masalan nakrutka va eSIM — balans orqali pullik.
+
+7
+00:00:55,340 --> 00:01:04,280
+Bosh sahifani pastga surib boring: kataklar ramkalarga bo'lib qo'yilgan. Shu oltita darsda har bir ramkani alohida ko'rib chiqamiz.
+
+8
+00:01:04,360 --> 00:01:11,980
+Ilovani ochganingizda eng tepada uchta raqam turadi. Birinchisi — Kanal. Bu botga ulangan kanallaringiz soni.
+
+9
+00:01:12,060 --> 00:01:18,360
+Ikkinchisi — Guruh. Bot administrator qilib qo'shilgan guruhlaringiz soni shu yerda ko'rinadi.
+
+10
+00:01:18,440 --> 00:01:27,380
+Uchinchisi — Foydalanuvchi. Bu yerda sizga tegishli jami odamlar soni turadi — mening ekranimda bu ming o'n ikki.
+
+11
+00:01:27,460 --> 00:01:37,280
+Bu raqamlarni qo'lda kiritish shart emas. Bot administrator bo'lgan paytdan boshlab hammasini o'zi sanab boradi va har kuni yangilab turadi.
+
+12
+00:01:37,360 --> 00:01:49,280
+Agar biror katak ustida qizil raqam paydo bo'lsa, demak o'sha joyda hal qilinishi kerak bo'lgan ish bor. Masalan, bot kanaldan chiqarib yuborilgan yoki huquqi yetmayapti.
+
+13
+00:01:49,360 --> 00:01:59,620
+Bunday holatda bosh sahifada qizil ogohlantirish va «Tuzatish» tugmasi chiqadi. Uni bossangiz, muammo nimada ekani va qanday hal qilish yozilgan bo'ladi.
+
+14
+00:01:59,700 --> 00:02:07,760
+Statistikaning tagida «Bot rivoji balansi» kartasi turadi. Bu — foydalanuvchilar tomonidan ilovani rivojlantirishga o'tkazgan umumiy summasi.
+
+15
+00:02:07,840 --> 00:02:12,820
+Kartani bossangiz, kim qancha o'tkazgani — qo'llab-quvvatlaganlar ro'yxati ochiladi.
+
+16
+00:02:12,900 --> 00:02:22,280
+O'zingiz o'tkazmoqchi bo'lsangiz: «Balans» sahifasiga kiring va «Bot rivoji uchun o'tkazish» qatorini tanlang. Summani o'zingiz belgilaysiz — chegara yo'q.
+
+17
+00:02:22,360 --> 00:02:28,220
+O'tkazilgan summa shu zahoti shaxsiy balansingizdan yechiladi va umumiy hisobga qo'shiladi.
+
+18
+00:02:28,300 --> 00:02:38,120
+Muhim: bu karta sizning pul hisobingiz emas. Sizning shaxsiy balansingiz «Ilova» bo'limidagi «Balans» katagida — uni oltinchi darsda batafsil ko'ramiz.
+
+19
+00:02:38,200 --> 00:02:44,940
+Endi eng muhimi — kanalni ulash. Bosh sahifadagi ko'k «Kanal qo'shish» tugmasini bosing.
+
+20
+00:02:45,020 --> 00:02:50,880
+Ochilgan oynada eng oson yo'l — «Kanalni tanlash» tugmasi. Uni bosing.
+
+21
+00:02:50,960 --> 00:02:57,700
+Telegramning o'z oynasi ochiladi va kanallaringiz ro'yxati chiqadi. Botni ulamoqchi bo'lgan kanalni tanlang.
+
+22
+00:02:57,780 --> 00:03:06,280
+So'ngra «Administrator qilish» ni tasdiqlaysiz. Kerakli huquqlar o'zi belgilangan bo'ladi — siz faqat tasdiqlaysiz, bot o'zi ulanadi.
+
+23
+00:03:06,360 --> 00:03:13,100
+Agar ro'yxatdan tanlash ishlamasa, kanal @username yoki ID raqamini qo'lda kiritish ham mumkin.
+
+24
+00:03:13,180 --> 00:03:25,100
+Kanal ulangani haqida bot sizga xabar yuboradi. Shu zahoti to'rtta xizmat avtomatik yoqiladi: dollar kursi, markaziy bank kurslari, namoz vaqtlari va har kuni ertalabki post.
+
+25
+00:03:25,180 --> 00:03:34,120
+Agar bularning hammasi kerak bo'lmasa — «Kanallarim» bo'limida kanal kartasini ochib, «Sozlash» orqali keraksizini o'chirasiz yoki oraliqni o'zgartirasiz.
+
+26
+00:03:34,200 --> 00:03:42,260
+Guruhni ulash ham shunga o'xshash. Yashil «Guruh qo'shish» tugmasini bosib, guruh @username yoki ID raqamini kiritasiz.
+
+27
+00:03:42,340 --> 00:03:48,640
+Keyin botni guruhingizga administrator qilib qo'shasiz. Busiz bot hech narsa qila olmaydi.
+
+28
+00:03:48,720 --> 00:03:58,100
+Guruh himoyasi ishlashi uchun botga ikkita huquq shart. Birinchisi — xabarlarni o'chirish. Busiz bot reklama va so'kinishni o'chira olmaydi.
+
+29
+00:03:58,180 --> 00:04:04,040
+Ikkinchisi — foydalanuvchilarni bloklash. Bu spam tarqatuvchilarni chiqarib yuborish uchun kerak.
+
+30
+00:04:04,120 --> 00:04:11,300
+Agar taklif havolalari va pullik kanal xizmatlaridan foydalanmoqchi bo'lsangiz, «Taklif havolasi» huquqini ham bering.
+
+31
+00:04:11,380 --> 00:04:19,880
+Guruh ulangach, guruh himoyasi avtomatik ishga tushadi va avtomatik xabarlar ham yoqiladi. Qolganini keyin o'zingizga moslab sozlaysiz.
+
+32
+00:04:19,960 --> 00:04:31,880
+Endi bosh sahifa qanday tuzilganiga qaraymiz. Birinchi ramka — «Adminlar uchun». Bu yerda kanal va guruhni boshqarish vositalari: Kanallarim, Guruhlarim, himoya, rejalashtirilgan postlar, statistika, testlar, pullik kanallar va konkurs.
+
+33
+00:04:31,960 --> 00:04:41,780
+Ikkinchi ramka — «Kundalik xabarlar». Namoz vaqtlari, dollar kursi, ob-havo, tongi va tungi xabarlar, bayram tabriklari. Bularning hammasi avtomatik ishlaydi.
+
+34
+00:04:41,860 --> 00:04:50,360
+Uchinchi ramka — «Xizmatlar». Nakrutka, eSIM, Prava testlari, o'zaro reklama, kanal savdosi, reklama birjasi va kanallar reytingi.
+
+35
+00:04:50,440 --> 00:04:59,820
+To'rtinchi ramka — «Savdo admin». Taksi, avto savdo, ko'chmas mulk, vakansiya va boshqa biznes e'lonlari uchun tayyor post shablonlari.
+
+36
+00:04:59,900 --> 00:05:07,520
+Beshinchi ramka — «Ilova». Balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+
+37
+00:05:07,600 --> 00:05:18,740
+Hammasini birdan o'rganish shart emas. Avval o'zingizga keragini tanlang: kanalingiz bo'lsa — ikkinchi darsdan, biznesingiz bo'lsa — beshinchi darsdan boshlang. Qolganini keyin ko'rasiz.
+
+38
+00:05:18,820 --> 00:05:27,320
+Shu bilan birinchi dars tugadi. Endi sizda ulangan kanal va guruh bor, demak barcha xizmatlardan foydalanishga tayyorsiz.
+
+39
+00:05:27,400 --> 00:05:34,580
+Keyingi darsda «Adminlar uchun» bo'limini — kanal va guruhni kundalik boshqarish vositalarini ko'rib chiqamiz.

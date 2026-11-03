@@ -3,3 +3,6 @@ app/vendor/
 app/data/
 app/composer.lock
 *.zip
+
+# Video qo'llanma: generatsiya qilingan mp4 fayllar (~150 MB) git tarixiga qo'shilmaydi
+tartibon-qollanma/video/
