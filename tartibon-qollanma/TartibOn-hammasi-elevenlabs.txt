@@ -8,7 +8,7 @@ Har bo'lim orasida ==== chizig'i bor — alohida generatsiya qilish uchun.
 
 ============================================================
 
-1. Video darslik · Bosh panel  (5:34)
+1. Video darslik · Bosh panel  (5:43)
 
 ============================================================
 
@@ -28,13 +28,17 @@ Ko'pchilik xizmat bepul: avtomatik postlar, guruh himoyasi, statistika, testlar.
 
 Bosh sahifani pastga surib boring: kataklar ramkalarga bo'lib qo'yilgan. Shu oltita darsda har bir ramkani alohida ko'rib chiqamiz.
 
-Ilovani ochganingizda eng tepada uchta raqam turadi. Birinchisi — Kanal. Bu botga ulangan kanallaringiz soni.
+Ilovani ochganingizda eng tepada uchta raqam turadi. Darrov aytib qo'yay: bular sizning shaxsiy raqamlaringiz emas — bular butun ilovaning umumiy ko'rsatkichlari.
 
-Ikkinchisi — Guruh. Bot administrator qilib qo'shilgan guruhlaringiz soni shu yerda ko'rinadi.
+Birinchisi — Kanal. Bu TartibOn'ga ulangan barcha kanallar soni.
 
-Uchinchisi — Foydalanuvchi. Bu yerda sizga tegishli jami odamlar soni turadi — mening ekranimda bu ming o'n ikki.
+Ikkinchisi — Guruh. Bu ilovaga ulangan barcha guruhlar soni.
 
-Bu raqamlarni qo'lda kiritish shart emas. Bot administrator bo'lgan paytdan boshlab hammasini o'zi sanab boradi va har kuni yangilab turadi.
+Uchinchisi — Foydalanuvchi. Bu ilovadan foydalanayotgan odamlarning umumiy soni.
+
+Nega bu raqamlar ko'rsatiladi? Ular ilova qanchalik keng ishlatilayotganini ko'rsatadi. Raqamlar o'sib borsa, demak xizmat ishlayapti.
+
+O'zingizning kanal va guruhlaringizni esa Kanallarim va Guruhlarim bo'limlarida ko'rasiz — ikkinchi darsda ularni batafsil ko'rib chiqamiz.
 
 Agar biror katak ustida qizil raqam paydo bo'lsa, demak o'sha joyda hal qilinishi kerak bo'lgan ish bor. Masalan, bot kanaldan chiqarib yuborilgan yoki huquqi yetmayapti.
 

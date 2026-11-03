@@ -27,2297 +27,2305 @@ Ko'pchilik xizmat bepul: avtomatik postlar, guruh himoyasi, statistika, testlar.
 Bosh sahifani pastga surib boring: kataklar ramkalarga bo'lib qo'yilgan. Shu oltita darsda har bir ramkani alohida ko'rib chiqamiz.
 
 8
-00:01:04,360 --> 00:01:12,000
-Ilovani ochganingizda eng tepada uchta raqam turadi. Birinchisi — Kanal. Bu botga ulangan kanallaringiz soni.
+00:01:04,360 --> 00:01:14,640
+Ilovani ochganingizda eng tepada uchta raqam turadi. Darrov aytib qo'yay: bular sizning shaxsiy raqamlaringiz emas — bular butun ilovaning umumiy ko'rsatkichlari.
 
 9
-00:01:12,060 --> 00:01:18,380
-Ikkinchisi — Guruh. Bot administrator qilib qo'shilgan guruhlaringiz soni shu yerda ko'rinadi.
+00:01:14,700 --> 00:01:19,700
+Birinchisi — Kanal. Bu TartibOn'ga ulangan barcha kanallar soni.
 
 10
-00:01:18,440 --> 00:01:27,400
-Uchinchisi — Foydalanuvchi. Bu yerda sizga tegishli jami odamlar soni turadi — mening ekranimda bu ming o'n ikki.
+00:01:19,760 --> 00:01:24,760
+Ikkinchisi — Guruh. Bu ilovaga ulangan barcha guruhlar soni.
 
 11
-00:01:27,460 --> 00:01:37,300
-Bu raqamlarni qo'lda kiritish shart emas. Bot administrator bo'lgan paytdan boshlab hammasini o'zi sanab boradi va har kuni yangilab turadi.
+00:01:24,820 --> 00:01:29,820
+Uchinchisi — Foydalanuvchi. Bu ilovadan foydalanayotgan odamlarning umumiy soni.
 
 12
-00:01:37,360 --> 00:01:49,300
-Agar biror katak ustida qizil raqam paydo bo'lsa, demak o'sha joyda hal qilinishi kerak bo'lgan ish bor. Masalan, bot kanaldan chiqarib yuborilgan yoki huquqi yetmayapti.
+00:01:29,880 --> 00:01:37,960
+Nega bu raqamlar ko'rsatiladi? Ular ilova qanchalik keng ishlatilayotganini ko'rsatadi. Raqamlar o'sib borsa, demak xizmat ishlayapti.
 
 13
-00:01:49,360 --> 00:01:59,640
-Bunday holatda bosh sahifada qizil ogohlantirish va «Tuzatish» tugmasi chiqadi. Uni bossangiz, muammo nimada ekani va qanday hal qilish yozilgan bo'ladi.
+00:01:38,020 --> 00:01:46,540
+O'zingizning kanal va guruhlaringizni esa «Kanallarim» va «Guruhlarim» bo'limlarida ko'rasiz — ikkinchi darsda ularni batafsil ko'rib chiqamiz.
 
 14
-00:01:59,700 --> 00:02:07,780
-Statistikaning tagida «Bot rivoji balansi» kartasi turadi. Bu — foydalanuvchilar tomonidan ilovani rivojlantirishga o'tkazgan umumiy summasi.
+00:01:46,600 --> 00:01:58,540
+Agar biror katak ustida qizil raqam paydo bo'lsa, demak o'sha joyda hal qilinishi kerak bo'lgan ish bor. Masalan, bot kanaldan chiqarib yuborilgan yoki huquqi yetmayapti.
 
 15
-00:02:07,840 --> 00:02:12,840
-Kartani bossangiz, kim qancha o'tkazgani — qo'llab-quvvatlaganlar ro'yxati ochiladi.
+00:01:58,600 --> 00:02:08,880
+Bunday holatda bosh sahifada qizil ogohlantirish va «Tuzatish» tugmasi chiqadi. Uni bossangiz, muammo nimada ekani va qanday hal qilish yozilgan bo'ladi.
 
 16
-00:02:12,900 --> 00:02:22,300
-O'zingiz o'tkazmoqchi bo'lsangiz: «Balans» sahifasiga kiring va «Bot rivoji uchun o'tkazish» qatorini tanlang. Summani o'zingiz belgilaysiz — chegara yo'q.
+00:02:08,940 --> 00:02:17,020
+Statistikaning tagida «Bot rivoji balansi» kartasi turadi. Bu — foydalanuvchilar tomonidan ilovani rivojlantirishga o'tkazgan umumiy summasi.
 
 17
-00:02:22,360 --> 00:02:28,240
-O'tkazilgan summa shu zahoti shaxsiy balansingizdan yechiladi va umumiy hisobga qo'shiladi.
+00:02:17,080 --> 00:02:22,080
+Kartani bossangiz, kim qancha o'tkazgani — qo'llab-quvvatlaganlar ro'yxati ochiladi.
 
 18
-00:02:28,300 --> 00:02:38,140
-Muhim: bu karta sizning pul hisobingiz emas. Sizning shaxsiy balansingiz «Ilova» bo'limidagi «Balans» katagida — uni oltinchi darsda batafsil ko'ramiz.
+00:02:22,140 --> 00:02:31,540
+O'zingiz o'tkazmoqchi bo'lsangiz: «Balans» sahifasiga kiring va «Bot rivoji uchun o'tkazish» qatorini tanlang. Summani o'zingiz belgilaysiz — chegara yo'q.
 
 19
-00:02:38,200 --> 00:02:44,960
-Endi eng muhimi — kanalni ulash. Bosh sahifadagi ko'k «Kanal qo'shish» tugmasini bosing.
+00:02:31,600 --> 00:02:37,480
+O'tkazilgan summa shu zahoti shaxsiy balansingizdan yechiladi va umumiy hisobga qo'shiladi.
 
 20
-00:02:45,020 --> 00:02:50,900
-Ochilgan oynada eng oson yo'l — «Kanalni tanlash» tugmasi. Uni bosing.
+00:02:37,540 --> 00:02:47,380
+Muhim: bu karta sizning pul hisobingiz emas. Sizning shaxsiy balansingiz «Ilova» bo'limidagi «Balans» katagida — uni oltinchi darsda batafsil ko'ramiz.
 
 21
-00:02:50,960 --> 00:02:57,720
-Telegramning o'z oynasi ochiladi va kanallaringiz ro'yxati chiqadi. Botni ulamoqchi bo'lgan kanalni tanlang.
+00:02:47,440 --> 00:02:54,200
+Endi eng muhimi — kanalni ulash. Bosh sahifadagi ko'k «Kanal qo'shish» tugmasini bosing.
 
 22
-00:02:57,780 --> 00:03:06,300
-So'ngra «Administrator qilish» ni tasdiqlaysiz. Kerakli huquqlar o'zi belgilangan bo'ladi — siz faqat tasdiqlaysiz, bot o'zi ulanadi.
+00:02:54,260 --> 00:03:00,140
+Ochilgan oynada eng oson yo'l — «Kanalni tanlash» tugmasi. Uni bosing.
 
 23
-00:03:06,360 --> 00:03:13,120
-Agar ro'yxatdan tanlash ishlamasa, kanal @username yoki ID raqamini qo'lda kiritish ham mumkin.
+00:03:00,200 --> 00:03:06,960
+Telegramning o'z oynasi ochiladi va kanallaringiz ro'yxati chiqadi. Botni ulamoqchi bo'lgan kanalni tanlang.
 
 24
-00:03:13,180 --> 00:03:25,120
-Kanal ulangani haqida bot sizga xabar yuboradi. Shu zahoti to'rtta xizmat avtomatik yoqiladi: dollar kursi, markaziy bank kurslari, namoz vaqtlari va har kuni ertalabki post.
+00:03:07,020 --> 00:03:15,540
+So'ngra «Administrator qilish» ni tasdiqlaysiz. Kerakli huquqlar o'zi belgilangan bo'ladi — siz faqat tasdiqlaysiz, bot o'zi ulanadi.
 
 25
-00:03:25,180 --> 00:03:34,140
-Agar bularning hammasi kerak bo'lmasa — «Kanallarim» bo'limida kanal kartasini ochib, «Sozlash» orqali keraksizini o'chirasiz yoki oraliqni o'zgartirasiz.
+00:03:15,600 --> 00:03:22,360
+Agar ro'yxatdan tanlash ishlamasa, kanal @username yoki ID raqamini qo'lda kiritish ham mumkin.
 
 26
-00:03:34,200 --> 00:03:42,280
-Guruhni ulash ham shunga o'xshash. Yashil «Guruh qo'shish» tugmasini bosib, guruh @username yoki ID raqamini kiritasiz.
+00:03:22,420 --> 00:03:34,360
+Kanal ulangani haqida bot sizga xabar yuboradi. Shu zahoti to'rtta xizmat avtomatik yoqiladi: dollar kursi, markaziy bank kurslari, namoz vaqtlari va har kuni ertalabki post.
 
 27
-00:03:42,340 --> 00:03:48,660
-Keyin botni guruhingizga administrator qilib qo'shasiz. Busiz bot hech narsa qila olmaydi.
+00:03:34,420 --> 00:03:43,380
+Agar bularning hammasi kerak bo'lmasa — «Kanallarim» bo'limida kanal kartasini ochib, «Sozlash» orqali keraksizini o'chirasiz yoki oraliqni o'zgartirasiz.
 
 28
-00:03:48,720 --> 00:03:58,120
-Guruh himoyasi ishlashi uchun botga ikkita huquq shart. Birinchisi — xabarlarni o'chirish. Busiz bot reklama va so'kinishni o'chira olmaydi.
+00:03:43,440 --> 00:03:51,520
+Guruhni ulash ham shunga o'xshash. Yashil «Guruh qo'shish» tugmasini bosib, guruh @username yoki ID raqamini kiritasiz.
 
 29
-00:03:58,180 --> 00:04:04,060
-Ikkinchisi — foydalanuvchilarni bloklash. Bu spam tarqatuvchilarni chiqarib yuborish uchun kerak.
+00:03:51,580 --> 00:03:57,900
+Keyin botni guruhingizga administrator qilib qo'shasiz. Busiz bot hech narsa qila olmaydi.
 
 30
-00:04:04,120 --> 00:04:11,320
-Agar taklif havolalari va pullik kanal xizmatlaridan foydalanmoqchi bo'lsangiz, «Taklif havolasi» huquqini ham bering.
+00:03:57,960 --> 00:04:07,360
+Guruh himoyasi ishlashi uchun botga ikkita huquq shart. Birinchisi — xabarlarni o'chirish. Busiz bot reklama va so'kinishni o'chira olmaydi.
 
 31
-00:04:11,380 --> 00:04:19,900
-Guruh ulangach, guruh himoyasi avtomatik ishga tushadi va avtomatik xabarlar ham yoqiladi. Qolganini keyin o'zingizga moslab sozlaysiz.
+00:04:07,420 --> 00:04:13,300
+Ikkinchisi — foydalanuvchilarni bloklash. Bu spam tarqatuvchilarni chiqarib yuborish uchun kerak.
 
 32
-00:04:19,960 --> 00:04:31,900
-Endi bosh sahifa qanday tuzilganiga qaraymiz. Birinchi ramka — «Adminlar uchun». Bu yerda kanal va guruhni boshqarish vositalari: Kanallarim, Guruhlarim, himoya, rejalashtirilgan postlar, statistika, testlar, pullik kanallar va konkurs.
+00:04:13,360 --> 00:04:20,560
+Agar taklif havolalari va pullik kanal xizmatlaridan foydalanmoqchi bo'lsangiz, «Taklif havolasi» huquqini ham bering.
 
 33
-00:04:31,960 --> 00:04:41,800
-Ikkinchi ramka — «Kundalik xabarlar». Namoz vaqtlari, dollar kursi, ob-havo, tongi va tungi xabarlar, bayram tabriklari. Bularning hammasi avtomatik ishlaydi.
+00:04:20,620 --> 00:04:29,140
+Guruh ulangach, guruh himoyasi avtomatik ishga tushadi va avtomatik xabarlar ham yoqiladi. Qolganini keyin o'zingizga moslab sozlaysiz.
 
 34
-00:04:41,860 --> 00:04:50,380
-Uchinchi ramka — «Xizmatlar». Nakrutka, eSIM, Prava testlari, o'zaro reklama, kanal savdosi, reklama birjasi va kanallar reytingi.
+00:04:29,200 --> 00:04:41,140
+Endi bosh sahifa qanday tuzilganiga qaraymiz. Birinchi ramka — «Adminlar uchun». Bu yerda kanal va guruhni boshqarish vositalari: Kanallarim, Guruhlarim, himoya, rejalashtirilgan postlar, statistika, testlar, pullik kanallar va konkurs.
 
 35
-00:04:50,440 --> 00:04:59,840
-To'rtinchi ramka — «Savdo admin». Taksi, avto savdo, ko'chmas mulk, vakansiya va boshqa biznes e'lonlari uchun tayyor post shablonlari.
+00:04:41,200 --> 00:04:51,040
+Ikkinchi ramka — «Kundalik xabarlar». Namoz vaqtlari, dollar kursi, ob-havo, tongi va tungi xabarlar, bayram tabriklari. Bularning hammasi avtomatik ishlaydi.
 
 36
-00:04:59,900 --> 00:05:07,540
-Beshinchi ramka — «Ilova». Balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+00:04:51,100 --> 00:04:59,620
+Uchinchi ramka — «Xizmatlar». Nakrutka, eSIM, Prava testlari, o'zaro reklama, kanal savdosi, reklama birjasi va kanallar reytingi.
 
 37
-00:05:07,600 --> 00:05:18,760
-Hammasini birdan o'rganish shart emas. Avval o'zingizga keragini tanlang: kanalingiz bo'lsa — ikkinchi darsdan, biznesingiz bo'lsa — beshinchi darsdan boshlang. Qolganini keyin ko'rasiz.
+00:04:59,680 --> 00:05:09,080
+To'rtinchi ramka — «Savdo admin». Taksi, avto savdo, ko'chmas mulk, vakansiya va boshqa biznes e'lonlari uchun tayyor post shablonlari.
 
 38
-00:05:18,820 --> 00:05:27,340
-Shu bilan birinchi dars tugadi. Endi sizda ulangan kanal va guruh bor, demak barcha xizmatlardan foydalanishga tayyorsiz.
+00:05:09,140 --> 00:05:16,780
+Beshinchi ramka — «Ilova». Balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
 
 39
-00:05:27,400 --> 00:05:34,600
-Keyingi darsda «Adminlar uchun» bo'limini — kanal va guruhni kundalik boshqarish vositalarini ko'rib chiqamiz.
+00:05:16,840 --> 00:05:28,000
+Hammasini birdan o'rganish shart emas. Avval o'zingizga keragini tanlang: kanalingiz bo'lsa — ikkinchi darsdan, biznesingiz bo'lsa — beshinchi darsdan boshlang. Qolganini keyin ko'rasiz.
 
 40
-00:05:34,667 --> 00:05:46,607
-Bu — TartibOn qo'llanmasining ikkinchi darsi. Ramka nomi «Adminlar uchun» deyilgan, lekin bu ilova admini degani emas: bu — o'z kanali yoki guruhi bor har qanday foydalanuvchi uchun.
+00:05:28,060 --> 00:05:36,580
+Shu bilan birinchi dars tugadi. Endi sizda ulangan kanal va guruh bor, demak barcha xizmatlardan foydalanishga tayyorsiz.
 
 41
-00:05:46,667 --> 00:05:52,547
-Ya'ni siz uchun. Bugun shu ramkadagi to'qqizta katakni birma-bir ko'rib chiqamiz.
+00:05:36,640 --> 00:05:43,840
+Keyingi darsda «Adminlar uchun» bo'limini — kanal va guruhni kundalik boshqarish vositalarini ko'rib chiqamiz.
 
 42
-00:05:52,607 --> 00:06:02,007
-«Kanallarim» — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
+00:05:43,933 --> 00:05:55,873
+Bu — TartibOn qo'llanmasining ikkinchi darsi. Ramka nomi «Adminlar uchun» deyilgan, lekin bu ilova admini degani emas: bu — o'z kanali yoki guruhi bor har qanday foydalanuvchi uchun.
 
 43
-00:06:02,067 --> 00:06:12,347
-Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
+00:05:55,933 --> 00:06:01,813
+Ya'ni siz uchun. Bugun shu ramkadagi to'qqizta katakni birma-bir ko'rib chiqamiz.
 
 44
-00:06:12,407 --> 00:06:20,927
-«Kanal imzosi» — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
+00:06:01,873 --> 00:06:11,273
+«Kanallarim» — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
 
 45
-00:06:20,987 --> 00:06:29,067
-Postlar tagiga doimiy tugmalar qo'shish mumkin: «Do'stga ulashish» va «Qo'llab-quvvatlash». Ulashish tugmasi kanal o'sishiga yordam beradi.
+00:06:11,333 --> 00:06:21,613
+Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
 
 46
-00:06:29,127 --> 00:06:40,727
-«Qo'llab-quvvatlash» tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
+00:06:21,673 --> 00:06:30,193
+«Kanal imzosi» — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
 
 47
-00:06:40,787 --> 00:06:48,867
-Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
+00:06:30,253 --> 00:06:38,333
+Postlar tagiga doimiy tugmalar qo'shish mumkin: «Do'stga ulashish» va «Qo'llab-quvvatlash». Ulashish tugmasi kanal o'sishiga yordam beradi.
 
 48
-00:06:48,927 --> 00:06:59,207
-«Sayt yoki YouTube'dan avtomatik post» — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
+00:06:38,393 --> 00:06:49,993
+«Qo'llab-quvvatlash» tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
 
 49
-00:06:59,267 --> 00:07:07,787
-Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, «Kanallarim» katagida qizil raqam turadi va «Tuzatish» tugmasi chiqadi.
+00:06:50,053 --> 00:06:58,133
+Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
 
 50
-00:07:07,847 --> 00:07:14,167
-«Guruhlarim» — ulangan guruhlaringiz ro'yxati. Har bir guruh uchun alohida sozlama bor.
+00:06:58,193 --> 00:07:08,473
+«Sayt yoki YouTube'dan avtomatik post» — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
 
 51
-00:07:14,227 --> 00:07:22,747
-Yangi guruh qo'shish uchun «Guruh qo'shish» tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
+00:07:08,533 --> 00:07:17,053
+Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, «Kanallarim» katagida qizil raqam turadi va «Tuzatish» tugmasi chiqadi.
 
 52
-00:07:22,807 --> 00:07:29,127
-Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
+00:07:17,113 --> 00:07:23,433
+«Guruhlarim» — ulangan guruhlaringiz ro'yxati. Har bir guruh uchun alohida sozlama bor.
 
 53
-00:07:29,187 --> 00:07:34,627
-Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
+00:07:23,493 --> 00:07:32,013
+Yangi guruh qo'shish uchun «Guruh qo'shish» tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
 
 54
-00:07:34,687 --> 00:07:42,327
-Guruhda avtomatik test o'tkazishni ham shu yerdan yoqasiz — a'zolar faolligini oshirishning eng oson yo'li.
+00:07:32,073 --> 00:07:38,393
+Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
 
 55
-00:07:42,387 --> 00:07:49,147
-Yana bir bor eslatma: bot guruhda administrator bo'lmasa, bu funksiyalarning hech biri ishlamaydi.
+00:07:38,453 --> 00:07:43,893
+Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
 
 56
-00:07:49,207 --> 00:07:56,407
-Guruh himoyasi — eng kuchli funksiyalardan biri. Bot begona reklama va havolalarni avtomatik o'chiradi.
+00:07:43,953 --> 00:07:51,593
+Guruhda avtomatik test o'tkazishni ham shu yerdan yoqasiz — a'zolar faolligini oshirishning eng oson yo'li.
 
 57
-00:07:56,467 --> 00:08:03,667
-So'kinish ishlatilgan xabarlar va spam — ya'ni tez-tez takrorlanadigan bir xil xabarlar ham o'chiriladi.
+00:07:51,653 --> 00:07:58,413
+Yana bir bor eslatma: bot guruhda administrator bo'lmasa, bu funksiyalarning hech biri ishlamaydi.
 
 58
-00:08:03,727 --> 00:08:10,047
-Guruhlarga ko'p tashlanadigan arab botlar va arabcha reklama alohida filtr bilan to'siladi.
+00:07:58,473 --> 00:08:05,673
+Guruh himoyasi — eng kuchli funksiyalardan biri. Bot begona reklama va havolalarni avtomatik o'chiradi.
 
 59
-00:08:10,107 --> 00:08:16,867
-Zararli bo'lishi mumkin bo'lgan fayllar — masalan apk va exe — guruhga o'tkazilmaydi.
+00:08:05,733 --> 00:08:12,933
+So'kinish ishlatilgan xabarlar va spam — ya'ni tez-tez takrorlanadigan bir xil xabarlar ham o'chiriladi.
 
 60
-00:08:16,927 --> 00:08:23,247
-Sun'iy intellekt ulangan bo'lsa, bot noo'rin rasmlarni va yashirin reklamani ham taniydi.
+00:08:12,993 --> 00:08:19,313
+Guruhlarga ko'p tashlanadigan arab botlar va arabcha reklama alohida filtr bilan to'siladi.
 
 61
-00:08:23,307 --> 00:08:31,387
-Yangi a'zolar uchun alohida rejim bor: birinchi 24 soat davomida ular havola va fayl yubora olmaydi.
+00:08:19,373 --> 00:08:26,133
+Zararli bo'lishi mumkin bo'lgan fayllar — masalan apk va exe — guruhga o'tkazilmaydi.
 
 62
-00:08:31,447 --> 00:08:39,527
-Kirishda kapcha qo'yish mumkin — «Men odamman» tugmasini bosmagan akkaunt guruhga yoza olmaydi. Bu botlarni to'sadi.
+00:08:26,193 --> 00:08:32,513
+Sun'iy intellekt ulangan bo'lsa, bot noo'rin rasmlarni va yashirin reklamani ham taniydi.
 
 63
-00:08:39,587 --> 00:08:45,907
-Yangi a'zoga kirish savolini berish yoki avtomatik salomlashish xabarini yuborish ham mumkin.
+00:08:32,573 --> 00:08:40,653
+Yangi a'zolar uchun alohida rejim bor: birinchi 24 soat davomida ular havola va fayl yubora olmaydi.
 
 64
-00:08:45,967 --> 00:08:53,607
-Tungi rejimda faqat adminlar yozadi. Juma sukuti — Juma kuni belgilangan vaqtda guruh jim turadi.
+00:08:40,713 --> 00:08:48,793
+Kirishda kapcha qo'yish mumkin — «Men odamman» tugmasini bosmagan akkaunt guruhga yoza olmaydi. Bu botlarni to'sadi.
 
 65
-00:08:53,667 --> 00:09:01,747
-Har hafta eng faol o'nta a'zo e'lon qilinadi, a'zolarda reputatsiya ballari yig'iladi — bu guruhni jonlantiradi.
+00:08:48,853 --> 00:08:55,173
+Yangi a'zoga kirish savolini berish yoki avtomatik salomlashish xabarini yuborish ham mumkin.
 
 66
-00:09:01,807 --> 00:09:08,567
-Muhim: guruh adminlarining xabarlariga bot hech qachon tegmaydi. Qoidalar faqat oddiy a'zolarga ishlaydi.
+00:08:55,233 --> 00:09:02,873
+Tungi rejimda faqat adminlar yozadi. Juma sukuti — Juma kuni belgilangan vaqtda guruh jim turadi.
 
 67
-00:09:08,627 --> 00:09:17,587
-Guruhning o'zida /himoya deb yozsangiz, bot hozir qaysi qoidalar yoqilganini ro'yxat qilib ko'rsatadi. Har bir qoidani alohida yoqib-o'chirasiz.
+00:09:02,933 --> 00:09:11,013
+Har hafta eng faol o'nta a'zo e'lon qilinadi, a'zolarda reputatsiya ballari yig'iladi — bu guruhni jonlantiradi.
 
 68
-00:09:17,647 --> 00:09:24,847
-Yana takrorlayman: botga «Xabarlarni o'chirish» va «Foydalanuvchilarni bloklash» huquqlarini bering, aks holda himoya ishlamaydi.
+00:09:11,073 --> 00:09:17,833
+Muhim: guruh adminlarining xabarlariga bot hech qachon tegmaydi. Qoidalar faqat oddiy a'zolarga ishlaydi.
 
 69
-00:09:24,907 --> 00:09:32,987
-Bu bo'limda postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot uni o'zi chiqaradi.
+00:09:17,893 --> 00:09:26,853
+Guruhning o'zida /himoya deb yozsangiz, bot hozir qaysi qoidalar yoqilganini ro'yxat qilib ko'rsatadi. Har bir qoidani alohida yoqib-o'chirasiz.
 
 70
-00:09:33,047 --> 00:09:40,247
-Takrorlanishni tanlaysiz: faqat bir marta, har kuni yoki har hafta. Doimiy rukniga juda qulay.
+00:09:26,913 --> 00:09:34,113
+Yana takrorlayman: botga «Xabarlarni o'chirish» va «Foydalanuvchilarni bloklash» huquqlarini bering, aks holda himoya ishlamaydi.
 
 71
-00:09:40,307 --> 00:09:46,187
-Matn muharririda qalin, kursiv, havola, yashirin matn va iqtibos tugmalari bor.
+00:09:34,173 --> 00:09:42,253
+Bu bo'limda postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot uni o'zi chiqaradi.
 
 72
-00:09:46,247 --> 00:09:52,127
-Emoji panelidan belgilarni bir bosishda qo'yasiz — klaviaturani almashtirish shart emas.
+00:09:42,313 --> 00:09:49,513
+Takrorlanishni tanlaysiz: faqat bir marta, har kuni yoki har hafta. Doimiy rukniga juda qulay.
 
 73
-00:09:52,187 --> 00:10:00,267
-Eng qulayi: post Telegramda aynan qanday ko'rinishi pastda darhol ko'rinib turadi. Ya'ni yuborishdan oldin natijani ko'rasiz.
+00:09:49,573 --> 00:09:55,453
+Matn muharririda qalin, kursiv, havola, yashirin matn va iqtibos tugmalari bor.
 
 74
-00:10:00,327 --> 00:10:06,207
-Yozgan matningiz avtomatik qoralama sifatida saqlanadi. Ilovadan chiqib ketsangiz ham yo'qolmaydi.
+00:09:55,513 --> 00:10:01,393
+Emoji panelidan belgilarni bir bosishda qo'yasiz — klaviaturani almashtirish shart emas.
 
 75
-00:10:06,267 --> 00:10:12,147
-Avval ishlatgan rasm va videolaringizni ro'yxatdan bir bosishda qayta tanlashingiz mumkin.
+00:10:01,453 --> 00:10:09,533
+Eng qulayi: post Telegramda aynan qanday ko'rinishi pastda darhol ko'rinib turadi. Ya'ni yuborishdan oldin natijani ko'rasiz.
 
 76
-00:10:12,207 --> 00:10:17,647
-Yoqqan postingizni «Nusxa» tugmasi bilan ko'paytirib, faqat kerakli joyini o'zgartirasiz.
+00:10:09,593 --> 00:10:15,473
+Yozgan matningiz avtomatik qoralama sifatida saqlanadi. Ilovadan chiqib ketsangiz ham yo'qolmaydi.
 
 77
-00:10:17,707 --> 00:10:25,347
-Ishonchingiz komil bo'lmasa, «Menga yuborish» tugmasini bosing — post avval faqat sizga keladi, ko'rib tekshirasiz.
+00:10:15,533 --> 00:10:21,413
+Avval ishlatgan rasm va videolaringizni ro'yxatdan bir bosishda qayta tanlashingiz mumkin.
 
 78
-00:10:25,407 --> 00:10:33,927
-Postni belgilangan vaqtdan keyin avtomatik o'chirish ham mumkin. Kalendar orqali qaysi kunga nima rejalashtirilganini bir qarashda ko'rasiz.
+00:10:21,473 --> 00:10:26,913
+Yoqqan postingizni «Nusxa» tugmasi bilan ko'paytirib, faqat kerakli joyini o'zgartirasiz.
 
 79
-00:10:33,987 --> 00:10:39,867
-Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
+00:10:26,973 --> 00:10:34,613
+Ishonchingiz komil bo'lmasa, «Menga yuborish» tugmasini bosing — post avval faqat sizga keladi, ko'rib tekshirasiz.
 
 80
-00:10:39,927 --> 00:10:48,007
-Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
+00:10:34,673 --> 00:10:43,193
+Postni belgilangan vaqtdan keyin avtomatik o'chirish ham mumkin. Kalendar orqali qaysi kunga nima rejalashtirilganini bir qarashda ko'rasiz.
 
 81
-00:10:48,067 --> 00:10:55,707
-Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
+00:10:43,253 --> 00:10:49,133
+Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
 
 82
-00:10:55,767 --> 00:11:04,727
-Maslahat: taklif havolalarini konkurs bilan birlashtiring — «eng ko'p odam taklif qilgan uchtaga sovg'a» deng, guruh tez o'sadi.
+00:10:49,193 --> 00:10:57,273
+Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
 
 83
-00:11:04,787 --> 00:11:10,667
-Bu ishlashi uchun botga «Havola orqali taklif qilish» huquqini berish shart.
+00:10:57,333 --> 00:11:04,973
+Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
 
 84
-00:11:10,727 --> 00:11:18,367
-Statistika bo'limi kanal va guruhingiz qanday o'sayotganini ko'rsatadi. Birinchi navbatda hozirgi obunachilar yoki a'zolar soni.
+00:11:05,033 --> 00:11:13,993
+Maslahat: taklif havolalarini konkurs bilan birlashtiring — «eng ko'p odam taklif qilgan uchtaga sovg'a» deng, guruh tez o'sadi.
 
 85
-00:11:18,427 --> 00:11:25,187
-Keyin o'zgarish: kecha qancha qo'shilgan, so'nggi 7 kunda va 30 kunda qancha bo'lgan.
+00:11:14,053 --> 00:11:19,933
+Bu ishlashi uchun botga «Havola orqali taklif qilish» huquqini berish shart.
 
 86
-00:11:25,247 --> 00:11:31,567
-So'nggi 14 kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+00:11:19,993 --> 00:11:27,633
+Statistika bo'limi kanal va guruhingiz qanday o'sayotganini ko'rsatadi. Birinchi navbatda hozirgi obunachilar yoki a'zolar soni.
 
 87
-00:11:31,627 --> 00:11:39,267
-Guruh uchun qo'shimcha: guruhda nechta xabar yozilgani ham ko'rsatiladi. Bu guruh jonli yoki jonsizligini ko'rsatadi.
+00:11:27,693 --> 00:11:34,453
+Keyin o'zgarish: kecha qancha qo'shilgan, so'nggi 7 kunda va 30 kunda qancha bo'lgan.
 
 88
-00:11:39,327 --> 00:11:47,847
-«Excel yuklab olish» tugmasi bilan hisobotni fayl qilib olasiz — hisobot tayyorlash yoki reklama beruvchiga ko'rsatish uchun.
+00:11:34,513 --> 00:11:40,833
+So'nggi 14 kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
 
 89
-00:11:47,907 --> 00:11:54,227
-Diqqat: kirdi-chiqdi faqat bot administrator bo'lgandan keyin hisoblanadi. Undan oldingi tarix ko'rinmaydi.
+00:11:40,893 --> 00:11:48,533
+Guruh uchun qo'shimcha: guruhda nechta xabar yozilgani ham ko'rsatiladi. Bu guruh jonli yoki jonsizligini ko'rsatadi.
 
 90
-00:11:54,287 --> 00:12:00,167
-Testlar bo'limi guruh va kanalda to'rt variantli viktorina o'tkazish imkonini beradi.
+00:11:48,593 --> 00:11:57,113
+«Excel yuklab olish» tugmasi bilan hisobotni fayl qilib olasiz — hisobot tayyorlash yoki reklama beruvchiga ko'rsatish uchun.
 
 91
-00:12:00,227 --> 00:12:08,747
-Birinchi tur — Savol-javob. Maktab, litsey, kollej, oliy ta'lim va sertifikat imtihonlari mavzulari bo'yicha savollar bazasi bor.
+00:11:57,173 --> 00:12:03,493
+Diqqat: kirdi-chiqdi faqat bot administrator bo'lgandan keyin hisoblanadi. Undan oldingi tarix ko'rinmaydi.
 
 92
-00:12:08,807 --> 00:12:16,887
-Ikkinchi tur — Prava testi. Yo'l harakati qoidalari bo'yicha, rasmli savollar bilan. Mavzuni ham o'zingiz tanlaysiz.
+00:12:03,553 --> 00:12:09,433
+Testlar bo'limi guruh va kanalda to'rt variantli viktorina o'tkazish imkonini beradi.
 
 93
-00:12:16,947 --> 00:12:25,027
-«Avtomatik test» ni yoqsangiz, bot siz belgilagan oraliqda o'zi savol berib turadi. Masalan har ikki soatda.
+00:12:09,493 --> 00:12:18,013
+Birinchi tur — Savol-javob. Maktab, litsey, kollej, oliy ta'lim va sertifikat imtihonlari mavzulari bo'yicha savollar bazasi bor.
 
 94
-00:12:25,087 --> 00:12:31,407
-Qo'lda yuborish uchun «Hozir savol» tugmasi bor — bir bosasiz, savol chiqadi.
+00:12:18,073 --> 00:12:26,153
+Ikkinchi tur — Prava testi. Yo'l harakati qoidalari bo'yicha, rasmli savollar bilan. Mavzuni ham o'zingiz tanlaysiz.
 
 95
-00:12:31,467 --> 00:12:39,107
-To'g'ri javob uchun ochko beriladi, tezroq javob bergan ko'proq ochko oladi. Bu tezlik musobaqasini yaratadi.
+00:12:26,213 --> 00:12:34,293
+«Avtomatik test» ni yoqsangiz, bot siz belgilagan oraliqda o'zi savol berib turadi. Masalan har ikki soatda.
 
 96
-00:12:39,167 --> 00:12:45,047
-Oxirida eng yaxshi o'nta ishtirokchi e'lon qilinadi. Reyting umumiy bo'lib boradi.
+00:12:34,353 --> 00:12:40,673
+Qo'lda yuborish uchun «Hozir savol» tugmasi bor — bir bosasiz, savol chiqadi.
 
 97
-00:12:45,107 --> 00:12:54,507
-Guruh a'zolari o'zi ham savol chaqira oladi: /prava yoki /viktorina deb yozadi. Har ikki daqiqada bir marta ruxsat beriladi.
+00:12:40,733 --> 00:12:48,373
+To'g'ri javob uchun ochko beriladi, tezroq javob bergan ko'proq ochko oladi. Bu tezlik musobaqasini yaratadi.
 
 98
-00:12:54,567 --> 00:13:01,767
-Eslatma: kanalda so'rovlar anonim bo'lgani uchun u yerda ochko hisoblanmaydi. Reyting faqat guruhda ishlaydi.
+00:12:48,433 --> 00:12:54,313
+Oxirida eng yaxshi o'nta ishtirokchi e'lon qilinadi. Reyting umumiy bo'lib boradi.
 
 99
-00:13:01,827 --> 00:13:08,587
-Bu bo'lim yopiq kanalingizga pullik obuna sotish imkonini beradi. Ya'ni kontentingizdan daromad olasiz.
+00:12:54,373 --> 00:13:03,773
+Guruh a'zolari o'zi ham savol chaqira oladi: /prava yoki /viktorina deb yozadi. Har ikki daqiqada bir marta ruxsat beriladi.
 
 100
-00:13:08,647 --> 00:13:16,727
-To'rtta paket bor: bir oylik, uch oylik, olti oylik va bir yillik obuna. Narxni o'zingiz qo'yasiz.
+00:13:03,833 --> 00:13:11,033
+Eslatma: kanalda so'rovlar anonim bo'lgani uchun u yerda ochko hisoblanmaydi. Reyting faqat guruhda ishlaydi.
 
 101
-00:13:16,787 --> 00:13:26,627
-Ko'p oyga chegirma foizini ham o'zingiz belgilaysiz. Masalan, 12 oylikka 30 foiz chegirma — bu odamlarni uzoq muddatga olishga undaydi.
+00:13:11,093 --> 00:13:17,853
+Bu bo'lim yopiq kanalingizga pullik obuna sotish imkonini beradi. Ya'ni kontentingizdan daromad olasiz.
 
 102
-00:13:26,687 --> 00:13:35,207
-Bepul sinov muddatini yoqsangiz, har bir obunachi bir marta bepul kirib ko'ra oladi. Bir kundan yetti kungacha.
+00:13:17,913 --> 00:13:25,993
+To'rtta paket bor: bir oylik, uch oylik, olti oylik va bir yillik obuna. Narxni o'zingiz qo'yasiz.
 
 103
-00:13:35,267 --> 00:13:41,147
-Obunachi o'z balansidan to'laydi, pul xizmat haqi ayrilgach sizning balansingizga tushadi.
+00:13:26,053 --> 00:13:35,893
+Ko'p oyga chegirma foizini ham o'zingiz belgilaysiz. Masalan, 12 oylikka 30 foiz chegirma — bu odamlarni uzoq muddatga olishga undaydi.
 
 104
-00:13:41,207 --> 00:13:47,967
-To'lagan odamga kirish havolasi bot orqali yuboriladi — siz qo'lda hech narsa qilmaysiz.
+00:13:35,953 --> 00:13:44,473
+Bepul sinov muddatini yoqsangiz, har bir obunachi bir marta bepul kirib ko'ra oladi. Bir kundan yetti kungacha.
 
 105
-00:13:48,027 --> 00:13:55,667
-Muddat tugashiga uch kun qolganda obunachiga avtomatik eslatma boradi — bu uzaytirish foizini sezilarli oshiradi.
+00:13:44,533 --> 00:13:50,413
+Obunachi o'z balansidan to'laydi, pul xizmat haqi ayrilgach sizning balansingizga tushadi.
 
 106
-00:13:55,727 --> 00:14:02,047
-Muddat tugagach bot obunachini kanaldan o'zi chiqaradi. Qo'lda kuzatib o'tirish shart emas.
+00:13:50,473 --> 00:13:57,233
+To'lagan odamga kirish havolasi bot orqali yuboriladi — siz qo'lda hech narsa qilmaysiz.
 
 107
-00:14:02,107 --> 00:14:10,627
-Shart: botga «Taklif havolasi» va «Bloklash» huquqlarini bering. Busiz bot odamni na kirgiza oladi, na chiqara oladi.
+00:13:57,293 --> 00:14:04,933
+Muddat tugashiga uch kun qolganda obunachiga avtomatik eslatma boradi — bu uzaytirish foizini sezilarli oshiradi.
 
 108
-00:14:10,687 --> 00:14:15,687
-Konkurs bo'limi orqali kanal yoki guruhda sovg'a o'yini o'tkazasiz.
+00:14:04,993 --> 00:14:11,313
+Muddat tugagach bot obunachini kanaldan o'zi chiqaradi. Qo'lda kuzatib o'tirish shart emas.
 
 109
-00:14:15,747 --> 00:14:21,187
-Birinchi qadam: konkurs qaysi kanal yoki guruhda e'lon qilinishini tanlaysiz.
+00:14:11,373 --> 00:14:19,893
+Shart: botga «Taklif havolasi» va «Bloklash» huquqlarini bering. Busiz bot odamni na kirgiza oladi, na chiqara oladi.
 
 110
-00:14:21,247 --> 00:14:26,687
-Keyin nechta g'olib bo'lishini belgilaysiz — bir kishimi yoki o'nta.
+00:14:19,953 --> 00:14:24,953
+Konkurs bo'limi orqali kanal yoki guruhda sovg'a o'yini o'tkazasiz.
 
 111
-00:14:26,747 --> 00:14:32,187
-Uchinchi qadam — konkurs qachon tugashini belgilash. Sana va soat.
+00:14:25,013 --> 00:14:30,453
+Birinchi qadam: konkurs qaysi kanal yoki guruhda e'lon qilinishini tanlaysiz.
 
 112
-00:14:32,247 --> 00:14:41,207
-Xohlasangiz obuna shartini qo'yasiz: ishtirok etish uchun qaysi kanalga a'zo bo'lish kerakligini ko'rsatasiz. Bu kanalni o'stirishning tez usuli.
+00:14:30,513 --> 00:14:35,953
+Keyin nechta g'olib bo'lishini belgilaysiz — bir kishimi yoki o'nta.
 
 113
-00:14:41,267 --> 00:14:48,027
-Konkurs posti ishtirok tugmasi bilan chiqadi — odam bir bosadi va ro'yxatga tushadi.
+00:14:36,013 --> 00:14:41,453
+Uchinchi qadam — konkurs qachon tugashini belgilash. Sana va soat.
 
 114
-00:14:48,087 --> 00:14:53,967
-Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hammasi adolatli, hech kim aralasha olmaydi.
+00:14:41,513 --> 00:14:50,473
+Xohlasangiz obuna shartini qo'yasiz: ishtirok etish uchun qaysi kanalga a'zo bo'lish kerakligini ko'rsatasiz. Bu kanalni o'stirishning tez usuli.
 
 115
-00:14:54,027 --> 00:15:01,227
-Konkurs tugashidan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi. Ya'ni faqat haqiqiy obunachilar yutadi.
+00:14:50,533 --> 00:14:57,293
+Konkurs posti ishtirok tugmasi bilan chiqadi — odam bir bosadi va ro'yxatga tushadi.
 
 116
-00:15:01,287 --> 00:15:07,607
-G'oliblar ro'yxati kanalga o'zi e'lon qilinadi — sizdan qo'shimcha harakat talab etilmaydi.
+00:14:57,353 --> 00:15:03,233
+Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hammasi adolatli, hech kim aralasha olmaydi.
 
 117
-00:15:07,667 --> 00:15:14,867
-«Adminlar uchun» bo'limi shu bilan tugadi. Bu to'qqizta katak kanalingizni muntazam yuritish uchun yetarli.
+00:15:03,293 --> 00:15:10,493
+Konkurs tugashidan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi. Ya'ni faqat haqiqiy obunachilar yutadi.
 
 118
-00:15:14,927 --> 00:15:21,687
-Keyingi darsda «Kundalik xabarlar» — har kuni o'zi ishlab turadigan avtomatik postlarni ko'ramiz.
+00:15:10,553 --> 00:15:16,873
+G'oliblar ro'yxati kanalga o'zi e'lon qilinadi — sizdan qo'shimcha harakat talab etilmaydi.
 
 119
-00:15:21,800 --> 00:15:25,480
-Uchinchi dars — «Kundalik xabarlar» ramkasi.
+00:15:16,933 --> 00:15:24,133
+«Adminlar uchun» bo'limi shu bilan tugadi. Bu to'qqizta katak kanalingizni muntazam yuritish uchun yetarli.
 
 120
-00:15:25,540 --> 00:15:37,140
-Bu bo'limning eng kuchli tomoni shundaki, bir marta yoqib qo'ysangiz, keyin siz hech narsa qilmaysiz: bot har kuni belgilangan vaqtda o'zi post chiqarib turadi.
+00:15:24,193 --> 00:15:30,953
+Keyingi darsda «Kundalik xabarlar» — har kuni o'zi ishlab turadigan avtomatik postlarni ko'ramiz.
 
 121
-00:15:37,200 --> 00:15:40,880
-Kanalingiz siz uxlayotganingizda ham jonli bo'ladi.
+00:15:31,067 --> 00:15:34,747
+Uchinchi dars — «Kundalik xabarlar» ramkasi.
 
 122
-00:15:40,940 --> 00:15:46,380
-Namoz vaqtlari kanal va guruhlaringizga namoz vaqti haqida xabar yuboradi.
+00:15:34,807 --> 00:15:46,407
+Bu bo'limning eng kuchli tomoni shundaki, bir marta yoqib qo'ysangiz, keyin siz hech narsa qilmaysiz: bot har kuni belgilangan vaqtda o'zi post chiqarib turadi.
 
 123
-00:15:46,440 --> 00:15:55,840
-Xabar har bir namoz vaqti kirganidan o'ttiz daqiqa o'tgach yuboriladi. Ya'ni azon vaqtida emas, odamlar namozni o'qib bo'lgandan keyin.
+00:15:46,467 --> 00:15:50,147
+Kanalingiz siz uxlayotganingizda ham jonli bo'ladi.
 
 124
-00:15:55,900 --> 00:16:04,420
-Sozlashda avval hududni tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan. Vaqtlar aynan shu hudud bo'yicha hisoblanadi.
+00:15:50,207 --> 00:15:55,647
+Namoz vaqtlari kanal va guruhlaringizga namoz vaqti haqida xabar yuboradi.
 
 125
-00:16:04,480 --> 00:16:10,360
-Xabarning matnini o'zingizga moslab yozishingiz mumkin — kanalingiz uslubiga mos qilib.
+00:15:55,707 --> 00:16:05,107
+Xabar har bir namoz vaqti kirganidan o'ttiz daqiqa o'tgach yuboriladi. Ya'ni azon vaqtida emas, odamlar namozni o'qib bo'lgandan keyin.
 
 126
-00:16:10,420 --> 00:16:16,300
-Vaqtlar islom.uz taqvimi asosida olinadi — bu rasmiy va ishonchli manba.
+00:16:05,167 --> 00:16:13,687
+Sozlashda avval hududni tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan. Vaqtlar aynan shu hudud bo'yicha hisoblanadi.
 
 127
-00:16:16,360 --> 00:16:24,000
-Agar manba vaqtincha ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi. Ya'ni uzilish bo'lmaydi.
+00:16:13,747 --> 00:16:19,627
+Xabarning matnini o'zingizga moslab yozishingiz mumkin — kanalingiz uslubiga mos qilib.
 
 128
-00:16:24,060 --> 00:16:33,020
-Bosh sahifadagi katakda 12 ta viloyat markazining vaqti ko'rinadi. Shahar darajasigacha aniqlik kerak bo'lsa, bo'limga kirib hudud tanlaysiz.
+00:16:19,687 --> 00:16:25,567
+Vaqtlar islom.uz taqvimi asosida olinadi — bu rasmiy va ishonchli manba.
 
 129
-00:16:33,080 --> 00:16:39,400
-Dollar kursi katagida o'zbek banklarining dollar uchun olish va sotish kurslari ko'rsatiladi.
+00:16:25,627 --> 00:16:33,267
+Agar manba vaqtincha ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi. Ya'ni uzilish bo'lmaydi.
 
 130
-00:16:39,460 --> 00:16:45,780
-Mikrokreditbank, Turonbank va boshqa banklar — hammasi bir ro'yxatda, taqqoslab ko'rish qulay.
+00:16:33,327 --> 00:16:42,287
+Bosh sahifadagi katakda 12 ta viloyat markazining vaqti ko'rinadi. Shahar darajasigacha aniqlik kerak bo'lsa, bo'limga kirib hudud tanlaysiz.
 
 131
-00:16:45,840 --> 00:16:49,960
-Raqamlar bank saytlaridan avtomatik olinadi, qo'lda kiritilmaydi.
+00:16:42,347 --> 00:16:48,667
+Dollar kursi katagida o'zbek banklarining dollar uchun olish va sotish kurslari ko'rsatiladi.
 
 132
-00:16:50,020 --> 00:16:56,340
-Eng qulayi: kurs o'zgargan zahoti kanal va guruhingizga rasmli xabar o'zi chiqadi.
+00:16:48,727 --> 00:16:55,047
+Mikrokreditbank, Turonbank va boshqa banklar — hammasi bir ro'yxatda, taqqoslab ko'rish qulay.
 
 133
-00:16:56,400 --> 00:17:03,160
-Agar kurs o'zgarmagan bo'lsa, bot bir xil postni qayta yubormaydi. Obunachilaringiz bezovta bo'lmaydi.
+00:16:55,107 --> 00:16:59,227
+Raqamlar bank saytlaridan avtomatik olinadi, qo'lda kiritilmaydi.
 
 134
-00:17:03,220 --> 00:17:10,420
-Bundan tashqari markaziy bank kurslari ham bor — ular har uch soatda yangilanib turadi.
+00:16:59,287 --> 00:17:05,607
+Eng qulayi: kurs o'zgargan zahoti kanal va guruhingizga rasmli xabar o'zi chiqadi.
 
 135
-00:17:10,480 --> 00:17:19,880
-Bir eslatma: bankdagi haqiqiy kurs e'londagidan biroz farq qilishi mumkin. Katta summa almashtirishdan oldin bank bilan aniqlashtirishni tavsiya qiling.
+00:17:05,667 --> 00:17:12,427
+Agar kurs o'zgarmagan bo'lsa, bot bir xil postni qayta yubormaydi. Obunachilaringiz bezovta bo'lmaydi.
 
 136
-00:17:19,940 --> 00:17:25,380
-Ob-havo katagi 12 ta viloyatning ob-havosini bitta chiroyli postda yuboradi.
+00:17:12,487 --> 00:17:19,687
+Bundan tashqari markaziy bank kurslari ham bor — ular har uch soatda yangilanib turadi.
 
 137
-00:17:25,440 --> 00:17:31,760
-Post har kuni ertalab soat oltida chiqadi — odamlar ishga chiqishdan oldin.
+00:17:19,747 --> 00:17:29,147
+Bir eslatma: bankdagi haqiqiy kurs e'londagidan biroz farq qilishi mumkin. Katta summa almashtirishdan oldin bank bilan aniqlashtirishni tavsiya qiling.
 
 138
-00:17:31,820 --> 00:17:40,780
-Qulaylik: bosh sahifadagi katakda kalitni yoqsangiz, xizmat barcha ulangan chatlarga birdaniga yoqiladi. Har birini alohida sozlash shart emas.
+00:17:29,207 --> 00:17:34,647
+Ob-havo katagi 12 ta viloyatning ob-havosini bitta chiroyli postda yuboradi.
 
 139
-00:17:40,840 --> 00:17:48,920
-Alohida funksiya — ogohlantirish. Kuchli shamol, jazirama issiq yoki qattiq sovuq kutilsa, bot qo'shimcha xabar yuboradi.
+00:17:34,707 --> 00:17:41,027
+Post har kuni ertalab soat oltida chiqadi — odamlar ishga chiqishdan oldin.
 
 140
-00:17:48,980 --> 00:17:56,620
-Do'l, kuchli yomg'ir yoki qor kutilganda ham ogohlantirish keladi. Bu obunachilaringiz uchun chinakam foydali ma'lumot.
+00:17:41,087 --> 00:17:50,047
+Qulaylik: bosh sahifadagi katakda kalitni yoqsangiz, xizmat barcha ulangan chatlarga birdaniga yoqiladi. Har birini alohida sozlash shart emas.
 
 141
-00:17:56,680 --> 00:18:05,200
-«Profil» bo'limida o'zingiz uchun shaxsiy ob-havo ogohlantirishini ham yoqib qo'yishingiz mumkin — u shaxsiy xabar bo'lib keladi.
+00:17:50,107 --> 00:17:58,187
+Alohida funksiya — ogohlantirish. Kuchli shamol, jazirama issiq yoki qattiq sovuq kutilsa, bot qo'shimcha xabar yuboradi.
 
 142
-00:18:05,260 --> 00:18:13,340
-Tongi xabar — har kuni erta tongda kanal va guruhingizga video va matn bilan yuboriladigan xabar.
+00:17:58,247 --> 00:18:05,887
+Do'l, kuchli yomg'ir yoki qor kutilganda ham ogohlantirish keladi. Bu obunachilaringiz uchun chinakam foydali ma'lumot.
 
 143
-00:18:13,400 --> 00:18:20,160
-Yuborish vaqti — soat to'rt yarim. Ya'ni obunachilaringiz uyg'onganda post allaqachon tayyor turadi.
+00:18:05,947 --> 00:18:14,467
+«Profil» bo'limida o'zingiz uchun shaxsiy ob-havo ogohlantirishini ham yoqib qo'yishingiz mumkin — u shaxsiy xabar bo'lib keladi.
 
 144
-00:18:20,220 --> 00:18:28,300
-Matnda bugun haftaning qaysi kuni ekani, sana va hijriy sana avtomatik yoziladi. Siz hech narsa yozmaysiz.
+00:18:14,527 --> 00:18:22,607
+Tongi xabar — har kuni erta tongda kanal va guruhingizga video va matn bilan yuboriladigan xabar.
 
 145
-00:18:28,360 --> 00:18:36,000
-Sozlashda haftaning qaysi kunlarida yuborilishini belgilaysiz. Masalan, faqat ish kunlari yoki faqat dam olish kunlari.
+00:18:22,667 --> 00:18:29,427
+Yuborish vaqti — soat to'rt yarim. Ya'ni obunachilaringiz uyg'onganda post allaqachon tayyor turadi.
 
 146
-00:18:36,060 --> 00:18:43,260
-Yoqib qo'ygandan keyin bu xizmat butunlay avtomatik ishlaydi — kanalingiz har kuni jonli ko'rinadi.
-
-147
-00:18:43,320 --> 00:18:49,640
-Tungi xabar — kechqurun yuboriladigan «Xayrli tun» posti. Matn va video bilan.
-
-148
-00:18:49,700 --> 00:18:56,020
-Yuborish vaqti — kechki to'qqiz yarim. Odamlar telefonni eng ko'p ishlatadigan payt.
-
-149
-00:18:56,080 --> 00:19:04,600
-Haftaning har kuni uchun alohida tayyor matn bor — ya'ni post har kuni bir xil bo'lib ketmaydi.
-
-150
-00:19:04,660 --> 00:19:10,540
-Tongi xabardagidek, bu yerda ham haftaning qaysi kunlarida yuborilishini o'zingiz belgilaysiz.
-
-151
-00:19:10,600 --> 00:19:20,440
-Tongi va tungi xabarni birga yoqsangiz, kanalingizda kuniga kamida ikkita post bo'ladi — bu obunachilarni ushlab turishga katta yordam beradi.
-
-152
-00:19:20,500 --> 00:19:27,700
-Bayram tabriklari — har Juma va bayram kunlari kanal va guruhlaringizga yuboriladigan video tabrik.
-
-153
-00:19:27,760 --> 00:19:34,520
-Tabrik o'sha kuni belgilangan vaqtda o'zi yuboriladi — siz eslab turishingiz shart emas.
-
-154
-00:19:34,580 --> 00:19:40,900
-Savol: siz nima qilishingiz kerak? Hech narsa. Faqat kanalingiz ulangan bo'lsa yetarli.
-
-155
-00:19:40,960 --> 00:19:48,160
-Sahifada tabriklar ro'yxati va keyingi bayram qachon ekani ko'rinib turadi — rejalashtirish uchun qulay.
-
-156
-00:19:48,220 --> 00:19:53,220
-«Namuna» tugmasini bossangiz, tabrik kanalingizda qanday ko'rinishini oldindan ko'rasiz.
-
-157
-00:19:53,280 --> 00:20:01,360
-Ko'rib turganingizdek, bu oltita katakni bir marta sozlab qo'ysangiz, kanalingizda har kuni oltitagacha tayyor post chiqadi.
-
-158
-00:20:01,420 --> 00:20:08,180
-Keyingi darsda «Xizmatlar» ramkasini — nakrutka, eSIM, kanal savdosi va reklama birjasini ko'ramiz.
-
-159
-00:20:08,267 --> 00:20:18,987
-To'rtinchi dars — «Xizmatlar» ramkasi. Bu bo'limda to'qqizta katak bor: obunachi va layk buyurtma qilishdan tortib kanal sotib olish va reklama birjasigacha.
-
-160
-00:20:19,047 --> 00:20:25,367
-Bu xizmatlarning aksariyati balans orqali ishlaydi, shuning uchun diqqat bilan tomosha qiling.
-
-161
-00:20:25,427 --> 00:20:31,747
-Nakrutka bo'limi orqali ijtimoiy tarmoqlarda obunachi, layk, izoh va ko'rishlarni buyurtma qilasiz.
-
-162
-00:20:31,807 --> 00:20:37,247
-Birinchi qadam: tarmoqni tanlaysiz. Telegram, Instagram, YouTube, TikTok va boshqalar.
-
-163
-00:20:37,307 --> 00:20:42,307
-Ikkinchi qadam: xizmat turi. Obuna, layk, izoh yoki ko'rish.
-
-164
-00:20:42,367 --> 00:20:46,487
-Uchinchi qadam: havolani va kerakli miqdorni kiritasiz.
-
-165
-00:20:46,547 --> 00:20:52,867
-Narx shu zahoti ekranda ko'rinadi — buyurtma berishdan oldin qancha turishini bilasiz.
-
-166
-00:20:52,927 --> 00:20:56,607
-To'lov sizning ilova ichidagi balansingizdan yechiladi.
-
-167
-00:20:56,667 --> 00:21:00,347
-Agar buyurtma bajarilmasa, pul to'liq qaytariladi.
-
-168
-00:21:00,407 --> 00:21:07,167
-Qisman bajarilgan bo'lsa, bajarilmagan qismining puli qaytariladi. Ya'ni faqat haqiqiy natija uchun to'laysiz.
-
-169
-00:21:07,227 --> 00:21:13,107
-Katta miqdorga chegirma bor — bir martada ko'proq olish arzonroq tushadi.
-
-170
-00:21:13,167 --> 00:21:21,247
-Avvalgi buyurtmani «Takrorlash» tugmasi bilan bir bosishda qayta berasiz — hamma ma'lumotni qaytadan yozish shart emas.
-
-171
-00:21:21,307 --> 00:21:28,067
-Muhim shart: havola ochiq bo'lishi kerak. Yopiq kanal yoki yopiq sahifaga buyurtma bajarilmaydi.
-
-172
-00:21:28,127 --> 00:21:34,887
-Natija tezligi tarmoqqa bog'liq. Buyurtma holati va butun tarix shu sahifada ko'rinib turadi.
-
-173
-00:21:34,947 --> 00:21:42,587
-eSIM bo'limi ro'yxatdan o'tish uchun bir martalik virtual raqam va SMS kodni olish imkonini beradi.
-
-174
-00:21:42,647 --> 00:21:45,587
-Birinchi qadam: davlatni tanlaysiz.
-
-175
-00:21:45,647 --> 00:21:52,407
-Ikkinchi qadam: qaysi tarmoq uchun kerakligini belgilaysiz — Telegram, WhatsApp, Instagram va boshqalar.
-
-176
-00:21:52,467 --> 00:21:57,467
-Uchinchi qadam: «Olish» tugmasini bosasiz va sizga raqam beriladi.
-
-177
-00:21:57,527 --> 00:22:02,087
-Raqamni nusxalab, o'sha tarmoqning ro'yxatdan o'tish oynasiga kiritasiz.
-
-178
-00:22:02,147 --> 00:22:10,227
-Kelgan SMS kod avtomatik ravishda shu sahifaning o'zida paydo bo'ladi — boshqa joyga qarash shart emas.
-
-179
-00:22:10,287 --> 00:22:15,727
-Agar kod taxminan 15 daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
-
-180
-00:22:15,787 --> 00:22:22,547
-Lekin diqqat: kod kelgandan keyin pul qaytarilmaydi. Shuning uchun kodni o'z vaqtida ishlating.
-
-181
-00:22:22,607 --> 00:22:28,047
-Raqam yoqmasa, «Boshqa raqam» tugmasi bir yarim daqiqadan keyin ochiladi.
-
-182
-00:22:28,107 --> 00:22:38,827
-Har bir yo'nalishda yulduzcha belgisi bor — bu so'nggi 30 kunda kod kelish foizi va o'rtacha vaqtni ko'rsatadi. Tanlashdan oldin shunga qarang.
-
-183
-00:22:38,887 --> 00:22:45,207
-Ochiq aytamiz: platforma raqamni qabul qilishi kafolatlanmaydi — bu virtual raqamlarning tabiati.
-
-184
-00:22:45,267 --> 00:22:50,267
-Prava bo'limi — haydovchilik guvohnomasi nazariy imtihoniga bepul tayyorgarlik.
-
-185
-00:22:50,327 --> 00:22:57,967
-Bazada bir ming ikki yuz qirqta original savol bor — barchasi yo'l harakati qoidalari asosida.
-
-186
-00:22:58,027 --> 00:23:04,347
-Oltmish ikkita bilet tuzilgan, har birida yigirmata savol — xuddi haqiqiy imtihondagidek.
-
-187
-00:23:04,407 --> 00:23:10,287
-Mavzular bo'yicha alohida mashq qilish mumkin — zaif joyingizni nishonga olasiz.
-
-188
-00:23:10,347 --> 00:23:16,227
-Rasmli savollar bor: belgi, chiziq, svetofor va chorrahada kim birinchi o'tishi.
-
-189
-00:23:16,287 --> 00:23:23,487
-Imtihon rejimi haqiqiysiga o'xshatilgan: odatda yigirma savol, yigirma besh daqiqa va ikkitagacha xatoga ruxsat.
-
-190
-00:23:23,547 --> 00:23:31,187
-«Xatolarim» bo'limida noto'g'ri javob bergan savollaringiz to'planadi. Aynan shular ustida ishlang — natija tez ko'tariladi.
-
-191
-00:23:31,247 --> 00:23:36,687
-Qiyin savolni yulduzcha bilan belgilab qo'yasiz, u «Saqlanganlar» ga tushadi.
-
-192
-00:23:36,747 --> 00:23:42,627
-Tayyorgarlik foizingiz va oxirgi natijalaringiz ko'rinib turadi — o'sish aniq seziladi.
-
-193
-00:23:42,687 --> 00:23:49,887
-Guruhda /prava deb yozsangiz, bot savol beradi — guruh a'zolari birga mashq qilishi mumkin.
-
-194
-00:23:49,947 --> 00:23:56,267
-O'zaro reklama — kanal egalari bir-birini topib, bepul o'zaro reklama kelishadigan katalog.
-
-195
-00:23:56,327 --> 00:24:00,887
-Birinchi qadam: kanalingizni mos kategoriya bilan katalogga qo'shasiz.
-
-196
-00:24:00,947 --> 00:24:06,387
-Shundan keyin boshqa kanal egalari sizni ko'radi va taklif yuboradi.
-
-197
-00:24:06,447 --> 00:24:11,887
-Siz ham katalogdan mavzuingizga yaqin kanalni qidirib, taklif yuborishingiz mumkin.
-
-198
-00:24:11,947 --> 00:24:20,027
-Bu — pul sarflamasdan o'sishning eng yaxshi usuli. Auditoriyangizga yaqin kanalni tanlang, shunda natija kuchli bo'ladi.
-
-199
-00:24:20,087 --> 00:24:26,847
-Kanal Savdo YouTube — YouTube kanallarini sotish va sotib olish uchun alohida bo'lim.
-
-200
-00:24:26,907 --> 00:24:31,467
-Sotmoqchi bo'lsangiz, «Mening e'lonlarim» bo'limiga kirib e'lon qo'shasiz.
-
-201
-00:24:31,527 --> 00:24:36,527
-Kanal manzili, obunachilar soni, mavzu, narx va tavsifni yozasiz.
-
-202
-00:24:36,587 --> 00:24:45,547
-YouTube uchun alohida monetizatsiya belgisi bor — pul topishga ulangan kanal qimmatroq turadi, shuning uchun buni albatta ko'rsating.
-
-203
-00:24:45,607 --> 00:24:52,367
-Ma'lumotni sotuvchi kiritadi. Admin tekshirgan e'lonlarga ko'k belgi qo'yiladi — bu ishonch belgisi.
-
-204
-00:24:52,427 --> 00:25:01,827
-Xavfsiz savdo uchun «Vositachi» xizmati bor: pul admin orqali o'tadi va akkaunt topshirilgandan keyingina sotuvchiga beriladi. Vositachilik haqi olinadi.
-
-205
-00:25:01,887 --> 00:25:09,087
-Maslahat: notanish odam bilan to'g'ridan-to'g'ri pul almashmang. Vositachi xizmati aynan aldanmaslik uchun o'ylab topilgan.
-
-206
-00:25:09,147 --> 00:25:15,907
-Kanal Savdo Telegram — Telegram kanal va guruhlarini sotish va sotib olish bo'limi.
-
-207
-00:25:15,967 --> 00:25:22,287
-Eng muhim farqi: bu yerdagi obunachi va o'sish raqamlari TartibOn statistikasidan olinadi.
-
-208
-00:25:22,347 --> 00:25:31,747
-Ya'ni raqamlarni sotuvchi o'zi yozmaydi — bot o'zi hisoblaydi. Demak soxta ko'rsatkich qo'yib bo'lmaydi. Xaridor uchun bu katta ishonch.
-
-209
-00:25:31,807 --> 00:25:37,247
-Sotish uchun shu sahifaning o'zida «Kanalimni sotuvga qo'yish» tugmasini bosasiz.
-
-210
-00:25:37,307 --> 00:25:42,747
-Shart: kanalingiz botga ulangan bo'lishi kerak, aks holda statistika hisoblanmaydi.
-
-211
-00:25:42,807 --> 00:25:50,887
-Bu yerda ham vositachi xizmati ishlaydi — pul admin orqali o'tadi va kanal topshirilgach sotuvchiga beriladi.
-
-212
-00:25:50,947 --> 00:25:56,827
-Kanal Savdo Instagram — Instagram sahifalarini sotish va sotib olish bo'limi.
-
-213
-00:25:56,887 --> 00:26:03,207
-E'lon qo'shish «Mening e'lonlarim» orqali: username, obunachilar soni, mavzu, narx va tavsif.
-
-214
-00:26:03,267 --> 00:26:08,267
-Instagram raqamlarini bot tekshira olmaydi, ularni sotuvchi o'zi kiritadi.
-
-215
-00:26:08,327 --> 00:26:15,527
-Admin tekshirgan e'lonlar ko'k belgi oladi — xarid qilishdan oldin shu belgiga e'tibor bering.
-
-216
-00:26:15,587 --> 00:26:22,347
-Instagram akkauntlarida aldov xavfi yuqoriroq. Shuning uchun vositachi xizmatidan foydalanishni qattiq tavsiya qilamiz.
-
-217
-00:26:22,407 --> 00:26:28,287
-Reklama birjasi — kanallar orasida reklama sotib olish va sotish maydoni.
-
-218
-00:26:28,347 --> 00:26:32,467
-Sotuvchi bo'lsangiz: reklama narxini va formatini belgilaysiz.
-
-219
-00:26:32,527 --> 00:26:44,467
-Format degani — reklama qancha turishi. Bir soat tepada va yigirma to'rt soat kanalda, ikki soat va qirq sakkiz soat, yoki umuman o'chirilmaydigan doimiy post.
-
-220
-00:26:44,527 --> 00:26:49,527
-Buyurtma kelganda «Joylash» tugmasini bosasiz va reklama kanalingizga chiqadi.
-
-221
-00:26:49,587 --> 00:26:55,907
-Eng muhim funksiya — pul kafolati. Xaridor to'lagan pul darhol sotuvchiga o'tmaydi.
-
-222
-00:26:55,967 --> 00:27:04,487
-Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin pul o'zi sotuvchiga tushadi.
-
-223
-00:27:04,547 --> 00:27:11,307
-Agar reklama muddatidan oldin o'chirilsa yoki kelishilgandek bo'lmasa, xaridor «Nizo ochish» tugmasini bosadi.
-
-224
-00:27:11,367 --> 00:27:18,567
-Nizoni admin ko'rib chiqadi va qaror qabul qiladi: sotuvchiga to'lash yoki xaridorga pulni qaytarish.
-
-225
-00:27:18,627 --> 00:27:24,947
-Xaridor bo'lsangiz, reklamani vositachisiz, to'g'ridan-to'g'ri kanal egasidan olasiz — ortiqcha ustama yo'q.
-
-226
-00:27:25,007 --> 00:27:31,327
-Ko'k belgili kanallar TartibOn tomonidan tekshirilgan. Yangi bo'lsangiz, avval shunday kanallardan boshlang.
-
-227
-00:27:31,387 --> 00:27:37,707
-Kanallar reytingi — so'nggi yetti kunda eng tez o'sgan o'nta kanal ro'yxati.
-
-228
-00:27:37,767 --> 00:27:42,327
-Reyting har kuni yangilanadi, ya'ni ro'yxat doim jonli.
-
-229
-00:27:42,387 --> 00:27:52,227
-Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Kichik kanallarning ham chiqish imkoni bor.
-
-230
-00:27:52,287 --> 00:28:00,367
-Pullik xizmat ham bor: «Kanalimni ko'tarish». Kanalingiz yetti kun davomida «Tavsiya etiladi» qatorida, eng tepada turadi.
-
-231
-00:28:00,427 --> 00:28:05,427
-Ko'tarish narxini admin belgilaydi — joriy narx sahifada ko'rinadi.
-
-232
-00:28:05,487 --> 00:28:14,447
-Bu xizmat yangi kanallar uchun ayniqsa foydali: hali obunachingiz kam bo'lsa ham, birinchi odamlarni olib kelishning tez yo'li.
-
-233
-00:28:14,507 --> 00:28:24,787
-«Xizmatlar» bo'limi shu bilan tugadi. Esda tuting: barcha pullik xizmatlar balans orqali o'tadi va har birida pul qaytarish qoidasi aniq yozilgan.
-
-234
-00:28:24,847 --> 00:28:31,167
-Keyingi darsda «Savdo admin» — biznes e'lonlari uchun tayyor post shablonlarini ko'ramiz.
-
-235
-00:28:31,267 --> 00:28:41,987
-Beshinchi dars — «Savdo admin» ramkasi. Bu bo'lim biznes bilan shug'ullanadiganlar uchun: taksi, avto savdo, ko'chmas mulk, vakansiya, o'quv markazi va boshqalar.
-
-236
-00:28:42,047 --> 00:28:53,987
-Mohiyati oddiy — siz ma'lumotni kiritasiz, bot chiroyli post rasmini o'zi chizib beradi va kanalingizga tugma bilan yuboradi. Dizayner ham, grafik dasturi ham kerak emas.
-
-237
-00:28:54,047 --> 00:29:01,687
-Avval barcha post bo'limlariga xos bo'lgan umumiy tartibni tushuntiraman. Birinchi qadam: mavzuingizga mos katakni tanlaysiz.
-
-238
-00:29:01,747 --> 00:29:09,827
-Ikkinchi qadam: bir dona, ikki yoki uchta rasm yuklaysiz. Rasm sifatli bo'lsa, post ham chiroyli chiqadi.
-
-239
-00:29:09,887 --> 00:29:16,647
-Uchinchi qadam: narx, manzil, tavsif kabi maydonlarni to'ldirasiz. Har bo'limda maydonlar o'ziga xos.
-
-240
-00:29:16,707 --> 00:29:23,027
-To'rtinchi qadam: bot ma'lumotlarni chiroyli post rasmiga joylaydi. Siz faqat natijani ko'rasiz.
-
-241
-00:29:23,087 --> 00:29:28,527
-Beshinchi qadam: postni tugmasi bilan birga kanal yoki guruhingizga yuborasiz.
-
-242
-00:29:28,587 --> 00:29:38,427
-Har bir e'londa mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish», «Buyurtma berish» kabi. Mijoz bir bosadi va sizga yoziladi.
-
-243
-00:29:38,487 --> 00:29:49,207
-Eng muhim maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlasangiz, barcha bo'limlar shuni avtomatik oladi.
-
-244
-00:29:49,267 --> 00:29:54,707
-Taksi e'loni — taksi xizmati ko'rsatadiganlar uchun tayyor post shabloni.
-
-245
-00:29:54,767 --> 00:29:59,327
-Avval yo'nalishni kiritasiz: qayerdan jo'nashingiz va qayerga borishingiz.
-
-246
-00:29:59,387 --> 00:30:03,067
-Keyin sana va jo'nash vaqtini belgilaysiz.
-
-247
-00:30:03,127 --> 00:30:10,767
-Nechta bo'sh joy borligini va mashina modelini yozasiz — yo'lovchi uchun bu eng muhim ma'lumot.
-
-248
-00:30:10,827 --> 00:30:15,387
-Telefon raqamingizni kiritasiz, so'ng post rasmi tayyor bo'ladi.
-
-249
-00:30:15,447 --> 00:30:22,207
-Post tagida «Haydovchiga yozish» tugmasi chiqadi — yo'lovchi bir bosib siz bilan bog'lanadi.
-
-250
-00:30:22,267 --> 00:30:32,107
-Bu shablon mahalla guruhlari va yo'nalish guruhlari uchun juda qulay. Har kuni bir xil yo'nalishni yuboradigan bo'lsangiz, postni nusxalab qo'ying.
-
-251
-00:30:32,167 --> 00:30:36,727
-Avto savdo — mashina sotish uchun post shabloni.
-
-252
-00:30:36,787 --> 00:30:42,667
-Mashinaning suratlarini yuklaysiz, so'ng ishlab chiqarilgan yili, probegi va rangini kiritasiz.
-
-253
-00:30:42,727 --> 00:30:45,967
-Narxni va mashina holatini yozasiz.
-
-254
-00:30:46,027 --> 00:30:52,347
-Post tagida «Sotuvchiga yozish» tugmasi bo'ladi — xaridor darhol siz bilan bog'lanadi.
-
-255
-00:30:52,407 --> 00:30:59,167
-Maslahat: probeg va holatni haqiqatga mos yozing. Avto guruhlarida ishonch eng qimmat narsa.
-
-256
-00:30:59,227 --> 00:31:06,427
-Savdogar — umumiy savdo e'loni. Kiyim, texnika, uy jihozlari — istalgan mahsulot uchun ishlatiladi.
-
-257
-00:31:06,487 --> 00:31:11,487
-Mahsulot rasmini yuklaysiz, nomini, narxini va qisqa tavsifini yozasiz.
-
-258
-00:31:11,547 --> 00:31:17,867
-Post tagida «Sotuvchi bilan bog'lanish» tugmasi chiqadi va xaridor to'g'ridan-to'g'ri sizga yozadi.
-
-259
-00:31:17,927 --> 00:31:25,567
-Barcha mahsulotlaringizni shu shablon bilan chiqarsangiz, postlaringiz bir xil uslubda bo'ladi va do'koningiz tanila boshlaydi.
-
-260
-00:31:25,627 --> 00:31:30,187
-Sayohat e'loni — turagentliklar uchun maxsus tayyorlangan shablon.
-
-261
-00:31:30,247 --> 00:31:36,567
-Uchta tayyor ko'rinish bor: oddiy tur paket, qaynoq tur va Umra shabloni.
-
-262
-00:31:36,627 --> 00:31:39,867
-Yo'nalishni, sanani va narxni kiritasiz.
-
-263
-00:31:39,927 --> 00:31:47,127
-Narxga nimalar kirishini alohida yozasiz — aviabilet, mehmonxona, ovqat, viza. Bu savollarning yarmini kamaytiradi.
-
-264
-00:31:47,187 --> 00:31:53,067
-Post tagida «Bron qilish» tugmasi chiqadi va mijoz to'g'ridan-to'g'ri sizga yozadi.
-
-265
-00:31:53,127 --> 00:31:57,687
-O'quv markazi — kurslarga qabul e'lonlari uchun shablon.
-
-266
-00:31:57,747 --> 00:32:02,747
-Kursning boshlanish sanasini va necha oy davom etishini kiritasiz.
-
-267
-00:32:02,807 --> 00:32:06,047
-Narxni va to'lov shartlarini yozasiz.
-
-268
-00:32:06,107 --> 00:32:12,867
-Post tagida «Kursga yozilish» tugmasi bo'ladi — talaba bir bosadi va sizga tushadi.
-
-269
-00:32:12,927 --> 00:32:21,887
-Maslahat: qabul tugashiga bir hafta qolganda postni qayta yuboring — «joylar tugayapti» degan post eng ko'p ariza keltiradi.
-
-270
-00:32:21,947 --> 00:32:27,827
-Ko'chmas mulk — uy, kvartira sotish yoki ijaraga berish e'lonlari uchun.
-
-271
-00:32:27,887 --> 00:32:32,447
-Obyekt suratlarini yuklaysiz va maydonini kvadrat metrda yozasiz.
-
-272
-00:32:32,507 --> 00:32:36,627
-Qavat, umumiy qavatlar soni va narxni kiritasiz.
-
-273
-00:32:36,687 --> 00:32:39,927
-Post tagida «Bog'lanish» tugmasi chiqadi.
-
-274
-00:32:39,987 --> 00:32:48,067
-Maslahat: uchta suratni ham to'liq ishlating. Ko'chmas mulkda surat qancha ko'p bo'lsa, murojaat shuncha ko'p bo'ladi.
-
-275
-00:32:48,127 --> 00:32:52,687
-Vakansiya — ishga odam qidirayotganlar uchun post shabloni.
-
-276
-00:32:52,747 --> 00:32:55,987
-Lavozim nomini va maoshni yozasiz.
-
-277
-00:32:56,047 --> 00:33:00,167
-Ish vaqtini va nomzodga qo'yilgan talablarni kiritasiz.
-
-278
-00:33:00,227 --> 00:33:06,107
-Post tagida «Rezyume yuborish» tugmasi bo'ladi — nomzod to'g'ridan-to'g'ri sizga yozadi.
-
-279
-00:33:06,167 --> 00:33:13,367
-Maslahat: maosh raqamini albatta yozing. Maoshi ko'rsatilmagan e'lonlar bir necha barobar kam javob oladi.
-
-280
-00:33:13,427 --> 00:33:19,307
-Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
-
-281
-00:33:19,367 --> 00:33:23,047
-Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
-
-282
-00:33:23,107 --> 00:33:26,787
-Chegirma foizini yoki aksiya shartini ko'rsatasiz.
-
-283
-00:33:26,847 --> 00:33:30,527
-Post tagida «Buyurtma berish» tugmasi chiqadi.
-
-284
-00:33:30,587 --> 00:33:38,667
-Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
-
-285
-00:33:38,727 --> 00:33:45,047
-Salon va klinika — go'zallik saloni yoki tibbiy klinika xizmatlari uchun shablon.
-
-286
-00:33:45,107 --> 00:33:48,787
-Xizmatlar va ularning narxlari ro'yxatini kiritasiz.
-
-287
-00:33:48,847 --> 00:33:52,087
-Vaqtinchalik aksiyani ham qo'shishingiz mumkin.
-
-288
-00:33:52,147 --> 00:33:58,467
-Post tagida «Navbatga yozilish» tugmasi bo'ladi — mijoz bir bosib navbat so'raydi.
-
-289
-00:33:58,527 --> 00:34:06,167
-Eslatma: tibbiyot sohasida natija kafolati kabi va'dalarni yozishda ehtiyot bo'ling — qonun talablariga rioya qiling.
-
-290
-00:34:06,227 --> 00:34:12,107
-Statistikam bo'limi — siz yuborgan e'lonlardagi tugmalarni necha kishi bosgani sanaladi.
-
-291
-00:34:12,167 --> 00:34:18,927
-«Bog'lanish», «Bron qilish», «Buyurtma berish» — qaysi tugma necha marta bosilgani alohida ko'rinadi.
-
-292
-00:34:18,987 --> 00:34:24,867
-Shu orqali qaysi e'lon ishlayapti, qaysi biri bekorga ketayotganini aniq bilasiz.
-
-293
-00:34:24,927 --> 00:34:33,447
-Agar hali e'lon yubormagan bo'lsangiz, bu bo'lim bo'sh turadi. Birinchi postni yuboring, raqamlar shundan keyin paydo bo'ladi.
-
-294
-00:34:33,507 --> 00:34:42,027
-Maslahat: bitta mahsulotni ikki xil matn bilan sinab ko'ring va qaysi biri ko'proq bosilganini shu yerdan solishtiring.
-
-295
-00:34:42,087 --> 00:34:48,407
-Brend to'plamida birinchi navbatda brend rangingizni tanlaysiz — postlar shu rangda chiziladi.
-
-296
-00:34:48,467 --> 00:34:53,907
-Keyin aloqa uchun username'ingizni yozasiz — mijoz shu manzilga yoziladi.
-
-297
-00:34:53,967 --> 00:34:58,087
-Tugmada qanday yozuv turishini ham o'zingiz belgilaysiz.
-
-298
-00:34:58,147 --> 00:35:06,667
-Bir marta saqlasangiz, barcha post bo'limlari — Savdogar, Taksi, Sayohat va qolganlari — shu sozlamani avtomatik oladi.
-
-299
-00:35:06,727 --> 00:35:17,887
-Shuning uchun aytdim: «Savdo admin» bilan ishlashni aynan shu katakdan boshlang. Bir martalik ish, lekin barcha postlaringiz bir xil, tanilarli ko'rinishga ega bo'ladi.
-
-300
-00:35:17,947 --> 00:35:27,787
-«Savdo admin» bo'limi shunday ishlaydi. Esda tuting: avval «Brend to'plami» ni to'ldiring, keyin «Statistikam» orqali qaysi e'lon ishlayotganini kuzatib boring.
-
-301
-00:35:27,847 --> 00:35:34,607
-Oxirgi, oltinchi darsda «Ilova» bo'limini — balans, bot yaratish va yordam xizmatini ko'ramiz.
-
-302
-00:35:34,700 --> 00:35:45,860
-Oltinchi va oxirgi dars — «Ilova» ramkasi. Bu yerda to'rtta katak bor: balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
-
-303
-00:35:45,920 --> 00:35:52,680
-Balans eng muhimi — chunki barcha pullik xizmatlar aynan shu hisob orqali ishlaydi.
-
-304
-00:35:52,740 --> 00:36:01,700
-Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
-
-305
-00:36:01,760 --> 00:36:07,200
-To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
-
-306
-00:36:07,260 --> 00:36:11,380
-Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
-
-307
-00:36:11,440 --> 00:36:15,120
-Uchinchi qadam: «To'lov qildim» tugmasini bosasiz.
-
-308
-00:36:15,180 --> 00:36:19,300
-Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
-
-309
-00:36:19,360 --> 00:36:28,320
-Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
-
-310
-00:36:28,380 --> 00:36:35,580
-Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
-
-311
-00:36:35,640 --> 00:36:41,960
-Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
-
-312
-00:36:42,020 --> 00:36:48,340
-Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
-
-313
-00:36:48,400 --> 00:36:55,160
-Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
-
-314
-00:36:55,220 --> 00:36:59,780
-Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
-
-315
-00:36:59,840 --> 00:37:08,800
-Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
-
-316
-00:37:08,860 --> 00:37:17,820
-To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — «Balans» sahifasidagi «Adminga murojaat» qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
-
-317
-00:37:17,880 --> 00:37:23,760
-Bot yaratish — biznesingiz uchun alohida Telegram bot buyurtma qilish xizmati.
-
-318
-00:37:23,820 --> 00:37:32,340
-Nima qilish mumkin: onlayn do'kon boti, navbat boti, to'lov qabul qiluvchi bot, sun'iy intellektli yordamchi va boshqalar.
-
-319
-00:37:32,400 --> 00:37:40,480
-Birinchi qadam: «Murojaat qilish» tugmasini bosib, g'oyangizni yozasiz. Botingiz nima qilishi kerakligini oddiy so'z bilan tushuntirasiz.
-
-320
-00:37:40,540 --> 00:37:45,540
-Ikkinchi qadam: sizga narx va muddat aytiladi, kelishib olasiz.
-
-321
-00:37:45,600 --> 00:37:49,720
-Odatda bot uch kun ichida tayyor bo'ladi.
-
-322
-00:37:49,780 --> 00:37:56,980
-Murojaat qilishdan oldin tayyor namunalarni so'rang — shunga qarab o'z botingizni aniqroq tasavvur qilasiz.
-
-323
-00:37:57,040 --> 00:38:01,600
-Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
-
-324
-00:38:01,660 --> 00:38:09,300
-Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
-
-325
-00:38:09,360 --> 00:38:17,440
-Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, «Balans» sahifasidagi «Adminga murojaat» qatoridan foydalaning.
-
-326
-00:38:17,500 --> 00:38:26,020
-Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
-
-327
-00:38:26,080 --> 00:38:36,360
-«Profil» bo'limida «Tilaklar qutisi» ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
-
-328
-00:38:36,420 --> 00:38:40,980
-Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
-
-329
-00:38:41,040 --> 00:38:48,680
-Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
-
-330
-00:38:48,740 --> 00:38:54,180
-Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
-
-331
-00:38:54,240 --> 00:39:03,640
-Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
-
-332
-00:39:03,700 --> 00:39:12,660
-Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
-
-333
-00:39:12,720 --> 00:39:22,560
-Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
-
-334
-00:39:22,620 --> 00:39:30,260
-Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
-
-335
-00:39:30,320 --> 00:39:41,480
-Shu bilan TartibOn video qo'llanmasi yakunlandi. Oltita darsda bosh sahifadagi barcha bo'limlarni ko'rib chiqdik. Endi ilovani oching, kanalingizni ulang va keraklisini sinab ko'ring.
-
-336
-00:39:41,540 --> 00:39:47,420
-Savol bo'lsa — «Savol va takliflar» orqali yozing. E'tiboringiz uchun rahmat!
-
-337
-00:39:47,500 --> 00:39:50,120
-Telegram guruhlarida kiyim-kechak sotasizmi?
-
-338
-00:39:50,180 --> 00:39:54,060
-Rasmingiz yuzlab boshqa postlar orasida yo'qolib ketyaptimi?
-
-339
-00:39:54,120 --> 00:39:58,420
-Narxni va o'lchamni har safar izohga qaytadan yozyapsizmi?
-
-340
-00:39:58,480 --> 00:40:04,040
-Endi bunday qilish shart emas. Bir daqiqada tayyor, chiroyli post olasiz.
-
-341
-00:40:04,100 --> 00:40:07,140
-Birinchi qadam: mahsulotingizning suratini yuklaysiz.
-
-342
-00:40:07,200 --> 00:40:10,240
-Ikkinchi qadam: mahsulot nomini yozasiz.
-
-343
-00:40:10,300 --> 00:40:16,280
-Uchinchi qadam: qisqa tavsif. O'lchamlar, rang yoki yetkazib berish haqida bir qator.
-
-344
-00:40:16,340 --> 00:40:21,480
-To'rtinchi qadam: narxni yozasiz. Narx post ustida yirik qilib chiqadi.
-
-345
-00:40:21,540 --> 00:40:25,000
-Tamom. Post rasmi o'zi tayyor bo'ldi.
-
-346
-00:40:25,060 --> 00:40:30,620
-Rasmni yuklab olasiz va guruhga tashlaysiz. Yoki ilovaning o'zidan to'g'ridan-to'g'ri yuborasiz.
-
-347
-00:40:30,680 --> 00:40:36,660
-Endi postingiz ajralib turadi. Narx, tavsif va aloqa — hammasi bitta rasmda.
-
-348
-00:40:36,720 --> 00:40:41,020
-Va bu butunlay bepul. Hech qanday to'lov yo'q.
-
-349
-00:40:41,080 --> 00:40:45,380
-TartibOn. Telegramda qidiring va bugunoq birinchi postingizni yarating.
-
-350
-00:40:45,467 --> 00:40:49,767
-Biznesingiz bormi? Lekin e'lonlaringiz oddiy va ko'zga tashlanmaydimi?
-
-351
-00:40:49,827 --> 00:40:54,547
-Dizayner yollash ham, grafik dastur o'rganish ham kerak emas.
-
-352
-00:40:54,607 --> 00:40:57,647
-Mahsulot sotasizmi — Savdogar bo'limi.
-
-353
-00:40:57,707 --> 00:41:00,747
-Mashina sotasizmi — Avto savdo.
-
-354
-00:41:00,807 --> 00:41:04,267
-Uy yoki kvartira — Ko'chmas mulk.
-
-355
-00:41:04,327 --> 00:41:07,367
-Ishga odam qidiryapsizmi — Vakansiya.
-
-356
-00:41:07,427 --> 00:41:11,307
-Kursga qabul e'lon qilyapsizmi — O'quv markazi.
-
-357
-00:41:11,367 --> 00:41:16,087
-Kafe yoki restoran bo'lsa — menyu va aksiya posti.
-
-358
-00:41:16,147 --> 00:41:20,027
-Salon yoki klinika — narxlar ro'yxati bilan.
-
-359
-00:41:20,087 --> 00:41:26,067
-Hammasi bir xil ishlaydi: rasm va bir nechta maydon — tayyor post.
-
-360
-00:41:26,127 --> 00:41:30,007
-TartibOn. Telegramda qidiring — bepul sinab ko'ring.
-
-361
-00:41:30,100 --> 00:41:34,820
-Haydovchimisiz? Har kuni guruhga bir xil matn yozib charchadingizmi?
-
-362
-00:41:34,880 --> 00:41:37,920
-Yo'nalishni kiritasiz: qayerdan va qayerga.
-
-363
-00:41:37,980 --> 00:41:42,700
-Jo'nash sanasi, vaqti, bo'sh joylar soni va mashina modeli.
-
-364
-00:41:42,760 --> 00:41:48,320
-Va mana — tayyor post. Telefon raqamingiz va aloqa manzilingiz bilan.
-
-365
-00:41:48,380 --> 00:41:53,940
-Yo'lovchi post tagidagi «Haydovchiga yozish» tugmasini bosadi va to'g'ridan-to'g'ri sizga yoziladi.
-
-366
-00:41:54,000 --> 00:42:00,400
-Har kuni qaytadan yozishning hojati yo'q — eski postni nusxalab, faqat sanani o'zgartirasiz.
-
-367
-00:42:00,460 --> 00:42:02,660
-TartibOn. Telegramda qidiring.
-
-368
-00:42:02,733 --> 00:42:04,873
-Mashina sotyapsizmi?
-
-369
-00:42:04,933 --> 00:42:11,333
-Telefonda olingan oddiy rasm xaridorda ishonch uyg'otmaydi. U yil, probeg va holatni qidiradi.
-
-370
-00:42:11,393 --> 00:42:17,793
-Shu ilovada hammasi bitta chiroyli rasmga joylanadi: yil, probeg, rang, holati va narx.
-
-371
-00:42:17,853 --> 00:42:23,833
-Post tagida «Sotuvchiga yozish» tugmasi — xaridor bir bosib siz bilan bog'lanadi.
-
-372
-00:42:23,893 --> 00:42:27,773
-Avto guruhlarida e'loningiz boshqalardan darhol ajralib turadi.
-
-373
-00:42:27,833 --> 00:42:30,033
-TartibOn. Telegramda qidiring.
-
-374
-00:42:30,133 --> 00:42:33,593
-Uy, kvartira sotyapsizmi yoki ijaraga beryapsizmi?
-
-375
-00:42:33,653 --> 00:42:40,893
-Maydon, qavat va narx — bularning hammasi odatda izohda qolib ketadi va hech kim o'qimaydi.
-
-376
-00:42:40,953 --> 00:42:45,673
-Endi bu ma'lumotlar rasmning o'zida, suratlar bilan birga chiqadi.
-
-377
-00:42:45,733 --> 00:42:50,873
-Ta'mir holati, jihozlangani va hujjatlar — alohida belgilar bilan ko'rsatiladi.
-
-378
-00:42:50,933 --> 00:42:55,653
-Post tagidagi «Bog'lanish» tugmasini bosgan mijoz to'g'ridan-to'g'ri sizga yoziladi.
-
-379
-00:42:55,713 --> 00:42:57,913
-TartibOn. Telegramda qidiring.
-
-380
-00:42:58,000 --> 00:43:00,200
-Ishga odam qidiryapsizmi?
-
-381
-00:43:00,260 --> 00:43:04,140
-Quruq matn ko'rinishidagi e'lonlarni odamlar oxirigacha o'qimaydi.
-
-382
-00:43:04,200 --> 00:43:09,760
-Lavozim, maosh, ish vaqti va talablar — hammasi bitta chiroyli rasmda.
-
-383
-00:43:09,820 --> 00:43:16,640
-Maosh raqamini albatta yozing — maoshi ko'rsatilgan e'lonlar bir necha barobar ko'p javob oladi.
-
-384
-00:43:16,700 --> 00:43:21,420
-Nomzod «Rezyume yuborish» tugmasini bosadi va to'g'ridan-to'g'ri sizga yoziladi.
-
-385
-00:43:21,480 --> 00:43:23,680
-TartibOn. Telegramda qidiring.
-
-386
-00:43:23,767 --> 00:43:26,807
-O'quv markazingizga qabul e'lon qilyapsizmi?
-
-387
-00:43:26,867 --> 00:43:32,847
-Har bir yangi guruh uchun dizaynerga buyurtma berish — vaqt va pul.
-
-388
-00:43:32,907 --> 00:43:37,627
-Endi o'zingiz tayyorlaysiz: boshlanish sanasi, kurs davomiyligi va narx.
-
-389
-00:43:37,687 --> 00:43:43,247
-Darslar soni, guruhdagi o'quvchilar, ustoz va sertifikat — alohida belgilar bilan.
-
-390
-00:43:43,307 --> 00:43:47,607
-«Kursga yozilish» tugmasini bosgan talaba to'g'ridan-to'g'ri sizga tushadi.
-
-391
-00:43:47,667 --> 00:43:49,867
-TartibOn. Telegramda qidiring.
-
-392
-00:43:49,967 --> 00:43:52,587
-Kafe yoki restoraningiz bormi?
-
-393
-00:43:52,647 --> 00:43:57,367
-Menyu va aksiya rasmlaringiz har safar boshqacha, notekis chiqyaptimi?
-
-394
-00:43:57,427 --> 00:44:02,147
-Kombo taomlar va narxlar — bitta tartibli, chiroyli rasmda.
-
-395
-00:44:02,207 --> 00:44:06,927
-Aksiya va chegirmani ko'rsatsangiz, u rasmda yorqin belgida chiqadi.
-
-396
-00:44:06,987 --> 00:44:14,227
-Maslahat: postni soat o'n birda, tushlikdan oldin yuboring — buyurtma aynan shu payt ko'p bo'ladi.
-
-397
-00:44:14,287 --> 00:44:16,487
-TartibOn. Telegramda qidiring.
-
-398
-00:44:16,567 --> 00:44:19,607
-Go'zallik saloni yoki klinikangiz bormi?
-
-399
-00:44:19,667 --> 00:44:24,387
-Mijozlar har kuni bir xil savolni berib, narxlarni so'rayveradimi?
-
-400
-00:44:24,447 --> 00:44:30,007
-Barcha xizmatlar va narxlarni bitta rasmga joylaysiz — savollar o'z-o'zidan kamayadi.
-
-401
-00:44:30,067 --> 00:44:34,787
-Vaqtinchalik aksiyani ham qo'shasiz — bu yangi mijoz keltiradi.
-
-402
-00:44:34,847 --> 00:44:39,147
-Mijoz «Navbatga yozilish» tugmasini bosadi va sizga yoziladi.
-
-403
-00:44:39,207 --> 00:44:41,407
-TartibOn. Telegramda qidiring.
-
-404
-00:44:41,500 --> 00:44:43,700
-Turagentlik bilan shug'ullanasizmi?
-
-405
-00:44:43,760 --> 00:44:48,900
-Tur paket, qaynoq tur yoki Umra uchun chiroyli post kerakmi?
-
-406
-00:44:48,960 --> 00:44:54,940
-Yo'nalish, sana, kecha soni va narxni kiritasiz — davlat bayrog'i o'zi qo'yiladi.
-
-407
-00:44:55,000 --> 00:45:01,400
-Eng muhimi: narxga nima kirishini alohida ko'rsatasiz — aviabilet, mehmonxona, transfer va ovqatlanish.
-
-408
-00:45:01,460 --> 00:45:07,020
-Shunda mijozlarning savollari ikki barobar kamayadi — chunki hammasi rasmda ko'rinadi.
-
-409
-00:45:07,080 --> 00:45:10,540
-Post tagida «Bron qilish» tugmasi turadi.
-
-410
-00:45:10,600 --> 00:45:12,800
-TartibOn. Telegramda qidiring.
-
-411
-00:45:12,900 --> 00:45:15,940
-Telegramda kanalingiz yoki guruhingiz bormi?
-
-412
-00:45:16,000 --> 00:45:20,720
-Postni qo'lda yuborasiz, spamni qo'lda o'chirasiz, obunachilarni qo'lda sanaysiz.
-
-413
-00:45:20,780 --> 00:45:26,340
-Barcha kanal va guruhlaringiz bitta ro'yxatda — har biri alohida sozlanadi.
-
-414
-00:45:26,400 --> 00:45:31,540
-Reklama va spamni bot o'zi o'chiradi. Siz hatto ko'rmaysiz ham.
-
-415
-00:45:31,600 --> 00:45:36,740
-Postni oldindan tayyorlab, kerakli kunga qo'yasiz — bot o'zi chiqaradi.
-
-416
-00:45:36,800 --> 00:45:41,520
-O'sish grafigini ko'rib turasiz va hisobotni Excelga yuklab olasiz.
-
-417
-00:45:41,580 --> 00:45:46,720
-Yopiq kanalingizga pullik obuna sotasiz — pul to'g'ridan-to'g'ri balansingizga tushadi.
-
-418
-00:45:46,780 --> 00:45:51,920
-Jami to'qqizta vosita. Hammasi Telegramning ichida — hech narsa o'rnatmaysiz.
-
-419
-00:45:51,980 --> 00:45:54,180
-TartibOn. Telegramda qidiring.
-
-420
-00:45:54,267 --> 00:45:58,987
-Bir nechta kanalingiz bormi? Har birini alohida ochib yurasizmi?
-
-421
-00:45:59,047 --> 00:46:05,867
-Endi hammasi bitta ro'yxatda. Har bir kanal yonida obunachilar soni va bugungi o'sish turadi.
-
-422
-00:46:05,927 --> 00:46:13,587
-Kanalni ochsangiz, unga qaysi avtomatik xabarlar yoqilganini belgilaysiz — bittasiga namoz vaqtlari, boshqasiga faqat dollar kursi.
-
-423
-00:46:13,647 --> 00:46:18,787
-Ta'tilga chiqsangiz, bitta kalitni bosasiz — barcha avtomatik xabarlar to'xtaydi.
-
-424
-00:46:18,847 --> 00:46:25,247
-Agar botni kanaldan chiqarib yuborishsa, qizil belgi darhol chiqadi va tuzatish yo'lini ko'rsatadi.
-
-425
-00:46:25,307 --> 00:46:27,507
-TartibOn. Telegramda qidiring.
-
-426
-00:46:27,600 --> 00:46:31,060
-Guruhingiz reklama va spamga to'lib ketyaptimi?
-
-427
-00:46:31,120 --> 00:46:35,840
-Har kuni, hatto kechasi ham kirib qo'lda o'chirib chiqasizmi?
-
-428
-00:46:35,900 --> 00:46:42,300
-Endi buni bot qiladi. Reklama, havola, so'kinish va spam — hammasi avtomatik o'chiriladi.
-
-429
-00:46:42,360 --> 00:46:47,500
-Guruhlarga ko'p tashlanadigan arab botlar va zararli fayllar ham to'siladi.
-
-430
-00:46:47,560 --> 00:46:54,380
-Yangi a'zolar birinchi sutkada havola yubora olmaydi. Kirishda kapcha qo'ysangiz, botlar umuman kira olmaydi.
-
-431
-00:46:54,440 --> 00:46:58,320
-Guruh adminlarining xabarlariga esa hech qachon tegilmaydi.
-
-432
-00:46:58,380 --> 00:47:03,940
-Va bu bepul. Guruhda himoya deb yozsangiz, qaysi qoidalar yoqilganini ko'rasiz.
-
-433
-00:47:04,000 --> 00:47:06,200
-TartibOn. Telegramda qidiring.
-
-434
-00:47:06,267 --> 00:47:11,407
-Har kuni belgilangan vaqtda post qo'yish uchun telefon qarab o'tirasizmi?
-
-435
-00:47:11,467 --> 00:47:17,867
-Postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot o'zi chiqaradi.
-
-436
-00:47:17,927 --> 00:47:23,067
-Takrorlanishni o'zingiz tanlaysiz: bir marta, har kuni yoki har hafta.
-
-437
-00:47:23,127 --> 00:47:29,107
-Post Telegramda aynan qanday ko'rinishi ekranda darhol ko'rinib turadi — yuborishdan oldin.
-
-438
-00:47:29,167 --> 00:47:33,467
-Ishonchingiz komil bo'lmasa, avval faqat o'zingizga yuborib tekshirasiz.
-
-439
-00:47:33,527 --> 00:47:35,727
-TartibOn. Telegramda qidiring.
-
-440
-00:47:35,833 --> 00:47:39,713
-Guruhingiz o'smay qoldimi? Reklamaga pul sarflashni xohlamaysizmi?
-
-441
-00:47:39,773 --> 00:47:45,753
-Unda a'zolaringizning o'zi odam olib kelsin. Har biriga shaxsiy taklif havolasi beriladi.
-
-442
-00:47:45,813 --> 00:47:51,373
-Kim nechta odam olib kelgani aniq sanaladi va TOP ro'yxatda chiqadi.
-
-443
-00:47:51,433 --> 00:47:56,993
-Shu ro'yxatning o'zi musobaqa yaratadi — odamlar bir-biridan o'zishga harakat qiladi.
-
-444
-00:47:57,053 --> 00:48:04,993
-Eng kuchli usul: buni konkurs bilan birlashtiring. Eng ko'p odam taklif qilgan uchtaga sovg'a deng — guruh tez o'sadi.
-
-445
-00:48:05,053 --> 00:48:07,253
-TartibOn. Telegramda qidiring.
-
-446
-00:48:07,367 --> 00:48:10,827
-Kanalingiz o'syaptimi yoki pasayyaptimi? Aniq bilasizmi?
-
-447
-00:48:10,887 --> 00:48:17,707
-Statistika bo'limida hammasi ko'rinadi: kecha qancha qo'shilgan, yetti kunda va o'ttiz kunda qancha bo'lgan.
-
-448
-00:48:17,767 --> 00:48:23,747
-O'n to'rt kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
-
-449
-00:48:23,807 --> 00:48:30,207
-Guruh uchun xabarlar soni ham chiqadi — guruhingiz jonli yoki jonsizligini shu ko'rsatadi.
-
-450
-00:48:30,267 --> 00:48:35,827
-Hisobotni Excelga yuklab olasiz — reklama beruvchiga ko'rsatish uchun juda qulay.
-
-451
-00:48:35,887 --> 00:48:38,087
-TartibOn. Telegramda qidiring.
-
-452
-00:48:38,167 --> 00:48:41,207
-Guruhingizda hech kim yozmay qo'ydimi?
-
-453
-00:48:41,267 --> 00:48:46,827
-Bot belgilangan oraliqda o'zi savol berib turadi — to'rt variantli viktorina.
-
-454
-00:48:46,887 --> 00:48:53,707
-Mavzuni o'zingiz tanlaysiz: maktab va imtihon savollari yoki yo'l harakati qoidalari bo'yicha Prava testi.
-
-455
-00:48:53,767 --> 00:49:00,587
-To'g'ri javobga ochko beriladi, tezroq javob berganga ko'proq. Oxirida eng yaxshi o'nta e'lon qilinadi.
-
-456
-00:49:00,647 --> 00:49:06,627
-Bir necha kundan keyin a'zolarning o'zi savol chaqira boshlaydi — guruh jonlanadi.
-
-457
-00:49:06,687 --> 00:49:08,887
-TartibOn. Telegramda qidiring.
-
-458
-00:49:08,967 --> 00:49:12,427
-Kanalingizga mehnat qilasiz, lekin daromad yo'qmi?
-
-459
-00:49:12,487 --> 00:49:17,207
-Yopiq kanalingizga pullik obuna soting. Pul to'g'ridan-to'g'ri balansingizga tushadi.
-
-460
-00:49:17,267 --> 00:49:24,507
-Paketlar: bir, uch, olti va o'n ikki oylik. Narxni va uzoq muddatga chegirmani o'zingiz qo'yasiz.
-
-461
-00:49:24,567 --> 00:49:32,507
-Bepul sinov muddatini yoqsangiz, har bir odam bir marta bepul kirib ko'radi — shundan keyin ko'pchilik qoladi.
-
-462
-00:49:32,567 --> 00:49:40,507
-Qolgani avtomatik: kirish havolasi o'zi boradi, muddat tugashiga uch kun qolganda eslatma ketadi, tugaganda bot o'zi chiqaradi.
-
-463
-00:49:40,567 --> 00:49:42,767
-TartibOn. Telegramda qidiring.
-
-464
-00:49:42,833 --> 00:49:45,453
-Kanalingizga tez obunachi kerakmi?
-
-465
-00:49:45,513 --> 00:49:52,333
-Sovg'a o'yini o'tkazing. G'oliblar sonini va tugash vaqtini belgilaysiz — post tugmasi bilan chiqadi.
-
-466
-00:49:52,393 --> 00:49:59,213
-Ishtirok etish uchun obuna bo'lish shartini qo'yasiz — bu kanalni o'stirishning eng tez yo'li.
-
-467
-00:49:59,273 --> 00:50:05,253
-Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hech kim aralasha olmaydi — hammasi adolatli.
-
-468
-00:50:05,313 --> 00:50:09,613
-Konkursdan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi.
-
-469
-00:50:09,673 --> 00:50:11,873
-TartibOn. Telegramda qidiring.
-
-470
-00:50:11,967 --> 00:50:14,587
-Bir nechta guruh boshqarasizmi?
-
-471
-00:50:14,647 --> 00:50:19,787
-Hammasi bitta ekranda: a'zolar soni va bugun nechta xabar yozilgani.
-
-472
-00:50:19,847 --> 00:50:25,407
-Har bir guruh uchun alohida: himoya qoidalari, testlar va avtomatik xabarlar.
-
-473
-00:50:25,467 --> 00:50:31,027
-Guruh qo'shish oson: username yoki ID kiritasiz va botni administrator qilasiz.
-
-474
-00:50:31,087 --> 00:50:35,807
-Shu zahoti ishlay boshlaydi — guruh himoyasi avtomatik yoqiladi.
-
-475
-00:50:35,867 --> 00:50:38,067
-TartibOn. Telegramda qidiring.
-
-476
-00:50:38,167 --> 00:50:42,887
-TartibOn ilovasida kanal boshqaruvidan tashqari yana to'qqizta xizmat bor.
-
-477
-00:50:42,947 --> 00:50:47,247
-Ijtimoiy tarmoqlarga obunachi, layk va ko'rish buyurtma qilasiz.
-
-478
-00:50:47,307 --> 00:50:53,707
-Ro'yxatdan o'tish uchun bir martalik raqam olasiz — SMS kod shu yerda chiqadi.
-
-479
-00:50:53,767 --> 00:50:59,327
-Haydovchilik guvohnomasi imtihoniga bepul tayyorlanasiz — ming ikki yuz qirqta savol.
-
-480
-00:50:59,387 --> 00:51:05,787
-Kanal sotib olasiz yoki sotasiz — Telegram, YouTube va Instagram uchun alohida bo'lim.
-
-481
-00:51:05,847 --> 00:51:10,987
-Reklama birjasida pul kafolat ostida o'tadi — hech kim aldanmaydi.
-
-482
-00:51:11,047 --> 00:51:15,767
-Barcha pullik xizmatlar balans orqali ishlaydi. Bajarilmasa, pul qaytariladi.
-
-483
-00:51:15,827 --> 00:51:18,027
-TartibOn. Telegramda qidiring.
-
-484
-00:51:18,133 --> 00:51:20,753
-Kanalingiz juda sekin o'syaptimi?
-
-485
-00:51:20,813 --> 00:51:26,793
-Nakrutka bo'limida obunachi, layk, izoh va ko'rish buyurtma qilasiz. Narx darrov ko'rinadi.
-
-486
-00:51:26,853 --> 00:51:31,153
-Telegram, Instagram, YouTube, TikTok — tarmoqni o'zingiz tanlaysiz.
-
-487
-00:51:31,213 --> 00:51:36,353
-Buyurtma bajarilmasa pul to'liq qaytariladi. Qisman bajarilsa, bajarilmagan qismi qaytadi.
-
-488
-00:51:36,413 --> 00:51:41,133
-Katta miqdorga chegirma bor. Avvalgi buyurtmani bir bosishda takrorlaysiz.
-
-489
-00:51:41,193 --> 00:51:43,393
-TartibOn. Telegramda qidiring.
-
-490
-00:51:43,500 --> 00:51:48,220
-Telegram yoki boshqa tarmoqda ro'yxatdan o'tish uchun raqam kerakmi?
-
-491
-00:51:48,280 --> 00:51:53,000
-Buning uchun yangi SIM karta sotib olish shart emas.
-
-492
-00:51:53,060 --> 00:51:59,460
-Davlat va tarmoqni tanlaysiz, raqam darhol beriladi. SMS kod shu sahifaning o'zida chiqadi.
-
-493
-00:51:59,520 --> 00:52:04,660
-Agar kod o'n besh daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
-
-494
-00:52:04,720 --> 00:52:11,540
-Tanlashdan oldin yulduzcha belgisiga qarang — u oxirgi o'ttiz kundagi kod kelish foizini ko'rsatadi.
-
-495
-00:52:11,600 --> 00:52:13,800
-TartibOn. Telegramda qidiring.
-
-496
-00:52:13,900 --> 00:52:16,520
-Haydovchilik guvohnomasi imtihoniga tayyorlanyapsizmi?
-
-497
-00:52:16,580 --> 00:52:22,980
-Kitob sotib olish ham, kursga borish ham shart emas. Hammasi telefoningizda va bepul.
-
-498
-00:52:23,040 --> 00:52:30,980
-Ming ikki yuz qirqta original savol, oltmish ikkita bilet. Belgi, chiziq va chorraha bo'yicha rasmli savollar ham bor.
-
-499
-00:52:31,040 --> 00:52:37,020
-Imtihon rejimi haqiqiysiga o'xshatilgan: yigirma savol, yigirma besh daqiqa, ikkitagacha xatoga ruxsat.
-
-500
-00:52:37,080 --> 00:52:43,900
-Eng foydalisi — Xatolarim bo'limi. Noto'g'ri javob bergan savollaringiz to'planadi, aynan shular ustida ishlaysiz.
-
-501
-00:52:43,960 --> 00:52:46,160
-TartibOn. Telegramda qidiring.
-
-502
-00:52:46,267 --> 00:52:49,727
-Kanalingizni o'stirmoqchisiz, lekin reklamaga pul yo'qmi?
-
-503
-00:52:49,787 --> 00:52:56,187
-Unda o'zaro reklama qiling: siz uning kanalini, u sizning kanalingizni e'lon qiladi. Bepul.
-
-504
-00:52:56,247 --> 00:53:02,647
-Kanalingizni kategoriya bilan katalogga qo'shasiz. Boshqalar sizni topadi, siz ham qidirib taklif yuborasiz.
-
-505
-00:53:02,707 --> 00:53:08,687
-Maslahat: mavzuingizga yaqin kanalni tanlang — natija bir necha barobar kuchli bo'ladi.
-
-506
-00:53:08,747 --> 00:53:10,947
-TartibOn. Telegramda qidiring.
-
-507
-00:53:11,033 --> 00:53:15,333
-Telegram kanal sotib olmoqchimisiz yoki o'z kanalingizni sotmoqchimisiz?
-
-508
-00:53:15,393 --> 00:53:21,793
-Eng katta muammo — raqamlar. Sotuvchi obunachilar sonini o'zi yozsa, unga qanday ishonasiz?
-
-509
-00:53:21,853 --> 00:53:29,093
-Bu yerda raqamlar sotuvchidan emas — TartibOn statistikasidan avtomatik olinadi. Ya'ni soxta ko'rsatkich qo'yib bo'lmaydi.
-
-510
-00:53:29,153 --> 00:53:35,973
-To'lov esa vositachi orqali: pul admin qo'lida turadi va kanal topshirilgandan keyingina sotuvchiga beriladi.
-
-511
-00:53:36,033 --> 00:53:41,593
-Sotmoqchi bo'lsangiz, shu sahifada bitta tugma bosasiz — kanalingiz sotuvga chiqadi.
-
-512
-00:53:41,653 --> 00:53:43,853
-TartibOn. Telegramda qidiring.
-
-513
-00:53:43,967 --> 00:53:46,167
-YouTube kanalingizni sotmoqchimisiz?
-
-514
-00:53:46,227 --> 00:53:52,207
-Mening e'lonlarim bo'limiga kirib, kanal manzili, obunachilar soni, mavzu va narxni yozasiz.
-
-515
-00:53:52,267 --> 00:53:59,927
-Agar kanal pul topishga ulangan bo'lsa, monetizatsiya belgisini albatta qo'ying — bunday kanal ancha qimmatroq turadi.
-
-516
-00:53:59,987 --> 00:54:05,967
-Admin tekshirgan e'lonlarga ko'k belgi qo'yiladi — xaridorlar birinchi navbatda shularga ishonadi.
-
-517
-00:54:06,027 --> 00:54:11,587
-Savdo vositachi orqali: pul admin qo'lida turadi, akkaunt topshirilgach sotuvchiga o'tadi.
-
-518
-00:54:11,647 --> 00:54:13,847
-TartibOn. Telegramda qidiring.
-
-519
-00:54:13,933 --> 00:54:18,233
-Instagram sahifangizni sotmoqchimisiz yoki tayyor sahifa sotib olmoqchimisiz?
-
-520
-00:54:18,293 --> 00:54:23,433
-Barcha e'lonlar bitta joyda: username, obunachilar soni, mavzu va narx.
-
-521
-00:54:23,493 --> 00:54:30,733
-Ochiq aytamiz: Instagram akkauntlarida aldov xavfi eng yuqori. Akkaunt pul o'tgandan keyin qaytarib olinishi mumkin.
-
-522
-00:54:30,793 --> 00:54:37,613
-Shuning uchun vositachi xizmatidan foydalaning. Pul admin qo'lida turadi va akkaunt haqiqatan topshirilgach beriladi.
-
-523
-00:54:37,673 --> 00:54:43,233
-Sotib olishdan oldin ko'k belgiga qarang — u admin tekshirganini bildiradi.
-
-524
-00:54:43,293 --> 00:54:45,493
-TartibOn. Telegramda qidiring.
-
-525
-00:54:45,567 --> 00:54:51,127
-Reklama uchun pul to'ladingiz, lekin post bir soatdan keyin o'chirib yuborildimi?
-
-526
-00:54:51,187 --> 00:54:55,907
-Reklama birjasida bunday bo'lmaydi. Chunki pul kafolat ostida turadi.
-
-527
-00:54:55,967 --> 00:55:03,907
-To'lagan pulingiz darhol sotuvchiga o'tmaydi. Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin o'zi o'tadi.
-
-528
-00:55:03,967 --> 00:55:11,907
-Agar reklama muddatidan oldin o'chirilsa, nizo ochasiz va qarorni admin chiqaradi: pul sizga qaytadi yoki sotuvchiga beriladi.
-
-529
-00:55:11,967 --> 00:55:18,787
-Kanal egasi bo'lsangiz, narx va formatni o'zingiz belgilaysiz — buyurtma kelganda Joylash tugmasini bosasiz.
-
-530
-00:55:18,847 --> 00:55:21,047
-TartibOn. Telegramda qidiring.
-
-531
-00:55:21,133 --> 00:55:25,433
-Kanalingiz yangi va uni hali hech kim bilmaydimi?
-
-532
-00:55:25,493 --> 00:55:32,733
-Kanallar reytingida so'nggi yetti kunda eng tez o'sgan o'nta kanal chiqadi. Ro'yxat har kuni yangilanadi.
-
-533
-00:55:32,793 --> 00:55:40,733
-Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Demak kichik kanalning ham imkoni bor.
-
-534
-00:55:40,793 --> 00:55:48,733
-Tezroq natija kerak bo'lsa, pullik xizmat bor: kanalingiz yetti kun davomida Tavsiya etiladi qatorida, eng tepada turadi.
-
-535
-00:55:48,793 --> 00:55:54,353
-Bu yangi kanallar uchun birinchi obunachilarni olib kelishning eng tez yo'li.
-
-536
-00:55:54,413 --> 00:55:56,613
-TartibOn. Telegramda qidiring.
-
-537
-00:55:56,700 --> 00:56:01,000
-Kanalingizga har kuni nima post qilishni o'ylab charchadingizmi?
-
-538
-00:56:01,060 --> 00:56:07,460
-TartibOn'da oltita avtomatik post bor. Bir marta yoqasiz — keyin hech narsa qilmaysiz.
-
-539
-00:56:07,520 --> 00:56:13,080
-Namoz vaqtlari — har bir namozdan o'ttiz daqiqa keyin kanalingizga chiqadi.
-
-540
-00:56:13,140 --> 00:56:18,700
-Dollar kursi — banklar kursi o'zgargan zahoti rasmli post o'zi chiqadi.
-
-541
-00:56:18,760 --> 00:56:24,320
-Ob-havo — har kuni ertalab oltida o'n ikki viloyat ob-havosi yuboriladi.
-
-542
-00:56:24,380 --> 00:56:29,520
-Tongi va tungi xabar — video bilan, ertalab va kechqurun.
-
-543
-00:56:29,580 --> 00:56:34,720
-Bayram tabriklari esa har Juma va bayram kunlari o'zi ketadi.
-
-544
-00:56:34,780 --> 00:56:40,760
-Kalitni bir marta bosasiz va u barcha kanal hamda guruhlaringizga birdaniga yoqiladi.
-
-545
-00:56:40,820 --> 00:56:45,960
-Natija: kanalingiz har kuni jonli bo'ladi — siz uxlayotganingizda ham.
-
-546
-00:56:46,020 --> 00:56:48,220
-TartibOn. Telegramda qidiring.
-
-547
-00:56:48,300 --> 00:56:52,600
-Kanalingizga namoz vaqtlarini har kuni qo'lda yozib chiqasizmi?
-
-548
-00:56:52,660 --> 00:56:58,640
-Bot buni o'zi qiladi: o'n ikki viloyatning vaqti bitta chiroyli rasmga joylanadi.
-
-549
-00:56:58,700 --> 00:57:05,940
-Xabar azon vaqtida emas, har namozdan o'ttiz daqiqa keyin yuboriladi — odamlar namozni o'qib bo'lgach.
-
-550
-00:57:06,000 --> 00:57:11,140
-Hududni o'zingiz tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan.
-
-551
-00:57:11,200 --> 00:57:18,020
-Vaqtlar islom.uz taqvimi asosida. Manba ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi.
-
-552
-00:57:18,080 --> 00:57:20,280
-TartibOn. Telegramda qidiring.
-
-553
-00:57:20,367 --> 00:57:23,827
-Guruhingizda har kuni dollar kursi so'ralaveradimi?
-
-554
-00:57:23,887 --> 00:57:29,867
-Barcha banklarning olish va sotish kursi bitta chiroyli rasmda — logotiplari bilan.
-
-555
-00:57:29,927 --> 00:57:35,067
-Raqamlar bank saytlaridan avtomatik olinadi — qo'lda hech narsa kiritilmaydi.
-
-556
-00:57:35,127 --> 00:57:43,067
-Kurs o'zgargan zahoti post o'zi chiqadi. O'zgarmagan bo'lsa, bir xil postni qayta yubormaydi — obunachilaringiz bezovta bo'lmaydi.
-
-557
-00:57:43,127 --> 00:57:51,067
-Eng yuqori olish va eng arzon sotish narxi alohida belgilanadi — odam qaysi bankka borishni darrov ko'radi.
-
-558
-00:57:51,127 --> 00:57:53,327
-TartibOn. Telegramda qidiring.
-
-559
-00:57:53,400 --> 00:57:57,280
-Obunachilaringiz har kuni ochib ko'radigan post kerakmi?
-
-560
-00:57:57,340 --> 00:58:02,900
-Har kuni ertalab oltida o'n ikki viloyatning ob-havosi bitta postda yuboriladi.
-
-561
-00:58:02,960 --> 00:58:08,100
-Har bir viloyat uchun kunduzgi va tungi harorat alohida ko'rsatiladi.
-
-562
-00:58:08,160 --> 00:58:14,560
-Kuchli shamol, jazirama issiq, qattiq sovuq yoki do'l kutilsa, bot alohida ogohlantirish yuboradi.
-
-563
-00:58:14,620 --> 00:58:19,760
-Bosh sahifadagi kalitni yoqsangiz, xizmat barcha ulangan chatlarga birdaniga yoqiladi.
-
-564
-00:58:19,820 --> 00:58:22,020
-TartibOn. Telegramda qidiring.
-
-565
-00:58:22,133 --> 00:58:26,013
-Obunachilaringiz ertalab telefonni ochganda kanalingizda nima turadi?
-
-566
-00:58:26,073 --> 00:58:34,013
-Tongi xabar har kuni soat to'rt yarimda video bilan yuboriladi — ular uyg'onguncha post allaqachon tayyor turadi.
-
-567
-00:58:34,073 --> 00:58:41,733
+00:18:29,487 --> 00:18:37,567
 Matnda bugun haftaning qaysi kuni ekani, sana va hijriy sana avtomatik yoziladi. Siz hech narsa yozmaysiz.
 
+147
+00:18:37,627 --> 00:18:45,267
+Sozlashda haftaning qaysi kunlarida yuborilishini belgilaysiz. Masalan, faqat ish kunlari yoki faqat dam olish kunlari.
+
+148
+00:18:45,327 --> 00:18:52,527
+Yoqib qo'ygandan keyin bu xizmat butunlay avtomatik ishlaydi — kanalingiz har kuni jonli ko'rinadi.
+
+149
+00:18:52,587 --> 00:18:58,907
+Tungi xabar — kechqurun yuboriladigan «Xayrli tun» posti. Matn va video bilan.
+
+150
+00:18:58,967 --> 00:19:05,287
+Yuborish vaqti — kechki to'qqiz yarim. Odamlar telefonni eng ko'p ishlatadigan payt.
+
+151
+00:19:05,347 --> 00:19:13,867
+Haftaning har kuni uchun alohida tayyor matn bor — ya'ni post har kuni bir xil bo'lib ketmaydi.
+
+152
+00:19:13,927 --> 00:19:19,807
+Tongi xabardagidek, bu yerda ham haftaning qaysi kunlarida yuborilishini o'zingiz belgilaysiz.
+
+153
+00:19:19,867 --> 00:19:29,707
+Tongi va tungi xabarni birga yoqsangiz, kanalingizda kuniga kamida ikkita post bo'ladi — bu obunachilarni ushlab turishga katta yordam beradi.
+
+154
+00:19:29,767 --> 00:19:36,967
+Bayram tabriklari — har Juma va bayram kunlari kanal va guruhlaringizga yuboriladigan video tabrik.
+
+155
+00:19:37,027 --> 00:19:43,787
+Tabrik o'sha kuni belgilangan vaqtda o'zi yuboriladi — siz eslab turishingiz shart emas.
+
+156
+00:19:43,847 --> 00:19:50,167
+Savol: siz nima qilishingiz kerak? Hech narsa. Faqat kanalingiz ulangan bo'lsa yetarli.
+
+157
+00:19:50,227 --> 00:19:57,427
+Sahifada tabriklar ro'yxati va keyingi bayram qachon ekani ko'rinib turadi — rejalashtirish uchun qulay.
+
+158
+00:19:57,487 --> 00:20:02,487
+«Namuna» tugmasini bossangiz, tabrik kanalingizda qanday ko'rinishini oldindan ko'rasiz.
+
+159
+00:20:02,547 --> 00:20:10,627
+Ko'rib turganingizdek, bu oltita katakni bir marta sozlab qo'ysangiz, kanalingizda har kuni oltitagacha tayyor post chiqadi.
+
+160
+00:20:10,687 --> 00:20:17,447
+Keyingi darsda «Xizmatlar» ramkasini — nakrutka, eSIM, kanal savdosi va reklama birjasini ko'ramiz.
+
+161
+00:20:17,533 --> 00:20:28,253
+To'rtinchi dars — «Xizmatlar» ramkasi. Bu bo'limda to'qqizta katak bor: obunachi va layk buyurtma qilishdan tortib kanal sotib olish va reklama birjasigacha.
+
+162
+00:20:28,313 --> 00:20:34,633
+Bu xizmatlarning aksariyati balans orqali ishlaydi, shuning uchun diqqat bilan tomosha qiling.
+
+163
+00:20:34,693 --> 00:20:41,013
+Nakrutka bo'limi orqali ijtimoiy tarmoqlarda obunachi, layk, izoh va ko'rishlarni buyurtma qilasiz.
+
+164
+00:20:41,073 --> 00:20:46,513
+Birinchi qadam: tarmoqni tanlaysiz. Telegram, Instagram, YouTube, TikTok va boshqalar.
+
+165
+00:20:46,573 --> 00:20:51,573
+Ikkinchi qadam: xizmat turi. Obuna, layk, izoh yoki ko'rish.
+
+166
+00:20:51,633 --> 00:20:55,753
+Uchinchi qadam: havolani va kerakli miqdorni kiritasiz.
+
+167
+00:20:55,813 --> 00:21:02,133
+Narx shu zahoti ekranda ko'rinadi — buyurtma berishdan oldin qancha turishini bilasiz.
+
+168
+00:21:02,193 --> 00:21:05,873
+To'lov sizning ilova ichidagi balansingizdan yechiladi.
+
+169
+00:21:05,933 --> 00:21:09,613
+Agar buyurtma bajarilmasa, pul to'liq qaytariladi.
+
+170
+00:21:09,673 --> 00:21:16,433
+Qisman bajarilgan bo'lsa, bajarilmagan qismining puli qaytariladi. Ya'ni faqat haqiqiy natija uchun to'laysiz.
+
+171
+00:21:16,493 --> 00:21:22,373
+Katta miqdorga chegirma bor — bir martada ko'proq olish arzonroq tushadi.
+
+172
+00:21:22,433 --> 00:21:30,513
+Avvalgi buyurtmani «Takrorlash» tugmasi bilan bir bosishda qayta berasiz — hamma ma'lumotni qaytadan yozish shart emas.
+
+173
+00:21:30,573 --> 00:21:37,333
+Muhim shart: havola ochiq bo'lishi kerak. Yopiq kanal yoki yopiq sahifaga buyurtma bajarilmaydi.
+
+174
+00:21:37,393 --> 00:21:44,153
+Natija tezligi tarmoqqa bog'liq. Buyurtma holati va butun tarix shu sahifada ko'rinib turadi.
+
+175
+00:21:44,213 --> 00:21:51,853
+eSIM bo'limi ro'yxatdan o'tish uchun bir martalik virtual raqam va SMS kodni olish imkonini beradi.
+
+176
+00:21:51,913 --> 00:21:54,853
+Birinchi qadam: davlatni tanlaysiz.
+
+177
+00:21:54,913 --> 00:22:01,673
+Ikkinchi qadam: qaysi tarmoq uchun kerakligini belgilaysiz — Telegram, WhatsApp, Instagram va boshqalar.
+
+178
+00:22:01,733 --> 00:22:06,733
+Uchinchi qadam: «Olish» tugmasini bosasiz va sizga raqam beriladi.
+
+179
+00:22:06,793 --> 00:22:11,353
+Raqamni nusxalab, o'sha tarmoqning ro'yxatdan o'tish oynasiga kiritasiz.
+
+180
+00:22:11,413 --> 00:22:19,493
+Kelgan SMS kod avtomatik ravishda shu sahifaning o'zida paydo bo'ladi — boshqa joyga qarash shart emas.
+
+181
+00:22:19,553 --> 00:22:24,993
+Agar kod taxminan 15 daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
+
+182
+00:22:25,053 --> 00:22:31,813
+Lekin diqqat: kod kelgandan keyin pul qaytarilmaydi. Shuning uchun kodni o'z vaqtida ishlating.
+
+183
+00:22:31,873 --> 00:22:37,313
+Raqam yoqmasa, «Boshqa raqam» tugmasi bir yarim daqiqadan keyin ochiladi.
+
+184
+00:22:37,373 --> 00:22:48,093
+Har bir yo'nalishda yulduzcha belgisi bor — bu so'nggi 30 kunda kod kelish foizi va o'rtacha vaqtni ko'rsatadi. Tanlashdan oldin shunga qarang.
+
+185
+00:22:48,153 --> 00:22:54,473
+Ochiq aytamiz: platforma raqamni qabul qilishi kafolatlanmaydi — bu virtual raqamlarning tabiati.
+
+186
+00:22:54,533 --> 00:22:59,533
+Prava bo'limi — haydovchilik guvohnomasi nazariy imtihoniga bepul tayyorgarlik.
+
+187
+00:22:59,593 --> 00:23:07,233
+Bazada bir ming ikki yuz qirqta original savol bor — barchasi yo'l harakati qoidalari asosida.
+
+188
+00:23:07,293 --> 00:23:13,613
+Oltmish ikkita bilet tuzilgan, har birida yigirmata savol — xuddi haqiqiy imtihondagidek.
+
+189
+00:23:13,673 --> 00:23:19,553
+Mavzular bo'yicha alohida mashq qilish mumkin — zaif joyingizni nishonga olasiz.
+
+190
+00:23:19,613 --> 00:23:25,493
+Rasmli savollar bor: belgi, chiziq, svetofor va chorrahada kim birinchi o'tishi.
+
+191
+00:23:25,553 --> 00:23:32,753
+Imtihon rejimi haqiqiysiga o'xshatilgan: odatda yigirma savol, yigirma besh daqiqa va ikkitagacha xatoga ruxsat.
+
+192
+00:23:32,813 --> 00:23:40,453
+«Xatolarim» bo'limida noto'g'ri javob bergan savollaringiz to'planadi. Aynan shular ustida ishlang — natija tez ko'tariladi.
+
+193
+00:23:40,513 --> 00:23:45,953
+Qiyin savolni yulduzcha bilan belgilab qo'yasiz, u «Saqlanganlar» ga tushadi.
+
+194
+00:23:46,013 --> 00:23:51,893
+Tayyorgarlik foizingiz va oxirgi natijalaringiz ko'rinib turadi — o'sish aniq seziladi.
+
+195
+00:23:51,953 --> 00:23:59,153
+Guruhda /prava deb yozsangiz, bot savol beradi — guruh a'zolari birga mashq qilishi mumkin.
+
+196
+00:23:59,213 --> 00:24:05,533
+O'zaro reklama — kanal egalari bir-birini topib, bepul o'zaro reklama kelishadigan katalog.
+
+197
+00:24:05,593 --> 00:24:10,153
+Birinchi qadam: kanalingizni mos kategoriya bilan katalogga qo'shasiz.
+
+198
+00:24:10,213 --> 00:24:15,653
+Shundan keyin boshqa kanal egalari sizni ko'radi va taklif yuboradi.
+
+199
+00:24:15,713 --> 00:24:21,153
+Siz ham katalogdan mavzuingizga yaqin kanalni qidirib, taklif yuborishingiz mumkin.
+
+200
+00:24:21,213 --> 00:24:29,293
+Bu — pul sarflamasdan o'sishning eng yaxshi usuli. Auditoriyangizga yaqin kanalni tanlang, shunda natija kuchli bo'ladi.
+
+201
+00:24:29,353 --> 00:24:36,113
+Kanal Savdo YouTube — YouTube kanallarini sotish va sotib olish uchun alohida bo'lim.
+
+202
+00:24:36,173 --> 00:24:40,733
+Sotmoqchi bo'lsangiz, «Mening e'lonlarim» bo'limiga kirib e'lon qo'shasiz.
+
+203
+00:24:40,793 --> 00:24:45,793
+Kanal manzili, obunachilar soni, mavzu, narx va tavsifni yozasiz.
+
+204
+00:24:45,853 --> 00:24:54,813
+YouTube uchun alohida monetizatsiya belgisi bor — pul topishga ulangan kanal qimmatroq turadi, shuning uchun buni albatta ko'rsating.
+
+205
+00:24:54,873 --> 00:25:01,633
+Ma'lumotni sotuvchi kiritadi. Admin tekshirgan e'lonlarga ko'k belgi qo'yiladi — bu ishonch belgisi.
+
+206
+00:25:01,693 --> 00:25:11,093
+Xavfsiz savdo uchun «Vositachi» xizmati bor: pul admin orqali o'tadi va akkaunt topshirilgandan keyingina sotuvchiga beriladi. Vositachilik haqi olinadi.
+
+207
+00:25:11,153 --> 00:25:18,353
+Maslahat: notanish odam bilan to'g'ridan-to'g'ri pul almashmang. Vositachi xizmati aynan aldanmaslik uchun o'ylab topilgan.
+
+208
+00:25:18,413 --> 00:25:25,173
+Kanal Savdo Telegram — Telegram kanal va guruhlarini sotish va sotib olish bo'limi.
+
+209
+00:25:25,233 --> 00:25:31,553
+Eng muhim farqi: bu yerdagi obunachi va o'sish raqamlari TartibOn statistikasidan olinadi.
+
+210
+00:25:31,613 --> 00:25:41,013
+Ya'ni raqamlarni sotuvchi o'zi yozmaydi — bot o'zi hisoblaydi. Demak soxta ko'rsatkich qo'yib bo'lmaydi. Xaridor uchun bu katta ishonch.
+
+211
+00:25:41,073 --> 00:25:46,513
+Sotish uchun shu sahifaning o'zida «Kanalimni sotuvga qo'yish» tugmasini bosasiz.
+
+212
+00:25:46,573 --> 00:25:52,013
+Shart: kanalingiz botga ulangan bo'lishi kerak, aks holda statistika hisoblanmaydi.
+
+213
+00:25:52,073 --> 00:26:00,153
+Bu yerda ham vositachi xizmati ishlaydi — pul admin orqali o'tadi va kanal topshirilgach sotuvchiga beriladi.
+
+214
+00:26:00,213 --> 00:26:06,093
+Kanal Savdo Instagram — Instagram sahifalarini sotish va sotib olish bo'limi.
+
+215
+00:26:06,153 --> 00:26:12,473
+E'lon qo'shish «Mening e'lonlarim» orqali: username, obunachilar soni, mavzu, narx va tavsif.
+
+216
+00:26:12,533 --> 00:26:17,533
+Instagram raqamlarini bot tekshira olmaydi, ularni sotuvchi o'zi kiritadi.
+
+217
+00:26:17,593 --> 00:26:24,793
+Admin tekshirgan e'lonlar ko'k belgi oladi — xarid qilishdan oldin shu belgiga e'tibor bering.
+
+218
+00:26:24,853 --> 00:26:31,613
+Instagram akkauntlarida aldov xavfi yuqoriroq. Shuning uchun vositachi xizmatidan foydalanishni qattiq tavsiya qilamiz.
+
+219
+00:26:31,673 --> 00:26:37,553
+Reklama birjasi — kanallar orasida reklama sotib olish va sotish maydoni.
+
+220
+00:26:37,613 --> 00:26:41,733
+Sotuvchi bo'lsangiz: reklama narxini va formatini belgilaysiz.
+
+221
+00:26:41,793 --> 00:26:53,733
+Format degani — reklama qancha turishi. Bir soat tepada va yigirma to'rt soat kanalda, ikki soat va qirq sakkiz soat, yoki umuman o'chirilmaydigan doimiy post.
+
+222
+00:26:53,793 --> 00:26:58,793
+Buyurtma kelganda «Joylash» tugmasini bosasiz va reklama kanalingizga chiqadi.
+
+223
+00:26:58,853 --> 00:27:05,173
+Eng muhim funksiya — pul kafolati. Xaridor to'lagan pul darhol sotuvchiga o'tmaydi.
+
+224
+00:27:05,233 --> 00:27:13,753
+Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin pul o'zi sotuvchiga tushadi.
+
+225
+00:27:13,813 --> 00:27:20,573
+Agar reklama muddatidan oldin o'chirilsa yoki kelishilgandek bo'lmasa, xaridor «Nizo ochish» tugmasini bosadi.
+
+226
+00:27:20,633 --> 00:27:27,833
+Nizoni admin ko'rib chiqadi va qaror qabul qiladi: sotuvchiga to'lash yoki xaridorga pulni qaytarish.
+
+227
+00:27:27,893 --> 00:27:34,213
+Xaridor bo'lsangiz, reklamani vositachisiz, to'g'ridan-to'g'ri kanal egasidan olasiz — ortiqcha ustama yo'q.
+
+228
+00:27:34,273 --> 00:27:40,593
+Ko'k belgili kanallar TartibOn tomonidan tekshirilgan. Yangi bo'lsangiz, avval shunday kanallardan boshlang.
+
+229
+00:27:40,653 --> 00:27:46,973
+Kanallar reytingi — so'nggi yetti kunda eng tez o'sgan o'nta kanal ro'yxati.
+
+230
+00:27:47,033 --> 00:27:51,593
+Reyting har kuni yangilanadi, ya'ni ro'yxat doim jonli.
+
+231
+00:27:51,653 --> 00:28:01,493
+Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Kichik kanallarning ham chiqish imkoni bor.
+
+232
+00:28:01,553 --> 00:28:09,633
+Pullik xizmat ham bor: «Kanalimni ko'tarish». Kanalingiz yetti kun davomida «Tavsiya etiladi» qatorida, eng tepada turadi.
+
+233
+00:28:09,693 --> 00:28:14,693
+Ko'tarish narxini admin belgilaydi — joriy narx sahifada ko'rinadi.
+
+234
+00:28:14,753 --> 00:28:23,713
+Bu xizmat yangi kanallar uchun ayniqsa foydali: hali obunachingiz kam bo'lsa ham, birinchi odamlarni olib kelishning tez yo'li.
+
+235
+00:28:23,773 --> 00:28:34,053
+«Xizmatlar» bo'limi shu bilan tugadi. Esda tuting: barcha pullik xizmatlar balans orqali o'tadi va har birida pul qaytarish qoidasi aniq yozilgan.
+
+236
+00:28:34,113 --> 00:28:40,433
+Keyingi darsda «Savdo admin» — biznes e'lonlari uchun tayyor post shablonlarini ko'ramiz.
+
+237
+00:28:40,533 --> 00:28:51,253
+Beshinchi dars — «Savdo admin» ramkasi. Bu bo'lim biznes bilan shug'ullanadiganlar uchun: taksi, avto savdo, ko'chmas mulk, vakansiya, o'quv markazi va boshqalar.
+
+238
+00:28:51,313 --> 00:29:03,253
+Mohiyati oddiy — siz ma'lumotni kiritasiz, bot chiroyli post rasmini o'zi chizib beradi va kanalingizga tugma bilan yuboradi. Dizayner ham, grafik dasturi ham kerak emas.
+
+239
+00:29:03,313 --> 00:29:10,953
+Avval barcha post bo'limlariga xos bo'lgan umumiy tartibni tushuntiraman. Birinchi qadam: mavzuingizga mos katakni tanlaysiz.
+
+240
+00:29:11,013 --> 00:29:19,093
+Ikkinchi qadam: bir dona, ikki yoki uchta rasm yuklaysiz. Rasm sifatli bo'lsa, post ham chiroyli chiqadi.
+
+241
+00:29:19,153 --> 00:29:25,913
+Uchinchi qadam: narx, manzil, tavsif kabi maydonlarni to'ldirasiz. Har bo'limda maydonlar o'ziga xos.
+
+242
+00:29:25,973 --> 00:29:32,293
+To'rtinchi qadam: bot ma'lumotlarni chiroyli post rasmiga joylaydi. Siz faqat natijani ko'rasiz.
+
+243
+00:29:32,353 --> 00:29:37,793
+Beshinchi qadam: postni tugmasi bilan birga kanal yoki guruhingizga yuborasiz.
+
+244
+00:29:37,853 --> 00:29:47,693
+Har bir e'londa mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish», «Buyurtma berish» kabi. Mijoz bir bosadi va sizga yoziladi.
+
+245
+00:29:47,753 --> 00:29:58,473
+Eng muhim maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlasangiz, barcha bo'limlar shuni avtomatik oladi.
+
+246
+00:29:58,533 --> 00:30:03,973
+Taksi e'loni — taksi xizmati ko'rsatadiganlar uchun tayyor post shabloni.
+
+247
+00:30:04,033 --> 00:30:08,593
+Avval yo'nalishni kiritasiz: qayerdan jo'nashingiz va qayerga borishingiz.
+
+248
+00:30:08,653 --> 00:30:12,333
+Keyin sana va jo'nash vaqtini belgilaysiz.
+
+249
+00:30:12,393 --> 00:30:20,033
+Nechta bo'sh joy borligini va mashina modelini yozasiz — yo'lovchi uchun bu eng muhim ma'lumot.
+
+250
+00:30:20,093 --> 00:30:24,653
+Telefon raqamingizni kiritasiz, so'ng post rasmi tayyor bo'ladi.
+
+251
+00:30:24,713 --> 00:30:31,473
+Post tagida «Haydovchiga yozish» tugmasi chiqadi — yo'lovchi bir bosib siz bilan bog'lanadi.
+
+252
+00:30:31,533 --> 00:30:41,373
+Bu shablon mahalla guruhlari va yo'nalish guruhlari uchun juda qulay. Har kuni bir xil yo'nalishni yuboradigan bo'lsangiz, postni nusxalab qo'ying.
+
+253
+00:30:41,433 --> 00:30:45,993
+Avto savdo — mashina sotish uchun post shabloni.
+
+254
+00:30:46,053 --> 00:30:51,933
+Mashinaning suratlarini yuklaysiz, so'ng ishlab chiqarilgan yili, probegi va rangini kiritasiz.
+
+255
+00:30:51,993 --> 00:30:55,233
+Narxni va mashina holatini yozasiz.
+
+256
+00:30:55,293 --> 00:31:01,613
+Post tagida «Sotuvchiga yozish» tugmasi bo'ladi — xaridor darhol siz bilan bog'lanadi.
+
+257
+00:31:01,673 --> 00:31:08,433
+Maslahat: probeg va holatni haqiqatga mos yozing. Avto guruhlarida ishonch eng qimmat narsa.
+
+258
+00:31:08,493 --> 00:31:15,693
+Savdogar — umumiy savdo e'loni. Kiyim, texnika, uy jihozlari — istalgan mahsulot uchun ishlatiladi.
+
+259
+00:31:15,753 --> 00:31:20,753
+Mahsulot rasmini yuklaysiz, nomini, narxini va qisqa tavsifini yozasiz.
+
+260
+00:31:20,813 --> 00:31:27,133
+Post tagida «Sotuvchi bilan bog'lanish» tugmasi chiqadi va xaridor to'g'ridan-to'g'ri sizga yozadi.
+
+261
+00:31:27,193 --> 00:31:34,833
+Barcha mahsulotlaringizni shu shablon bilan chiqarsangiz, postlaringiz bir xil uslubda bo'ladi va do'koningiz tanila boshlaydi.
+
+262
+00:31:34,893 --> 00:31:39,453
+Sayohat e'loni — turagentliklar uchun maxsus tayyorlangan shablon.
+
+263
+00:31:39,513 --> 00:31:45,833
+Uchta tayyor ko'rinish bor: oddiy tur paket, qaynoq tur va Umra shabloni.
+
+264
+00:31:45,893 --> 00:31:49,133
+Yo'nalishni, sanani va narxni kiritasiz.
+
+265
+00:31:49,193 --> 00:31:56,393
+Narxga nimalar kirishini alohida yozasiz — aviabilet, mehmonxona, ovqat, viza. Bu savollarning yarmini kamaytiradi.
+
+266
+00:31:56,453 --> 00:32:02,333
+Post tagida «Bron qilish» tugmasi chiqadi va mijoz to'g'ridan-to'g'ri sizga yozadi.
+
+267
+00:32:02,393 --> 00:32:06,953
+O'quv markazi — kurslarga qabul e'lonlari uchun shablon.
+
+268
+00:32:07,013 --> 00:32:12,013
+Kursning boshlanish sanasini va necha oy davom etishini kiritasiz.
+
+269
+00:32:12,073 --> 00:32:15,313
+Narxni va to'lov shartlarini yozasiz.
+
+270
+00:32:15,373 --> 00:32:22,133
+Post tagida «Kursga yozilish» tugmasi bo'ladi — talaba bir bosadi va sizga tushadi.
+
+271
+00:32:22,193 --> 00:32:31,153
+Maslahat: qabul tugashiga bir hafta qolganda postni qayta yuboring — «joylar tugayapti» degan post eng ko'p ariza keltiradi.
+
+272
+00:32:31,213 --> 00:32:37,093
+Ko'chmas mulk — uy, kvartira sotish yoki ijaraga berish e'lonlari uchun.
+
+273
+00:32:37,153 --> 00:32:41,713
+Obyekt suratlarini yuklaysiz va maydonini kvadrat metrda yozasiz.
+
+274
+00:32:41,773 --> 00:32:45,893
+Qavat, umumiy qavatlar soni va narxni kiritasiz.
+
+275
+00:32:45,953 --> 00:32:49,193
+Post tagida «Bog'lanish» tugmasi chiqadi.
+
+276
+00:32:49,253 --> 00:32:57,333
+Maslahat: uchta suratni ham to'liq ishlating. Ko'chmas mulkda surat qancha ko'p bo'lsa, murojaat shuncha ko'p bo'ladi.
+
+277
+00:32:57,393 --> 00:33:01,953
+Vakansiya — ishga odam qidirayotganlar uchun post shabloni.
+
+278
+00:33:02,013 --> 00:33:05,253
+Lavozim nomini va maoshni yozasiz.
+
+279
+00:33:05,313 --> 00:33:09,433
+Ish vaqtini va nomzodga qo'yilgan talablarni kiritasiz.
+
+280
+00:33:09,493 --> 00:33:15,373
+Post tagida «Rezyume yuborish» tugmasi bo'ladi — nomzod to'g'ridan-to'g'ri sizga yozadi.
+
+281
+00:33:15,433 --> 00:33:22,633
+Maslahat: maosh raqamini albatta yozing. Maoshi ko'rsatilmagan e'lonlar bir necha barobar kam javob oladi.
+
+282
+00:33:22,693 --> 00:33:28,573
+Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
+
+283
+00:33:28,633 --> 00:33:32,313
+Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
+
+284
+00:33:32,373 --> 00:33:36,053
+Chegirma foizini yoki aksiya shartini ko'rsatasiz.
+
+285
+00:33:36,113 --> 00:33:39,793
+Post tagida «Buyurtma berish» tugmasi chiqadi.
+
+286
+00:33:39,853 --> 00:33:47,933
+Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
+
+287
+00:33:47,993 --> 00:33:54,313
+Salon va klinika — go'zallik saloni yoki tibbiy klinika xizmatlari uchun shablon.
+
+288
+00:33:54,373 --> 00:33:58,053
+Xizmatlar va ularning narxlari ro'yxatini kiritasiz.
+
+289
+00:33:58,113 --> 00:34:01,353
+Vaqtinchalik aksiyani ham qo'shishingiz mumkin.
+
+290
+00:34:01,413 --> 00:34:07,733
+Post tagida «Navbatga yozilish» tugmasi bo'ladi — mijoz bir bosib navbat so'raydi.
+
+291
+00:34:07,793 --> 00:34:15,433
+Eslatma: tibbiyot sohasida natija kafolati kabi va'dalarni yozishda ehtiyot bo'ling — qonun talablariga rioya qiling.
+
+292
+00:34:15,493 --> 00:34:21,373
+Statistikam bo'limi — siz yuborgan e'lonlardagi tugmalarni necha kishi bosgani sanaladi.
+
+293
+00:34:21,433 --> 00:34:28,193
+«Bog'lanish», «Bron qilish», «Buyurtma berish» — qaysi tugma necha marta bosilgani alohida ko'rinadi.
+
+294
+00:34:28,253 --> 00:34:34,133
+Shu orqali qaysi e'lon ishlayapti, qaysi biri bekorga ketayotganini aniq bilasiz.
+
+295
+00:34:34,193 --> 00:34:42,713
+Agar hali e'lon yubormagan bo'lsangiz, bu bo'lim bo'sh turadi. Birinchi postni yuboring, raqamlar shundan keyin paydo bo'ladi.
+
+296
+00:34:42,773 --> 00:34:51,293
+Maslahat: bitta mahsulotni ikki xil matn bilan sinab ko'ring va qaysi biri ko'proq bosilganini shu yerdan solishtiring.
+
+297
+00:34:51,353 --> 00:34:57,673
+Brend to'plamida birinchi navbatda brend rangingizni tanlaysiz — postlar shu rangda chiziladi.
+
+298
+00:34:57,733 --> 00:35:03,173
+Keyin aloqa uchun username'ingizni yozasiz — mijoz shu manzilga yoziladi.
+
+299
+00:35:03,233 --> 00:35:07,353
+Tugmada qanday yozuv turishini ham o'zingiz belgilaysiz.
+
+300
+00:35:07,413 --> 00:35:15,933
+Bir marta saqlasangiz, barcha post bo'limlari — Savdogar, Taksi, Sayohat va qolganlari — shu sozlamani avtomatik oladi.
+
+301
+00:35:15,993 --> 00:35:27,153
+Shuning uchun aytdim: «Savdo admin» bilan ishlashni aynan shu katakdan boshlang. Bir martalik ish, lekin barcha postlaringiz bir xil, tanilarli ko'rinishga ega bo'ladi.
+
+302
+00:35:27,213 --> 00:35:37,053
+«Savdo admin» bo'limi shunday ishlaydi. Esda tuting: avval «Brend to'plami» ni to'ldiring, keyin «Statistikam» orqali qaysi e'lon ishlayotganini kuzatib boring.
+
+303
+00:35:37,113 --> 00:35:43,873
+Oxirgi, oltinchi darsda «Ilova» bo'limini — balans, bot yaratish va yordam xizmatini ko'ramiz.
+
+304
+00:35:43,967 --> 00:35:55,127
+Oltinchi va oxirgi dars — «Ilova» ramkasi. Bu yerda to'rtta katak bor: balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+
+305
+00:35:55,187 --> 00:36:01,947
+Balans eng muhimi — chunki barcha pullik xizmatlar aynan shu hisob orqali ishlaydi.
+
+306
+00:36:02,007 --> 00:36:10,967
+Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+
+307
+00:36:11,027 --> 00:36:16,467
+To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+
+308
+00:36:16,527 --> 00:36:20,647
+Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+
+309
+00:36:20,707 --> 00:36:24,387
+Uchinchi qadam: «To'lov qildim» tugmasini bosasiz.
+
+310
+00:36:24,447 --> 00:36:28,567
+Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+
+311
+00:36:28,627 --> 00:36:37,587
+Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+
+312
+00:36:37,647 --> 00:36:44,847
+Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+
+313
+00:36:44,907 --> 00:36:51,227
+Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+
+314
+00:36:51,287 --> 00:36:57,607
+Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+
+315
+00:36:57,667 --> 00:37:04,427
+Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+
+316
+00:37:04,487 --> 00:37:09,047
+Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+
+317
+00:37:09,107 --> 00:37:18,067
+Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+
+318
+00:37:18,127 --> 00:37:27,087
+To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — «Balans» sahifasidagi «Adminga murojaat» qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+
+319
+00:37:27,147 --> 00:37:33,027
+Bot yaratish — biznesingiz uchun alohida Telegram bot buyurtma qilish xizmati.
+
+320
+00:37:33,087 --> 00:37:41,607
+Nima qilish mumkin: onlayn do'kon boti, navbat boti, to'lov qabul qiluvchi bot, sun'iy intellektli yordamchi va boshqalar.
+
+321
+00:37:41,667 --> 00:37:49,747
+Birinchi qadam: «Murojaat qilish» tugmasini bosib, g'oyangizni yozasiz. Botingiz nima qilishi kerakligini oddiy so'z bilan tushuntirasiz.
+
+322
+00:37:49,807 --> 00:37:54,807
+Ikkinchi qadam: sizga narx va muddat aytiladi, kelishib olasiz.
+
+323
+00:37:54,867 --> 00:37:58,987
+Odatda bot uch kun ichida tayyor bo'ladi.
+
+324
+00:37:59,047 --> 00:38:06,247
+Murojaat qilishdan oldin tayyor namunalarni so'rang — shunga qarab o'z botingizni aniqroq tasavvur qilasiz.
+
+325
+00:38:06,307 --> 00:38:10,867
+Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+
+326
+00:38:10,927 --> 00:38:18,567
+Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+
+327
+00:38:18,627 --> 00:38:26,707
+Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, «Balans» sahifasidagi «Adminga murojaat» qatoridan foydalaning.
+
+328
+00:38:26,767 --> 00:38:35,287
+Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+
+329
+00:38:35,347 --> 00:38:45,627
+«Profil» bo'limida «Tilaklar qutisi» ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+
+330
+00:38:45,687 --> 00:38:50,247
+Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
+
+331
+00:38:50,307 --> 00:38:57,947
+Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
+
+332
+00:38:58,007 --> 00:39:03,447
+Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
+
+333
+00:39:03,507 --> 00:39:12,907
+Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
+
+334
+00:39:12,967 --> 00:39:21,927
+Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
+
+335
+00:39:21,987 --> 00:39:31,827
+Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
+
+336
+00:39:31,887 --> 00:39:39,527
+Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
+
+337
+00:39:39,587 --> 00:39:50,747
+Shu bilan TartibOn video qo'llanmasi yakunlandi. Oltita darsda bosh sahifadagi barcha bo'limlarni ko'rib chiqdik. Endi ilovani oching, kanalingizni ulang va keraklisini sinab ko'ring.
+
+338
+00:39:50,807 --> 00:39:56,687
+Savol bo'lsa — «Savol va takliflar» orqali yozing. E'tiboringiz uchun rahmat!
+
+339
+00:39:56,767 --> 00:39:59,387
+Telegram guruhlarida kiyim-kechak sotasizmi?
+
+340
+00:39:59,447 --> 00:40:03,327
+Rasmingiz yuzlab boshqa postlar orasida yo'qolib ketyaptimi?
+
+341
+00:40:03,387 --> 00:40:07,687
+Narxni va o'lchamni har safar izohga qaytadan yozyapsizmi?
+
+342
+00:40:07,747 --> 00:40:13,307
+Endi bunday qilish shart emas. Bir daqiqada tayyor, chiroyli post olasiz.
+
+343
+00:40:13,367 --> 00:40:16,407
+Birinchi qadam: mahsulotingizning suratini yuklaysiz.
+
+344
+00:40:16,467 --> 00:40:19,507
+Ikkinchi qadam: mahsulot nomini yozasiz.
+
+345
+00:40:19,567 --> 00:40:25,547
+Uchinchi qadam: qisqa tavsif. O'lchamlar, rang yoki yetkazib berish haqida bir qator.
+
+346
+00:40:25,607 --> 00:40:30,747
+To'rtinchi qadam: narxni yozasiz. Narx post ustida yirik qilib chiqadi.
+
+347
+00:40:30,807 --> 00:40:34,267
+Tamom. Post rasmi o'zi tayyor bo'ldi.
+
+348
+00:40:34,327 --> 00:40:39,887
+Rasmni yuklab olasiz va guruhga tashlaysiz. Yoki ilovaning o'zidan to'g'ridan-to'g'ri yuborasiz.
+
+349
+00:40:39,947 --> 00:40:45,927
+Endi postingiz ajralib turadi. Narx, tavsif va aloqa — hammasi bitta rasmda.
+
+350
+00:40:45,987 --> 00:40:50,287
+Va bu butunlay bepul. Hech qanday to'lov yo'q.
+
+351
+00:40:50,347 --> 00:40:54,647
+TartibOn. Telegramda qidiring va bugunoq birinchi postingizni yarating.
+
+352
+00:40:54,733 --> 00:40:59,033
+Biznesingiz bormi? Lekin e'lonlaringiz oddiy va ko'zga tashlanmaydimi?
+
+353
+00:40:59,093 --> 00:41:03,813
+Dizayner yollash ham, grafik dastur o'rganish ham kerak emas.
+
+354
+00:41:03,873 --> 00:41:06,913
+Mahsulot sotasizmi — Savdogar bo'limi.
+
+355
+00:41:06,973 --> 00:41:10,013
+Mashina sotasizmi — Avto savdo.
+
+356
+00:41:10,073 --> 00:41:13,533
+Uy yoki kvartira — Ko'chmas mulk.
+
+357
+00:41:13,593 --> 00:41:16,633
+Ishga odam qidiryapsizmi — Vakansiya.
+
+358
+00:41:16,693 --> 00:41:20,573
+Kursga qabul e'lon qilyapsizmi — O'quv markazi.
+
+359
+00:41:20,633 --> 00:41:25,353
+Kafe yoki restoran bo'lsa — menyu va aksiya posti.
+
+360
+00:41:25,413 --> 00:41:29,293
+Salon yoki klinika — narxlar ro'yxati bilan.
+
+361
+00:41:29,353 --> 00:41:35,333
+Hammasi bir xil ishlaydi: rasm va bir nechta maydon — tayyor post.
+
+362
+00:41:35,393 --> 00:41:39,273
+TartibOn. Telegramda qidiring — bepul sinab ko'ring.
+
+363
+00:41:39,367 --> 00:41:44,087
+Haydovchimisiz? Har kuni guruhga bir xil matn yozib charchadingizmi?
+
+364
+00:41:44,147 --> 00:41:47,187
+Yo'nalishni kiritasiz: qayerdan va qayerga.
+
+365
+00:41:47,247 --> 00:41:51,967
+Jo'nash sanasi, vaqti, bo'sh joylar soni va mashina modeli.
+
+366
+00:41:52,027 --> 00:41:57,587
+Va mana — tayyor post. Telefon raqamingiz va aloqa manzilingiz bilan.
+
+367
+00:41:57,647 --> 00:42:03,207
+Yo'lovchi post tagidagi «Haydovchiga yozish» tugmasini bosadi va to'g'ridan-to'g'ri sizga yoziladi.
+
+368
+00:42:03,267 --> 00:42:09,667
+Har kuni qaytadan yozishning hojati yo'q — eski postni nusxalab, faqat sanani o'zgartirasiz.
+
+369
+00:42:09,727 --> 00:42:11,927
+TartibOn. Telegramda qidiring.
+
+370
+00:42:12,000 --> 00:42:14,140
+Mashina sotyapsizmi?
+
+371
+00:42:14,200 --> 00:42:20,600
+Telefonda olingan oddiy rasm xaridorda ishonch uyg'otmaydi. U yil, probeg va holatni qidiradi.
+
+372
+00:42:20,660 --> 00:42:27,060
+Shu ilovada hammasi bitta chiroyli rasmga joylanadi: yil, probeg, rang, holati va narx.
+
+373
+00:42:27,120 --> 00:42:33,100
+Post tagida «Sotuvchiga yozish» tugmasi — xaridor bir bosib siz bilan bog'lanadi.
+
+374
+00:42:33,160 --> 00:42:37,040
+Avto guruhlarida e'loningiz boshqalardan darhol ajralib turadi.
+
+375
+00:42:37,100 --> 00:42:39,300
+TartibOn. Telegramda qidiring.
+
+376
+00:42:39,400 --> 00:42:42,860
+Uy, kvartira sotyapsizmi yoki ijaraga beryapsizmi?
+
+377
+00:42:42,920 --> 00:42:50,160
+Maydon, qavat va narx — bularning hammasi odatda izohda qolib ketadi va hech kim o'qimaydi.
+
+378
+00:42:50,220 --> 00:42:54,940
+Endi bu ma'lumotlar rasmning o'zida, suratlar bilan birga chiqadi.
+
+379
+00:42:55,000 --> 00:43:00,140
+Ta'mir holati, jihozlangani va hujjatlar — alohida belgilar bilan ko'rsatiladi.
+
+380
+00:43:00,200 --> 00:43:04,920
+Post tagidagi «Bog'lanish» tugmasini bosgan mijoz to'g'ridan-to'g'ri sizga yoziladi.
+
+381
+00:43:04,980 --> 00:43:07,180
+TartibOn. Telegramda qidiring.
+
+382
+00:43:07,267 --> 00:43:09,467
+Ishga odam qidiryapsizmi?
+
+383
+00:43:09,527 --> 00:43:13,407
+Quruq matn ko'rinishidagi e'lonlarni odamlar oxirigacha o'qimaydi.
+
+384
+00:43:13,467 --> 00:43:19,027
+Lavozim, maosh, ish vaqti va talablar — hammasi bitta chiroyli rasmda.
+
+385
+00:43:19,087 --> 00:43:25,907
+Maosh raqamini albatta yozing — maoshi ko'rsatilgan e'lonlar bir necha barobar ko'p javob oladi.
+
+386
+00:43:25,967 --> 00:43:30,687
+Nomzod «Rezyume yuborish» tugmasini bosadi va to'g'ridan-to'g'ri sizga yoziladi.
+
+387
+00:43:30,747 --> 00:43:32,947
+TartibOn. Telegramda qidiring.
+
+388
+00:43:33,033 --> 00:43:36,073
+O'quv markazingizga qabul e'lon qilyapsizmi?
+
+389
+00:43:36,133 --> 00:43:42,113
+Har bir yangi guruh uchun dizaynerga buyurtma berish — vaqt va pul.
+
+390
+00:43:42,173 --> 00:43:46,893
+Endi o'zingiz tayyorlaysiz: boshlanish sanasi, kurs davomiyligi va narx.
+
+391
+00:43:46,953 --> 00:43:52,513
+Darslar soni, guruhdagi o'quvchilar, ustoz va sertifikat — alohida belgilar bilan.
+
+392
+00:43:52,573 --> 00:43:56,873
+«Kursga yozilish» tugmasini bosgan talaba to'g'ridan-to'g'ri sizga tushadi.
+
+393
+00:43:56,933 --> 00:43:59,133
+TartibOn. Telegramda qidiring.
+
+394
+00:43:59,233 --> 00:44:01,853
+Kafe yoki restoraningiz bormi?
+
+395
+00:44:01,913 --> 00:44:06,633
+Menyu va aksiya rasmlaringiz har safar boshqacha, notekis chiqyaptimi?
+
+396
+00:44:06,693 --> 00:44:11,413
+Kombo taomlar va narxlar — bitta tartibli, chiroyli rasmda.
+
+397
+00:44:11,473 --> 00:44:16,193
+Aksiya va chegirmani ko'rsatsangiz, u rasmda yorqin belgida chiqadi.
+
+398
+00:44:16,253 --> 00:44:23,493
+Maslahat: postni soat o'n birda, tushlikdan oldin yuboring — buyurtma aynan shu payt ko'p bo'ladi.
+
+399
+00:44:23,553 --> 00:44:25,753
+TartibOn. Telegramda qidiring.
+
+400
+00:44:25,833 --> 00:44:28,873
+Go'zallik saloni yoki klinikangiz bormi?
+
+401
+00:44:28,933 --> 00:44:33,653
+Mijozlar har kuni bir xil savolni berib, narxlarni so'rayveradimi?
+
+402
+00:44:33,713 --> 00:44:39,273
+Barcha xizmatlar va narxlarni bitta rasmga joylaysiz — savollar o'z-o'zidan kamayadi.
+
+403
+00:44:39,333 --> 00:44:44,053
+Vaqtinchalik aksiyani ham qo'shasiz — bu yangi mijoz keltiradi.
+
+404
+00:44:44,113 --> 00:44:48,413
+Mijoz «Navbatga yozilish» tugmasini bosadi va sizga yoziladi.
+
+405
+00:44:48,473 --> 00:44:50,673
+TartibOn. Telegramda qidiring.
+
+406
+00:44:50,767 --> 00:44:52,967
+Turagentlik bilan shug'ullanasizmi?
+
+407
+00:44:53,027 --> 00:44:58,167
+Tur paket, qaynoq tur yoki Umra uchun chiroyli post kerakmi?
+
+408
+00:44:58,227 --> 00:45:04,207
+Yo'nalish, sana, kecha soni va narxni kiritasiz — davlat bayrog'i o'zi qo'yiladi.
+
+409
+00:45:04,267 --> 00:45:10,667
+Eng muhimi: narxga nima kirishini alohida ko'rsatasiz — aviabilet, mehmonxona, transfer va ovqatlanish.
+
+410
+00:45:10,727 --> 00:45:16,287
+Shunda mijozlarning savollari ikki barobar kamayadi — chunki hammasi rasmda ko'rinadi.
+
+411
+00:45:16,347 --> 00:45:19,807
+Post tagida «Bron qilish» tugmasi turadi.
+
+412
+00:45:19,867 --> 00:45:22,067
+TartibOn. Telegramda qidiring.
+
+413
+00:45:22,167 --> 00:45:25,207
+Telegramda kanalingiz yoki guruhingiz bormi?
+
+414
+00:45:25,267 --> 00:45:29,987
+Postni qo'lda yuborasiz, spamni qo'lda o'chirasiz, obunachilarni qo'lda sanaysiz.
+
+415
+00:45:30,047 --> 00:45:35,607
+Barcha kanal va guruhlaringiz bitta ro'yxatda — har biri alohida sozlanadi.
+
+416
+00:45:35,667 --> 00:45:40,807
+Reklama va spamni bot o'zi o'chiradi. Siz hatto ko'rmaysiz ham.
+
+417
+00:45:40,867 --> 00:45:46,007
+Postni oldindan tayyorlab, kerakli kunga qo'yasiz — bot o'zi chiqaradi.
+
+418
+00:45:46,067 --> 00:45:50,787
+O'sish grafigini ko'rib turasiz va hisobotni Excelga yuklab olasiz.
+
+419
+00:45:50,847 --> 00:45:55,987
+Yopiq kanalingizga pullik obuna sotasiz — pul to'g'ridan-to'g'ri balansingizga tushadi.
+
+420
+00:45:56,047 --> 00:46:01,187
+Jami to'qqizta vosita. Hammasi Telegramning ichida — hech narsa o'rnatmaysiz.
+
+421
+00:46:01,247 --> 00:46:03,447
+TartibOn. Telegramda qidiring.
+
+422
+00:46:03,533 --> 00:46:08,253
+Bir nechta kanalingiz bormi? Har birini alohida ochib yurasizmi?
+
+423
+00:46:08,313 --> 00:46:15,133
+Endi hammasi bitta ro'yxatda. Har bir kanal yonida obunachilar soni va bugungi o'sish turadi.
+
+424
+00:46:15,193 --> 00:46:22,853
+Kanalni ochsangiz, unga qaysi avtomatik xabarlar yoqilganini belgilaysiz — bittasiga namoz vaqtlari, boshqasiga faqat dollar kursi.
+
+425
+00:46:22,913 --> 00:46:28,053
+Ta'tilga chiqsangiz, bitta kalitni bosasiz — barcha avtomatik xabarlar to'xtaydi.
+
+426
+00:46:28,113 --> 00:46:34,513
+Agar botni kanaldan chiqarib yuborishsa, qizil belgi darhol chiqadi va tuzatish yo'lini ko'rsatadi.
+
+427
+00:46:34,573 --> 00:46:36,773
+TartibOn. Telegramda qidiring.
+
+428
+00:46:36,867 --> 00:46:40,327
+Guruhingiz reklama va spamga to'lib ketyaptimi?
+
+429
+00:46:40,387 --> 00:46:45,107
+Har kuni, hatto kechasi ham kirib qo'lda o'chirib chiqasizmi?
+
+430
+00:46:45,167 --> 00:46:51,567
+Endi buni bot qiladi. Reklama, havola, so'kinish va spam — hammasi avtomatik o'chiriladi.
+
+431
+00:46:51,627 --> 00:46:56,767
+Guruhlarga ko'p tashlanadigan arab botlar va zararli fayllar ham to'siladi.
+
+432
+00:46:56,827 --> 00:47:03,647
+Yangi a'zolar birinchi sutkada havola yubora olmaydi. Kirishda kapcha qo'ysangiz, botlar umuman kira olmaydi.
+
+433
+00:47:03,707 --> 00:47:07,587
+Guruh adminlarining xabarlariga esa hech qachon tegilmaydi.
+
+434
+00:47:07,647 --> 00:47:13,207
+Va bu bepul. Guruhda himoya deb yozsangiz, qaysi qoidalar yoqilganini ko'rasiz.
+
+435
+00:47:13,267 --> 00:47:15,467
+TartibOn. Telegramda qidiring.
+
+436
+00:47:15,533 --> 00:47:20,673
+Har kuni belgilangan vaqtda post qo'yish uchun telefon qarab o'tirasizmi?
+
+437
+00:47:20,733 --> 00:47:27,133
+Postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot o'zi chiqaradi.
+
+438
+00:47:27,193 --> 00:47:32,333
+Takrorlanishni o'zingiz tanlaysiz: bir marta, har kuni yoki har hafta.
+
+439
+00:47:32,393 --> 00:47:38,373
+Post Telegramda aynan qanday ko'rinishi ekranda darhol ko'rinib turadi — yuborishdan oldin.
+
+440
+00:47:38,433 --> 00:47:42,733
+Ishonchingiz komil bo'lmasa, avval faqat o'zingizga yuborib tekshirasiz.
+
+441
+00:47:42,793 --> 00:47:44,993
+TartibOn. Telegramda qidiring.
+
+442
+00:47:45,100 --> 00:47:48,980
+Guruhingiz o'smay qoldimi? Reklamaga pul sarflashni xohlamaysizmi?
+
+443
+00:47:49,040 --> 00:47:55,020
+Unda a'zolaringizning o'zi odam olib kelsin. Har biriga shaxsiy taklif havolasi beriladi.
+
+444
+00:47:55,080 --> 00:48:00,640
+Kim nechta odam olib kelgani aniq sanaladi va TOP ro'yxatda chiqadi.
+
+445
+00:48:00,700 --> 00:48:06,260
+Shu ro'yxatning o'zi musobaqa yaratadi — odamlar bir-biridan o'zishga harakat qiladi.
+
+446
+00:48:06,320 --> 00:48:14,260
+Eng kuchli usul: buni konkurs bilan birlashtiring. Eng ko'p odam taklif qilgan uchtaga sovg'a deng — guruh tez o'sadi.
+
+447
+00:48:14,320 --> 00:48:16,520
+TartibOn. Telegramda qidiring.
+
+448
+00:48:16,633 --> 00:48:20,093
+Kanalingiz o'syaptimi yoki pasayyaptimi? Aniq bilasizmi?
+
+449
+00:48:20,153 --> 00:48:26,973
+Statistika bo'limida hammasi ko'rinadi: kecha qancha qo'shilgan, yetti kunda va o'ttiz kunda qancha bo'lgan.
+
+450
+00:48:27,033 --> 00:48:33,013
+O'n to'rt kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+
+451
+00:48:33,073 --> 00:48:39,473
+Guruh uchun xabarlar soni ham chiqadi — guruhingiz jonli yoki jonsizligini shu ko'rsatadi.
+
+452
+00:48:39,533 --> 00:48:45,093
+Hisobotni Excelga yuklab olasiz — reklama beruvchiga ko'rsatish uchun juda qulay.
+
+453
+00:48:45,153 --> 00:48:47,353
+TartibOn. Telegramda qidiring.
+
+454
+00:48:47,433 --> 00:48:50,473
+Guruhingizda hech kim yozmay qo'ydimi?
+
+455
+00:48:50,533 --> 00:48:56,093
+Bot belgilangan oraliqda o'zi savol berib turadi — to'rt variantli viktorina.
+
+456
+00:48:56,153 --> 00:49:02,973
+Mavzuni o'zingiz tanlaysiz: maktab va imtihon savollari yoki yo'l harakati qoidalari bo'yicha Prava testi.
+
+457
+00:49:03,033 --> 00:49:09,853
+To'g'ri javobga ochko beriladi, tezroq javob berganga ko'proq. Oxirida eng yaxshi o'nta e'lon qilinadi.
+
+458
+00:49:09,913 --> 00:49:15,893
+Bir necha kundan keyin a'zolarning o'zi savol chaqira boshlaydi — guruh jonlanadi.
+
+459
+00:49:15,953 --> 00:49:18,153
+TartibOn. Telegramda qidiring.
+
+460
+00:49:18,233 --> 00:49:21,693
+Kanalingizga mehnat qilasiz, lekin daromad yo'qmi?
+
+461
+00:49:21,753 --> 00:49:26,473
+Yopiq kanalingizga pullik obuna soting. Pul to'g'ridan-to'g'ri balansingizga tushadi.
+
+462
+00:49:26,533 --> 00:49:33,773
+Paketlar: bir, uch, olti va o'n ikki oylik. Narxni va uzoq muddatga chegirmani o'zingiz qo'yasiz.
+
+463
+00:49:33,833 --> 00:49:41,773
+Bepul sinov muddatini yoqsangiz, har bir odam bir marta bepul kirib ko'radi — shundan keyin ko'pchilik qoladi.
+
+464
+00:49:41,833 --> 00:49:49,773
+Qolgani avtomatik: kirish havolasi o'zi boradi, muddat tugashiga uch kun qolganda eslatma ketadi, tugaganda bot o'zi chiqaradi.
+
+465
+00:49:49,833 --> 00:49:52,033
+TartibOn. Telegramda qidiring.
+
+466
+00:49:52,100 --> 00:49:54,720
+Kanalingizga tez obunachi kerakmi?
+
+467
+00:49:54,780 --> 00:50:01,600
+Sovg'a o'yini o'tkazing. G'oliblar sonini va tugash vaqtini belgilaysiz — post tugmasi bilan chiqadi.
+
+468
+00:50:01,660 --> 00:50:08,480
+Ishtirok etish uchun obuna bo'lish shartini qo'yasiz — bu kanalni o'stirishning eng tez yo'li.
+
+469
+00:50:08,540 --> 00:50:14,520
+Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hech kim aralasha olmaydi — hammasi adolatli.
+
+470
+00:50:14,580 --> 00:50:18,880
+Konkursdan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi.
+
+471
+00:50:18,940 --> 00:50:21,140
+TartibOn. Telegramda qidiring.
+
+472
+00:50:21,233 --> 00:50:23,853
+Bir nechta guruh boshqarasizmi?
+
+473
+00:50:23,913 --> 00:50:29,053
+Hammasi bitta ekranda: a'zolar soni va bugun nechta xabar yozilgani.
+
+474
+00:50:29,113 --> 00:50:34,673
+Har bir guruh uchun alohida: himoya qoidalari, testlar va avtomatik xabarlar.
+
+475
+00:50:34,733 --> 00:50:40,293
+Guruh qo'shish oson: username yoki ID kiritasiz va botni administrator qilasiz.
+
+476
+00:50:40,353 --> 00:50:45,073
+Shu zahoti ishlay boshlaydi — guruh himoyasi avtomatik yoqiladi.
+
+477
+00:50:45,133 --> 00:50:47,333
+TartibOn. Telegramda qidiring.
+
+478
+00:50:47,433 --> 00:50:52,153
+TartibOn ilovasida kanal boshqaruvidan tashqari yana to'qqizta xizmat bor.
+
+479
+00:50:52,213 --> 00:50:56,513
+Ijtimoiy tarmoqlarga obunachi, layk va ko'rish buyurtma qilasiz.
+
+480
+00:50:56,573 --> 00:51:02,973
+Ro'yxatdan o'tish uchun bir martalik raqam olasiz — SMS kod shu yerda chiqadi.
+
+481
+00:51:03,033 --> 00:51:08,593
+Haydovchilik guvohnomasi imtihoniga bepul tayyorlanasiz — ming ikki yuz qirqta savol.
+
+482
+00:51:08,653 --> 00:51:15,053
+Kanal sotib olasiz yoki sotasiz — Telegram, YouTube va Instagram uchun alohida bo'lim.
+
+483
+00:51:15,113 --> 00:51:20,253
+Reklama birjasida pul kafolat ostida o'tadi — hech kim aldanmaydi.
+
+484
+00:51:20,313 --> 00:51:25,033
+Barcha pullik xizmatlar balans orqali ishlaydi. Bajarilmasa, pul qaytariladi.
+
+485
+00:51:25,093 --> 00:51:27,293
+TartibOn. Telegramda qidiring.
+
+486
+00:51:27,400 --> 00:51:30,020
+Kanalingiz juda sekin o'syaptimi?
+
+487
+00:51:30,080 --> 00:51:36,060
+Nakrutka bo'limida obunachi, layk, izoh va ko'rish buyurtma qilasiz. Narx darrov ko'rinadi.
+
+488
+00:51:36,120 --> 00:51:40,420
+Telegram, Instagram, YouTube, TikTok — tarmoqni o'zingiz tanlaysiz.
+
+489
+00:51:40,480 --> 00:51:45,620
+Buyurtma bajarilmasa pul to'liq qaytariladi. Qisman bajarilsa, bajarilmagan qismi qaytadi.
+
+490
+00:51:45,680 --> 00:51:50,400
+Katta miqdorga chegirma bor. Avvalgi buyurtmani bir bosishda takrorlaysiz.
+
+491
+00:51:50,460 --> 00:51:52,660
+TartibOn. Telegramda qidiring.
+
+492
+00:51:52,767 --> 00:51:57,487
+Telegram yoki boshqa tarmoqda ro'yxatdan o'tish uchun raqam kerakmi?
+
+493
+00:51:57,547 --> 00:52:02,267
+Buning uchun yangi SIM karta sotib olish shart emas.
+
+494
+00:52:02,327 --> 00:52:08,727
+Davlat va tarmoqni tanlaysiz, raqam darhol beriladi. SMS kod shu sahifaning o'zida chiqadi.
+
+495
+00:52:08,787 --> 00:52:13,927
+Agar kod o'n besh daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
+
+496
+00:52:13,987 --> 00:52:20,807
+Tanlashdan oldin yulduzcha belgisiga qarang — u oxirgi o'ttiz kundagi kod kelish foizini ko'rsatadi.
+
+497
+00:52:20,867 --> 00:52:23,067
+TartibOn. Telegramda qidiring.
+
+498
+00:52:23,167 --> 00:52:25,787
+Haydovchilik guvohnomasi imtihoniga tayyorlanyapsizmi?
+
+499
+00:52:25,847 --> 00:52:32,247
+Kitob sotib olish ham, kursga borish ham shart emas. Hammasi telefoningizda va bepul.
+
+500
+00:52:32,307 --> 00:52:40,247
+Ming ikki yuz qirqta original savol, oltmish ikkita bilet. Belgi, chiziq va chorraha bo'yicha rasmli savollar ham bor.
+
+501
+00:52:40,307 --> 00:52:46,287
+Imtihon rejimi haqiqiysiga o'xshatilgan: yigirma savol, yigirma besh daqiqa, ikkitagacha xatoga ruxsat.
+
+502
+00:52:46,347 --> 00:52:53,167
+Eng foydalisi — Xatolarim bo'limi. Noto'g'ri javob bergan savollaringiz to'planadi, aynan shular ustida ishlaysiz.
+
+503
+00:52:53,227 --> 00:52:55,427
+TartibOn. Telegramda qidiring.
+
+504
+00:52:55,533 --> 00:52:58,993
+Kanalingizni o'stirmoqchisiz, lekin reklamaga pul yo'qmi?
+
+505
+00:52:59,053 --> 00:53:05,453
+Unda o'zaro reklama qiling: siz uning kanalini, u sizning kanalingizni e'lon qiladi. Bepul.
+
+506
+00:53:05,513 --> 00:53:11,913
+Kanalingizni kategoriya bilan katalogga qo'shasiz. Boshqalar sizni topadi, siz ham qidirib taklif yuborasiz.
+
+507
+00:53:11,973 --> 00:53:17,953
+Maslahat: mavzuingizga yaqin kanalni tanlang — natija bir necha barobar kuchli bo'ladi.
+
+508
+00:53:18,013 --> 00:53:20,213
+TartibOn. Telegramda qidiring.
+
+509
+00:53:20,300 --> 00:53:24,600
+Telegram kanal sotib olmoqchimisiz yoki o'z kanalingizni sotmoqchimisiz?
+
+510
+00:53:24,660 --> 00:53:31,060
+Eng katta muammo — raqamlar. Sotuvchi obunachilar sonini o'zi yozsa, unga qanday ishonasiz?
+
+511
+00:53:31,120 --> 00:53:38,360
+Bu yerda raqamlar sotuvchidan emas — TartibOn statistikasidan avtomatik olinadi. Ya'ni soxta ko'rsatkich qo'yib bo'lmaydi.
+
+512
+00:53:38,420 --> 00:53:45,240
+To'lov esa vositachi orqali: pul admin qo'lida turadi va kanal topshirilgandan keyingina sotuvchiga beriladi.
+
+513
+00:53:45,300 --> 00:53:50,860
+Sotmoqchi bo'lsangiz, shu sahifada bitta tugma bosasiz — kanalingiz sotuvga chiqadi.
+
+514
+00:53:50,920 --> 00:53:53,120
+TartibOn. Telegramda qidiring.
+
+515
+00:53:53,233 --> 00:53:55,433
+YouTube kanalingizni sotmoqchimisiz?
+
+516
+00:53:55,493 --> 00:54:01,473
+Mening e'lonlarim bo'limiga kirib, kanal manzili, obunachilar soni, mavzu va narxni yozasiz.
+
+517
+00:54:01,533 --> 00:54:09,193
+Agar kanal pul topishga ulangan bo'lsa, monetizatsiya belgisini albatta qo'ying — bunday kanal ancha qimmatroq turadi.
+
+518
+00:54:09,253 --> 00:54:15,233
+Admin tekshirgan e'lonlarga ko'k belgi qo'yiladi — xaridorlar birinchi navbatda shularga ishonadi.
+
+519
+00:54:15,293 --> 00:54:20,853
+Savdo vositachi orqali: pul admin qo'lida turadi, akkaunt topshirilgach sotuvchiga o'tadi.
+
+520
+00:54:20,913 --> 00:54:23,113
+TartibOn. Telegramda qidiring.
+
+521
+00:54:23,200 --> 00:54:27,500
+Instagram sahifangizni sotmoqchimisiz yoki tayyor sahifa sotib olmoqchimisiz?
+
+522
+00:54:27,560 --> 00:54:32,700
+Barcha e'lonlar bitta joyda: username, obunachilar soni, mavzu va narx.
+
+523
+00:54:32,760 --> 00:54:40,000
+Ochiq aytamiz: Instagram akkauntlarida aldov xavfi eng yuqori. Akkaunt pul o'tgandan keyin qaytarib olinishi mumkin.
+
+524
+00:54:40,060 --> 00:54:46,880
+Shuning uchun vositachi xizmatidan foydalaning. Pul admin qo'lida turadi va akkaunt haqiqatan topshirilgach beriladi.
+
+525
+00:54:46,940 --> 00:54:52,500
+Sotib olishdan oldin ko'k belgiga qarang — u admin tekshirganini bildiradi.
+
+526
+00:54:52,560 --> 00:54:54,760
+TartibOn. Telegramda qidiring.
+
+527
+00:54:54,833 --> 00:55:00,393
+Reklama uchun pul to'ladingiz, lekin post bir soatdan keyin o'chirib yuborildimi?
+
+528
+00:55:00,453 --> 00:55:05,173
+Reklama birjasida bunday bo'lmaydi. Chunki pul kafolat ostida turadi.
+
+529
+00:55:05,233 --> 00:55:13,173
+To'lagan pulingiz darhol sotuvchiga o'tmaydi. Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin o'zi o'tadi.
+
+530
+00:55:13,233 --> 00:55:21,173
+Agar reklama muddatidan oldin o'chirilsa, nizo ochasiz va qarorni admin chiqaradi: pul sizga qaytadi yoki sotuvchiga beriladi.
+
+531
+00:55:21,233 --> 00:55:28,053
+Kanal egasi bo'lsangiz, narx va formatni o'zingiz belgilaysiz — buyurtma kelganda Joylash tugmasini bosasiz.
+
+532
+00:55:28,113 --> 00:55:30,313
+TartibOn. Telegramda qidiring.
+
+533
+00:55:30,400 --> 00:55:34,700
+Kanalingiz yangi va uni hali hech kim bilmaydimi?
+
+534
+00:55:34,760 --> 00:55:42,000
+Kanallar reytingida so'nggi yetti kunda eng tez o'sgan o'nta kanal chiqadi. Ro'yxat har kuni yangilanadi.
+
+535
+00:55:42,060 --> 00:55:50,000
+Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Demak kichik kanalning ham imkoni bor.
+
+536
+00:55:50,060 --> 00:55:58,000
+Tezroq natija kerak bo'lsa, pullik xizmat bor: kanalingiz yetti kun davomida Tavsiya etiladi qatorida, eng tepada turadi.
+
+537
+00:55:58,060 --> 00:56:03,620
+Bu yangi kanallar uchun birinchi obunachilarni olib kelishning eng tez yo'li.
+
+538
+00:56:03,680 --> 00:56:05,880
+TartibOn. Telegramda qidiring.
+
+539
+00:56:05,967 --> 00:56:10,267
+Kanalingizga har kuni nima post qilishni o'ylab charchadingizmi?
+
+540
+00:56:10,327 --> 00:56:16,727
+TartibOn'da oltita avtomatik post bor. Bir marta yoqasiz — keyin hech narsa qilmaysiz.
+
+541
+00:56:16,787 --> 00:56:22,347
+Namoz vaqtlari — har bir namozdan o'ttiz daqiqa keyin kanalingizga chiqadi.
+
+542
+00:56:22,407 --> 00:56:27,967
+Dollar kursi — banklar kursi o'zgargan zahoti rasmli post o'zi chiqadi.
+
+543
+00:56:28,027 --> 00:56:33,587
+Ob-havo — har kuni ertalab oltida o'n ikki viloyat ob-havosi yuboriladi.
+
+544
+00:56:33,647 --> 00:56:38,787
+Tongi va tungi xabar — video bilan, ertalab va kechqurun.
+
+545
+00:56:38,847 --> 00:56:43,987
+Bayram tabriklari esa har Juma va bayram kunlari o'zi ketadi.
+
+546
+00:56:44,047 --> 00:56:50,027
+Kalitni bir marta bosasiz va u barcha kanal hamda guruhlaringizga birdaniga yoqiladi.
+
+547
+00:56:50,087 --> 00:56:55,227
+Natija: kanalingiz har kuni jonli bo'ladi — siz uxlayotganingizda ham.
+
+548
+00:56:55,287 --> 00:56:57,487
+TartibOn. Telegramda qidiring.
+
+549
+00:56:57,567 --> 00:57:01,867
+Kanalingizga namoz vaqtlarini har kuni qo'lda yozib chiqasizmi?
+
+550
+00:57:01,927 --> 00:57:07,907
+Bot buni o'zi qiladi: o'n ikki viloyatning vaqti bitta chiroyli rasmga joylanadi.
+
+551
+00:57:07,967 --> 00:57:15,207
+Xabar azon vaqtida emas, har namozdan o'ttiz daqiqa keyin yuboriladi — odamlar namozni o'qib bo'lgach.
+
+552
+00:57:15,267 --> 00:57:20,407
+Hududni o'zingiz tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan.
+
+553
+00:57:20,467 --> 00:57:27,287
+Vaqtlar islom.uz taqvimi asosida. Manba ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi.
+
+554
+00:57:27,347 --> 00:57:29,547
+TartibOn. Telegramda qidiring.
+
+555
+00:57:29,633 --> 00:57:33,093
+Guruhingizda har kuni dollar kursi so'ralaveradimi?
+
+556
+00:57:33,153 --> 00:57:39,133
+Barcha banklarning olish va sotish kursi bitta chiroyli rasmda — logotiplari bilan.
+
+557
+00:57:39,193 --> 00:57:44,333
+Raqamlar bank saytlaridan avtomatik olinadi — qo'lda hech narsa kiritilmaydi.
+
+558
+00:57:44,393 --> 00:57:52,333
+Kurs o'zgargan zahoti post o'zi chiqadi. O'zgarmagan bo'lsa, bir xil postni qayta yubormaydi — obunachilaringiz bezovta bo'lmaydi.
+
+559
+00:57:52,393 --> 00:58:00,333
+Eng yuqori olish va eng arzon sotish narxi alohida belgilanadi — odam qaysi bankka borishni darrov ko'radi.
+
+560
+00:58:00,393 --> 00:58:02,593
+TartibOn. Telegramda qidiring.
+
+561
+00:58:02,667 --> 00:58:06,547
+Obunachilaringiz har kuni ochib ko'radigan post kerakmi?
+
+562
+00:58:06,607 --> 00:58:12,167
+Har kuni ertalab oltida o'n ikki viloyatning ob-havosi bitta postda yuboriladi.
+
+563
+00:58:12,227 --> 00:58:17,367
+Har bir viloyat uchun kunduzgi va tungi harorat alohida ko'rsatiladi.
+
+564
+00:58:17,427 --> 00:58:23,827
+Kuchli shamol, jazirama issiq, qattiq sovuq yoki do'l kutilsa, bot alohida ogohlantirish yuboradi.
+
+565
+00:58:23,887 --> 00:58:29,027
+Bosh sahifadagi kalitni yoqsangiz, xizmat barcha ulangan chatlarga birdaniga yoqiladi.
+
+566
+00:58:29,087 --> 00:58:31,287
+TartibOn. Telegramda qidiring.
+
+567
+00:58:31,400 --> 00:58:35,280
+Obunachilaringiz ertalab telefonni ochganda kanalingizda nima turadi?
+
 568
-00:58:41,793 --> 00:58:47,353
-Haftaning qaysi kunlarida yuborilishini o'zingiz belgilaysiz — masalan, faqat ish kunlari.
+00:58:35,340 --> 00:58:43,280
+Tongi xabar har kuni soat to'rt yarimda video bilan yuboriladi — ular uyg'onguncha post allaqachon tayyor turadi.
 
 569
-00:58:47,413 --> 00:58:52,553
-Amaliyot shuni ko'rsatadi: ertalabki post eng ko'p ko'riladigan post bo'ladi.
+00:58:43,340 --> 00:58:51,000
+Matnda bugun haftaning qaysi kuni ekani, sana va hijriy sana avtomatik yoziladi. Siz hech narsa yozmaysiz.
 
 570
-00:58:52,613 --> 00:58:54,813
-TartibOn. Telegramda qidiring.
+00:58:51,060 --> 00:58:56,620
+Haftaning qaysi kunlarida yuborilishini o'zingiz belgilaysiz — masalan, faqat ish kunlari.
 
 571
-00:58:54,900 --> 00:58:59,620
-Kechqurun soat to'qqizdan keyin odamlar telefonni eng ko'p ishlatadi.
+00:58:56,680 --> 00:59:01,820
+Amaliyot shuni ko'rsatadi: ertalabki post eng ko'p ko'riladigan post bo'ladi.
 
 572
-00:58:59,680 --> 00:59:06,500
-Aynan shu paytda tungi xabar chiqadi — Xayrli tun posti, video va matn bilan.
-
-573
-00:59:06,560 --> 00:59:13,380
-Haftaning har kuni uchun alohida tayyor matn bor — post bir xil bo'lib ketmaydi.
-
-574
-00:59:13,440 --> 00:59:21,380
-Tongi va tungi xabarni birga yoqsangiz, kanalingizda kuniga kamida ikkita post bo'ladi. Bu obunachilarni ushlab turishning eng oson yo'li.
-
-575
-00:59:21,440 --> 00:59:23,640
+00:59:01,880 --> 00:59:04,080
 TartibOn. Telegramda qidiring.
 
+573
+00:59:04,167 --> 00:59:08,887
+Kechqurun soat to'qqizdan keyin odamlar telefonni eng ko'p ishlatadi.
+
+574
+00:59:08,947 --> 00:59:15,767
+Aynan shu paytda tungi xabar chiqadi — Xayrli tun posti, video va matn bilan.
+
+575
+00:59:15,827 --> 00:59:22,647
+Haftaning har kuni uchun alohida tayyor matn bor — post bir xil bo'lib ketmaydi.
+
 576
-00:59:23,733 --> 00:59:29,293
-Bayram kuni kanalingizda tabrik bo'lmay qoldimi? Hamma tabrikladi, siz esdan chiqardingiz.
+00:59:22,707 --> 00:59:30,647
+Tongi va tungi xabarni birga yoqsangiz, kanalingizda kuniga kamida ikkita post bo'ladi. Bu obunachilarni ushlab turishning eng oson yo'li.
 
 577
-00:59:29,353 --> 00:59:36,593
-Endi bot buni o'zi qiladi — har Juma va bayram kunlari video tabrik o'zi yuboriladi.
+00:59:30,707 --> 00:59:32,907
+TartibOn. Telegramda qidiring.
 
 578
-00:59:36,653 --> 00:59:42,633
-Siz nima qilishingiz kerak? Hech narsa. Faqat kanalingiz botga ulangan bo'lsa yetarli.
+00:59:33,000 --> 00:59:38,560
+Bayram kuni kanalingizda tabrik bo'lmay qoldimi? Hamma tabrikladi, siz esdan chiqardingiz.
 
 579
-00:59:42,693 --> 00:59:47,833
-Sahifada tabriklar ro'yxati va keyingi bayram qachon ekani ko'rinib turadi.
+00:59:38,620 --> 00:59:45,860
+Endi bot buni o'zi qiladi — har Juma va bayram kunlari video tabrik o'zi yuboriladi.
 
 580
-00:59:47,893 --> 00:59:52,613
-Namuna tugmasini bossangiz, tabrik kanalingizda qanday ko'rinishini oldindan ko'rasiz.
+00:59:45,920 --> 00:59:51,900
+Siz nima qilishingiz kerak? Hech narsa. Faqat kanalingiz botga ulangan bo'lsa yetarli.
 
 581
-00:59:52,673 --> 00:59:54,873
+00:59:51,960 --> 00:59:57,100
+Sahifada tabriklar ro'yxati va keyingi bayram qachon ekani ko'rinib turadi.
+
+582
+00:59:57,160 --> 01:00:01,880
+Namuna tugmasini bossangiz, tabrik kanalingizda qanday ko'rinishini oldindan ko'rasiz.
+
+583
+01:00:01,940 --> 01:00:04,140
 TartibOn. Telegramda qidiring.
