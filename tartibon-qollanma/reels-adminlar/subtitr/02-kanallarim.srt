@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,720
+Bir nechta kanalingiz bormi? Har birini alohida ochib yurasizmi?
+
+2
+00:00:04,780 --> 00:00:11,600
+Endi hammasi bitta ro'yxatda. Har bir kanal yonida obunachilar soni va bugungi o'sish turadi.
+
+3
+00:00:11,660 --> 00:00:19,320
+Kanalni ochsangiz, unga qaysi avtomatik xabarlar yoqilganini belgilaysiz — bittasiga namoz vaqtlari, boshqasiga faqat dollar kursi.
+
+4
+00:00:19,380 --> 00:00:24,520
+Ta'tilga chiqsangiz, bitta kalitni bosasiz — barcha avtomatik xabarlar to'xtaydi.
+
+5
+00:00:24,580 --> 00:00:30,980
+Agar botni kanaldan chiqarib yuborishsa, qizil belgi darhol chiqadi va tuzatish yo'lini ko'rsatadi.
+
+6
+00:00:31,040 --> 00:00:33,240
+TartibOn. Telegramda qidiring.

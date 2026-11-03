@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:05,140
+Har kuni belgilangan vaqtda post qo'yish uchun telefon qarab o'tirasizmi?
+
+2
+00:00:05,200 --> 00:00:11,600
+Postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot o'zi chiqaradi.
+
+3
+00:00:11,660 --> 00:00:16,800
+Takrorlanishni o'zingiz tanlaysiz: bir marta, har kuni yoki har hafta.
+
+4
+00:00:16,860 --> 00:00:22,840
+Post Telegramda aynan qanday ko'rinishi ekranda darhol ko'rinib turadi — yuborishdan oldin.
+
+5
+00:00:22,900 --> 00:00:27,200
+Ishonchingiz komil bo'lmasa, avval faqat o'zingizga yuborib tekshirasiz.
+
+6
+00:00:27,260 --> 00:00:29,460
+TartibOn. Telegramda qidiring.

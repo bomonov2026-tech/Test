@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:03,460
+Guruhingiz reklama va spamga to'lib ketyaptimi?
+
+2
+00:00:03,520 --> 00:00:08,240
+Har kuni, hatto kechasi ham kirib qo'lda o'chirib chiqasizmi?
+
+3
+00:00:08,300 --> 00:00:14,700
+Endi buni bot qiladi. Reklama, havola, so'kinish va spam — hammasi avtomatik o'chiriladi.
+
+4
+00:00:14,760 --> 00:00:19,900
+Guruhlarga ko'p tashlanadigan arab botlar va zararli fayllar ham to'siladi.
+
+5
+00:00:19,960 --> 00:00:26,780
+Yangi a'zolar birinchi sutkada havola yubora olmaydi. Kirishda kapcha qo'ysangiz, botlar umuman kira olmaydi.
+
+6
+00:00:26,840 --> 00:00:30,720
+Guruh adminlarining xabarlariga esa hech qachon tegilmaydi.
+
+7
+00:00:30,780 --> 00:00:36,340
+Va bu bepul. Guruhda himoya deb yozsangiz, qaysi qoidalar yoqilganini ko'rasiz.
+
+8
+00:00:36,400 --> 00:00:38,600
+TartibOn. Telegramda qidiring.
