@@ -1,0 +1,36 @@
+sahna;boshlanish_s;davomiylik_s;boshlanish;matn
+001;0.00;11.22;0:00.00;Oltinchi va oxirgi dars — Ilova ramkasi. Bu yerda to'rtta katak bor: balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+002;11.22;6.82;0:11.22;Balans eng muhimi — chunki barcha pullik xizmatlar aynan shu hisob orqali ishlaydi.
+003;18.04;9.02;0:18.04;Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+004;27.06;5.50;0:27.06;To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+005;32.56;4.18;0:32.56;Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+006;36.74;3.74;0:36.74;Uchinchi qadam: To'lov qildim tugmasini bosasiz.
+007;40.48;4.18;0:40.48;Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+008;44.66;9.02;0:44.66;Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+009;53.68;7.26;0:53.68;Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+010;60.94;6.38;1:00.94;Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+011;67.32;6.38;1:07.32;Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+012;73.70;6.82;1:13.70;Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+013;80.52;4.62;1:20.52;Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+014;85.14;9.02;1:25.14;Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+015;94.16;9.02;1:34.16;To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — Balans sahifasidagi Adminga murojaat qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+016;103.18;5.94;1:43.18;Bot yaratish — biznesingiz uchun alohida Telegram bot buyurtma qilish xizmati.
+017;109.12;8.58;1:49.12;Nima qilish mumkin: onlayn do'kon boti, navbat boti, to'lov qabul qiluvchi bot, sun'iy intellektli yordamchi va boshqalar.
+018;117.70;8.14;1:57.70;Birinchi qadam: Murojaat qilish tugmasini bosib, g'oyangizni yozasiz. Botingiz nima qilishi kerakligini oddiy so'z bilan tushuntirasiz.
+019;125.84;5.06;2:05.84;Ikkinchi qadam: sizga narx va muddat aytiladi, kelishib olasiz.
+020;130.90;4.18;2:10.90;Odatda bot uch kun ichida tayyor bo'ladi.
+021;135.08;7.26;2:15.08;Murojaat qilishdan oldin tayyor namunalarni so'rang — shunga qarab o'z botingizni aniqroq tasavvur qilasiz.
+022;142.34;4.62;2:22.34;Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+023;146.96;7.70;2:26.96;Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+024;154.66;8.14;2:34.66;Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, Balans sahifasidagi Adminga murojaat qatoridan foydalaning.
+025;162.80;8.58;2:42.80;Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+026;171.38;10.34;2:51.38;Profil bo'limida Tilaklar qutisi ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+027;181.72;4.62;3:01.72;Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
+028;186.34;7.70;3:06.34;Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
+029;194.04;5.50;3:14.04;Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
+030;199.54;9.46;3:19.54;Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
+031;209.00;9.02;3:29.00;Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
+032;218.02;9.90;3:38.02;Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
+033;227.92;7.70;3:47.92;Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
+034;235.62;11.22;3:55.62;Shu bilan TartibOn video qo'llanmasi yakunlandi. Oltita darsda bosh sahifadagi barcha bo'limlarni ko'rib chiqdik. Endi ilovani oching, kanalingizni ulang va keraklisini sinab ko'ring.
+035;246.84;5.94;4:06.84;Savol bo'lsa — Savol va takliflar orqali yozing. E'tiboringiz uchun rahmat!

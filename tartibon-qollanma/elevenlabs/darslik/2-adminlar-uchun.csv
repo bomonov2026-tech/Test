@@ -1,0 +1,80 @@
+sahna;boshlanish_s;davomiylik_s;boshlanish;matn
+001;0.00;12.00;0:00.00;Bu — TartibOn qo'llanmasining ikkinchi darsi. Ramka nomi Adminlar uchun deyilgan, lekin bu ilova admini degani emas: bu — o'z kanali yoki guruhi bor har qanday foydalanuvchi uchun.
+002;12.00;5.94;0:12.00;Ya'ni siz uchun. Bugun shu ramkadagi to'qqizta katakni birma-bir ko'rib chiqamiz.
+003;17.94;9.46;0:17.94;Kanallarim — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
+004;27.40;10.34;0:27.40;Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
+005;37.74;8.58;0:37.74;Kanal imzosi — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
+006;46.32;8.14;0:46.32;Postlar tagiga doimiy tugmalar qo'shish mumkin: Do'stga ulashish va Qo'llab-quvvatlash. Ulashish tugmasi kanal o'sishiga yordam beradi.
+007;54.46;11.66;0:54.46;Qo'llab-quvvatlash tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
+008;66.12;8.14;1:06.12;Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
+009;74.26;10.34;1:14.26;Sayt yoki YouTube'dan avtomatik post — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
+010;84.60;8.58;1:24.60;Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, Kanallarim katagida qizil raqam turadi va Tuzatish tugmasi chiqadi.
+011;93.18;6.38;1:33.18;Guruhlarim — ulangan guruhlaringiz ro'yxati. Har bir guruh uchun alohida sozlama bor.
+012;99.56;8.58;1:39.56;Yangi guruh qo'shish uchun Guruh qo'shish tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
+013;108.14;6.38;1:48.14;Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
+014;114.52;5.50;1:54.52;Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
+015;120.02;7.70;2:00.02;Guruhda avtomatik test o'tkazishni ham shu yerdan yoqasiz — a'zolar faolligini oshirishning eng oson yo'li.
+016;127.72;6.82;2:07.72;Yana bir bor eslatma: bot guruhda administrator bo'lmasa, bu funksiyalarning hech biri ishlamaydi.
+017;134.54;7.26;2:14.54;Guruh himoyasi — eng kuchli funksiyalardan biri. Bot begona reklama va havolalarni avtomatik o'chiradi.
+018;141.80;7.26;2:21.80;So'kinish ishlatilgan xabarlar va spam — ya'ni tez-tez takrorlanadigan bir xil xabarlar ham o'chiriladi.
+019;149.06;6.38;2:29.06;Guruhlarga ko'p tashlanadigan arab botlar va arabcha reklama alohida filtr bilan to'siladi.
+020;155.44;6.82;2:35.44;Zararli bo'lishi mumkin bo'lgan fayllar — masalan apk va exe — guruhga o'tkazilmaydi.
+021;162.26;6.38;2:42.26;Sun'iy intellekt ulangan bo'lsa, bot noo'rin rasmlarni va yashirin reklamani ham taniydi.
+022;168.64;8.14;2:48.64;Yangi a'zolar uchun alohida rejim bor: birinchi yigirma to'rt soat davomida ular havola va fayl yubora olmaydi.
+023;176.78;8.14;2:56.78;Kirishda kapcha qo'yish mumkin — Men odamman tugmasini bosmagan akkaunt guruhga yoza olmaydi. Bu botlarni to'sadi.
+024;184.92;6.38;3:04.92;Yangi a'zoga kirish savolini berish yoki avtomatik salomlashish xabarini yuborish ham mumkin.
+025;191.30;7.70;3:11.30;Tungi rejimda faqat adminlar yozadi. Juma sukuti — Juma kuni belgilangan vaqtda guruh jim turadi.
+026;199.00;8.14;3:19.00;Har hafta eng faol o'nta a'zo e'lon qilinadi, a'zolarda reputatsiya ballari yig'iladi — bu guruhni jonlantiradi.
+027;207.14;6.82;3:27.14;Muhim: guruh adminlarining xabarlariga bot hech qachon tegmaydi. Qoidalar faqat oddiy a'zolarga ishlaydi.
+028;213.96;9.02;3:33.96;Guruhning o'zida /himoya deb yozsangiz, bot hozir qaysi qoidalar yoqilganini ro'yxat qilib ko'rsatadi. Har bir qoidani alohida yoqib-o'chirasiz.
+029;222.98;7.26;3:42.98;Yana takrorlayman: botga Xabarlarni o'chirish va Foydalanuvchilarni bloklash huquqlarini bering, aks holda himoya ishlamaydi.
+030;230.24;8.14;3:50.24;Bu bo'limda postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot uni o'zi chiqaradi.
+031;238.38;7.26;3:58.38;Takrorlanishni tanlaysiz: faqat bir marta, har kuni yoki har hafta. Doimiy rukniga juda qulay.
+032;245.64;5.94;4:05.64;Matn muharririda qalin, kursiv, havola, yashirin matn va iqtibos tugmalari bor.
+033;251.58;5.94;4:11.58;Emoji panelidan belgilarni bir bosishda qo'yasiz — klaviaturani almashtirish shart emas.
+034;257.52;8.14;4:17.52;Eng qulayi: post Telegramda aynan qanday ko'rinishi pastda darhol ko'rinib turadi. Ya'ni yuborishdan oldin natijani ko'rasiz.
+035;265.66;5.94;4:25.66;Yozgan matningiz avtomatik qoralama sifatida saqlanadi. Ilovadan chiqib ketsangiz ham yo'qolmaydi.
+036;271.60;5.94;4:31.60;Avval ishlatgan rasm va videolaringizni ro'yxatdan bir bosishda qayta tanlashingiz mumkin.
+037;277.54;5.50;4:37.54;Yoqqan postingizni Nusxa tugmasi bilan ko'paytirib, faqat kerakli joyini o'zgartirasiz.
+038;283.04;7.70;4:43.04;Ishonchingiz komil bo'lmasa, Menga yuborish tugmasini bosing — post avval faqat sizga keladi, ko'rib tekshirasiz.
+039;290.74;8.58;4:50.74;Postni belgilangan vaqtdan keyin avtomatik o'chirish ham mumkin. Kalendar orqali qaysi kunga nima rejalashtirilganini bir qarashda ko'rasiz.
+040;299.32;5.94;4:59.32;Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
+041;305.26;8.14;5:05.26;Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
+042;313.40;7.70;5:13.40;Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
+043;321.10;9.02;5:21.10;Maslahat: taklif havolalarini konkurs bilan birlashtiring — eng ko'p odam taklif qilgan uchtaga sovg'a deng, guruh tez o'sadi.
+044;330.12;5.94;5:30.12;Bu ishlashi uchun botga Havola orqali taklif qilish huquqini berish shart.
+045;336.06;7.70;5:36.06;Statistika bo'limi kanal va guruhingiz qanday o'sayotganini ko'rsatadi. Birinchi navbatda hozirgi obunachilar yoki a'zolar soni.
+046;343.76;6.82;5:43.76;Keyin o'zgarish: kecha qancha qo'shilgan, so'nggi yetti kunda va o'ttiz kunda qancha bo'lgan.
+047;350.58;6.38;5:50.58;So'nggi o'n to'rt kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+048;356.96;7.70;5:56.96;Guruh uchun qo'shimcha: guruhda nechta xabar yozilgani ham ko'rsatiladi. Bu guruh jonli yoki jonsizligini ko'rsatadi.
+049;364.66;8.58;6:04.66;Excel yuklab olish tugmasi bilan hisobotni fayl qilib olasiz — hisobot tayyorlash yoki reklama beruvchiga ko'rsatish uchun.
+050;373.24;6.38;6:13.24;Diqqat: kirdi-chiqdi faqat bot administrator bo'lgandan keyin hisoblanadi. Undan oldingi tarix ko'rinmaydi.
+051;379.62;5.94;6:19.62;Testlar bo'limi guruh va kanalda to'rt variantli viktorina o'tkazish imkonini beradi.
+052;385.56;8.58;6:25.56;Birinchi tur — Savol-javob. Maktab, litsey, kollej, oliy ta'lim va sertifikat imtihonlari mavzulari bo'yicha savollar bazasi bor.
+053;394.14;8.14;6:34.14;Ikkinchi tur — Prava testi. Yo'l harakati qoidalari bo'yicha, rasmli savollar bilan. Mavzuni ham o'zingiz tanlaysiz.
+054;402.28;8.14;6:42.28;Avtomatik test ni yoqsangiz, bot siz belgilagan oraliqda o'zi savol berib turadi. Masalan har ikki soatda.
+055;410.42;6.38;6:50.42;Qo'lda yuborish uchun Hozir savol tugmasi bor — bir bosasiz, savol chiqadi.
+056;416.80;7.70;6:56.80;To'g'ri javob uchun ochko beriladi, tezroq javob bergan ko'proq ochko oladi. Bu tezlik musobaqasini yaratadi.
+057;424.50;5.94;7:04.50;Oxirida eng yaxshi o'nta ishtirokchi e'lon qilinadi. Reyting umumiy bo'lib boradi.
+058;430.44;9.46;7:10.44;Guruh a'zolari o'zi ham savol chaqira oladi: /prava yoki /viktorina deb yozadi. Har ikki daqiqada bir marta ruxsat beriladi.
+059;439.90;7.26;7:19.90;Eslatma: kanalda so'rovlar anonim bo'lgani uchun u yerda ochko hisoblanmaydi. Reyting faqat guruhda ishlaydi.
+060;447.16;6.82;7:27.16;Bu bo'lim yopiq kanalingizga pullik obuna sotish imkonini beradi. Ya'ni kontentingizdan daromad olasiz.
+061;453.98;8.14;7:33.98;To'rtta paket bor: bir oylik, uch oylik, olti oylik va bir yillik obuna. Narxni o'zingiz qo'yasiz.
+062;462.12;9.90;7:42.12;Ko'p oyga chegirma foizini ham o'zingiz belgilaysiz. Masalan, o'n ikki oylikka o'ttiz foiz chegirma — bu odamlarni uzoq muddatga olishga undaydi.
+063;472.02;8.58;7:52.02;Bepul sinov muddatini yoqsangiz, har bir obunachi bir marta bepul kirib ko'ra oladi. Bir kundan yetti kungacha.
+064;480.60;5.94;8:00.60;Obunachi o'z balansidan to'laydi, pul xizmat haqi ayrilgach sizning balansingizga tushadi.
+065;486.54;6.82;8:06.54;To'lagan odamga kirish havolasi bot orqali yuboriladi — siz qo'lda hech narsa qilmaysiz.
+066;493.36;7.70;8:13.36;Muddat tugashiga uch kun qolganda obunachiga avtomatik eslatma boradi — bu uzaytirish foizini sezilarli oshiradi.
+067;501.06;6.38;8:21.06;Muddat tugagach bot obunachini kanaldan o'zi chiqaradi. Qo'lda kuzatib o'tirish shart emas.
+068;507.44;8.58;8:27.44;Shart: botga Taklif havolasi va Bloklash huquqlarini bering. Busiz bot odamni na kirgiza oladi, na chiqara oladi.
+069;516.02;5.06;8:36.02;Konkurs bo'limi orqali kanal yoki guruhda sovg'a o'yini o'tkazasiz.
+070;521.08;5.50;8:41.08;Birinchi qadam: konkurs qaysi kanal yoki guruhda e'lon qilinishini tanlaysiz.
+071;526.58;5.50;8:46.58;Keyin nechta g'olib bo'lishini belgilaysiz — bir kishimi yoki o'nta.
+072;532.08;5.50;8:52.08;Uchinchi qadam — konkurs qachon tugashini belgilash. Sana va soat.
+073;537.58;9.02;8:57.58;Xohlasangiz obuna shartini qo'yasiz: ishtirok etish uchun qaysi kanalga a'zo bo'lish kerakligini ko'rsatasiz. Bu kanalni o'stirishning tez usuli.
+074;546.60;6.82;9:06.60;Konkurs posti ishtirok tugmasi bilan chiqadi — odam bir bosadi va ro'yxatga tushadi.
+075;553.42;5.94;9:13.42;Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hammasi adolatli, hech kim aralasha olmaydi.
+076;559.36;7.26;9:19.36;Konkurs tugashidan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi. Ya'ni faqat haqiqiy obunachilar yutadi.
+077;566.62;6.38;9:26.62;G'oliblar ro'yxati kanalga o'zi e'lon qilinadi — sizdan qo'shimcha harakat talab etilmaydi.
+078;573.00;7.26;9:33.00;Adminlar uchun bo'limi shu bilan tugadi. Bu to'qqizta katak kanalingizni muntazam yuritish uchun yetarli.
+079;580.26;6.82;9:40.26;Keyingi darsda Kundalik xabarlar — har kuni o'zi ishlab turadigan avtomatik postlarni ko'ramiz.
