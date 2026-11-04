@@ -59,6 +59,9 @@ function db(): PDO {
               CREATE TABLE IF NOT EXISTS logs(id INTEGER PRIMARY KEY AUTOINCREMENT, ts TEXT, level TEXT, msg TEXT);
               CREATE TABLE IF NOT EXISTS settings(k TEXT PRIMARY KEY, v TEXT);
               CREATE TABLE IF NOT EXISTS fails(ip TEXT, ts INTEGER);");
+    // Qaysi hisobdan yaratilgani (eski bazalarga ustun qo'shiladi)
+    $cols = $p->query('PRAGMA table_info(items)')->fetchAll(PDO::FETCH_COLUMN, 1);
+    if (!in_array('acc', $cols, true)) $p->exec('ALTER TABLE items ADD COLUMN acc INTEGER');
     return $p;
 }
 function logx(string $level, string $msg): void {
@@ -73,26 +76,49 @@ function set_setting(string $k, string $v): void {
     db()->prepare('INSERT INTO settings(k,v) VALUES(?,?) ON CONFLICT(k) DO UPDATE SET v=excluded.v')->execute([$k, $v]);
 }
 
-function session_dir(): string {
+/* ---------- Bir nechta Telegram hisoblari (1..50), bittasi asosiy ---------- */
+const MAX_ACCOUNTS = 50;
+function acc_list(): array {
+    $l = json_decode(setting('acc_list', '[1]'), true);
+    $l = array_values(array_unique(array_filter(array_map('intval', is_array($l) ? $l : []), fn($n) => $n >= 1 && $n <= MAX_ACCOUNTS)));
+    sort($l);
+    return $l ?: [1];
+}
+function acc_save_list(array $l): void { sort($l); set_setting('acc_list', json_encode(array_values(array_unique($l)))); }
+function acc_active(): int {
+    $l = acc_list(); $a = (int)setting('acc_active', (string)$l[0]);
+    return in_array($a, $l, true) ? $a : $l[0];
+}
+function acc_name(int $n): string { return setting('acc_name_' . $n); }
+function acc_label(int $n): string { $nm = acc_name($n); return '#' . $n . ($nm !== '' ? ' · ' . $nm : ' · (ulanmagan)'); }
+function acc_remember_self(array $me): void {
+    $nm = trim(($me['first_name'] ?? '') . ' ' . ($me['last_name'] ?? '')) . (isset($me['username']) ? ' @' . $me['username'] : '');
+    set_setting('acc_name_' . acc_active(), mb_substr(trim($nm), 0, 80));
+}
+
+function session_dir(?int $slot = null): string {
     $uid = (string)($_SESSION['tg_user_id'] ?? '');
     if ($uid === '' || !ctype_digit($uid)) { throw new RuntimeException('Telegram foydalanuvchisi tasdiqlanmagan.'); }
-    return APP_DIR . '/data/sessions/' . $uid;
+    $slot ??= acc_active();
+    // 1-hisob eski papkada qoladi (mavjud sessiya buzilmaydi), qolganlari: <uid>-<N>
+    return APP_DIR . '/data/sessions/' . $uid . ($slot === 1 ? '' : '-' . $slot);
 }
 
 // Chiqilgan yoki buzilgan MadelineProto sessiyasini o'chiradi, keyin qaytadan kirish mumkin.
-function tg_reset_session(): void {
-    $dir = session_dir();
+function tg_reset_session(?int $slot = null): void {
+    $dir = session_dir($slot);
     if (!is_dir($dir)) return;
     $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
     foreach ($it as $f) { $f->isDir() && !$f->isLink() ? @rmdir($f->getPathname()) : @unlink($f->getPathname()); }
 }
 
-function tg(): API {
-    static $a = null;
+function tg(?int $slot = null): API {
+    static $cache = [];
     global $CFG;
-    if ($a) return $a;
-    // Har bir tasdiqlangan Mini App egasiga alohida MadelineProto sessiyasi.
-    $sessionDir = session_dir();
+    $slot ??= acc_active();
+    if (isset($cache[$slot])) return $cache[$slot];
+    // Har bir hisobga alohida MadelineProto sessiyasi.
+    $sessionDir = session_dir($slot);
     if (!is_dir($sessionDir) && !mkdir($sessionDir, 0700, true) && !is_dir($sessionDir)) {
         throw new RuntimeException('Xavfsiz sessiya papkasini yaratib bo‘lmadi.');
     }
@@ -113,7 +139,7 @@ function tg(): API {
     if (method_exists($lg, 'setExtra')) $lg->setExtra($sessionDir . '/madeline.log');
     if (method_exists($lg, 'setLevel')) $lg->setLevel(\danog\MadelineProto\Logger::LEVEL_ERROR);
     $s->setLogger($lg);
-    return $a = new API($sessionDir . '/session.madeline', $s);
+    return $cache[$slot] = new API($sessionDir . '/session.madeline', $s);
 }
 
 function tg_error(Throwable $e): string {
@@ -237,8 +263,8 @@ function tg_login_card(int|string $st, string $ret): string {
 /* ---------- Telegram'da yaratish ---------- */
 function create_object(string $type, string $title, string $about): int {
     $db = db();
-    $db->prepare('INSERT INTO items(created_at,type,title,about,status) VALUES(?,?,?,?,?)')
-       ->execute([date('Y-m-d H:i:s'), $type, $title, $about, 'jarayonda']);
+    $db->prepare('INSERT INTO items(created_at,type,title,about,status,acc) VALUES(?,?,?,?,?,?)')
+       ->execute([date('Y-m-d H:i:s'), $type, $title, $about, 'jarayonda', acc_active()]);
     $id = (int)$db->lastInsertId();
     $upd = fn(array $f) => $db->prepare('UPDATE items SET ' . implode(',', array_map(fn($k) => "$k=?", array_keys($f))) . ' WHERE id=?')->execute([...array_values($f), $id]);
 
@@ -459,13 +485,41 @@ if ($post) {
             flash('ok', 'Kod Telegram ilovangizga yuborildi.');
         } elseif ($act === 'tg_code') {
             $r = tg()->completePhoneLogin(preg_replace('/\D/', '', (string)$_POST['code']));
-            if (($r['_'] ?? '') === 'account.password') flash('ok', '2FA paroli kerak.'); else flash('ok', 'Telegramga kirildi.');
+            if (($r['_'] ?? '') === 'account.password') flash('ok', '2FA paroli kerak.');
+            else { try { acc_remember_self(tg()->getSelf()); } catch (Throwable $e) {} flash('ok', 'Telegramga kirildi.'); }
         } elseif ($act === '2fa') {
             tg()->complete2faLogin((string)$_POST['pw']);
+            try { acc_remember_self(tg()->getSelf()); } catch (Throwable $e) {}
             flash('ok', 'Telegramga kirildi.');
         } elseif ($act === 'tg_logout') {
-            try { tg()->logout(); } finally { tg_reset_session(); }
+            try { tg()->logout(); } finally { tg_reset_session(); set_setting('acc_name_' . acc_active(), ''); }
             flash('ok', 'Telegram sessiyasi tugatildi.');
+        } elseif ($act === 'acc_add') {
+            $l = acc_list();
+            if (count($l) >= MAX_ACCOUNTS) throw new RuntimeException('Ko‘pi bilan ' . MAX_ACCOUNTS . ' ta hisob qo‘shish mumkin.');
+            $n = 1; while (in_array($n, $l, true)) $n++;
+            $l[] = $n; acc_save_list($l);
+            set_setting('acc_name_' . $n, '');
+            set_setting('acc_active', (string)$n);
+            flash('ok', "#{$n}-hisob qo‘shildi va asosiy qilindi. Telefon raqamini kiriting.");
+        } elseif ($act === 'acc_use') {
+            $n = (int)($_POST['slot'] ?? 0);
+            if (!in_array($n, acc_list(), true)) throw new RuntimeException('Bunday hisob yo‘q.');
+            set_setting('acc_active', (string)$n);
+            flash('ok', 'Asosiy hisob: ' . acc_label($n));
+        } elseif ($act === 'acc_del') {
+            $n = (int)($_POST['slot'] ?? 0); $l = acc_list();
+            if (!in_array($n, $l, true)) throw new RuntimeException('Bunday hisob yo‘q.');
+            if (count($l) <= 1) throw new RuntimeException('Oxirgi hisobni o‘chirib bo‘lmaydi — «Telegramdan chiqish»dan foydalaning.');
+            if ($n === acc_active() && setting('auto_on') === '1') throw new RuntimeException('Avto yaratish shu hisobda ishlayapti. Avval to‘xtating.');
+            $label = acc_label($n);
+            try { if (is_file(session_dir($n) . '/session.madeline') && tg($n)->getAuthorization() === API::LOGGED_IN) tg($n)->logout(); }
+            catch (Throwable $e) { logx('WARN', 'acc_del logout: ' . tg_error($e)); }
+            finally { tg_reset_session($n); if ($n !== 1) @rmdir(session_dir($n)); }
+            $l = array_values(array_diff($l, [$n])); acc_save_list($l);
+            set_setting('acc_name_' . $n, '');
+            if ((int)setting('acc_active', '1') === $n) set_setting('acc_active', (string)$l[0]);
+            flash('ok', "Hisob o‘chirildi: {$label}");
         } elseif ($act === 'tg_reset') {
             tg_reset_session(); flash('ok', 'Sessiya tozalandi. Telefon raqamingizni qayta kiriting.');
         } elseif ($act === 'admin_save') {
@@ -507,7 +561,7 @@ if ($post) {
         logx('ERROR', "{$act}: {$m}");
         flash('err', $m);
     }
-    go(in_array($act, ['tg_phone', 'tg_code', '2fa', 'tg_logout', 'tg_reset']) ? ((($_POST['ret'] ?? '') === 'home') ? 'home' : 'tg') : ($act === 'admin_save' ? 'admin' : ($act === 'auto_save' ? 'auto' : ($act === 'preview' ? 'create' : 'home'))));
+    go(in_array($act, ['tg_phone', 'tg_code', '2fa', 'tg_logout', 'tg_reset', 'acc_add', 'acc_use', 'acc_del']) ? ((($_POST['ret'] ?? '') === 'home') ? 'home' : 'tg') : ($act === 'admin_save' ? 'admin' : ($act === 'auto_save' ? 'auto' : ($act === 'preview' ? 'create' : 'home'))));
 }
 
 /* ---------- Sahifalar ---------- */
@@ -617,6 +671,7 @@ case 'confirm':
     $d = $_SESSION['pending'] ?? null;
     if (!$d) go('create');
     echo '<div class="card"><h2>Tasdiqlang</h2><div class="row">Turi: <b>' . ($d['type'] === 'channel' ? 'Yopiq kanal' : 'Yopiq superguruh') . '</b></div><div class="row">Nomi: <b>' . h($d['title']) . '</b></div><div class="row">Tavsif: ' . h($d['about'] ?: '—') . '</div>
+    <div class="row">Hisob: <b>' . h(acc_label(acc_active())) . '</b></div>
     <div class="row">Admin: ' . h(setting('admin_target') ?: 'belgilanmagan') . '</div>
     <form method="post">' . csrf_field() . '<input type="hidden" name="action" value="create"><button>Telegramda yaratish</button></form>
     <a href="?p=create"><button class="sec" type="button">Bekor qilish</button></a></div>';
@@ -640,7 +695,7 @@ case 'admin':
 case 'history':
     echo '<div class="card"><h2>Tarix</h2>';
     foreach ($db->query('SELECT * FROM items ORDER BY id DESC LIMIT 100') as $r)
-        echo '<div class="row"><b>' . h($r['title']) . '</b> · ' . ($r['type'] === 'channel' ? 'kanal' : 'guruh') . '<br><small>' . h($r['created_at']) . ' · ID: ' . h($r['tg_id']) . '</small><br>Holat: ' . h($r['status']) .
+        echo '<div class="row"><b>' . h($r['title']) . '</b> · ' . ($r['type'] === 'channel' ? 'kanal' : 'guruh') . '<br><small>' . h($r['created_at']) . ' · ID: ' . h($r['tg_id']) . (!empty($r['acc']) ? ' · hisob #' . (int)$r['acc'] : '') . '</small><br>Holat: ' . h($r['status']) .
             ($r['admin_status'] ? '<br>Admin: ' . h($r['admin_status']) : '') . ($r['link_sent'] ? '<br>Havola: ' . h($r['link_sent']) : '') . ($r['error'] ? '<br><span class="errt">' . h($r['error']) . '</span>' : '') . '</div>';
     echo '</div>';
     break;
@@ -677,9 +732,21 @@ case 'auto':
 
 case 'tg':
     $st = tg_state();
-    echo '<div class="card"><h2>Telegram profil</h2>';
+    $accs = acc_list(); $act = acc_active();
+    echo '<div class="card"><h2>Hisoblar (' . count($accs) . '/' . MAX_ACCOUNTS . ')</h2><small>Barcha amallar va avto yaratish faqat <b>asosiy</b> hisobdan bajariladi.</small>';
+    foreach ($accs as $n) {
+        $isA = $n === $act;
+        echo '<div class="row">' . ($isA ? '<b>[*] ' . h(acc_label($n)) . '</b> <small>asosiy</small>' : h(acc_label($n)))
+            . '<form method="post">' . csrf_field() . '<input type="hidden" name="slot" value="' . $n . '">'
+            . (!$isA ? '<button class="sec" name="action" value="acc_use">Asosiy qilish</button>' : '')
+            . (count($accs) > 1 ? '<button class="red" name="action" value="acc_del" onclick="return confirm(\'' . h('#' . $n) . ' hisobi o‘chirilsinmi? Sessiyasi tugatiladi.\')">O‘chirish</button>' : '')
+            . '</form></div>';
+    }
+    if (count($accs) < MAX_ACCOUNTS) echo '<form method="post">' . csrf_field() . '<input type="hidden" name="action" value="acc_add"><button>+ Hisob qo‘shish</button></form>';
+    echo '</div>';
+    echo '<div class="card"><h2>Asosiy hisob #' . $act . '</h2>';
     if ($st === API::LOGGED_IN) {
-        try { $me = tg()->getSelf(); echo '<div class="msg ok">Ulangan: ' . h(trim(($me['first_name'] ?? '') . ' ' . ($me['last_name'] ?? ''))) . ' ' . (isset($me['username']) ? '@' . h($me['username']) : '') . '</div>'; }
+        try { $me = tg()->getSelf(); acc_remember_self($me); echo '<div class="msg ok">Ulangan: ' . h(trim(($me['first_name'] ?? '') . ' ' . ($me['last_name'] ?? ''))) . ' ' . (isset($me['username']) ? '@' . h($me['username']) : '') . '</div>'; }
         catch (Throwable $e) { echo '<div class="msg err">' . h(tg_error($e)) . '</div>'; }
         echo '<form method="post" onsubmit="return confirm(\'Telegram sessiyasi tugatilsinmi?\')">' . csrf_field() . '<input type="hidden" name="action" value="tg_logout"><button class="red">Telegramdan chiqish</button></form>';
     } else {
@@ -695,10 +762,11 @@ default:
     // 1) Telegram profil holati — ulanmagan bo'lsa, ulash formasi shu yerning o'zida
     if ($s === API::LOGGED_IN) {
         $who = '';
-        try { $me = tg()->getSelf(); $who = trim(($me['first_name'] ?? '') . ' ' . ($me['last_name'] ?? '')) . (isset($me['username']) ? ' · @' . $me['username'] : ''); } catch (Throwable $ex) {}
-        echo '<a href="?p=tg" style="text-decoration:none"><div class="msg ok">Telegram ulangan' . ($who !== '' ? ': <b>' . h($who) . '</b>' : '') . '</div></a>';
+        try { $me = tg()->getSelf(); acc_remember_self($me); $who = trim(($me['first_name'] ?? '') . ' ' . ($me['last_name'] ?? '')) . (isset($me['username']) ? ' · @' . $me['username'] : ''); } catch (Throwable $ex) {}
+        $cnt = count(acc_list());
+        echo '<a href="?p=tg" style="text-decoration:none"><div class="msg ok">Telegram ulangan #' . acc_active() . ($who !== '' ? ': <b>' . h($who) . '</b>' : '') . '<br><small style="color:inherit">Hisoblar: ' . $cnt . '/' . MAX_ACCOUNTS . ' · almashtirish / qo‘shish →</small></div></a>';
     } else {
-        echo '<div class="card"><h2>Telegram profilni ulang</h2>' . tg_login_card($s, 'home') . '</div>';
+        echo '<div class="card"><h2>Telegram profilni ulang (#' . acc_active() . ')</h2>' . tg_login_card($s, 'home') . (count(acc_list()) > 1 ? '<p><a href="?p=tg"><small>Boshqa hisobga o‘tish →</small></a></p>' : '') . '</div>';
     }
     // 2) Statistika
     $on = setting('auto_on') === '1';
