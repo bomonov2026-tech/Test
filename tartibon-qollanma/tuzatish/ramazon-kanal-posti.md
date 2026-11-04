@@ -98,7 +98,8 @@ agar ustun allaqachon bo'lsa, xato bermaydi.
 | Ramazon emas | `cron_ramazon()` darhol chiqadi, hech narsa yubormaydi |
 | Bir xil post takrorlanishi | `rz_sa` / `rz_if` ustunlari to'sadi (atomar `UPDATE … rowCount()===1`) |
 | Admin o'chirib qo'ygan | `rz_all` sozlamasi — funksiya darhol chiqadi |
-| Vaqtlar hali olinmagan | `kutilmoqda` qaytaradi, keyingi daqiqada qayta urinadi |
+| Vaqtlar hali olinmagan | `kutilmoqda` — keyingi daqiqada qayta urinadi |
+| Vaqtlar hisoblangan (rasmiy emas) | `rasmiy vaqt kutilmoqda` — yuborilmaydi |
 | Telegram vaqtincha xato berdi | `dp_transient()` — tegishli ustun tozalanadi, qayta yuboriladi |
 | Bot kanaldan chiqarilgan | `chat_lost()` — egasiga xabar beriladi |
 | Ko'p chat | 100 tadan, orasida 0,2 soniya tanaffus |
@@ -137,11 +138,40 @@ Ramazon kelishini kutmasdan sinab ko'rish uchun:
 
 ---
 
-## Eslatma: vaqtlar qayerdan olinadi
+## Vaqtlar: faqat rasmiy manbadan
 
-Namoz vaqtlari cron'i o'chirilgani uchun islom.uz dan avtomatik yuklash yo'q.
-`pr_get()` ichidagi `pr_calc()` zaxirasi vaqtlarni o'zi hisoblaydi — post
-baribir chiqadi, rasm tagida «Hisoblangan vaqtlar» deb yoziladi.
+**Qoida:** post va eslatmalar **faqat islom.uz rasmiy vaqtlari** bilan
+yuboriladi. Bot o'zi hisoblagan vaqt bilan **hech qachon** yuborilmaydi.
 
-Rasmiy islom.uz vaqtlarini xohlasangiz, ayting — cron'ga kichik qator
-qo'shaman, u faqat Ramazon davrida kuniga bir marta yangilaydi.
+| Holat | Nima bo'ladi |
+|---|---|
+| islom.uz javob berdi | Post yuboriladi, rasm tagida «islom.uz taqvimi asosida» |
+| islom.uz javob bermadi | **Post yuborilmaydi**, keyingi daqiqada qayta urinadi |
+| 12 viloyatdan bittasi ham hisoblangan bo'lsa | Post yuborilmaydi |
+
+Cron jurnalida `Ramazon posti: rasmiy vaqt kutilmoqda` deb ko'rinadi.
+
+Xuddi shu qoida **shaxsiy saharlik/iftor eslatmalariga** ham qo'llanildi
+(`rz_run`): hisoblangan vaqt bilan eslatma ketmaydi.
+
+### Oldindan yuklash
+
+Rasmiy vaqt post vaqtida tayyor turishi uchun alohida vazifa qo'shildi:
+
+```php
+'Ramazon vaqtlari' => function () { return rz_warm(); }
+```
+
+`rz_warm()` faqat Ramazon davrida ishlaydi va yarim soatda bir marta 12
+viloyat vaqtlarini islom.uz dan keshga oladi. Ramazon tugagach umuman
+tegmaydi.
+
+Shunda post vaqti kelganda vaqtlar allaqachon keshda bo'ladi va «rasmiy
+vaqt kutilmoqda» holati deyarli uchramaydi.
+
+### Agar islom.uz uzoq ishlamasa
+
+Post o'tkazib yuboriladi — bu ataylab shunday. Ramazonda noto'g'ri vaqt
+yuborilgandan ko'ra, post chiqmagani yaxshiroq.
+
+Jurnalda ko'rinadi, shunda muammoni sezasiz.
