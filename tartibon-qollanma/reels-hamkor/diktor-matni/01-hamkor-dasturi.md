@@ -1,5 +1,11 @@
 # Reels — Pul ishlash (hamkor dasturi)
 
+> **Ikki variant bor, matni bir xil, vaqtlari ham bir xil:**
+> - `01-hamkor-dasturi.mp4` — slayd uslubi (5,1 MB)
+> - `02-hamkor-dasturi-3d.mp4` — **3D motion-grafika** (10,3 MB)
+>
+> Quyidagi vaqt belgilari **ikkalasiga ham** to'g'ri keladi.
+
 **Instagram Reels va Telegram uchun · 9:16 (1080×1920) · 66 soniya**
 
 **Kimga:** Telegramda ko'p vaqt o'tkazadigan har kim
@@ -76,6 +82,22 @@ Muhim shartlar (rolikda aytilgan):
 - Pul avval **bonus balansga** tushadi
 - Asosiy balansga **admin tasdig'i bilan** o'tadi
 - Keyin xizmatlarga sarflanadi yoki kartaga yechiladi
+
+### 3D variant haqida
+
+Ikkinchi variant slayd emas — har kadr alohida hisoblanadi (30 fps, 1 986 kadr):
+
+| Element | Harakat |
+|---|---|
+| Kamera | Doimiy 3D uchish — `rotateX/Y`, `translateZ` |
+| Matn | So'zlar ketma-ket, 3D chuqurlikdan uchib kiradi |
+| Kartalar | `rotateY` bilan uchib kiradi, keyin sekin tebranadi |
+| Fon | Uchta parallaks shar, har biri o'z sur'atida |
+| Raqamlar | «45» noldan sanaydi; «3» va «500 so'm» overshoot bilan |
+| Chuqurlik | Perspektiva 1500px, vinyetka, yorug'lik halqasi |
+
+Hammasi `render(t)` funksiyasida vaqtdan hisoblanadi — tasodifiy element yo'q,
+shuning uchun diktor vaqtlari aniq mos keladi.
 
 ### Nega «birdan boyib ketmaysiz» deb aytdim
 
