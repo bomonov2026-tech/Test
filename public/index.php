@@ -63,7 +63,8 @@ function db(): PDO {
               CREATE TABLE IF NOT EXISTS logs(id INTEGER PRIMARY KEY AUTOINCREMENT, ts TEXT, level TEXT, msg TEXT);
               CREATE TABLE IF NOT EXISTS settings(k TEXT PRIMARY KEY, v TEXT);
               CREATE TABLE IF NOT EXISTS fails(ip TEXT, ts INTEGER);
-              CREATE TABLE IF NOT EXISTS member_queue(job_id TEXT, user_id TEXT, peer TEXT, status TEXT, reason TEXT, PRIMARY KEY(job_id,user_id));");
+              CREATE TABLE IF NOT EXISTS member_queue(job_id TEXT, user_id TEXT, peer TEXT, status TEXT, reason TEXT, PRIMARY KEY(job_id,user_id));
+              CREATE TABLE IF NOT EXISTS dm_queue(job_id TEXT, user_id TEXT, peer TEXT, status TEXT, reason TEXT, random_id TEXT, PRIMARY KEY(job_id,user_id));");
     // Qaysi hisobdan yaratilgani (eski bazalarga ustun qo'shiladi)
     $cols = $p->query('PRAGMA table_info(items)')->fetchAll(PDO::FETCH_COLUMN, 1);
     if (!in_array('acc', $cols, true)) $p->exec('ALTER TABLE items ADD COLUMN acc INTEGER');
@@ -285,6 +286,7 @@ const MENU = [
     'names' => ['{?}', 'Nomlar'],    'admin' => ['[@]', 'Admin'],
     'tg' => ['((o))', 'Telegram'],   'logs' => ['[!]', 'Xatolar'],
     'members' => ['[>>]', 'A’zo taklif'],
+    'dm' => ['[@>]', 'Shaxsiy xabar'],
 ];
 
 /* Telegram profilni ulash formasi (bosh sahifada ham, 📡 sahifada ham ishlatiladi) */
@@ -444,6 +446,10 @@ function members_create(string $source, string $target, int $limit, int $interva
         throw new RuntimeException('Avval mavjud taklif vazifasini to‘xtating yoki davom ettiring.');
     }
     $acc = acc_active();
+    $dm = dm_job();
+    if ((int)($dm['acc'] ?? 0) === $acc && in_array($dm['state'] ?? '', ['running', 'paused', 'paused_account'], true)) {
+        throw new RuntimeException('Shu hisobda shaxsiy xabar vazifasi bor. Avval uni yakunlang yoki to‘xtating.');
+    }
     if (time() < (int)setting('tg_pause_until_' . $acc, '0')) throw new RuntimeException('Telegram kutish muddati hali tugamagan.');
     if (!logged_in()) throw new RuntimeException('Avval asosiy hisob bilan Telegramga kiring.');
     $api = tg();
@@ -464,7 +470,8 @@ function members_create(string $source, string $target, int $limit, int $interva
     try { $db->exec('DELETE FROM member_queue'); members_save($job); $db->commit(); }
     catch (Throwable $e) { $db->rollBack(); throw $e; }
 }
-function members_fetch(array &$job, API $api): void {
+function members_fetch(array &$job, API $api, string $table = 'member_queue'): void {
+    if (!in_array($table, ['member_queue', 'dm_queue'], true)) throw new InvalidArgumentException('Noto‘g‘ri navbat jadvali.');
     $remaining = $job['limit'] - $job['scanned'];
     if ($remaining <= 0) { $job['source_done'] = true; return; }
     if ($job['source_type'] === 'supergroup') {
@@ -493,7 +500,7 @@ function members_fetch(array &$job, API $api): void {
     }
     $usersById = [];
     foreach ($users as $user) $usersById[(string)$user['id']] = $user;
-    $insert = db()->prepare('INSERT OR IGNORE INTO member_queue(job_id,user_id,peer,status,reason) VALUES(?,?,?,?,?)');
+    $insert = db()->prepare('INSERT OR IGNORE INTO ' . $table . '(job_id,user_id,peer,status,reason) VALUES(?,?,?,?,?)');
     foreach (array_slice($participants, 0, $remaining) as $participant) {
         $job['scanned']++;
         $id = (string)($participant['user_id'] ?? $participant['peer']['user_id'] ?? '');
@@ -522,6 +529,7 @@ function members_tick(): string {
     try {
         if (!logged_in()) throw new RuntimeException('Telegram sessiyasi mavjud emas. Hisobga qayta kiring.');
         $api = tg();
+        if ((string)($api->getSelf()['id'] ?? '') !== (string)$job['self_id']) throw new RuntimeException('Bu joyga boshqa Telegram hisobi ulangan. Vazifa to‘xtatildi.');
         // Oldingi jarayon API javobini yozishdan oldin uzilgan bo'lsa, taklif takrorlanmaydi.
         db()->prepare("UPDATE member_queue SET status='unknown',reason=? WHERE job_id=? AND status='working'")
             ->execute(['Oldingi so‘rov uzilgan; natijani guruhda tekshiring.', $job['id']]);
@@ -564,12 +572,138 @@ function members_tick(): string {
             if ($row) db()->prepare('UPDATE member_queue SET status=?,reason=? WHERE job_id=? AND user_id=?')
                 ->execute([$e instanceof RPCErrorException ? 'failed' : 'unknown', mb_substr($rpc, 0, 180), $job['id'], $row['user_id']]);
             $job['state'] = 'error'; $job['message'] = 'To‘xtatildi: ' . tg_error($e);
-            if (str_contains($rpc, 'PEER_FLOOD')) { set_setting('auto_on', '0'); auto_status('Telegram PEER_FLOOD cheklovi sabab to‘xtatildi.'); }
+            if (str_contains($rpc, 'PEER_FLOOD')) tg_stop_account_jobs((int)$job['acc']);
             logx('WARN', 'A’zo taklif: ' . $job['message']);
         }
     }
     members_save($job);
     return 'a’zo taklif: ' . $job['message'];
+}
+
+/* ---------- Shaxsiy xabarlar navbati ---------- */
+function dm_job(): array {
+    $job = json_decode(setting('dm_job', '{}'), true);
+    return is_array($job) ? $job : [];
+}
+function dm_save(array $job): void { set_setting('dm_job', json_encode($job, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE)); }
+function dm_counts(string $id): array {
+    $counts = array_fill_keys(['pending', 'working', 'sent', 'skipped', 'failed', 'unknown'], 0);
+    $q = db()->prepare('SELECT status,COUNT(*) AS n FROM dm_queue WHERE job_id=? GROUP BY status');
+    $q->execute([$id]);
+    foreach ($q as $row) $counts[$row['status']] = (int)$row['n'];
+    return $counts;
+}
+function dm_text(string $text): string {
+    if (!mb_check_encoding($text, 'UTF-8')) throw new InvalidArgumentException('Xabar matni UTF-8 formatida bo‘lsin.');
+    $text = str_replace("\r\n", "\n", $text);
+    if (trim($text) === '') throw new InvalidArgumentException('Xabar matnini kiriting.');
+    if (strlen(mb_convert_encoding($text, 'UTF-16LE', 'UTF-8')) > 8192) throw new InvalidArgumentException('Xabar 4096 belgidan oshmasin; emoji ikki birlik hisoblanishi mumkin.');
+    return $text;
+}
+function tg_stop_account_jobs(int $acc): void {
+    set_setting('auto_on', '0'); auto_status('Telegram PEER_FLOOD cheklovi sabab to‘xtatildi.');
+    foreach (['members_job', 'dm_job'] as $key) {
+        $job = json_decode(setting($key, '{}'), true);
+        if (is_array($job) && (int)($job['acc'] ?? 0) === $acc && in_array($job['state'] ?? '', ['running', 'paused', 'paused_account'], true)) {
+            $job['state'] = 'error'; $job['message'] = 'Telegram PEER_FLOOD cheklovi sabab to‘xtatildi.';
+            set_setting($key, json_encode($job, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE));
+        }
+    }
+}
+function dm_create(string $source, string $text, int $limit, int $interval = 60, ?string $expectedSelf = null): void {
+    $text = dm_text($text);
+    $old = dm_job();
+    if (in_array($old['state'] ?? '', ['running', 'paused', 'paused_account'], true)) throw new RuntimeException('Avval mavjud shaxsiy xabar vazifasini to‘xtating yoki davom ettiring.');
+    $acc = acc_active(); $memberJob = members_job();
+    if ((int)($memberJob['acc'] ?? 0) === $acc && in_array($memberJob['state'] ?? '', ['running', 'paused', 'paused_account'], true)) {
+        throw new RuntimeException('Shu hisobda a’zo taklif vazifasi bor. Avval uni yakunlang yoki to‘xtating.');
+    }
+    if (time() < max((int)setting('tg_pause_until_' . $acc, '0'), (int)setting('auto_pause_until', '0'))) throw new RuntimeException('Telegram kutish muddati hali tugamagan.');
+    if (!logged_in()) throw new RuntimeException('Avval asosiy hisob bilan Telegramga kiring.');
+    $api = tg(); $from = members_group($api, members_peer($source)); $me = $api->getSelf();
+    if ($expectedSelf !== null && (string)($me['id'] ?? '') !== $expectedSelf) throw new RuntimeException('Tasdiqlashdan keyin Telegram hisobi almashgan. Xabarni qayta ko‘rib chiqing.');
+    $job = [
+        'id' => bin2hex(random_bytes(12)), 'acc' => $acc, 'state' => 'running',
+        'source' => (string)$from['bot_api_id'], 'source_type' => $from['type'], 'source_title' => (string)($from['Chat']['title'] ?? $source),
+        'self_id' => (string)$me['id'], 'text' => $text, 'limit' => max(1, min(10000, $limit)), 'interval' => max(60, min(3600, $interval)),
+        'offset' => 0, 'scanned' => 0, 'source_done' => false, 'next_at' => time(),
+        'message' => 'Xabar navbati tayyor. Cron ko‘rinadigan a’zolarga bittadan yuboradi.', 'created_at' => date('Y-m-d H:i:s'),
+    ];
+    $db = db(); $db->beginTransaction();
+    try { $db->exec('DELETE FROM dm_queue'); dm_save($job); $db->commit(); }
+    catch (Throwable $e) { $db->rollBack(); throw $e; }
+}
+function dm_sent_response(mixed $result, string $randomId): bool {
+    if (!is_array($result)) return false;
+    if (($result['_'] ?? '') === 'updateShortSentMessage') return (int)($result['id'] ?? 0) > 0;
+    $updates = $result['updates'] ?? (isset($result['update']) ? [$result['update']] : []);
+    foreach ($updates as $update) {
+        if (($update['_'] ?? '') === 'updateMessageID' && (string)($update['random_id'] ?? '') === $randomId && (int)($update['id'] ?? 0) > 0) return true;
+    }
+    return false;
+}
+function dm_skip_error(string $rpc): bool {
+    return in_array($rpc, ['USER_IS_BLOCKED', 'YOU_BLOCKED_USER', 'USER_BLOCKED', 'INPUT_USER_DEACTIVATED', 'USER_PRIVACY_RESTRICTED', 'PRIVACY_PREMIUM_REQUIRED', 'PREMIUM_ACCOUNT_REQUIRED', 'CHAT_WRITE_FORBIDDEN', 'USER_NOT_MUTUAL_CONTACT', 'PEER_ID_INVALID', 'USER_ID_INVALID'], true)
+        || (bool)preg_match('/^ALLOW_PAYMENT_REQUIRED(?:_\d+)?$/', $rpc);
+}
+function dm_tick(): string {
+    $job = dm_job();
+    if (!in_array($job['state'] ?? '', ['running', 'paused_account'], true)) return 'shaxsiy xabar: faol vazifa yo‘q';
+    if (!in_array((int)$job['acc'], acc_list(), true)) {
+        $job['state'] = 'error'; $job['message'] = 'Vazifa boshlangan hisob o‘chirilgan.'; dm_save($job); return $job['message'];
+    }
+    if ((int)$job['acc'] !== acc_active()) {
+        $job['state'] = 'paused_account'; $job['message'] = 'Asosiy hisob almashgan. #' . $job['acc'] . ' yana asosiy bo‘lganda davom etadi.'; dm_save($job); return $job['message'];
+    }
+    if ($job['state'] === 'paused_account') { $job['state'] = 'running'; dm_save($job); }
+    if (time() < max((int)$job['next_at'], (int)setting('tg_pause_until_' . $job['acc'], '0'), (int)setting('auto_pause_until', '0'))) return 'shaxsiy xabar: kutish muddati';
+    $row = null;
+    try {
+        if (!logged_in()) throw new RuntimeException('Telegram sessiyasi mavjud emas. Hisobga qayta kiring.');
+        $api = tg();
+        if ((string)($api->getSelf()['id'] ?? '') !== (string)$job['self_id']) throw new RuntimeException('Bu joyga boshqa Telegram hisobi ulangan. Vazifa to‘xtatildi.');
+        db()->prepare("UPDATE dm_queue SET status='unknown',reason=? WHERE job_id=? AND status='working'")
+            ->execute(['Oldingi so‘rov uzilgan; natijani chatda tekshiring.', $job['id']]);
+        $select = db()->prepare("SELECT * FROM dm_queue WHERE job_id=? AND status='pending' ORDER BY rowid LIMIT 1");
+        $select->execute([$job['id']]); $row = $select->fetch(PDO::FETCH_ASSOC) ?: null;
+        if (!$row && !$job['source_done']) {
+            members_fetch($job, $api, 'dm_queue'); dm_save($job);
+            $select->execute([$job['id']]); $row = $select->fetch(PDO::FETCH_ASSOC) ?: null;
+        }
+        if (!$row) {
+            if ($job['source_done']) { $job['state'] = 'done'; $job['message'] = 'Ko‘rinadigan ro‘yxat bo‘yicha xabar navbati tugadi.'; }
+            else $job['message'] = 'Keyingi a’zolar sahifasi tekshirilmoqda.';
+        } else {
+            $randomId = $row['random_id'] ?: (string)random_int(1, PHP_INT_MAX);
+            db()->prepare("UPDATE dm_queue SET status='working',random_id=? WHERE job_id=? AND user_id=?")->execute([$randomId, $job['id'], $row['user_id']]);
+            $result = $api->messages->sendMessage([
+                'peer' => (int)$row['user_id'], 'message' => $job['text'], 'random_id' => (int)$randomId,
+                'parse_mode' => 'text', 'entities' => [], 'no_webpage' => true,
+            ]);
+            if (!dm_sent_response($result, $randomId)) throw new RuntimeException('Xabar javobi tasdiqlanmadi. Natijani chatda tekshiring.');
+            db()->prepare("UPDATE dm_queue SET status='sent',reason='' WHERE job_id=? AND user_id=?")->execute([$job['id'], $row['user_id']]);
+            $job['message'] = 'Bitta shaxsiy xabar Telegram tomonidan qabul qilindi.';
+        }
+        $job['next_at'] = time() + $job['interval'];
+    } catch (Throwable $e) {
+        $wait = members_wait($e); $rpc = members_rpc_error($e);
+        if ($wait > 0) {
+            $job['next_at'] = time() + $wait + 5; set_setting('tg_pause_until_' . $job['acc'], (string)$job['next_at']);
+            $job['message'] = 'Telegram ' . $wait . ' soniya kutishni talab qildi. Muddat tugagach davom etadi.';
+            if ($row) db()->prepare("UPDATE dm_queue SET status='pending',reason=? WHERE job_id=? AND user_id=?")->execute(['Telegram kutish muddati', $job['id'], $row['user_id']]);
+        } elseif ($row && dm_skip_error($rpc)) {
+            db()->prepare("UPDATE dm_queue SET status='skipped',reason=? WHERE job_id=? AND user_id=?")->execute([mb_substr($rpc, 0, 180), $job['id'], $row['user_id']]);
+            $job['next_at'] = time() + $job['interval']; $job['message'] = 'Qabul qiluvchiga yozib bo‘lmadi; navbatdagi a’zoga o‘tiladi.';
+        } else {
+            if ($row) db()->prepare('UPDATE dm_queue SET status=?,reason=? WHERE job_id=? AND user_id=?')
+                ->execute([($e instanceof RPCErrorException && $rpc !== 'RANDOM_ID_DUPLICATE') ? 'failed' : 'unknown', mb_substr($rpc, 0, 180), $job['id'], $row['user_id']]);
+            $job['state'] = 'error'; $job['message'] = 'To‘xtatildi: ' . tg_error($e);
+            if (str_contains($rpc, 'PEER_FLOOD')) tg_stop_account_jobs((int)$job['acc']);
+            logx('WARN', 'Shaxsiy xabar: ' . $job['message']);
+        }
+    }
+    dm_save($job);
+    return 'shaxsiy xabar: ' . $job['message'];
 }
 
 /* ---------- AVTO YARATISH (har 1 daqiqada cron chaqiradi) ---------- */
@@ -628,6 +762,7 @@ if ($IS_CRON) {
     try {
         echo acc_rotation_tick() . "\n";
         echo members_tick() . "\n";
+        echo dm_tick() . "\n";
         echo auto_tick() . "\n";
     }
     catch (Throwable $e) { logx('ERROR', 'cron: ' . tg_error($e)); echo "xato\n"; }
@@ -721,10 +856,10 @@ if ($post) {
     $act = (string)($_POST['action'] ?? '');
     try {
         if ($act === 'logout') { $_SESSION = []; session_destroy(); header('Location: ?'); exit; }
-        if (in_array($act, ['tg_phone', 'tg_code', '2fa', 'tg_logout', 'tg_reset', 'acc_add', 'acc_use', 'acc_del', 'acc_rotation_save', 'auto_save', 'create', 'members_start', 'members_pause', 'members_resume', 'members_stop'], true)) {
+        if (in_array($act, ['tg_phone', 'tg_code', '2fa', 'tg_logout', 'tg_reset', 'acc_add', 'acc_use', 'acc_del', 'acc_rotation_save', 'auto_save', 'create', 'members_start', 'members_pause', 'members_resume', 'members_stop', 'dm_preview', 'dm_start', 'dm_pause', 'dm_resume', 'dm_stop'], true)) {
             acc_control_lock();
         }
-        if (in_array($act, ['tg_phone', 'tg_code', '2fa', 'tg_logout', 'tg_reset', 'create', 'members_start', 'members_resume'], true)) {
+        if (in_array($act, ['tg_phone', 'tg_code', '2fa', 'tg_logout', 'tg_reset', 'create', 'members_start', 'members_resume', 'dm_preview', 'dm_start', 'dm_resume'], true)) {
             acc_require_current();
         }
 
@@ -809,6 +944,48 @@ if ($post) {
             $job['state'] = $act === 'members_stop' ? 'stopped' : ($act === 'members_pause' ? 'paused' : 'running');
             $job['message'] = $act === 'members_stop' ? 'Foydalanuvchi vazifani to‘xtatdi.' : ($act === 'members_pause' ? 'Foydalanuvchi pauza qildi.' : 'Vazifa davom ettiriladi; Telegram kutish muddatlari saqlanadi.');
             members_save($job); flash('ok', $job['message']);
+        } elseif ($act === 'dm_preview') {
+            $current = dm_job();
+            if (in_array($current['state'] ?? '', ['running', 'paused', 'paused_account'], true)) throw new RuntimeException('Avval mavjud xabar vazifasini to‘xtating yoki davom ettiring.');
+            $source = trim((string)($_POST['source'] ?? ''));
+            members_peer($source);
+            $text = dm_text((string)($_POST['text'] ?? ''));
+            try {
+                if (!logged_in()) throw new RuntimeException('Avval asosiy hisob bilan Telegramga kiring.');
+                $senderId = (string)(tg()->getSelf()['id'] ?? '');
+                if ($senderId === '') throw new RuntimeException('Telegram hisobi aniqlanmadi.');
+            } catch (Throwable $e) {
+                $wait = members_wait($e);
+                if ($wait > 0) set_setting('tg_pause_until_' . acc_active(), (string)(time() + $wait + 5));
+                throw $e;
+            }
+            $_SESSION['dm_pending'] = [
+                'id' => bin2hex(random_bytes(16)), 'acc' => acc_active(), 'self_id' => $senderId, 'source' => $source, 'text' => $text,
+                'limit' => max(1, min(10000, (int)($_POST['limit'] ?? 10000))),
+                'interval' => max(60, min(3600, (int)($_POST['interval'] ?? 60))),
+            ];
+            go('dm_confirm');
+        } elseif ($act === 'dm_start') {
+            $draft = $_SESSION['dm_pending'] ?? null;
+            if (!is_array($draft) || !isset($draft['id'], $draft['self_id']) || !hash_equals((string)$draft['id'], (string)($_POST['pending_id'] ?? ''))) throw new RuntimeException('Tasdiqlanadigan xabar o‘zgargan. Matnni qayta ko‘rib chiqing.');
+            if ((int)$draft['acc'] !== acc_active()) throw new RuntimeException('Asosiy hisob almashgan. Xabarni yangi hisob bilan qayta ko‘rib chiqing.');
+            try {
+                dm_create((string)$draft['source'], (string)$draft['text'], (int)$draft['limit'], (int)$draft['interval'], (string)$draft['self_id']);
+            } catch (Throwable $e) {
+                $wait = members_wait($e);
+                if ($wait > 0) set_setting('tg_pause_until_' . acc_active(), (string)(time() + $wait + 5));
+                throw $e;
+            }
+            unset($_SESSION['dm_pending']);
+            flash('ok', 'Shaxsiy xabarlar vazifasi yaratildi. Cron navbatni bittadan bajaradi.');
+        } elseif (in_array($act, ['dm_pause', 'dm_resume', 'dm_stop'], true)) {
+            $job = dm_job();
+            if (!$job || !hash_equals((string)$job['id'], (string)($_POST['job_id'] ?? ''))) throw new RuntimeException('Vazifa o‘zgargan. Sahifani yangilang.');
+            if (!in_array($job['state'], ['running', 'paused', 'paused_account'], true)) throw new RuntimeException('Bu vazifa tugagan yoki xato sabab to‘xtagan.');
+            if ($act === 'dm_resume' && (int)$job['acc'] !== acc_active()) throw new RuntimeException('Davom ettirish uchun avval #' . $job['acc'] . ' hisobni asosiy qiling.');
+            $job['state'] = $act === 'dm_stop' ? 'stopped' : ($act === 'dm_pause' ? 'paused' : 'running');
+            $job['message'] = $act === 'dm_stop' ? 'Foydalanuvchi xabar vazifasini to‘xtatdi.' : ($act === 'dm_pause' ? 'Foydalanuvchi xabar vazifasini pauza qildi.' : 'Xabar vazifasi davom ettiriladi; Telegram kutish muddatlari saqlanadi.');
+            dm_save($job); flash('ok', $job['message']);
         } elseif ($act === 'preview') {
             $type = in_array($_POST['type'] ?? '', ['channel', 'group'], true) ? $_POST['type'] : 'channel';
             $title = trim((string)($_POST['title'] ?? '')); $about = trim((string)($_POST['about'] ?? ''));
@@ -833,6 +1010,7 @@ if ($post) {
         flash('err', $m);
     }
     if (str_starts_with($act, 'members_')) go('members');
+    if (str_starts_with($act, 'dm_')) go('dm');
     go(in_array($act, ['tg_phone', 'tg_code', '2fa', 'tg_logout', 'tg_reset', 'acc_add', 'acc_use', 'acc_del', 'acc_rotation_save']) ? ((($_POST['ret'] ?? '') === 'home') ? 'home' : 'tg') : ($act === 'admin_save' ? 'admin' : ($act === 'auto_save' ? 'auto' : ($act === 'preview' ? 'create' : 'home'))));
 }
 
@@ -841,7 +1019,7 @@ function page_head(string $t): void {
     $cur = (string)($GLOBALS['p'] ?? 'home');
     $nav = '';
     if (isset($_SESSION['auth'])) {
-        if ($cur === 'home' || !isset(MENU[$cur]) && $cur !== 'confirm') {
+        if ($cur === 'home' || !isset(MENU[$cur]) && $cur !== 'confirm' && $cur !== 'dm_confirm') {
             $nm = trim((string)($_SESSION['tg_first_name'] ?? ''));
             $user = strtolower((string)($_SESSION['tg_username'] ?? '')) ?: 'root';
             $nav = '<div class="hdr"><div class="ava">&gt;_</div><div><b class="glitch" data-t="TG_MENEJER">TG_MENEJER</b><br><small>' . h($user) . '@tgm:~$ id=' . h((string)($_SESSION['tg_user_id'] ?? '')) . ' · ' . h($nm) . '</small></div></div>';
@@ -1000,6 +1178,66 @@ case 'auto':
     <button class="sec" name="save" value="1">Faqat saqlash</button>
     <button class="sec" name="reset" value="1" onclick="return confirm(\'Hisoblagichlar nolga tushsinmi?\')">Hisobni nolga tushirish</button></form></div>';
     echo '<div class="card"><h2>Cron (bir marta sozlanadi)</h2><small>Serverda <b>www-data</b> nomidan har daqiqaga (setup.sh buni /etc/cron.d/tgm ga o‘zi yozadi):</small><div class="row"><input readonly onclick="this.select()" value="' . h('* * * * * www-data /usr/bin/php ' . __FILE__ . ' cron') . '"></div></div>';
+    break;
+
+case 'dm':
+    $job = dm_job();
+    $busy = in_array($job['state'] ?? '', ['running', 'paused', 'paused_account'], true);
+    $draft = $_SESSION['dm_pending'] ?? [];
+    if (!is_array($draft) || (int)($draft['acc'] ?? 0) !== acc_active()) $draft = [];
+    echo '<div class="card"><h2>Shaxsiy xabarlar</h2><p>Asosiy hisob: <b>' . h(acc_label(acc_active())) . '</b></p>';
+    echo '<p><small>Manba guruhning shu hisobga ko‘rinadigan a’zolariga bittadan shaxsiy xabar yuboriladi. Botlar, o‘zingiz va o‘chirilgan akkauntlar navbatga olinmaydi. Barcha a’zolarga xabar yetib borishi kafolatlanmaydi.</small></p>';
+    echo '<p><small>Eng qisqa oraliq 60 soniya. Telegram kutish talabi chiqsa kutiladi; spam cheklovida vazifa to‘xtaydi. Mini App yopiq paytda <a href="?p=auto">cron</a> navbatni bajaradi.</small></p>';
+    echo '<p><small>Vazifa boshlangan hisobga bog‘lanadi. Asosiy hisob almashsa pauza qiladi; shu hisob yana asosiy bo‘lganda davom etadi. Soatlik almashtirishni <a href="?p=tg">Telegram bo‘limida</a> boshqarishingiz mumkin.</small></p>';
+    if (!$busy) {
+        echo '<form method="post">' . csrf_field() . '<input type="hidden" name="action" value="dm_preview">
+        <label>Manba guruh</label><input name="source" placeholder="@manba_guruh yoki -1001234567890" value="' . h((string)($draft['source'] ?? '')) . '" required>
+        <label>Xabar matni (4096 belgigacha)</label><textarea name="text" maxlength="4096" rows="6" placeholder="Yuboriladigan xabar matni" required>' . h((string)($draft['text'] ?? '')) . '</textarea>
+        <label>Tekshiriladigan a’zolar soni (1–10000)</label><input type="number" name="limit" min="1" max="10000" value="' . (int)($draft['limit'] ?? 10000) . '" required>
+        <label>Xabarlar oralig‘i (soniya)</label><input type="number" name="interval" min="60" max="3600" step="60" value="' . (int)($draft['interval'] ?? 60) . '" required>
+        <button>Xabarni ko‘rib chiqish</button></form>';
+    }
+    echo '</div>';
+    if ($job) {
+        $states = ['running' => 'Ishlayapti', 'paused' => 'Pauza', 'paused_account' => 'Asosiy hisob kutilmoqda', 'done' => 'Tugadi', 'stopped' => 'To‘xtatilgan', 'error' => 'Xato sabab to‘xtagan'];
+        $counts = dm_counts($job['id']);
+        echo '<div class="card"><h2>Xabar vazifasi</h2><div class="row">Manba: <b>' . h($job['source_title']) . '</b></div>';
+        echo '<div class="row">Hisob: <b>#' . (int)$job['acc'] . '</b> · Holat: <b>' . h($states[$job['state']] ?? $job['state']) . '</b></div>';
+        echo '<div class="row">Tekshirilgan: <b>' . (int)$job['scanned'] . ' / ' . (int)$job['limit'] . '</b> · Navbatda: <b>' . ($counts['pending'] + $counts['working']) . '</b></div>';
+        echo '<div class="row">Yuborilgan: <b>' . $counts['sent'] . '</b> · Tashlab ketilgan: <b>' . $counts['skipped'] . '</b><br>Xato: ' . $counts['failed'] . ' · Natijasi noma’lum: ' . $counts['unknown'] . '</div>';
+        echo '<div class="row"><small>' . h($job['message']) . '</small></div><pre class="boot">' . h($job['text']) . '</pre>';
+        if ($busy) {
+            $next = max((int)$job['next_at'], (int)setting('tg_pause_until_' . $job['acc'], '0'), (int)setting('auto_pause_until', '0'));
+            echo '<div class="row">Keyingi tekshiruv: <b>' . h(date('d.m.Y H:i:s', $next)) . '</b></div>';
+            echo '<form method="post">' . csrf_field() . '<input type="hidden" name="job_id" value="' . h($job['id']) . '">';
+            echo $job['state'] === 'running' ? '<button class="sec" name="action" value="dm_pause">Pauza</button>' : '<button class="sec" name="action" value="dm_resume">Davom ettirish</button>';
+            echo '<button class="red" name="action" value="dm_stop">Vazifani to‘xtatish</button></form>';
+        }
+        if ($counts['unknown'] > 0) echo '<p><small>Natijasi noma’lum bo‘lgan xabarlar avtomatik qayta yuborilmaydi. Ularni Telegramda tekshiring.</small></p>';
+        echo '<p><a href="?p=dm">Holatni yangilash</a></p></div>';
+        $q = $db->prepare("SELECT user_id,status,reason FROM dm_queue WHERE job_id=? AND status IN ('skipped','failed','unknown') ORDER BY rowid DESC LIMIT 15");
+        $q->execute([$job['id']]); $rows = $q->fetchAll(PDO::FETCH_ASSOC);
+        if ($rows) {
+            echo '<div class="card"><h2>Oxirgi natijalar</h2>';
+            foreach ($rows as $row) echo '<div class="row"><small>ID ' . h($row['user_id']) . '</small><br>' . h($row['reason']) . '</div>';
+            echo '</div>';
+        }
+    }
+    break;
+
+case 'dm_confirm':
+    $draft = $_SESSION['dm_pending'] ?? null;
+    if (!is_array($draft) || !isset($draft['id'], $draft['self_id']) || (int)($draft['acc'] ?? 0) !== acc_active()) {
+        echo '<div class="card"><h2>Xabarni tasdiqlash</h2><div class="msg err">Tasdiqlanadigan xabar topilmadi yoki asosiy hisob almashgan.</div><p><a href="?p=dm">Xabarni qayta ko‘rib chiqish</a></p></div>';
+        break;
+    }
+    echo '<div class="card"><h2>Xabarni tasdiqlang</h2><div class="row">Manba guruh: <b>' . h((string)$draft['source']) . '</b></div>';
+    echo '<div class="row">Hisob: <b>' . h(acc_label((int)$draft['acc'])) . '</b></div>';
+    echo '<div class="row">Yuboruvchi Telegram ID: <b>' . h((string)$draft['self_id']) . '</b></div>';
+    echo '<div class="row">Tekshiriladigan a’zolar: <b>' . (int)$draft['limit'] . ' tagacha</b> · Oraliq: <b>' . (int)$draft['interval'] . ' soniya</b></div>';
+    echo '<pre class="boot">' . h((string)$draft['text']) . '</pre><p><small>Matn oddiy matn sifatida yuboriladi. Navbat boshlangach, xabar matni shu vazifa uchun saqlanadi.</small></p>';
+    echo '<form method="post">' . csrf_field() . '<input type="hidden" name="action" value="dm_start"><input type="hidden" name="pending_id" value="' . h((string)$draft['id']) . '"><button>Xabar yuborishni boshlash</button></form>';
+    echo '<p><a href="?p=dm">Matnni tahrirlashga qaytish</a></p></div>';
     break;
 
 case 'members':
