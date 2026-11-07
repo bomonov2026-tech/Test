@@ -1,11 +1,11 @@
 sahna;boshlanish_s;davomiylik_s;boshlanish;matn
 001;0.00;6.82;0:00.00;«Kanallarim». Botga ulangan barcha kanallaringizni bir joydan boshqaradi: avto-xabarlar, imzo, tugmalar, ta'til rejimi.
 002;6.82;9.46;0:06.82;«Kanallarim» — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
-003;16.28;10.34;0:16.28;Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
-004;26.62;8.58;0:26.62;«Kanal imzosi» — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
-005;35.20;8.14;0:35.20;Postlar tagiga doimiy tugmalar qo'shish mumkin: «Do'stga ulashish» va «Qo'llab-quvvatlash». Ulashish tugmasi kanal o'sishiga yordam beradi.
-006;43.34;11.66;0:43.34;«Qo'llab-quvvatlash» tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
-007;55.00;8.14;0:55.00;Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
-008;63.14;10.34;1:03.14;«Sayt yoki YouTube'dan avtomatik post» — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
-009;73.48;8.58;1:13.48;Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, «Kanallarim» katagida qizil raqam turadi va «Tuzatish» tugmasi chiqadi.
-010;82.06;8.14;1:22.06;«Kanallarim» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.
+003;16.28;11.22;0:16.28;Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga ob-havo va dollar kursi, boshqasiga faqat tongi xabar — ixtiyoringiz.
+004;27.50;8.58;0:27.50;«Kanal imzosi» — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
+005;36.08;8.14;0:36.08;Postlar tagiga doimiy tugmalar qo'shish mumkin: «Do'stga ulashish» va «Qo'llab-quvvatlash». Ulashish tugmasi kanal o'sishiga yordam beradi.
+006;44.22;11.66;0:44.22;«Qo'llab-quvvatlash» tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
+007;55.88;8.14;0:55.88;Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
+008;64.02;10.34;1:04.02;«Sayt yoki YouTube'dan avtomatik post» — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
+009;74.36;8.58;1:14.36;Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, «Kanallarim» katagida qizil raqam turadi va «Tuzatish» tugmasi chiqadi.
+010;82.94;8.14;1:22.94;«Kanallarim» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

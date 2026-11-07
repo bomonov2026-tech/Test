@@ -53,7 +53,7 @@ doimiy kontentli bo'ladi.
 
 | № | Bo'lim | Uzunligi | Havola |
 |---|---|---|---|
-| 01 | Kanallarim | 1:30 | `https://t.me/TartibOnBot?startapp=s_mykanal` |
+| 01 | Kanallarim | 1:31 | `https://t.me/TartibOnBot?startapp=s_mykanal` |
 | 02 | Guruhlarim | 0:55 | `https://t.me/TartibOnBot?startapp=s_myguruh` |
 | 03 | Guruh himoyasi | 1:50 | `https://t.me/TartibOnBot?startapp=s_gd` |
 | 04 | Rejalashtirilgan postlar | 1:25 | `https://t.me/TartibOnBot?startapp=s_po` |
