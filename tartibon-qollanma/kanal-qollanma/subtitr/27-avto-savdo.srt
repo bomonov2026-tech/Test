@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:06,820
+«Avto savdo». Avtomobil sotish e'lonini rasm, narx va to'liq xususiyatlari bilan yasab beradi.
+
+2
+00:00:06,820 --> 00:00:18,820
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+3
+00:00:18,820 --> 00:00:30,820
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+4
+00:00:30,820 --> 00:00:42,040
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+5
+00:00:42,040 --> 00:00:46,660
+Avto savdo — mashina sotish uchun post shabloni.
+
+6
+00:00:46,660 --> 00:00:52,600
+Mashinaning suratlarini yuklaysiz, so'ng ishlab chiqarilgan yili, probegi va rangini kiritasiz.
+
+7
+00:00:52,600 --> 00:00:55,900
+Narxni va mashina holatini yozasiz.
+
+8
+00:00:55,900 --> 00:01:02,280
+Post tagida «Sotuvchiga yozish» tugmasi bo'ladi — xaridor darhol siz bilan bog'lanadi.
+
+9
+00:01:02,280 --> 00:01:09,100
+Maslahat: probeg va holatni haqiqatga mos yozing. Avto guruhlarida ishonch eng qimmat narsa.
+
+10
+00:01:09,100 --> 00:01:17,680
+«Avto savdo» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

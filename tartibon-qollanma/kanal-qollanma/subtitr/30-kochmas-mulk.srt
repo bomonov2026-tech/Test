@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:08,140
+«Ko'chmas mulk». Uy, kvartira yoki yer e'lonini maydon, xona va narx bilan rasmli post qilib yasaydi.
+
+2
+00:00:08,140 --> 00:00:20,140
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+3
+00:00:20,140 --> 00:00:32,140
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+4
+00:00:32,140 --> 00:00:43,360
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+5
+00:00:43,360 --> 00:00:49,300
+Ko'chmas mulk — uy, kvartira sotish yoki ijaraga berish e'lonlari uchun.
+
+6
+00:00:49,300 --> 00:00:53,920
+Obyekt suratlarini yuklaysiz va maydonini kvadrat metrda yozasiz.
+
+7
+00:00:53,920 --> 00:00:58,100
+Qavat, umumiy qavatlar soni va narxni kiritasiz.
+
+8
+00:00:58,100 --> 00:01:01,400
+Post tagida «Bog'lanish» tugmasi chiqadi.
+
+9
+00:01:01,400 --> 00:01:09,540
+Maslahat: uchta suratni ham to'liq ishlating. Ko'chmas mulkda surat qancha ko'p bo'lsa, murojaat shuncha ko'p bo'ladi.
+
+10
+00:01:09,540 --> 00:01:18,120
+«Ko'chmas mulk» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

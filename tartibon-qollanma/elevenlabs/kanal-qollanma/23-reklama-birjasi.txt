@@ -1,0 +1,27 @@
+# 23 — Reklama birjasi
+# 12 sahna · 85 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Reklama birjasi». Reklama o'rnini kim ko'p deb narx taklif qilsa — unga beradi, auksion tarzida.
+
+[002]  Reklama birjasi — kanallar orasida reklama sotib olish va sotish maydoni.
+
+[003]  Sotuvchi bo'lsangiz: reklama narxini va formatini belgilaysiz.
+
+[004]  Format degani — reklama qancha turishi. Bir soat tepada va yigirma to'rt soat kanalda, ikki soat va qirq sakkiz soat, yoki umuman o'chirilmaydigan doimiy post.
+
+[005]  Buyurtma kelganda «Joylash» tugmasini bosasiz va reklama kanalingizga chiqadi.
+
+[006]  Eng muhim funksiya — pul kafolati. Xaridor to'lagan pul darhol sotuvchiga o'tmaydi.
+
+[007]  Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin pul o'zi sotuvchiga tushadi.
+
+[008]  Agar reklama muddatidan oldin o'chirilsa yoki kelishilgandek bo'lmasa, xaridor «Nizo ochish» tugmasini bosadi.
+
+[009]  Nizoni admin ko'rib chiqadi va qaror qabul qiladi: sotuvchiga to'lash yoki xaridorga pulni qaytarish.
+
+[010]  Xaridor bo'lsangiz, reklamani vositachisiz, to'g'ridan-to'g'ri kanal egasidan olasiz — ortiqcha ustama yo'q.
+
+[011]  Ko'k belgili kanallar TartibOn tomonidan tekshirilgan. Yangi bo'lsangiz, avval shunday kanallardan boshlang.
+
+[012]  «Reklama birjasi» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

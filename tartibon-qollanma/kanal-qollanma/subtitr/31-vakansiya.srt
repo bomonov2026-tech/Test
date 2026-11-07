@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:06,380
+«Vakansiya». Ishga odam qidirish e'lonini lavozim, maosh va talablar bilan yasab beradi.
+
+2
+00:00:06,380 --> 00:00:18,380
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+3
+00:00:18,380 --> 00:00:30,380
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+4
+00:00:30,380 --> 00:00:41,600
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+5
+00:00:41,600 --> 00:00:46,220
+Vakansiya — ishga odam qidirayotganlar uchun post shabloni.
+
+6
+00:00:46,220 --> 00:00:49,520
+Lavozim nomini va maoshni yozasiz.
+
+7
+00:00:49,520 --> 00:00:53,700
+Ish vaqtini va nomzodga qo'yilgan talablarni kiritasiz.
+
+8
+00:00:53,700 --> 00:00:59,640
+Post tagida «Rezyume yuborish» tugmasi bo'ladi — nomzod to'g'ridan-to'g'ri sizga yozadi.
+
+9
+00:00:59,640 --> 00:01:06,900
+Maslahat: maosh raqamini albatta yozing. Maoshi ko'rsatilmagan e'lonlar bir necha barobar kam javob oladi.
+
+10
+00:01:06,900 --> 00:01:15,040
+«Vakansiya» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

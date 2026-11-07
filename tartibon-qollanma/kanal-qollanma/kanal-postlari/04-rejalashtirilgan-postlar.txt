@@ -1,0 +1,18 @@
+📘 TartibOn qo'llanma · 04/42
+
+🛠 Rejalashtirilgan postlar — Postni oldindan tayyorlang
+
+Postni oldindan yozib, aniq kun va soatga qo'yib qo'yadi — bot o'zi joylaydi.
+
+Videoda:
+• Postni vaqtga qo'yasiz — bot chiqaradi
+• Bir marta, har kuni yoki har hafta
+• Muharrir: qalin, kursiv, havola
+• Emoji paneli
+• Jonli ko'rinish — darhol pastda
+• Matn qoralama bo'lib saqlanadi
+• … va yana 4 ta
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_po
+
+#TartibOn #qollanma

@@ -1,0 +1,139 @@
+1
+00:00:00,000 --> 00:00:11,140
+Oltinchi va oxirgi dars — «Ilova» ramkasi. Bu yerda to'rtta katak bor: balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+
+2
+00:00:11,220 --> 00:00:17,960
+Balans eng muhimi — chunki barcha pullik xizmatlar aynan shu hisob orqali ishlaydi.
+
+3
+00:00:18,040 --> 00:00:26,980
+Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+
+4
+00:00:27,060 --> 00:00:32,480
+To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+
+5
+00:00:32,560 --> 00:00:36,660
+Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+
+6
+00:00:36,740 --> 00:00:40,400
+Uchinchi qadam: «To'lov qildim» tugmasini bosasiz.
+
+7
+00:00:40,480 --> 00:00:44,580
+Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+
+8
+00:00:44,660 --> 00:00:53,600
+Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+
+9
+00:00:53,680 --> 00:01:00,860
+Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+
+10
+00:01:00,940 --> 00:01:07,240
+Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+
+11
+00:01:07,320 --> 00:01:13,620
+Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+
+12
+00:01:13,700 --> 00:01:20,440
+Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+
+13
+00:01:20,520 --> 00:01:25,060
+Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+
+14
+00:01:25,140 --> 00:01:34,080
+Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+
+15
+00:01:34,160 --> 00:01:43,100
+To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — «Balans» sahifasidagi «Adminga murojaat» qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+
+16
+00:01:43,180 --> 00:01:49,040
+Bot yaratish — biznesingiz uchun alohida Telegram bot buyurtma qilish xizmati.
+
+17
+00:01:49,120 --> 00:01:57,620
+Nima qilish mumkin: onlayn do'kon boti, navbat boti, to'lov qabul qiluvchi bot, sun'iy intellektli yordamchi va boshqalar.
+
+18
+00:01:57,700 --> 00:02:05,760
+Birinchi qadam: «Murojaat qilish» tugmasini bosib, g'oyangizni yozasiz. Botingiz nima qilishi kerakligini oddiy so'z bilan tushuntirasiz.
+
+19
+00:02:05,840 --> 00:02:10,820
+Ikkinchi qadam: sizga narx va muddat aytiladi, kelishib olasiz.
+
+20
+00:02:10,900 --> 00:02:15,000
+Odatda bot uch kun ichida tayyor bo'ladi.
+
+21
+00:02:15,080 --> 00:02:22,260
+Murojaat qilishdan oldin tayyor namunalarni so'rang — shunga qarab o'z botingizni aniqroq tasavvur qilasiz.
+
+22
+00:02:22,340 --> 00:02:26,880
+Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+
+23
+00:02:26,960 --> 00:02:34,580
+Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+
+24
+00:02:34,660 --> 00:02:42,720
+Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, «Balans» sahifasidagi «Adminga murojaat» qatoridan foydalaning.
+
+25
+00:02:42,800 --> 00:02:51,300
+Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+
+26
+00:02:51,380 --> 00:03:01,640
+«Profil» bo'limida «Tilaklar qutisi» ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+
+27
+00:03:01,720 --> 00:03:06,260
+Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
+
+28
+00:03:06,340 --> 00:03:13,960
+Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
+
+29
+00:03:14,040 --> 00:03:19,460
+Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
+
+30
+00:03:19,540 --> 00:03:28,920
+Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
+
+31
+00:03:29,000 --> 00:03:37,940
+Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
+
+32
+00:03:38,020 --> 00:03:47,840
+Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
+
+33
+00:03:47,920 --> 00:03:55,540
+Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
+
+34
+00:03:55,620 --> 00:04:06,760
+Shu bilan TartibOn video qo'llanmasi yakunlandi. Oltita darsda bosh sahifadagi barcha bo'limlarni ko'rib chiqdik. Endi ilovani oching, kanalingizni ulang va keraklisini sinab ko'ring.
+
+35
+00:04:06,840 --> 00:04:12,700
+Savol bo'lsa — «Savol va takliflar» orqali yozing. E'tiboringiz uchun rahmat!

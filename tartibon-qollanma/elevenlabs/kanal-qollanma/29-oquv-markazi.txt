@@ -1,0 +1,23 @@
+# 29 — O'quv markazi
+# 10 sahna · 81 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «O'quv markazi». Kurs va o'quv markazi e'lonini fan, muddat va narx bilan rasmli post qilib chiqaradi.
+
+[002]  Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+[003]  Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+[004]  Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+[005]  O'quv markazi — kurslarga qabul e'lonlari uchun shablon.
+
+[006]  Kursning boshlanish sanasini va necha oy davom etishini kiritasiz.
+
+[007]  Narxni va to'lov shartlarini yozasiz.
+
+[008]  Post tagida «Kursga yozilish» tugmasi bo'ladi — talaba bir bosadi va sizga tushadi.
+
+[009]  Maslahat: qabul tugashiga bir hafta qolganda postni qayta yuboring — «joylar tugayapti» degan post eng ko'p ariza keltiradi.
+
+[010]  «O'quv markazi» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

@@ -1,0 +1,18 @@
+📘 TartibOn qo'llanma · 07/42
+
+🛠 Testlar — Viktorina bilan faollik
+
+Kanal yoki guruhda savol-javob testi o'tkazadi, natijalarni o'zi sanab reyting chiqaradi.
+
+Videoda:
+• 4 variantli viktorina: A, B, C, D
+• Savol-javob bazasi
+• Prava testi — rasmli savollar
+• Avtomatik test — bot o'zi so'raydi
+• «📨 Hozir savol» tugmasi
+• Tez javobga ko'proq ochko
+• … va yana 3 ta
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_psj
+
+#TartibOn #qollanma

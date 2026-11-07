@@ -1,0 +1,25 @@
+# 09 — Konkurs
+# 11 sahna · 72 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Konkurs». Sovrinli konkurs o'tkazadi: ishtirokchilarni yig'adi, shartni tekshiradi va g'olibni tasodifiy tanlaydi.
+
+[002]  Konkurs bo'limi orqali kanal yoki guruhda sovg'a o'yini o'tkazasiz.
+
+[003]  Birinchi qadam: konkurs qaysi kanal yoki guruhda e'lon qilinishini tanlaysiz.
+
+[004]  Keyin nechta g'olib bo'lishini belgilaysiz — bir kishimi yoki o'nta.
+
+[005]  Uchinchi qadam — konkurs qachon tugashini belgilash. Sana va soat.
+
+[006]  Xohlasangiz obuna shartini qo'yasiz: ishtirok etish uchun qaysi kanalga a'zo bo'lish kerakligini ko'rsatasiz. Bu kanalni o'stirishning tez usuli.
+
+[007]  Konkurs posti ishtirok tugmasi bilan chiqadi — odam bir bosadi va ro'yxatga tushadi.
+
+[008]  Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hammasi adolatli, hech kim aralasha olmaydi.
+
+[009]  Konkurs tugashidan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi. Ya'ni faqat haqiqiy obunachilar yutadi.
+
+[010]  G'oliblar ro'yxati kanalga o'zi e'lon qilinadi — sizdan qo'shimcha harakat talab etilmaydi.
+
+[011]  «Konkurs» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

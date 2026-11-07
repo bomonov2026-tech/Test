@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:07,700
+«Namoz vaqtlari». Har namoz vaqtidan 30 daqiqa keyin kanal va guruhingizga namoz vaqti xabarini yuboradi.
+
+2
+00:00:07,700 --> 00:00:13,200
+Namoz vaqtlari kanal va guruhlaringizga namoz vaqti haqida xabar yuboradi.
+
+3
+00:00:13,200 --> 00:00:22,660
+Xabar har bir namoz vaqti kirganidan o'ttiz daqiqa o'tgach yuboriladi. Ya'ni azon vaqtida emas, odamlar namozni o'qib bo'lgandan keyin.
+
+4
+00:00:22,660 --> 00:00:31,240
+Sozlashda avval hududni tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan. Vaqtlar aynan shu hudud bo'yicha hisoblanadi.
+
+5
+00:00:31,240 --> 00:00:37,180
+Xabarning matnini o'zingizga moslab yozishingiz mumkin — kanalingiz uslubiga mos qilib.
+
+6
+00:00:37,180 --> 00:00:43,120
+Vaqtlar islom.uz taqvimi asosida olinadi — bu rasmiy va ishonchli manba.
+
+7
+00:00:43,120 --> 00:00:50,820
+Agar manba vaqtincha ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi. Ya'ni uzilish bo'lmaydi.
+
+8
+00:00:50,820 --> 00:00:59,840
+Bosh sahifadagi katakda 12 ta viloyat markazining vaqti ko'rinadi. Shahar darajasigacha aniqlik kerak bo'lsa, bo'limga kirib hudud tanlaysiz.
+
+9
+00:00:59,840 --> 00:01:08,420
+«Namoz vaqtlari» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

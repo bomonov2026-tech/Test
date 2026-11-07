@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:05,560
+Bayram kuni kanalingizda tabrik bo'lmay qoldimi? Hamma tabrikladi, siz esdan chiqardingiz.
+
+2
+00:00:05,620 --> 00:00:12,860
+Endi bot buni o'zi qiladi — har Juma va bayram kunlari video tabrik o'zi yuboriladi.
+
+3
+00:00:12,920 --> 00:00:18,900
+Siz nima qilishingiz kerak? Hech narsa. Faqat kanalingiz botga ulangan bo'lsa yetarli.
+
+4
+00:00:18,960 --> 00:00:24,100
+Sahifada tabriklar ro'yxati va keyingi bayram qachon ekani ko'rinib turadi.
+
+5
+00:00:24,160 --> 00:00:28,880
+Namuna tugmasini bossangiz, tabrik kanalingizda qanday ko'rinishini oldindan ko'rasiz.
+
+6
+00:00:28,940 --> 00:00:31,140
+TartibOn. Telegramda qidiring.

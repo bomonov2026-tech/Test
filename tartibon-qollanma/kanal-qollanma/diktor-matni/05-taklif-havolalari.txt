@@ -1,0 +1,13 @@
+«Taklif havolalari». Har bir reklama uchun alohida havola yasab, qaysi havoladan necha obunachi kelganini ko'rsatadi.
+
+Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
+
+Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
+
+Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
+
+Maslahat: taklif havolalarini konkurs bilan birlashtiring — «eng ko'p odam taklif qilgan uchtaga sovg'a» deng, guruh tez o'sadi.
+
+Bu ishlashi uchun botga «Havola orqali taklif qilish» huquqini berish shart.
+
+«Taklif havolalari» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

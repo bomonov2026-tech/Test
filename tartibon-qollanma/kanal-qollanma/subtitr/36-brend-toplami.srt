@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:07,260
+«Brend to'plami». Logo, rang va imzoni bir marta saqlaydi — barcha e'lonlaringizga o'zi qo'yiladi.
+
+2
+00:00:07,260 --> 00:00:13,640
+Brend to'plamida birinchi navbatda brend rangingizni tanlaysiz — postlar shu rangda chiziladi.
+
+3
+00:00:13,640 --> 00:00:19,140
+Keyin aloqa uchun username'ingizni yozasiz — mijoz shu manzilga yoziladi.
+
+4
+00:00:19,140 --> 00:00:23,320
+Tugmada qanday yozuv turishini ham o'zingiz belgilaysiz.
+
+5
+00:00:23,320 --> 00:00:31,900
+Bir marta saqlasangiz, barcha post bo'limlari — Savdogar, Taksi, Sayohat va qolganlari — shu sozlamani avtomatik oladi.
+
+6
+00:00:31,900 --> 00:00:43,120
+Shuning uchun aytdim: «Savdo admin» bilan ishlashni aynan shu katakdan boshlang. Bir martalik ish, lekin barcha postlaringiz bir xil, tanilarli ko'rinishga ega bo'ladi.
+
+7
+00:00:43,120 --> 00:00:51,700
+«Brend to'plami» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

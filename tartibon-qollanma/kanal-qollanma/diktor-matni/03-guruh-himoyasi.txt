@@ -1,0 +1,29 @@
+«Guruh himoyasi». Guruhingizni reklama, spam, so'kinish, havola va ruxsatsiz postlardan avtomatik tozalaydi.
+
+Guruh himoyasi — eng kuchli funksiyalardan biri. Bot begona reklama va havolalarni avtomatik o'chiradi.
+
+So'kinish ishlatilgan xabarlar va spam — ya'ni tez-tez takrorlanadigan bir xil xabarlar ham o'chiriladi.
+
+Guruhlarga ko'p tashlanadigan arab botlar va arabcha reklama alohida filtr bilan to'siladi.
+
+Zararli bo'lishi mumkin bo'lgan fayllar — masalan apk va exe — guruhga o'tkazilmaydi.
+
+Sun'iy intellekt ulangan bo'lsa, bot noo'rin rasmlarni va yashirin reklamani ham taniydi.
+
+Yangi a'zolar uchun alohida rejim bor: birinchi 24 soat davomida ular havola va fayl yubora olmaydi.
+
+Kirishda kapcha qo'yish mumkin — «Men odamman» tugmasini bosmagan akkaunt guruhga yoza olmaydi. Bu botlarni to'sadi.
+
+Yangi a'zoga kirish savolini berish yoki avtomatik salomlashish xabarini yuborish ham mumkin.
+
+Tungi rejimda faqat adminlar yozadi. Juma sukuti — Juma kuni belgilangan vaqtda guruh jim turadi.
+
+Har hafta eng faol o'nta a'zo e'lon qilinadi, a'zolarda reputatsiya ballari yig'iladi — bu guruhni jonlantiradi.
+
+Muhim: guruh adminlarining xabarlariga bot hech qachon tegmaydi. Qoidalar faqat oddiy a'zolarga ishlaydi.
+
+Guruhning o'zida /himoya deb yozsangiz, bot hozir qaysi qoidalar yoqilganini ro'yxat qilib ko'rsatadi. Har bir qoidani alohida yoqib-o'chirasiz.
+
+Yana takrorlayman: botga «Xabarlarni o'chirish» va «Foydalanuvchilarni bloklash» huquqlarini bering, aks holda himoya ishlamaydi.
+
+«Guruh himoyasi» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

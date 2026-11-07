@@ -1,0 +1,21 @@
+# 15 — Ramazon taqvimi
+# 9 sahna · 100 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Ramazon taqvimi». Ramazon oyida 12 viloyatning saharlik va iftor vaqtini rasmli taqvim qilib kuniga ikki marta joylaydi.
+
+[002]  «Ramazon taqvimi» — Ramazon oyida kanal va guruhingizga saharlik hamda iftor vaqtlarini avtomatik joylaydigan bo'lim. Ro'za tutganlar uchun eng kerakli ma'lumot, siz hech narsa yozmaysiz.
+
+[003]  Taqvim bitta chiroyli rasm ko'rinishida chiqadi va unda o'n ikki viloyatning vaqti birga turadi. Toshkent, Samarqand, Buxoro, Namangan, Andijon, Farg'ona va boshqalar — obunachingiz qayerda bo'lsa, o'z vaqtini shu rasmdan topadi.
+
+[004]  Post kuniga ikki marta ketadi: saharlikdan bir soat oldin va iftordan bir soat oldin. Ya'ni xabar eng kerak bo'lgan paytda keladi — odam tayyorlanib olishga ulguradi.
+
+[005]  Vaqtlar faqat rasmiy manba — islom.uz saytidan olinadi. Agar saytdan rasmiy jadval hali kelmagan bo'lsa, bot hisoblab taxminiy vaqt chiqarmaydi, balki rasmiy ma'lumot kelgunicha kutadi. Noto'g'ri vaqt bilan post ketmaydi.
+
+[006]  Yoqish juda oson: «Kanallarim» yoki «Guruhlarim» bo'limiga kirasiz, kerakli kanalni ochasiz va ro'yxatdan «Ramazon taqvimi» ni belgilaysiz. Bir kanalga yoqib, boshqasiga yoqmasligingiz mumkin.
+
+[007]  Agar bir soat emas, masalan yarim soat oldin kelishini xohlasangiz — admin panelidan oldinroq yuborish daqiqasini o'zgartirasiz. O'n besh daqiqadan uch soatgacha tanlash mumkin.
+
+[008]  Bu bo'lim faqat Ramazon oyi davomida ishlaydi. Oy boshlanganda o'zi ishga tushadi, oy tugaganda o'zi to'xtaydi — siz o'chirishni esdan chiqarib qo'yishingizdan xavotir olmang.
+
+[009]  «Ramazon taqvimi» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

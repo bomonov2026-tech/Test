@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,300
+Kanalingiz yangi va uni hali hech kim bilmaydimi?
+
+2
+00:00:04,360 --> 00:00:11,600
+Kanallar reytingida so'nggi yetti kunda eng tez o'sgan o'nta kanal chiqadi. Ro'yxat har kuni yangilanadi.
+
+3
+00:00:11,660 --> 00:00:19,600
+Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Demak kichik kanalning ham imkoni bor.
+
+4
+00:00:19,660 --> 00:00:27,600
+Tezroq natija kerak bo'lsa, pullik xizmat bor: kanalingiz yetti kun davomida Tavsiya etiladi qatorida, eng tepada turadi.
+
+5
+00:00:27,660 --> 00:00:33,220
+Bu yangi kanallar uchun birinchi obunachilarni olib kelishning eng tez yo'li.
+
+6
+00:00:33,280 --> 00:00:35,480
+TartibOn. Telegramda qidiring.

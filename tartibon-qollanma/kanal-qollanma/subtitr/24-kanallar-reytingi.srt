@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:06,380
+«Kanallar reytingi». Ilovadagi kanallarni mavzu bo'yicha reytingga qo'yib, yangi obunachi olib keladi.
+
+2
+00:00:06,380 --> 00:00:12,760
+Kanallar reytingi — so'nggi yetti kunda eng tez o'sgan o'nta kanal ro'yxati.
+
+3
+00:00:12,760 --> 00:00:17,380
+Reyting har kuni yangilanadi, ya'ni ro'yxat doim jonli.
+
+4
+00:00:17,380 --> 00:00:27,280
+Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Kichik kanallarning ham chiqish imkoni bor.
+
+5
+00:00:27,280 --> 00:00:35,420
+Pullik xizmat ham bor: «Kanalimni ko'tarish». Kanalingiz yetti kun davomida «Tavsiya etiladi» qatorida, eng tepada turadi.
+
+6
+00:00:35,420 --> 00:00:40,480
+Ko'tarish narxini admin belgilaydi — joriy narx sahifada ko'rinadi.
+
+7
+00:00:40,480 --> 00:00:49,500
+Bu xizmat yangi kanallar uchun ayniqsa foydali: hali obunachingiz kam bo'lsa ham, birinchi odamlarni olib kelishning tez yo'li.
+
+8
+00:00:49,500 --> 00:00:58,080
+«Kanallar reytingi» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

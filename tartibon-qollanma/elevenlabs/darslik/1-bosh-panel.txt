@@ -1,0 +1,77 @@
+Assalomu alaykum! TartibOn video qo'llanmasiga xush kelibsiz.
+
+Bu qo'llanma oddiy foydalanuvchi uchun: ilovani birinchi marta ochgan paytingizdan boshlab, har bir bo'limdan qanday foydalanishni tartib bilan ko'rsataman.
+
+Hech qanday texnik bilim kerak emas — faqat Telegram kanalingiz yoki guruhingiz bo'lsa yetarli. Birinchi darsda bosh sahifa bilan tanishamiz va kanal hamda guruhni ulashni o'rganamiz.
+
+Ilovani ochganingizda sizni shu karta kutib oladi: Telegramni yanada tartibli boshqaring. Mana shu bitta ilovada kanal, guruh, post va boshqa xizmatlar jamlangan.
+
+Eng qulayi — bu mini-ilova Telegramning ichida ochiladi. Hech qanday dastur o'rnatmaysiz, ro'yxatdan o'tmaysiz, parol o'ylab topmaysiz.
+
+Ko'pchilik xizmat bepul: avtomatik postlar, guruh himoyasi, statistika, testlar. Faqat ayrim xizmatlar — masalan nakrutka va eSIM — balans orqali pullik.
+
+Bosh sahifani pastga surib boring: kataklar ramkalarga bo'lib qo'yilgan. Shu oltita darsda har bir ramkani alohida ko'rib chiqamiz.
+
+Ilovani ochganingizda eng tepada uchta raqam turadi. Birinchisi — Kanal. Bu botga ulangan kanallaringiz soni.
+
+Ikkinchisi — Guruh. Bot administrator qilib qo'shilgan guruhlaringiz soni shu yerda ko'rinadi.
+
+Uchinchisi — Foydalanuvchi. Bu yerda sizga tegishli jami odamlar soni turadi — mening ekranimda bu ming o'n ikki.
+
+Bu raqamlarni qo'lda kiritish shart emas. Bot administrator bo'lgan paytdan boshlab hammasini o'zi sanab boradi va har kuni yangilab turadi.
+
+Agar biror katak ustida qizil raqam paydo bo'lsa, demak o'sha joyda hal qilinishi kerak bo'lgan ish bor. Masalan, bot kanaldan chiqarib yuborilgan yoki huquqi yetmayapti.
+
+Bunday holatda bosh sahifada qizil ogohlantirish va Tuzatish tugmasi chiqadi. Uni bossangiz, muammo nimada ekani va qanday hal qilish yozilgan bo'ladi.
+
+Statistikaning tagida Bot rivoji balansi kartasi turadi. Bu — foydalanuvchilar tomonidan ilovani rivojlantirishga o'tkazgan umumiy summasi.
+
+Kartani bossangiz, kim qancha o'tkazgani — qo'llab-quvvatlaganlar ro'yxati ochiladi.
+
+O'zingiz o'tkazmoqchi bo'lsangiz: Balans sahifasiga kiring va Bot rivoji uchun o'tkazish qatorini tanlang. Summani o'zingiz belgilaysiz — chegara yo'q.
+
+O'tkazilgan summa shu zahoti shaxsiy balansingizdan yechiladi va umumiy hisobga qo'shiladi.
+
+Muhim: bu karta sizning pul hisobingiz emas. Sizning shaxsiy balansingiz Ilova bo'limidagi Balans katagida — uni oltinchi darsda batafsil ko'ramiz.
+
+Endi eng muhimi — kanalni ulash. Bosh sahifadagi ko'k Kanal qo'shish tugmasini bosing.
+
+Ochilgan oynada eng oson yo'l — Kanalni tanlash tugmasi. Uni bosing.
+
+Telegramning o'z oynasi ochiladi va kanallaringiz ro'yxati chiqadi. Botni ulamoqchi bo'lgan kanalni tanlang.
+
+So'ngra Administrator qilish ni tasdiqlaysiz. Kerakli huquqlar o'zi belgilangan bo'ladi — siz faqat tasdiqlaysiz, bot o'zi ulanadi.
+
+Agar ro'yxatdan tanlash ishlamasa, kanal @username yoki ID raqamini qo'lda kiritish ham mumkin.
+
+Kanal ulangani haqida bot sizga xabar yuboradi. Shu zahoti to'rtta xizmat avtomatik yoqiladi: dollar kursi, markaziy bank kurslari, namoz vaqtlari va har kuni ertalabki post.
+
+Agar bularning hammasi kerak bo'lmasa — Kanallarim bo'limida kanal kartasini ochib, Sozlash orqali keraksizini o'chirasiz yoki oraliqni o'zgartirasiz.
+
+Guruhni ulash ham shunga o'xshash. Yashil Guruh qo'shish tugmasini bosib, guruh @username yoki ID raqamini kiritasiz.
+
+Keyin botni guruhingizga administrator qilib qo'shasiz. Busiz bot hech narsa qila olmaydi.
+
+Guruh himoyasi ishlashi uchun botga ikkita huquq shart. Birinchisi — xabarlarni o'chirish. Busiz bot reklama va so'kinishni o'chira olmaydi.
+
+Ikkinchisi — foydalanuvchilarni bloklash. Bu spam tarqatuvchilarni chiqarib yuborish uchun kerak.
+
+Agar taklif havolalari va pullik kanal xizmatlaridan foydalanmoqchi bo'lsangiz, Taklif havolasi huquqini ham bering.
+
+Guruh ulangach, guruh himoyasi avtomatik ishga tushadi va avtomatik xabarlar ham yoqiladi. Qolganini keyin o'zingizga moslab sozlaysiz.
+
+Endi bosh sahifa qanday tuzilganiga qaraymiz. Birinchi ramka — Adminlar uchun. Bu yerda kanal va guruhni boshqarish vositalari: Kanallarim, Guruhlarim, himoya, rejalashtirilgan postlar, statistika, testlar, pullik kanallar va konkurs.
+
+Ikkinchi ramka — Kundalik xabarlar. Namoz vaqtlari, dollar kursi, ob-havo, tongi va tungi xabarlar, bayram tabriklari. Bularning hammasi avtomatik ishlaydi.
+
+Uchinchi ramka — Xizmatlar. Nakrutka, eSIM, Prava testlari, o'zaro reklama, kanal savdosi, reklama birjasi va kanallar reytingi.
+
+To'rtinchi ramka — Savdo admin. Taksi, avto savdo, ko'chmas mulk, vakansiya va boshqa biznes e'lonlari uchun tayyor post shablonlari.
+
+Beshinchi ramka — Ilova. Balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+
+Hammasini birdan o'rganish shart emas. Avval o'zingizga keragini tanlang: kanalingiz bo'lsa — ikkinchi darsdan, biznesingiz bo'lsa — beshinchi darsdan boshlang. Qolganini keyin ko'rasiz.
+
+Shu bilan birinchi dars tugadi. Endi sizda ulangan kanal va guruh bor, demak barcha xizmatlardan foydalanishga tayyorsiz.
+
+Keyingi darsda Adminlar uchun bo'limini — kanal va guruhni kundalik boshqarish vositalarini ko'rib chiqamiz.

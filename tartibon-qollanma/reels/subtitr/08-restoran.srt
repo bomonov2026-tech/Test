@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,620
+Kafe yoki restoraningiz bormi?
+
+2
+00:00:02,680 --> 00:00:07,400
+Menyu va aksiya rasmlaringiz har safar boshqacha, notekis chiqyaptimi?
+
+3
+00:00:07,460 --> 00:00:12,180
+Kombo taomlar va narxlar — bitta tartibli, chiroyli rasmda.
+
+4
+00:00:12,240 --> 00:00:16,960
+Aksiya va chegirmani ko'rsatsangiz, u rasmda yorqin belgida chiqadi.
+
+5
+00:00:17,020 --> 00:00:24,260
+Maslahat: postni soat o'n birda, tushlikdan oldin yuboring — buyurtma aynan shu payt ko'p bo'ladi.
+
+6
+00:00:24,320 --> 00:00:26,520
+TartibOn. Telegramda qidiring.

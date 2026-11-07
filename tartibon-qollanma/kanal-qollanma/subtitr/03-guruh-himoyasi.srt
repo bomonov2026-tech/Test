@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:06,380
+«Guruh himoyasi». Guruhingizni reklama, spam, so'kinish, havola va ruxsatsiz postlardan avtomatik tozalaydi.
+
+2
+00:00:06,380 --> 00:00:13,640
+Guruh himoyasi — eng kuchli funksiyalardan biri. Bot begona reklama va havolalarni avtomatik o'chiradi.
+
+3
+00:00:13,640 --> 00:00:20,900
+So'kinish ishlatilgan xabarlar va spam — ya'ni tez-tez takrorlanadigan bir xil xabarlar ham o'chiriladi.
+
+4
+00:00:20,900 --> 00:00:27,280
+Guruhlarga ko'p tashlanadigan arab botlar va arabcha reklama alohida filtr bilan to'siladi.
+
+5
+00:00:27,280 --> 00:00:34,100
+Zararli bo'lishi mumkin bo'lgan fayllar — masalan apk va exe — guruhga o'tkazilmaydi.
+
+6
+00:00:34,100 --> 00:00:40,480
+Sun'iy intellekt ulangan bo'lsa, bot noo'rin rasmlarni va yashirin reklamani ham taniydi.
+
+7
+00:00:40,480 --> 00:00:48,620
+Yangi a'zolar uchun alohida rejim bor: birinchi 24 soat davomida ular havola va fayl yubora olmaydi.
+
+8
+00:00:48,620 --> 00:00:56,760
+Kirishda kapcha qo'yish mumkin — «Men odamman» tugmasini bosmagan akkaunt guruhga yoza olmaydi. Bu botlarni to'sadi.
+
+9
+00:00:56,760 --> 00:01:03,140
+Yangi a'zoga kirish savolini berish yoki avtomatik salomlashish xabarini yuborish ham mumkin.
+
+10
+00:01:03,140 --> 00:01:10,840
+Tungi rejimda faqat adminlar yozadi. Juma sukuti — Juma kuni belgilangan vaqtda guruh jim turadi.
+
+11
+00:01:10,840 --> 00:01:18,980
+Har hafta eng faol o'nta a'zo e'lon qilinadi, a'zolarda reputatsiya ballari yig'iladi — bu guruhni jonlantiradi.
+
+12
+00:01:18,980 --> 00:01:25,800
+Muhim: guruh adminlarining xabarlariga bot hech qachon tegmaydi. Qoidalar faqat oddiy a'zolarga ishlaydi.
+
+13
+00:01:25,800 --> 00:01:34,820
+Guruhning o'zida /himoya deb yozsangiz, bot hozir qaysi qoidalar yoqilganini ro'yxat qilib ko'rsatadi. Har bir qoidani alohida yoqib-o'chirasiz.
+
+14
+00:01:34,820 --> 00:01:42,080
+Yana takrorlayman: botga «Xabarlarni o'chirish» va «Foydalanuvchilarni bloklash» huquqlarini bering, aks holda himoya ishlamaydi.
+
+15
+00:01:42,080 --> 00:01:50,660
+«Guruh himoyasi» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

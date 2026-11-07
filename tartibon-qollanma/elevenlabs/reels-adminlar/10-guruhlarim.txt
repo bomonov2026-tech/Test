@@ -1,0 +1,11 @@
+Bir nechta guruh boshqarasizmi?
+
+Hammasi bitta ekranda: a'zolar soni va bugun nechta xabar yozilgani.
+
+Har bir guruh uchun alohida: himoya qoidalari, testlar va avtomatik xabarlar.
+
+Guruh qo'shish oson: username yoki ID kiritasiz va botni administrator qilasiz.
+
+Shu zahoti ishlay boshlaydi — guruh himoyasi avtomatik yoqiladi.
+
+TartibOn. Telegramda qidiring.

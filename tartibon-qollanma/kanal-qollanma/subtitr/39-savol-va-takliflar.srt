@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:06,380
+«Savol va takliflar». Savolingizni to'g'ridan-to'g'ri ilova jamoasiga yuboradi va javobini olib keladi.
+
+2
+00:00:06,380 --> 00:00:11,000
+Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+
+3
+00:00:11,000 --> 00:00:18,700
+Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+
+4
+00:00:18,700 --> 00:00:26,840
+Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, «Balans» sahifasidagi «Adminga murojaat» qatoridan foydalaning.
+
+5
+00:00:26,840 --> 00:00:35,420
+Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+
+6
+00:00:35,420 --> 00:00:45,760
+«Profil» bo'limida «Tilaklar qutisi» ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+
+7
+00:00:45,760 --> 00:00:54,780
+«Savol va takliflar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

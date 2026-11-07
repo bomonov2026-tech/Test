@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:06,820
+«Kanallarim». Botga ulangan barcha kanallaringizni bir joydan boshqaradi: avto-xabarlar, imzo, tugmalar, ta'til rejimi.
+
+2
+00:00:06,820 --> 00:00:16,280
+«Kanallarim» — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
+
+3
+00:00:16,280 --> 00:00:26,620
+Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
+
+4
+00:00:26,620 --> 00:00:35,200
+«Kanal imzosi» — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
+
+5
+00:00:35,200 --> 00:00:43,340
+Postlar tagiga doimiy tugmalar qo'shish mumkin: «Do'stga ulashish» va «Qo'llab-quvvatlash». Ulashish tugmasi kanal o'sishiga yordam beradi.
+
+6
+00:00:43,340 --> 00:00:55,000
+«Qo'llab-quvvatlash» tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
+
+7
+00:00:55,000 --> 00:01:03,140
+Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
+
+8
+00:01:03,140 --> 00:01:13,480
+«Sayt yoki YouTube'dan avtomatik post» — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
+
+9
+00:01:13,480 --> 00:01:22,060
+Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, «Kanallarim» katagida qizil raqam turadi va «Tuzatish» tugmasi chiqadi.
+
+10
+00:01:22,060 --> 00:01:30,200
+«Kanallarim» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

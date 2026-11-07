@@ -1,0 +1,17 @@
+# 19 — O'zaro reklama
+# 7 sahna · 46 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «O'zaro reklama». Sizga teng kattalikdagi kanal topib, pulsiz o'zaro reklama almashishga yordam beradi.
+
+[002]  O'zaro reklama — kanal egalari bir-birini topib, bepul o'zaro reklama kelishadigan katalog.
+
+[003]  Birinchi qadam: kanalingizni mos kategoriya bilan katalogga qo'shasiz.
+
+[004]  Shundan keyin boshqa kanal egalari sizni ko'radi va taklif yuboradi.
+
+[005]  Siz ham katalogdan mavzuingizga yaqin kanalni qidirib, taklif yuborishingiz mumkin.
+
+[006]  Bu — pul sarflamasdan o'sishning eng yaxshi usuli. Auditoriyangizga yaqin kanalni tanlang, shunda natija kuchli bo'ladi.
+
+[007]  «O'zaro reklama» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

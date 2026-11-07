@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:07,700
+«Rejalashtirilgan postlar». Postni oldindan yozib, aniq kun va soatga qo'yib qo'yadi — bot o'zi joylaydi.
+
+2
+00:00:07,700 --> 00:00:15,840
+Bu bo'limda postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot uni o'zi chiqaradi.
+
+3
+00:00:15,840 --> 00:00:23,100
+Takrorlanishni tanlaysiz: faqat bir marta, har kuni yoki har hafta. Doimiy rukniga juda qulay.
+
+4
+00:00:23,100 --> 00:00:29,040
+Matn muharririda qalin, kursiv, havola, yashirin matn va iqtibos tugmalari bor.
+
+5
+00:00:29,040 --> 00:00:34,980
+Emoji panelidan belgilarni bir bosishda qo'yasiz — klaviaturani almashtirish shart emas.
+
+6
+00:00:34,980 --> 00:00:43,120
+Eng qulayi: post Telegramda aynan qanday ko'rinishi pastda darhol ko'rinib turadi. Ya'ni yuborishdan oldin natijani ko'rasiz.
+
+7
+00:00:43,120 --> 00:00:49,060
+Yozgan matningiz avtomatik qoralama sifatida saqlanadi. Ilovadan chiqib ketsangiz ham yo'qolmaydi.
+
+8
+00:00:49,060 --> 00:00:55,000
+Avval ishlatgan rasm va videolaringizni ro'yxatdan bir bosishda qayta tanlashingiz mumkin.
+
+9
+00:00:55,000 --> 00:01:00,500
+Yoqqan postingizni «Nusxa» tugmasi bilan ko'paytirib, faqat kerakli joyini o'zgartirasiz.
+
+10
+00:01:00,500 --> 00:01:08,200
+Ishonchingiz komil bo'lmasa, «Menga yuborish» tugmasini bosing — post avval faqat sizga keladi, ko'rib tekshirasiz.
+
+11
+00:01:08,200 --> 00:01:16,780
+Postni belgilangan vaqtdan keyin avtomatik o'chirish ham mumkin. Kalendar orqali qaysi kunga nima rejalashtirilganini bir qarashda ko'rasiz.
+
+12
+00:01:16,780 --> 00:01:25,360
+«Rejalashtirilgan postlar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

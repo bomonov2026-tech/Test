@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:06,380
+«Kanal Savdo — Telegram». Telegram kanal va guruhlarni sotish-sotib olish e'lonlari bozori.
+
+2
+00:00:06,380 --> 00:00:13,200
+Kanal Savdo Telegram — Telegram kanal va guruhlarini sotish va sotib olish bo'limi.
+
+3
+00:00:13,200 --> 00:00:19,580
+Eng muhim farqi: bu yerdagi obunachi va o'sish raqamlari TartibOn statistikasidan olinadi.
+
+4
+00:00:19,580 --> 00:00:29,040
+Ya'ni raqamlarni sotuvchi o'zi yozmaydi — bot o'zi hisoblaydi. Demak soxta ko'rsatkich qo'yib bo'lmaydi. Xaridor uchun bu katta ishonch.
+
+5
+00:00:29,040 --> 00:00:34,540
+Sotish uchun shu sahifaning o'zida «Kanalimni sotuvga qo'yish» tugmasini bosasiz.
+
+6
+00:00:34,540 --> 00:00:40,040
+Shart: kanalingiz botga ulangan bo'lishi kerak, aks holda statistika hisoblanmaydi.
+
+7
+00:00:40,040 --> 00:00:48,180
+Bu yerda ham vositachi xizmati ishlaydi — pul admin orqali o'tadi va kanal topshirilgach sotuvchiga beriladi.
+
+8
+00:00:48,180 --> 00:00:57,640
+«Kanal Savdo — Telegram» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

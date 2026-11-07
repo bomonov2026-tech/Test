@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,460
+Guruhingizda har kuni dollar kursi so'ralaveradimi?
+
+2
+00:00:03,520 --> 00:00:09,500
+Barcha banklarning olish va sotish kursi bitta chiroyli rasmda — logotiplari bilan.
+
+3
+00:00:09,560 --> 00:00:14,700
+Raqamlar bank saytlaridan avtomatik olinadi — qo'lda hech narsa kiritilmaydi.
+
+4
+00:00:14,760 --> 00:00:22,700
+Kurs o'zgargan zahoti post o'zi chiqadi. O'zgarmagan bo'lsa, bir xil postni qayta yubormaydi — obunachilaringiz bezovta bo'lmaydi.
+
+5
+00:00:22,760 --> 00:00:30,700
+Eng yuqori olish va eng arzon sotish narxi alohida belgilanadi — odam qaysi bankka borishni darrov ko'radi.
+
+6
+00:00:30,760 --> 00:00:32,960
+TartibOn. Telegramda qidiring.

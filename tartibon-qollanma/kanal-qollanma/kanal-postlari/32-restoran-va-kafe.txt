@@ -1,0 +1,18 @@
+📘 TartibOn qo'llanma · 32/42
+
+🖼 Restoran va kafe — Menyu, kombo, aksiya
+
+Restoran, kafe yoki taom e'lonini menyu va narx bilan rasmli post qilib chiqaradi.
+
+Videoda:
+• Tartibi: rasm → ma'lumot → post
+• Aloqa tugmasi o'zi qo'shiladi
+• Avval «Brend to'plami» ni to'ldiring
+• Umumiy ovqatlanish uchun
+• Taom suratlari va narxlar
+• Chegirma va aksiya
+• … va yana 2 ta
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rst
+
+#TartibOn #qollanma

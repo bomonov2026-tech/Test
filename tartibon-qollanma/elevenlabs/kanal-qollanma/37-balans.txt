@@ -1,0 +1,33 @@
+# 37 — Balans
+# 15 sahna · 100 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Balans». Ilova ichidagi hisobingiz: pul to'ldirish, sarflash va yechib olish shu yerda.
+
+[002]  Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+
+[003]  To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+
+[004]  Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+
+[005]  Uchinchi qadam: «To'lov qildim» tugmasini bosasiz.
+
+[006]  Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+
+[007]  Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+
+[008]  Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+
+[009]  Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+
+[010]  Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+
+[011]  Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+
+[012]  Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+
+[013]  Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+
+[014]  To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — «Balans» sahifasidagi «Adminga murojaat» qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+
+[015]  «Balans» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.
