@@ -106,10 +106,19 @@ ko'rasiz — har bir yangi foydalanuvchi uchun birinchi havola saqlanadi.
 (qo'llab-quvvatlash tugmasi). Endi `s_<bo'lim>` ni ham tushunadi.
 
 ```js
-var SP_PAGES='home gd po rf st psj pc gw pcb pwx pdp pev bt rz pnm nk vs dv vz
- sale auc rt adp txp trv rlt avt vak edu rst sln obd ast brand bal bty ab ads'.split(' ');
-var SP_FN={mykanal:…, myguruh:…, ksyt:…, ksig:…, sup:…};
+var SP_PAGES='home gd po rf st psj pc gw pcb pwx pdp pev bt rz pnm nk vs dv vz sale auc rt
+ adp txp avt trv edu rlt vak rst sln obd ast brand bal bty ab ads'.split(' ');
+var SP_FN={mykanal:function(){go('ov')},myguruh:function(){go('my','Guruh')},
+ ksyt:function(){MK.p='yt';go('mk')},ksig:function(){MK.p='ig';go('mk')},sup:function(){sup()}};
+function stp(){var s='';try{s=(tg.initDataUnsafe||{}).start_param||''}catch(e){}
+ var m=/^don_(\d+)$/.exec(s);if(m){DON.id=+m[1];go('don');return}
+ var k=/^s_([a-z]{2,8})$/.exec(s);if(!k)return;k=k[1];
+ if(SP_FN[k]){setTimeout(function(){try{SP_FN[k]()}catch(e){}},90);return}
+ if(SP_PAGES.indexOf(k)>-1)setTimeout(function(){try{go(k)}catch(e){}},90);}
 ```
+
+> **Diqqat:** `Kanallarim` endi `go('ov')` ga o'tadi (ilgari `go('my','Kanal')` edi).
+> Shuning uchun `s_mykanal` `SP_FN` orqali boshqariladi.
 
 **Xavfsizlik:** faqat ro'yxatdagi bo'limlar ochiladi. Boshqa qiymat yuborilsa,
 ilova e'tiborsiz qoldiradi va bosh sahifada qoladi — ya'ni havola orqali
@@ -117,6 +126,22 @@ ixtiyoriy kod ishga tushirib bo'lmaydi.
 
 **Eski havolalar ishlayveradi:** hamkor dasturi (`p<raqam>`) va qo'llab-quvvatlash
 (`don_<id>`) havolalariga tegilmadi.
+
+---
+
+## Muammoli kanalni ro'yxatdan o'chirish
+
+Bosh sahifadagi «⚠️ N ta muammo bor» kartasida har bir qatorga 🗑 tugmasi
+qo'shildi. Bosilganda tasdiq so'raladi, keyin o'sha kanal/guruh ro'yxatdan
+butunlay o'chadi.
+
+Yangi API: `chat_rm` — faqat o'z yozuvingizni o'chira oladi (`owner` tekshiriladi).
+Tozalash ilovaning mavjud `cl_del_chat()` funksiyasi orqali ketadi, ya'ni
+`chats`, `post_logs`, `group_guard`, `guard_admins`, `quiz_settings`,
+`sched_posts`, `giveaways`, `chat_admins` jadvallaridan ham o'chiriladi.
+
+Bu **botni kanalning o'zidan chiqarmaydi** — faqat ilovadagi ro'yxatdan olib
+tashlaydi. Keyin xohlasangiz qaytadan qo'shasiz.
 
 ---
 
