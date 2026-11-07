@@ -108,7 +108,7 @@ ko'rasiz — har bir yangi foydalanuvchi uchun birinchi havola saqlanadi.
 ```js
 var SP_PAGES='home gd po rf st psj pc gw pcb pwx pdp pev bt rz pnm nk vs dv vz sale auc rt
  adp txp avt trv edu rlt vak rst sln obd ast brand bal bty ab ads'.split(' ');
-var SP_FN={mykanal:function(){go('ov')},myguruh:function(){go('my','Guruh')},
+var SP_FN={mykanal:function(){go('my','Kanal')},myguruh:function(){go('my','Guruh')},
  ksyt:function(){MK.p='yt';go('mk')},ksig:function(){MK.p='ig';go('mk')},sup:function(){sup()}};
 function stp(){var s='';try{s=(tg.initDataUnsafe||{}).start_param||''}catch(e){}
  var m=/^don_(\d+)$/.exec(s);if(m){DON.id=+m[1];go('don');return}
@@ -117,8 +117,9 @@ function stp(){var s='';try{s=(tg.initDataUnsafe||{}).start_param||''}catch(e){}
  if(SP_PAGES.indexOf(k)>-1)setTimeout(function(){try{go(k)}catch(e){}},90);}
 ```
 
-> **Diqqat:** `Kanallarim` endi `go('ov')` ga o'tadi (ilgari `go('my','Kanal')` edi).
-> Shuning uchun `s_mykanal` `SP_FN` orqali boshqariladi.
+> `Kanallarim` va `Guruhlarim` bitta sahifani (`p-my`) ikki xil holatda ochadi,
+> shuning uchun ular `SP_FN` orqali boshqariladi: `go('my','Kanal')` va
+> `go('my','Guruh')`. `p-ov` esa butunlay boshqa bo'lim — «Ovoz berish».
 
 **Xavfsizlik:** faqat ro'yxatdagi bo'limlar ochiladi. Boshqa qiymat yuborilsa,
 ilova e'tiborsiz qoldiradi va bosh sahifada qoladi — ya'ni havola orqali
