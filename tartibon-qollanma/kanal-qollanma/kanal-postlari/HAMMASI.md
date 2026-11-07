@@ -25,9 +25,9 @@ Videoda:
 • Ta'til rejimi
 • … va yana 2 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_mykanal
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_mykanal
 ```
 
 
@@ -52,9 +52,9 @@ Videoda:
 • Testlar va viktorina
 • Administrator huquqini unutmang
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_myguruh
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_myguruh
 ```
 
 
@@ -80,9 +80,9 @@ Videoda:
 • Yangi a'zolarga 24 soat cheklov
 • … va yana 7 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_gd
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_gd
 ```
 
 
@@ -108,9 +108,9 @@ Videoda:
 • Matn qoralama bo'lib saqlanadi
 • … va yana 4 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_po
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_po
 ```
 
 
@@ -134,9 +134,9 @@ Videoda:
 • Konkurs bilan birga kuchli ishlaydi
 • «Havola orqali taklif qilish» huquqi
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rf
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rf
 ```
 
 
@@ -161,9 +161,9 @@ Videoda:
 • Excel — CSV yuklab olish
 • Hisob botdan keyin boshlanadi
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_st
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_st
 ```
 
 
@@ -189,9 +189,9 @@ Videoda:
 • Tez javobga ko'proq ochko
 • … va yana 3 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_psj
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_psj
 ```
 
 
@@ -217,9 +217,9 @@ Videoda:
 • Kirish havolasi botga keladi
 • … va yana 3 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pc
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pc
 ```
 
 
@@ -245,9 +245,9 @@ Videoda:
 • Post tugma bilan chiqadi
 • … va yana 3 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_gw
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_gw
 ```
 
 
@@ -273,9 +273,9 @@ Videoda:
 • Markaziy bank kurslari ham bor
 • … va yana 1 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pcb
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pcb
 ```
 
 
@@ -300,9 +300,9 @@ Videoda:
 • Do'l va kuchli yomg'ir/qor
 • Profilda shaxsiy ogohlantirish
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pwx
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pwx
 ```
 
 
@@ -326,9 +326,9 @@ Videoda:
 • Qaysi kunlar — o'zingiz tanlaysiz
 • Siz hech narsa qilmaysiz
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pdp
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pdp
 ```
 
 
@@ -352,9 +352,9 @@ Videoda:
 • Qaysi kunlar — o'zingiz tanlaysiz
 • Tongi + tungi = kuniga 2 post
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pev
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pev
 ```
 
 
@@ -378,9 +378,9 @@ Videoda:
 • Keyingi sanalar ro'yxati
 • «Namuna» tugmasi
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bt
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bt
 ```
 
 
@@ -406,9 +406,9 @@ Videoda:
 • Vaqtni o'zingizga moslash
 • … va yana 1 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rz
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rz
 ```
 
 
@@ -434,9 +434,9 @@ Videoda:
 • To'lov balansdan yechiladi
 • … va yana 6 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_nk
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_nk
 ```
 
 
@@ -462,9 +462,9 @@ Videoda:
 • SMS kod shu sahifada chiqadi
 • … va yana 5 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_vs
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_vs
 ```
 
 
@@ -490,9 +490,9 @@ Videoda:
 • Imtihon rejimi: 20 savol, 25 daqiqa
 • … va yana 4 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_dv
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_dv
 ```
 
 
@@ -516,9 +516,9 @@ Videoda:
 • 3 — O'zingiz ham qidiring
 • Pulsiz o'sish usuli
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_vz
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_vz
 ```
 
 
@@ -543,9 +543,9 @@ Videoda:
 • Kanal botga ulangan bo'lishi kerak
 • 🛡 Vositachi orqali xavfsiz
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sale
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sale
 ```
 
 
@@ -571,9 +571,9 @@ Videoda:
 • 🛡 Vositachi xizmati
 • … va yana 1 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ksyt
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ksyt
 ```
 
 
@@ -597,9 +597,9 @@ Videoda:
 • ✅ belgisi — admin tekshirgan
 • 🛡 Vositachi xizmatidan foydalaning
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ksig
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ksig
 ```
 
 
@@ -625,9 +625,9 @@ Videoda:
 • Vaqt o'tgach pul avtomatik tushadi
 • … va yana 4 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_auc
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_auc
 ```
 
 
@@ -652,9 +652,9 @@ Videoda:
 • Narxni admin belgilaydi
 • Yangi kanallar uchun foydali
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rt
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rt
 ```
 
 
@@ -680,9 +680,9 @@ Videoda:
 • «🛒 Sotuvchi bilan bog'lanish» tugmasi
 • … va yana 1 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_adp
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_adp
 ```
 
 
@@ -708,9 +708,9 @@ Videoda:
 • Sana va jo'nash vaqti
 • … va yana 4 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_txp
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_txp
 ```
 
 
@@ -736,9 +736,9 @@ Videoda:
 • Narx va holat
 • … va yana 2 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_avt
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_avt
 ```
 
 
@@ -764,9 +764,9 @@ Videoda:
 • Yo'nalish, sana, narx
 • … va yana 2 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_trv
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_trv
 ```
 
 
@@ -792,9 +792,9 @@ Videoda:
 • Narx va shartlar
 • … va yana 2 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_edu
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_edu
 ```
 
 
@@ -820,9 +820,9 @@ Videoda:
 • Qavat va narx
 • … va yana 2 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rlt
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rlt
 ```
 
 
@@ -848,9 +848,9 @@ Videoda:
 • Ish vaqti va talablar
 • … va yana 2 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_vak
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_vak
 ```
 
 
@@ -876,9 +876,9 @@ Videoda:
 • Chegirma va aksiya
 • … va yana 2 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rst
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rst
 ```
 
 
@@ -904,9 +904,9 @@ Videoda:
 • Aksiya va chegirma
 • … va yana 2 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sln
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sln
 ```
 
 
@@ -932,9 +932,9 @@ Videoda:
 • Xavfsizlik — eng muhimi
 • … va yana 1 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_obd
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_obd
 ```
 
 
@@ -958,9 +958,9 @@ Videoda:
 • Post yuborilmagan bo'lsa — bo'sh
 • Taqqoslab, eng yaxshisini qoldiring
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ast
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ast
 ```
 
 
@@ -984,9 +984,9 @@ Videoda:
 • Hamma bo'lim avtomatik oladi
 • Eng birinchi shuni to'ldiring
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_brand
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_brand
 ```
 
 
@@ -1012,9 +1012,9 @@ Videoda:
 • Eng kam va eng ko'p summa
 • … va yana 7 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bal
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bal
 ```
 
 
@@ -1039,9 +1039,9 @@ Videoda:
 • 3 — Bot 3 kunda tayyor
 • Namunalar ko'rsatiladi
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bty
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bty
 ```
 
 
@@ -1065,9 +1065,9 @@ Videoda:
 • Muammoni aniq yozing
 • Tilaklar qutisi — ovoz berish
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sup
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sup
 ```
 
 
@@ -1093,9 +1093,9 @@ Videoda:
 • Hamkor dasturi — 3% komissiya
 • … va yana 1 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ab
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ab
 ```
 
 
@@ -1121,9 +1121,9 @@ Videoda:
 • Promo-kod
 • … va yana 3 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ads
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ads
 ```
 
 
@@ -1149,7 +1149,7 @@ Videoda:
 • Manba ishlamasa — bot o'zi hisoblaydi
 • … va yana 1 ta
 
-👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pnm
-
 #TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pnm
 ```
