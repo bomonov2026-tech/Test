@@ -1,0 +1,15 @@
+«Guruhlarim». Botga ulangan guruhlaringiz ro'yxati: har biriga alohida himoya va avto-xabar sozlamalari.
+
+«Guruhlarim» — ulangan guruhlaringiz ro'yxati. Har bir guruh uchun alohida sozlama bor.
+
+Yangi guruh qo'shish uchun «Guruh qo'shish» tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
+
+Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
+
+Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
+
+Guruhda avtomatik test o'tkazishni ham shu yerdan yoqasiz — a'zolar faolligini oshirishning eng oson yo'li.
+
+Yana bir bor eslatma: bot guruhda administrator bo'lmasa, bu funksiyalarning hech biri ishlamaydi.
+
+«Guruhlarim» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:05,500
+«Ilova haqida». Ilovaning barcha bo'limlari, qoidalari va yangilanishlari haqidagi ma'lumot.
+
+2
+00:00:05,500 --> 00:00:10,120
+Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
+
+3
+00:00:10,120 --> 00:00:17,820
+Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
+
+4
+00:00:17,820 --> 00:00:23,320
+Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
+
+5
+00:00:23,320 --> 00:00:32,780
+Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
+
+6
+00:00:32,780 --> 00:00:41,800
+Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
+
+7
+00:00:41,800 --> 00:00:51,700
+Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
+
+8
+00:00:51,700 --> 00:00:59,400
+Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
+
+9
+00:00:59,400 --> 00:01:07,980
+«Ilova haqida» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

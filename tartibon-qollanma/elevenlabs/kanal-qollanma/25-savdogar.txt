@@ -1,0 +1,21 @@
+# 25 — Savdogar
+# 9 sahna · 76 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Savdogar». Mahsulot uchun chiroyli rasmli savdo e'lonini bir daqiqada yasab beradi.
+
+[002]  Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+[003]  Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+[004]  Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+[005]  Savdogar — umumiy savdo e'loni. Kiyim, texnika, uy jihozlari — istalgan mahsulot uchun ishlatiladi.
+
+[006]  Mahsulot rasmini yuklaysiz, nomini, narxini va qisqa tavsifini yozasiz.
+
+[007]  Post tagida «Sotuvchi bilan bog'lanish» tugmasi chiqadi va xaridor to'g'ridan-to'g'ri sizga yozadi.
+
+[008]  Barcha mahsulotlaringizni shu shablon bilan chiqarsangiz, postlaringiz bir xil uslubda bo'ladi va do'koningiz tanila boshlaydi.
+
+[009]  «Savdogar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

@@ -1,0 +1,23 @@
+# 33 — Salon va klinika
+# 10 sahna · 79 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Salon va klinika». Go'zallik saloni yoki klinika xizmatlari e'lonini narxlari bilan yasab beradi.
+
+[002]  Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+[003]  Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+[004]  Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+[005]  Salon va klinika — go'zallik saloni yoki tibbiy klinika xizmatlari uchun shablon.
+
+[006]  Xizmatlar va ularning narxlari ro'yxatini kiritasiz.
+
+[007]  Vaqtinchalik aksiyani ham qo'shishingiz mumkin.
+
+[008]  Post tagida «Navbatga yozilish» tugmasi bo'ladi — mijoz bir bosib navbat so'raydi.
+
+[009]  Eslatma: tibbiyot sohasida natija kafolati kabi va'dalarni yozishda ehtiyot bo'ling — qonun talablariga rioya qiling.
+
+[010]  «Salon va klinika» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

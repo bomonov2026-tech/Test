@@ -1,0 +1,17 @@
+# 39 — Savol va takliflar
+# 7 sahna · 55 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Savol va takliflar». Savolingizni to'g'ridan-to'g'ri ilova jamoasiga yuboradi va javobini olib keladi.
+
+[002]  Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+
+[003]  Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+
+[004]  Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, «Balans» sahifasidagi «Adminga murojaat» qatoridan foydalaning.
+
+[005]  Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+
+[006]  «Profil» bo'limida «Tilaklar qutisi» ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+
+[007]  «Savol va takliflar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

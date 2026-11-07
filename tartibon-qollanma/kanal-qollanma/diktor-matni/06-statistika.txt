@@ -1,0 +1,15 @@
+«Statistika». Kanal va guruhingizning o'sishi, qo'shilgan-chiqib ketganlar va faollik raqamlarini chiqaradi.
+
+Statistika bo'limi kanal va guruhingiz qanday o'sayotganini ko'rsatadi. Birinchi navbatda hozirgi obunachilar yoki a'zolar soni.
+
+Keyin o'zgarish: kecha qancha qo'shilgan, so'nggi 7 kunda va 30 kunda qancha bo'lgan.
+
+So'nggi 14 kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+
+Guruh uchun qo'shimcha: guruhda nechta xabar yozilgani ham ko'rsatiladi. Bu guruh jonli yoki jonsizligini ko'rsatadi.
+
+«Excel yuklab olish» tugmasi bilan hisobotni fayl qilib olasiz — hisobot tayyorlash yoki reklama beruvchiga ko'rsatish uchun.
+
+Diqqat: kirdi-chiqdi faqat bot administrator bo'lgandan keyin hisoblanadi. Undan oldingi tarix ko'rinmaydi.
+
+«Statistika» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:07,700
+«Pullik kanallar». Kanalingizga pullik obuna qo'yadi: to'lovni bot qabul qiladi, muddat tugasa o'zi chiqarib yuboradi.
+
+2
+00:00:07,700 --> 00:00:14,520
+Bu bo'lim yopiq kanalingizga pullik obuna sotish imkonini beradi. Ya'ni kontentingizdan daromad olasiz.
+
+3
+00:00:14,520 --> 00:00:22,660
+To'rtta paket bor: bir oylik, uch oylik, olti oylik va bir yillik obuna. Narxni o'zingiz qo'yasiz.
+
+4
+00:00:22,660 --> 00:00:32,560
+Ko'p oyga chegirma foizini ham o'zingiz belgilaysiz. Masalan, 12 oylikka 30 foiz chegirma — bu odamlarni uzoq muddatga olishga undaydi.
+
+5
+00:00:32,560 --> 00:00:41,140
+Bepul sinov muddatini yoqsangiz, har bir obunachi bir marta bepul kirib ko'ra oladi. Bir kundan yetti kungacha.
+
+6
+00:00:41,140 --> 00:00:47,080
+Obunachi o'z balansidan to'laydi, pul xizmat haqi ayrilgach sizning balansingizga tushadi.
+
+7
+00:00:47,080 --> 00:00:53,900
+To'lagan odamga kirish havolasi bot orqali yuboriladi — siz qo'lda hech narsa qilmaysiz.
+
+8
+00:00:53,900 --> 00:01:01,600
+Muddat tugashiga uch kun qolganda obunachiga avtomatik eslatma boradi — bu uzaytirish foizini sezilarli oshiradi.
+
+9
+00:01:01,600 --> 00:01:07,980
+Muddat tugagach bot obunachini kanaldan o'zi chiqaradi. Qo'lda kuzatib o'tirish shart emas.
+
+10
+00:01:07,980 --> 00:01:16,560
+Shart: botga «Taklif havolasi» va «Bloklash» huquqlarini bering. Busiz bot odamni na kirgiza oladi, na chiqara oladi.
+
+11
+00:01:16,560 --> 00:01:25,140
+«Pullik kanallar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

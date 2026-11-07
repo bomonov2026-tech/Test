@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:07,260
+«eSIM». Chet elga chiqqanda telefon raqami almashtirmasdan internet ishlashi uchun elektron SIM sotib beradi.
+
+2
+00:00:07,260 --> 00:00:14,960
+eSIM bo'limi ro'yxatdan o'tish uchun bir martalik virtual raqam va SMS kodni olish imkonini beradi.
+
+3
+00:00:14,960 --> 00:00:17,960
+Birinchi qadam: davlatni tanlaysiz.
+
+4
+00:00:17,960 --> 00:00:24,780
+Ikkinchi qadam: qaysi tarmoq uchun kerakligini belgilaysiz — Telegram, WhatsApp, Instagram va boshqalar.
+
+5
+00:00:24,780 --> 00:00:29,840
+Uchinchi qadam: «Olish» tugmasini bosasiz va sizga raqam beriladi.
+
+6
+00:00:29,840 --> 00:00:34,460
+Raqamni nusxalab, o'sha tarmoqning ro'yxatdan o'tish oynasiga kiritasiz.
+
+7
+00:00:34,460 --> 00:00:42,600
+Kelgan SMS kod avtomatik ravishda shu sahifaning o'zida paydo bo'ladi — boshqa joyga qarash shart emas.
+
+8
+00:00:42,600 --> 00:00:48,100
+Agar kod taxminan 15 daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
+
+9
+00:00:48,100 --> 00:00:54,920
+Lekin diqqat: kod kelgandan keyin pul qaytarilmaydi. Shuning uchun kodni o'z vaqtida ishlating.
+
+10
+00:00:54,920 --> 00:01:00,420
+Raqam yoqmasa, «Boshqa raqam» tugmasi bir yarim daqiqadan keyin ochiladi.
+
+11
+00:01:00,420 --> 00:01:11,200
+Har bir yo'nalishda yulduzcha belgisi bor — bu so'nggi 30 kunda kod kelish foizi va o'rtacha vaqtni ko'rsatadi. Tanlashdan oldin shunga qarang.
+
+12
+00:01:11,200 --> 00:01:17,580
+Ochiq aytamiz: platforma raqamni qabul qilishi kafolatlanmaydi — bu virtual raqamlarning tabiati.
+
+13
+00:01:17,580 --> 00:01:25,720
+«eSIM» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

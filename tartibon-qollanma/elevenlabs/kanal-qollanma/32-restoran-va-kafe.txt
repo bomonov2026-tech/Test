@@ -1,0 +1,23 @@
+# 32 — Restoran va kafe
+# 10 sahna · 78 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Restoran va kafe». Restoran, kafe yoki taom e'lonini menyu va narx bilan rasmli post qilib chiqaradi.
+
+[002]  Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+[003]  Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+[004]  Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+[005]  Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
+
+[006]  Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
+
+[007]  Chegirma foizini yoki aksiya shartini ko'rsatasiz.
+
+[008]  Post tagida «Buyurtma berish» tugmasi chiqadi.
+
+[009]  Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
+
+[010]  «Restoran va kafe» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

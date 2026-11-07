@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:05,500
+«Reklama berish». Ilovaning o'zida, minglab foydalanuvchiga ko'rinadigan reklama joylashtirish imkoni.
+
+2
+00:00:05,500 --> 00:00:16,280
+«Reklama berish» — ilovaga ulangan kanallarga, guruhlarga yoki bot foydalanuvchilariga o'z reklamangizni yuborish imkoni. Ya'ni minglab odamga bir marta bosib yetib borasiz.
+
+3
+00:00:16,280 --> 00:00:28,280
+Avval auditoriyani tanlaysiz: kanallarga, guruhlarga yoki bot foydalanuvchilariga. Har biriga alohida narx turadi va hozir qancha qabul qiluvchi borligi ham ko'rinadi — pulingizni behuda sarflamaysiz.
+
+4
+00:00:28,280 --> 00:00:40,280
+Keyin reklama rasmini tanlaysiz — o'lchami o'n olti to'qqizga. Rasmni ushlab surib, qaysi joyi ko'rinishini o'zingiz tanlaysiz. Matnni esa rasmning ichiga yozasiz, bot uni chiroyli joylaydi.
+
+5
+00:00:40,280 --> 00:00:52,280
+Post tagiga bosiladigan tugma qo'yish mumkin: havolani va tugma matnini yozasiz. Masalan «Buyurtma berish». Lekin diqqat — kanal va guruhlarga ketadigan reklamada matn ichida havola bo'lmaydi, faqat bot foydalanuvchilariga ketganda bo'ladi.
+
+6
+00:00:52,280 --> 00:01:01,740
+Buyurtma berishdan oldin «Namunani yuklab olish» tugmasini bosib, reklama qanday chiqqanini ko'rib olasiz. Yoqmasa — matnni yoki rasmni o'zgartirasiz.
+
+7
+00:01:01,740 --> 00:01:08,560
+Promo-kodingiz bo'lsa, shu yerda kiritib «Tekshirish» ni bosasiz — chegirma darhol narxga qo'llanadi.
+
+8
+00:01:08,560 --> 00:01:17,140
+Buyurtma berganingizda pul ilovadagi balansingizdan yechiladi. Balans yetmasa, bot sizni «Balans» bo'limiga olib boradi va to'ldirib qaytasiz.
+
+9
+00:01:17,140 --> 00:01:26,160
+Buyurtma darhol ketmaydi — avval ilova admini ko'rib chiqadi. Bu hammani nomaqbul reklamadan himoya qiladi. Tasdiqlansa, reklama tarqatiladi.
+
+10
+00:01:26,160 --> 00:01:36,500
+Pastda «Buyurtmalarim» ro'yxati turadi: har birining holati ko'rinadi — ko'rib chiqilmoqda, yuborilgan yoki rad etilgan. Rad etilsa pul balansingizga to'liq qaytariladi.
+
+11
+00:01:36,500 --> 00:01:45,080
+«Reklama berish» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

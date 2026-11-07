@@ -1,0 +1,25 @@
+# 07 — Testlar
+# 11 sahna · 82 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Testlar». Kanal yoki guruhda savol-javob testi o'tkazadi, natijalarni o'zi sanab reyting chiqaradi.
+
+[002]  Testlar bo'limi guruh va kanalda to'rt variantli viktorina o'tkazish imkonini beradi.
+
+[003]  Birinchi tur — Savol-javob. Maktab, litsey, kollej, oliy ta'lim va sertifikat imtihonlari mavzulari bo'yicha savollar bazasi bor.
+
+[004]  Ikkinchi tur — Prava testi. Yo'l harakati qoidalari bo'yicha, rasmli savollar bilan. Mavzuni ham o'zingiz tanlaysiz.
+
+[005]  «Avtomatik test» ni yoqsangiz, bot siz belgilagan oraliqda o'zi savol berib turadi. Masalan har ikki soatda.
+
+[006]  Qo'lda yuborish uchun «Hozir savol» tugmasi bor — bir bosasiz, savol chiqadi.
+
+[007]  To'g'ri javob uchun ochko beriladi, tezroq javob bergan ko'proq ochko oladi. Bu tezlik musobaqasini yaratadi.
+
+[008]  Oxirida eng yaxshi o'nta ishtirokchi e'lon qilinadi. Reyting umumiy bo'lib boradi.
+
+[009]  Guruh a'zolari o'zi ham savol chaqira oladi: /prava yoki /viktorina deb yozadi. Har ikki daqiqada bir marta ruxsat beriladi.
+
+[010]  Eslatma: kanalda so'rovlar anonim bo'lgani uchun u yerda ochko hisoblanmaydi. Reyting faqat guruhda ishlaydi.
+
+[011]  «Testlar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

@@ -1,0 +1,17 @@
+# 05 — Taklif havolalari
+# 7 sahna · 53 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Taklif havolalari». Har bir reklama uchun alohida havola yasab, qaysi havoladan necha obunachi kelganini ko'rsatadi.
+
+[002]  Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
+
+[003]  Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
+
+[004]  Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
+
+[005]  Maslahat: taklif havolalarini konkurs bilan birlashtiring — «eng ko'p odam taklif qilgan uchtaga sovg'a» deng, guruh tez o'sadi.
+
+[006]  Bu ishlashi uchun botga «Havola orqali taklif qilish» huquqini berish shart.
+
+[007]  «Taklif havolalari» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

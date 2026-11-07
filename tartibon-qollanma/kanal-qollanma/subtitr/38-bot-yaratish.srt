@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:05,940
+«Bot yaratish». O'zingizning nomingizdagi shaxsiy botni ilova funksiyalari bilan ishga tushiradi.
+
+2
+00:00:05,940 --> 00:00:11,880
+Bot yaratish — biznesingiz uchun alohida Telegram bot buyurtma qilish xizmati.
+
+3
+00:00:11,880 --> 00:00:20,460
+Nima qilish mumkin: onlayn do'kon boti, navbat boti, to'lov qabul qiluvchi bot, sun'iy intellektli yordamchi va boshqalar.
+
+4
+00:00:20,460 --> 00:00:28,600
+Birinchi qadam: «Murojaat qilish» tugmasini bosib, g'oyangizni yozasiz. Botingiz nima qilishi kerakligini oddiy so'z bilan tushuntirasiz.
+
+5
+00:00:28,600 --> 00:00:33,660
+Ikkinchi qadam: sizga narx va muddat aytiladi, kelishib olasiz.
+
+6
+00:00:33,660 --> 00:00:37,840
+Odatda bot uch kun ichida tayyor bo'ladi.
+
+7
+00:00:37,840 --> 00:00:45,100
+Murojaat qilishdan oldin tayyor namunalarni so'rang — shunga qarab o'z botingizni aniqroq tasavvur qilasiz.
+
+8
+00:00:45,100 --> 00:00:53,680
+«Bot yaratish» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

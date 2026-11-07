@@ -1,0 +1,29 @@
+# 17 — eSIM
+# 13 sahna · 86 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «eSIM». Chet elga chiqqanda telefon raqami almashtirmasdan internet ishlashi uchun elektron SIM sotib beradi.
+
+[002]  eSIM bo'limi ro'yxatdan o'tish uchun bir martalik virtual raqam va SMS kodni olish imkonini beradi.
+
+[003]  Birinchi qadam: davlatni tanlaysiz.
+
+[004]  Ikkinchi qadam: qaysi tarmoq uchun kerakligini belgilaysiz — Telegram, WhatsApp, Instagram va boshqalar.
+
+[005]  Uchinchi qadam: «Olish» tugmasini bosasiz va sizga raqam beriladi.
+
+[006]  Raqamni nusxalab, o'sha tarmoqning ro'yxatdan o'tish oynasiga kiritasiz.
+
+[007]  Kelgan SMS kod avtomatik ravishda shu sahifaning o'zida paydo bo'ladi — boshqa joyga qarash shart emas.
+
+[008]  Agar kod taxminan 15 daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
+
+[009]  Lekin diqqat: kod kelgandan keyin pul qaytarilmaydi. Shuning uchun kodni o'z vaqtida ishlating.
+
+[010]  Raqam yoqmasa, «Boshqa raqam» tugmasi bir yarim daqiqadan keyin ochiladi.
+
+[011]  Har bir yo'nalishda yulduzcha belgisi bor — bu so'nggi 30 kunda kod kelish foizi va o'rtacha vaqtni ko'rsatadi. Tanlashdan oldin shunga qarang.
+
+[012]  Ochiq aytamiz: platforma raqamni qabul qilishi kafolatlanmaydi — bu virtual raqamlarning tabiati.
+
+[013]  «eSIM» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:06,380
+«Balans». Ilova ichidagi hisobingiz: pul to'ldirish, sarflash va yechib olish shu yerda.
+
+2
+00:00:06,380 --> 00:00:15,400
+Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+
+3
+00:00:15,400 --> 00:00:20,900
+To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+
+4
+00:00:20,900 --> 00:00:25,080
+Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+
+5
+00:00:25,080 --> 00:00:28,820
+Uchinchi qadam: «To'lov qildim» tugmasini bosasiz.
+
+6
+00:00:28,820 --> 00:00:33,000
+Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+
+7
+00:00:33,000 --> 00:00:42,020
+Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+
+8
+00:00:42,020 --> 00:00:49,280
+Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+
+9
+00:00:49,280 --> 00:00:55,660
+Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+
+10
+00:00:55,660 --> 00:01:02,040
+Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+
+11
+00:01:02,040 --> 00:01:08,860
+Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+
+12
+00:01:08,860 --> 00:01:13,480
+Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+
+13
+00:01:13,480 --> 00:01:22,500
+Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+
+14
+00:01:22,500 --> 00:01:31,520
+To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — «Balans» sahifasidagi «Adminga murojaat» qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+
+15
+00:01:31,520 --> 00:01:39,660
+«Balans» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

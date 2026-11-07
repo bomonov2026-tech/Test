@@ -1,0 +1,19 @@
+# 38 — Bot yaratish
+# 8 sahna · 54 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Bot yaratish». O'zingizning nomingizdagi shaxsiy botni ilova funksiyalari bilan ishga tushiradi.
+
+[002]  Bot yaratish — biznesingiz uchun alohida Telegram bot buyurtma qilish xizmati.
+
+[003]  Nima qilish mumkin: onlayn do'kon boti, navbat boti, to'lov qabul qiluvchi bot, sun'iy intellektli yordamchi va boshqalar.
+
+[004]  Birinchi qadam: «Murojaat qilish» tugmasini bosib, g'oyangizni yozasiz. Botingiz nima qilishi kerakligini oddiy so'z bilan tushuntirasiz.
+
+[005]  Ikkinchi qadam: sizga narx va muddat aytiladi, kelishib olasiz.
+
+[006]  Odatda bot uch kun ichida tayyor bo'ladi.
+
+[007]  Murojaat qilishdan oldin tayyor namunalarni so'rang — shunga qarab o'z botingizni aniqroq tasavvur qilasiz.
+
+[008]  «Bot yaratish» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

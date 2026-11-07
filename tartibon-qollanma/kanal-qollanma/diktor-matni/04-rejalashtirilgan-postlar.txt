@@ -1,0 +1,23 @@
+«Rejalashtirilgan postlar». Postni oldindan yozib, aniq kun va soatga qo'yib qo'yadi — bot o'zi joylaydi.
+
+Bu bo'limda postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot uni o'zi chiqaradi.
+
+Takrorlanishni tanlaysiz: faqat bir marta, har kuni yoki har hafta. Doimiy rukniga juda qulay.
+
+Matn muharririda qalin, kursiv, havola, yashirin matn va iqtibos tugmalari bor.
+
+Emoji panelidan belgilarni bir bosishda qo'yasiz — klaviaturani almashtirish shart emas.
+
+Eng qulayi: post Telegramda aynan qanday ko'rinishi pastda darhol ko'rinib turadi. Ya'ni yuborishdan oldin natijani ko'rasiz.
+
+Yozgan matningiz avtomatik qoralama sifatida saqlanadi. Ilovadan chiqib ketsangiz ham yo'qolmaydi.
+
+Avval ishlatgan rasm va videolaringizni ro'yxatdan bir bosishda qayta tanlashingiz mumkin.
+
+Yoqqan postingizni «Nusxa» tugmasi bilan ko'paytirib, faqat kerakli joyini o'zgartirasiz.
+
+Ishonchingiz komil bo'lmasa, «Menga yuborish» tugmasini bosing — post avval faqat sizga keladi, ko'rib tekshirasiz.
+
+Postni belgilangan vaqtdan keyin avtomatik o'chirish ham mumkin. Kalendar orqali qaysi kunga nima rejalashtirilganini bir qarashda ko'rasiz.
+
+«Rejalashtirilgan postlar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

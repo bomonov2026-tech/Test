@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:06,820
+«Tongi xabar». Har tongda salomlashuv, kun ma'lumoti va kayfiyat beruvchi postni o'zi joylaydi.
+
+2
+00:00:06,820 --> 00:00:14,960
+Tongi xabar — har kuni erta tongda kanal va guruhingizga video va matn bilan yuboriladigan xabar.
+
+3
+00:00:14,960 --> 00:00:21,780
+Yuborish vaqti — soat to'rt yarim. Ya'ni obunachilaringiz uyg'onganda post allaqachon tayyor turadi.
+
+4
+00:00:21,780 --> 00:00:29,920
+Matnda bugun haftaning qaysi kuni ekani, sana va hijriy sana avtomatik yoziladi. Siz hech narsa yozmaysiz.
+
+5
+00:00:29,920 --> 00:00:37,620
+Sozlashda haftaning qaysi kunlarida yuborilishini belgilaysiz. Masalan, faqat ish kunlari yoki faqat dam olish kunlari.
+
+6
+00:00:37,620 --> 00:00:44,880
+Yoqib qo'ygandan keyin bu xizmat butunlay avtomatik ishlaydi — kanalingiz har kuni jonli ko'rinadi.
+
+7
+00:00:44,880 --> 00:00:53,460
+«Tongi xabar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

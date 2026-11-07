@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:07,700
+«Dollar kursi». Markaziy bank va banklar valyuta kursini chiroyli rasmli post qilib kanalingizga o'zi joylaydi.
+
+2
+00:00:07,700 --> 00:00:14,080
+Dollar kursi katagida o'zbek banklarining dollar uchun olish va sotish kurslari ko'rsatiladi.
+
+3
+00:00:14,080 --> 00:00:20,460
+Mikrokreditbank, Turonbank va boshqa banklar — hammasi bir ro'yxatda, taqqoslab ko'rish qulay.
+
+4
+00:00:20,460 --> 00:00:24,640
+Raqamlar bank saytlaridan avtomatik olinadi, qo'lda kiritilmaydi.
+
+5
+00:00:24,640 --> 00:00:31,020
+Eng qulayi: kurs o'zgargan zahoti kanal va guruhingizga rasmli xabar o'zi chiqadi.
+
+6
+00:00:31,020 --> 00:00:37,840
+Agar kurs o'zgarmagan bo'lsa, bot bir xil postni qayta yubormaydi. Obunachilaringiz bezovta bo'lmaydi.
+
+7
+00:00:37,840 --> 00:00:45,100
+Bundan tashqari markaziy bank kurslari ham bor — ular har uch soatda yangilanib turadi.
+
+8
+00:00:45,100 --> 00:00:54,560
+Bir eslatma: bankdagi haqiqiy kurs e'londagidan biroz farq qilishi mumkin. Katta summa almashtirishdan oldin bank bilan aniqlashtirishni tavsiya qiling.
+
+9
+00:00:54,560 --> 00:01:03,140
+«Dollar kursi» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.
