@@ -1,6 +1,6 @@
 # TartibOn — Telegram kanal uchun bo'lim qo'llanmalari
 
-Bosh sahifadagi **har bir katak uchun alohida video**: o'sha bo'lim nima vazifa bajaradi va undan qanday foydalaniladi. Jami **41 ta video**, umumiy uzunligi **49 daqiqa 19 soniya**.
+Bosh sahifadagi **har bir katak uchun alohida video**: o'sha bo'lim nima vazifa bajaradi va undan qanday foydalaniladi. Jami **42 ta video**, umumiy uzunligi **50 daqiqa 27 soniya**.
 
 Har bir video oxirida o'sha bo'limning **to'g'ridan-to'g'ri havolasi** ko'rsatiladi — tomoshabin bosishi bilan ilova aynan o'sha bo'limda ochiladi.
 
@@ -53,7 +53,7 @@ doimiy kontentli bo'ladi.
 
 | № | Bo'lim | Uzunligi | Havola |
 |---|---|---|---|
-| 01 | Kanallarim | 1:31 | `https://t.me/TartibOnBot?startapp=s_mykanal` |
+| 01 | Kanallarim | 1:30 | `https://t.me/TartibOnBot?startapp=s_mykanal` |
 | 02 | Guruhlarim | 0:55 | `https://t.me/TartibOnBot?startapp=s_myguruh` |
 | 03 | Guruh himoyasi | 1:50 | `https://t.me/TartibOnBot?startapp=s_gd` |
 | 04 | Rejalashtirilgan postlar | 1:25 | `https://t.me/TartibOnBot?startapp=s_po` |
@@ -63,7 +63,7 @@ doimiy kontentli bo'ladi.
 | 08 | Pullik kanallar | 1:25 | `https://t.me/TartibOnBot?startapp=s_pc` |
 | 09 | Konkurs | 1:11 | `https://t.me/TartibOnBot?startapp=s_gw` |
 
-### Kundalik xabarlar (6 ta)
+### Kundalik xabarlar (7 ta)
 
 | № | Bo'lim | Uzunligi | Havola |
 |---|---|---|---|
@@ -73,6 +73,7 @@ doimiy kontentli bo'ladi.
 | 13 | Tungi xabar | 0:51 | `https://t.me/TartibOnBot?startapp=s_pev` |
 | 14 | Bayram tabriklari | 0:48 | `https://t.me/TartibOnBot?startapp=s_bt` |
 | 15 | Ramazon taqvimi | 1:39 | `https://t.me/TartibOnBot?startapp=s_rz` |
+| 42 | Namoz vaqtlari | 1:08 | `https://t.me/TartibOnBot?startapp=s_pnm` |
 
 ### Xizmatlar (9 ta)
 

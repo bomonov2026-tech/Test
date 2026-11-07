@@ -1,0 +1,21 @@
+# 42 — Namoz vaqtlari
+# 9 sahna · 68 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Namoz vaqtlari». Har namoz vaqtidan 30 daqiqa keyin kanal va guruhingizga namoz vaqti xabarini yuboradi.
+
+[002]  Namoz vaqtlari kanal va guruhlaringizga namoz vaqti haqida xabar yuboradi.
+
+[003]  Xabar har bir namoz vaqti kirganidan o'ttiz daqiqa o'tgach yuboriladi. Ya'ni azon vaqtida emas, odamlar namozni o'qib bo'lgandan keyin.
+
+[004]  Sozlashda avval hududni tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan. Vaqtlar aynan shu hudud bo'yicha hisoblanadi.
+
+[005]  Xabarning matnini o'zingizga moslab yozishingiz mumkin — kanalingiz uslubiga mos qilib.
+
+[006]  Vaqtlar islom.uz taqvimi asosida olinadi — bu rasmiy va ishonchli manba.
+
+[007]  Agar manba vaqtincha ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi. Ya'ni uzilish bo'lmaydi.
+
+[008]  Bosh sahifadagi katakda 12 ta viloyat markazining vaqti ko'rinadi. Shahar darajasigacha aniqlik kerak bo'lsa, bo'limga kirib hudud tanlaysiz.
+
+[009]  «Namoz vaqtlari» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

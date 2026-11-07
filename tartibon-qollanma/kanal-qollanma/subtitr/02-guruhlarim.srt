@@ -11,21 +11,21 @@
 Yangi guruh qo'shish uchun «Guruh qo'shish» tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
 
 4
-00:00:21,340 --> 00:00:26,840
-Guruh kartasida ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
+00:00:21,340 --> 00:00:27,720
+Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
 
 5
-00:00:26,840 --> 00:00:32,340
+00:00:27,720 --> 00:00:33,220
 Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
 
 6
-00:00:32,340 --> 00:00:40,040
+00:00:33,220 --> 00:00:40,920
 Guruhda avtomatik test o'tkazishni ham shu yerdan yoqasiz — a'zolar faolligini oshirishning eng oson yo'li.
 
 7
-00:00:40,040 --> 00:00:46,860
+00:00:40,920 --> 00:00:47,740
 Yana bir bor eslatma: bot guruhda administrator bo'lmasa, bu funksiyalarning hech biri ishlamaydi.
 
 8
-00:00:46,860 --> 00:00:55,000
+00:00:47,740 --> 00:00:55,880
 «Guruhlarim» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

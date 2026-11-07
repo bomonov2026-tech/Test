@@ -1,5 +1,5 @@
 # 02 — Guruhlarim
-# 8 sahna · 55 soniya
+# 8 sahna · 56 soniya
 # Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
 
 [001]  «Guruhlarim». Botga ulangan guruhlaringiz ro'yxati: har biriga alohida himoya va avto-xabar sozlamalari.
@@ -8,7 +8,7 @@
 
 [003]  Yangi guruh qo'shish uchun «Guruh qo'shish» tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
 
-[004]  Guruh kartasida ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
+[004]  Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
 
 [005]  Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
 

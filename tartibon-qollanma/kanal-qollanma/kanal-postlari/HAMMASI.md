@@ -10,7 +10,7 @@ Har bir video tagiga shu matnni qo'ying. HTML rejimida yuboriladi (`parse_mode=H
 `01-kanallarim.mp4` · 449 belgi
 
 ```
-📘 TartibOn qo'llanma · 01/41
+📘 TartibOn qo'llanma · 01/42
 
 🛠 Kanallarim — Barcha kanallar bir joyda
 
@@ -38,7 +38,7 @@ Videoda:
 `02-guruhlarim.mp4` · 438 belgi
 
 ```
-📘 TartibOn qo'llanma · 02/41
+📘 TartibOn qo'llanma · 02/42
 
 🛠 Guruhlarim — Guruhlarni ulash va sozlash
 
@@ -65,7 +65,7 @@ Videoda:
 `03-guruh-himoyasi.mp4` · 446 belgi
 
 ```
-📘 TartibOn qo'llanma · 03/41
+📘 TartibOn qo'llanma · 03/42
 
 🛠 Guruh himoyasi — Guruhni toza saqlash
 
@@ -93,7 +93,7 @@ Videoda:
 `04-rejalashtirilgan-postlar.mp4` · 465 belgi
 
 ```
-📘 TartibOn qo'llanma · 04/41
+📘 TartibOn qo'llanma · 04/42
 
 🛠 Rejalashtirilgan postlar — Postni oldindan tayyorlang
 
@@ -121,7 +121,7 @@ Videoda:
 `05-taklif-havolalari.mp4` · 436 belgi
 
 ```
-📘 TartibOn qo'llanma · 05/41
+📘 TartibOn qo'llanma · 05/42
 
 🛠 Taklif havolalari — Guruhni o'stirishning oson yo'li
 
@@ -147,7 +147,7 @@ Videoda:
 `06-statistika.mp4` · 433 belgi
 
 ```
-📘 TartibOn qo'llanma · 06/41
+📘 TartibOn qo'llanma · 06/42
 
 🛠 Statistika — O'sishni raqamlarda ko'ring
 
@@ -174,7 +174,7 @@ Videoda:
 `07-testlar.mp4` · 444 belgi
 
 ```
-📘 TartibOn qo'llanma · 07/41
+📘 TartibOn qo'llanma · 07/42
 
 🛠 Testlar — Viktorina bilan faollik
 
@@ -202,7 +202,7 @@ Videoda:
 `08-pullik-kanallar.mp4` · 445 belgi
 
 ```
-📘 TartibOn qo'llanma · 08/41
+📘 TartibOn qo'llanma · 08/42
 
 🛠 Pullik kanallar — Yopiq kanaldan daromad
 
@@ -230,7 +230,7 @@ Videoda:
 `09-konkurs.mp4` · 469 belgi
 
 ```
-📘 TartibOn qo'llanma · 09/41
+📘 TartibOn qo'llanma · 09/42
 
 🛠 Konkurs — Sovg'a o'yini — giveaway
 
@@ -258,7 +258,7 @@ Videoda:
 `10-dollar-kursi.mp4` · 489 belgi
 
 ```
-📘 TartibOn qo'llanma · 10/41
+📘 TartibOn qo'llanma · 10/42
 
 🔔 Dollar kursi — Banklardan avtomatik
 
@@ -286,7 +286,7 @@ Videoda:
 `11-ob-havo.mp4` · 419 belgi
 
 ```
-📘 TartibOn qo'llanma · 11/41
+📘 TartibOn qo'llanma · 11/42
 
 🔔 Ob-havo — Har kuni ertalab 06:00
 
@@ -313,7 +313,7 @@ Videoda:
 `12-tongi-xabar.mp4` · 386 belgi
 
 ```
-📘 TartibOn qo'llanma · 12/41
+📘 TartibOn qo'llanma · 12/42
 
 🔔 Tongi xabar — Har kuni 04:30
 
@@ -339,7 +339,7 @@ Videoda:
 `13-tungi-xabar.mp4` · 368 belgi
 
 ```
-📘 TartibOn qo'llanma · 13/41
+📘 TartibOn qo'llanma · 13/42
 
 🔔 Tungi xabar — Har kuni 21:30
 
@@ -365,7 +365,7 @@ Videoda:
 `14-bayram-tabriklari.mp4` · 373 belgi
 
 ```
-📘 TartibOn qo'llanma · 14/41
+📘 TartibOn qo'llanma · 14/42
 
 🔔 Bayram tabriklari — Juma va bayram kunlari
 
@@ -391,7 +391,7 @@ Videoda:
 `15-ramazon-taqvimi.mp4` · 455 belgi
 
 ```
-📘 TartibOn qo'llanma · 15/41
+📘 TartibOn qo'llanma · 15/42
 
 🔔 Ramazon taqvimi — Saharlik va iftor — o'zi joylanadi
 
@@ -419,7 +419,7 @@ Videoda:
 `16-nakrutka.mp4` · 439 belgi
 
 ```
-📘 TartibOn qo'llanma · 16/41
+📘 TartibOn qo'llanma · 16/42
 
 🧰 Nakrutka — Obunachi, layk, izoh, ko'rish
 
@@ -447,7 +447,7 @@ Videoda:
 `17-esim.mp4` · 452 belgi
 
 ```
-📘 TartibOn qo'llanma · 17/41
+📘 TartibOn qo'llanma · 17/42
 
 🧰 eSIM — Bir martalik raqam va SMS kod
 
@@ -475,7 +475,7 @@ Videoda:
 `18-prava.mp4` · 444 belgi
 
 ```
-📘 TartibOn qo'llanma · 18/41
+📘 TartibOn qo'llanma · 18/42
 
 🧰 Prava — Haydovchilik imtihoniga tayyorgarlik
 
@@ -503,7 +503,7 @@ Videoda:
 `19-ozaro-reklama.mp4` · 404 belgi
 
 ```
-📘 TartibOn qo'llanma · 19/41
+📘 TartibOn qo'llanma · 19/42
 
 🧰 O'zaro reklama — Kanal egalari katalogi
 
@@ -529,7 +529,7 @@ Videoda:
 `20-kanal-savdo-telegram.mp4` · 452 belgi
 
 ```
-📘 TartibOn qo'llanma · 20/41
+📘 TartibOn qo'llanma · 20/42
 
 🧰 Kanal Savdo — Telegram — Telegram kanal va guruh savdosi
 
@@ -556,7 +556,7 @@ Videoda:
 `21-kanal-savdo-youtube.mp4` · 435 belgi
 
 ```
-📘 TartibOn qo'llanma · 21/41
+📘 TartibOn qo'llanma · 21/42
 
 🧰 Kanal Savdo — YouTube — YouTube kanal sotish va sotib olish
 
@@ -584,7 +584,7 @@ Videoda:
 `22-kanal-savdo-instagram.mp4` · 389 belgi
 
 ```
-📘 TartibOn qo'llanma · 22/41
+📘 TartibOn qo'llanma · 22/42
 
 🧰 Kanal Savdo — Instagram — Instagram sahifa savdosi
 
@@ -610,7 +610,7 @@ Videoda:
 `23-reklama-birjasi.mp4` · 463 belgi
 
 ```
-📘 TartibOn qo'llanma · 23/41
+📘 TartibOn qo'llanma · 23/42
 
 🧰 Reklama birjasi — Pul kafolati bilan reklama savdosi
 
@@ -638,7 +638,7 @@ Videoda:
 `24-kanallar-reytingi.mp4` · 434 belgi
 
 ```
-📘 TartibOn qo'llanma · 24/41
+📘 TartibOn qo'llanma · 24/42
 
 🧰 Kanallar reytingi — Eng tez o'sayotgan TOP-10
 
@@ -665,7 +665,7 @@ Videoda:
 `25-savdogar.mp4` · 444 belgi
 
 ```
-📘 TartibOn qo'llanma · 25/41
+📘 TartibOn qo'llanma · 25/42
 
 🖼 Savdogar — Umumiy mahsulot e'loni
 
@@ -693,7 +693,7 @@ Videoda:
 `26-taksi-eloni.mp4` · 431 belgi
 
 ```
-📘 TartibOn qo'llanma · 26/41
+📘 TartibOn qo'llanma · 26/42
 
 🖼 Taksi e'loni — Haydovchilar uchun
 
@@ -721,7 +721,7 @@ Videoda:
 `27-avto-savdo.mp4` · 444 belgi
 
 ```
-📘 TartibOn qo'llanma · 27/41
+📘 TartibOn qo'llanma · 27/42
 
 🖼 Avto savdo — Mashina sotish e'loni
 
@@ -749,7 +749,7 @@ Videoda:
 `28-sayohat-eloni.mp4` · 457 belgi
 
 ```
-📘 TartibOn qo'llanma · 28/41
+📘 TartibOn qo'llanma · 28/42
 
 🖼 Sayohat e'loni — Turagentliklar uchun
 
@@ -777,7 +777,7 @@ Videoda:
 `29-oquv-markazi.mp4` · 454 belgi
 
 ```
-📘 TartibOn qo'llanma · 29/41
+📘 TartibOn qo'llanma · 29/42
 
 🖼 O'quv markazi — Kurslarga qabul e'loni
 
@@ -805,7 +805,7 @@ Videoda:
 `30-kochmas-mulk.mp4` · 436 belgi
 
 ```
-📘 TartibOn qo'llanma · 30/41
+📘 TartibOn qo'llanma · 30/42
 
 🖼 Ko'chmas mulk — Uy, kvartira, ijara
 
@@ -833,7 +833,7 @@ Videoda:
 `31-vakansiya.mp4` · 415 belgi
 
 ```
-📘 TartibOn qo'llanma · 31/41
+📘 TartibOn qo'llanma · 31/42
 
 🖼 Vakansiya — Ish e'loni
 
@@ -861,7 +861,7 @@ Videoda:
 `32-restoran-va-kafe.mp4` · 444 belgi
 
 ```
-📘 TartibOn qo'llanma · 32/41
+📘 TartibOn qo'llanma · 32/42
 
 🖼 Restoran va kafe — Menyu, kombo, aksiya
 
@@ -889,7 +889,7 @@ Videoda:
 `33-salon-va-klinika.mp4` · 443 belgi
 
 ```
-📘 TartibOn qo'llanma · 33/41
+📘 TartibOn qo'llanma · 33/42
 
 🖼 Salon va klinika — Go'zallik va tibbiyot xizmatlari
 
@@ -917,7 +917,7 @@ Videoda:
 `34-ochiq-byudjet.mp4` · 460 belgi
 
 ```
-📘 TartibOn qo'llanma · 34/41
+📘 TartibOn qo'llanma · 34/42
 
 🖼 Ochiq byudjet — Mahalla tashabbusi uchun ovoz yig'ish
 
@@ -945,7 +945,7 @@ Videoda:
 `35-statistikam.mp4` · 419 belgi
 
 ```
-📘 TartibOn qo'llanma · 35/41
+📘 TartibOn qo'llanma · 35/42
 
 🖼 Statistikam — E'lonlaringiz qanchalik ishlayapti
 
@@ -971,7 +971,7 @@ Videoda:
 `36-brend-toplami.mp4` · 365 belgi
 
 ```
-📘 TartibOn qo'llanma · 36/41
+📘 TartibOn qo'llanma · 36/42
 
 🖼 Brend to'plami — Bir marta sozlang — hammasi oladi
 
@@ -997,7 +997,7 @@ Videoda:
 `37-balans.mp4` · 425 belgi
 
 ```
-📘 TartibOn qo'llanma · 37/41
+📘 TartibOn qo'llanma · 37/42
 
 📱 Balans — Ilova ichidagi hisobingiz
 
@@ -1025,7 +1025,7 @@ Videoda:
 `38-bot-yaratish.mp4` · 438 belgi
 
 ```
-📘 TartibOn qo'llanma · 38/41
+📘 TartibOn qo'llanma · 38/42
 
 📱 Bot yaratish — Biznesingiz uchun shaxsiy bot
 
@@ -1052,7 +1052,7 @@ Videoda:
 `39-savol-va-takliflar.mp4` · 398 belgi
 
 ```
-📘 TartibOn qo'llanma · 39/41
+📘 TartibOn qo'llanma · 39/42
 
 📱 Savol va takliflar — Administrator bilan aloqa
 
@@ -1078,7 +1078,7 @@ Videoda:
 `40-ilova-haqida.mp4` · 433 belgi
 
 ```
-📘 TartibOn qo'llanma · 40/41
+📘 TartibOn qo'llanma · 40/42
 
 📱 Ilova haqida — Ichki qo'llanma
 
@@ -1106,7 +1106,7 @@ Videoda:
 `41-reklama-berish.mp4` · 413 belgi
 
 ```
-📘 TartibOn qo'llanma · 41/41
+📘 TartibOn qo'llanma · 41/42
 
 📱 Reklama berish — Ilova ichida reklama joylash
 
@@ -1122,6 +1122,34 @@ Videoda:
 • … va yana 3 ta
 
 👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ads
+
+#TartibOn #qollanma
+```
+
+
+---
+
+## 42 · Namoz vaqtlari
+
+`42-namoz-vaqtlari.mp4` · 458 belgi
+
+```
+📘 TartibOn qo'llanma · 42/42
+
+🔔 Namoz vaqtlari — Har namozdan 30 daqiqa keyin
+
+Har namoz vaqtidan 30 daqiqa keyin kanal va guruhingizga namoz vaqti xabarini yuboradi.
+
+Videoda:
+• Avtomatik namoz vaqti xabari
+• Har namozdan 30 daqiqa keyin
+• Hududni tanlaysiz
+• Xabar matnini o'zgartirish mumkin
+• Manba: islom.uz taqvimi
+• Manba ishlamasa — bot o'zi hisoblaydi
+• … va yana 1 ta
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pnm
 
 #TartibOn #qollanma
 ```

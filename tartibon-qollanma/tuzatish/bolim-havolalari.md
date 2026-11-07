@@ -53,6 +53,7 @@ ko'rasiz — har bir yangi foydalanuvchi uchun birinchi havola saqlanadi.
 | Tungi xabar | `https://t.me/TartibOnBot?startapp=s_pev` | 3-dars |
 | Bayram tabriklari | `https://t.me/TartibOnBot?startapp=s_bt` | 3-dars |
 | Ramazon taqvimi | `https://t.me/TartibOnBot?startapp=s_rz` | — |
+| Namoz vaqtlari | `https://t.me/TartibOnBot?startapp=s_pnm` | 42 |
 
 ### Xizmatlar
 
@@ -105,7 +106,7 @@ ko'rasiz — har bir yangi foydalanuvchi uchun birinchi havola saqlanadi.
 (qo'llab-quvvatlash tugmasi). Endi `s_<bo'lim>` ni ham tushunadi.
 
 ```js
-var SP_PAGES='home gd po rf st psj pc gw pcb pwx pdp pev bt rz nk vs dv vz
+var SP_PAGES='home gd po rf st psj pc gw pcb pwx pdp pev bt rz pnm nk vs dv vz
  sale auc rt adp txp trv rlt avt vak edu rst sln obd ast brand bal bty ab ads'.split(' ');
 var SP_FN={mykanal:…, myguruh:…, ksyt:…, ksig:…, sup:…};
 ```
