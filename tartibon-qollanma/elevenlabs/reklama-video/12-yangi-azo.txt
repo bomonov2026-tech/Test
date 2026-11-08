@@ -1,0 +1,13 @@
+# 12 — yangi-azo
+# 5 sahna · 20 soniya
+# Har sahnani ALOHIDA yarating: 001.mp3, 002.mp3 …
+
+[001]  Yangi a'zo kirdi. Va birinchi xabarida havola tashladi.
+
+[002]  U a'zo emas edi. Bot edi.
+
+[003]  Yangi a'zo yigirma to'rt soat havola va fayl yubora olmaydi.
+
+[004]  Kapcha va kirish testi ham bor. Bot umuman kira olmaydi.
+
+[005]  Eshikni yoping. Havola tagida.

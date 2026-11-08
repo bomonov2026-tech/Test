@@ -1,0 +1,13 @@
+# 18 — pullik-kanal
+# 5 sahna · 21 soniya
+# Har sahnani ALOHIDA yarating: 001.mp3, 002.mp3 …
+
+[001]  Bilimingizni bepul berasizmi? Shart emas.
+
+[002]  Kanalingizga pullik obuna qo'yasiz.
+
+[003]  To'lovni bot qabul qiladi. Siz hech kimga karta raqami yozmaysiz.
+
+[004]  Obuna muddati tugasa, bot o'zi chiqarib yuboradi. Ro'yxat yuritmaysiz.
+
+[005]  Kanalingizni pullik qiling. Havola tagida.

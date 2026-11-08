@@ -1,0 +1,13 @@
+# 10 — reja-post
+# 5 sahna · 21 soniya
+# Har sahnani ALOHIDA yarating: 001.mp3, 002.mp3 …
+
+[001]  Post ertaga soat to'qqizda chiqishi kerak. Esingizda qoladimi?
+
+[002]  Hozir yozasiz, vaqtini belgilab qo'yasiz.
+
+[003]  Vaqti kelganda bot o'zi joylaydi. Siz band bo'lsangiz ham.
+
+[004]  Har kuni yoki har hafta takrorlanadigan postlarni ham shunday qo'yasiz.
+
+[005]  Bir hafta oldin rejalashtiring. Havola tagida.

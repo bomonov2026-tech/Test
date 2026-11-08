@@ -1,0 +1,13 @@
+# 19 — testlar
+# 5 sahna · 21 soniya
+# Har sahnani ALOHIDA yarating: 001.mp3, 002.mp3 …
+
+[001]  Guruhingiz jim qoldimi? Odamlar kirib chiqadi, yozmaydi.
+
+[002]  Guruhga savol tashlang.
+
+[003]  Bot testni o'zi o'tkazadi va javoblarni sanaydi.
+
+[004]  Reyting chiqadi, raqobat boshlanadi. Guruh jonlanadi.
+
+[005]  Birinchi testni bugun o'tkazing. Havola tagida.

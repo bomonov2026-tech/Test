@@ -1,0 +1,13 @@
+# 13 — ai-filtr
+# 5 sahna · 20 soniya
+# Har sahnani ALOHIDA yarating: 001.mp3, 002.mp3 …
+
+[001]  Bu reklamami yoki oddiy xabarmi? Oddiy filtr buni ajrata olmaydi.
+
+[002]  Yashirin reklama so'z bilan o'ynaydi, havola qo'ymaydi.
+
+[003]  TartibOnda sun'iy intellekt filtri bor. U ma'noni tushunadi.
+
+[004]  Noo'rin rasmlar ham o'chadi. Matn ham, rasm ham tekshiriladi.
+
+[005]  Guruhingizda sinab ko'ring. Havola tagida.

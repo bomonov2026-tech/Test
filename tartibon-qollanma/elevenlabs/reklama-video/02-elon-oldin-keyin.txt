@@ -1,0 +1,13 @@
+# 02 — elon-oldin-keyin
+# 5 sahna · 20 soniya
+# Har sahnani ALOHIDA yarating: 001.mp3, 002.mp3 …
+
+[001]  E'loningiz qanday ko'rinadi? Rostini ayting.
+
+[002]  Telefonda olingan surat, tagida qo'lda yozilgan narx. Xaridor bunga ishonmaydi.
+
+[003]  Ilovaga rasmni yuklaysiz, narxni yozasiz. Bir daqiqada shunday post tayyor bo'ladi.
+
+[004]  Post tagida aloqa tugmasi bo'ladi. Xaridor bir bosadi va to'g'ridan-to'g'ri sizga yoziladi.
+
+[005]  Birinchi e'loningizni hoziroq yasang. Havola tagida.
