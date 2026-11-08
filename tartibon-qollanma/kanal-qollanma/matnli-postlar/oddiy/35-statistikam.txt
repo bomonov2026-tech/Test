@@ -1,0 +1,23 @@
+📘 TartibOn qo'llanma · 35/42
+
+🖼 Statistikam
+E'lonlaringiz qanchalik ishlayapti
+
+Siz yasagan e'lonlar necha marta ko'rilgani va bosilganini ko'rsatadi.
+
+1️⃣ Tugma bosilishlari sanaladi
+Statistikam bo'limi — siz yuborgan e'lonlardagi tugmalarni necha kishi bosgani sanaladi.
+
+2️⃣ «Bog'lanish», «Bron qilish» va b.
+«Bog'lanish», «Bron qilish», «Buyurtma berish» — qaysi tugma necha marta bosilgani alohida ko'rinadi.
+
+3️⃣ Qaysi e'lon ishlayotgani ko'rinadi
+Shu orqali qaysi e'lon ishlayapti, qaysi biri bekorga ketayotganini aniq bilasiz.
+
+4️⃣ Post yuborilmagan bo'lsa — bo'sh
+Agar hali e'lon yubormagan bo'lsangiz, bu bo'lim bo'sh turadi. Birinchi postni yuboring, raqamlar shundan keyin paydo bo'ladi.
+
+5️⃣ Taqqoslab, eng yaxshisini qoldiring
+Maslahat: bitta mahsulotni ikki xil matn bilan sinab ko'ring va qaysi biri ko'proq bosilganini shu yerdan solishtiring.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ast

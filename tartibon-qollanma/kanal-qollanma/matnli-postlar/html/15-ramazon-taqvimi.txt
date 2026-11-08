@@ -1,0 +1,29 @@
+<b>📘 TartibOn qo'llanma · 15/42</b>
+
+🔔 <b>Ramazon taqvimi</b>
+Saharlik va iftor — o'zi joylanadi
+
+Ramazon oyida 12 viloyatning saharlik va iftor vaqtini rasmli taqvim qilib kuniga ikki marta joylaydi.
+
+1️⃣ <b>Ramazon oyining taqvimi</b>
+«Ramazon taqvimi» — Ramazon oyida kanal va guruhingizga saharlik hamda iftor vaqtlarini avtomatik joylaydigan bo'lim. Ro'za tutganlar uchun eng kerakli ma'lumot, siz hech narsa yozmaysiz.
+
+2️⃣ <b>12 viloyat bitta rasmda</b>
+Taqvim bitta chiroyli rasm ko'rinishida chiqadi va unda o'n ikki viloyatning vaqti birga turadi. Toshkent, Samarqand, Buxoro, Namangan, Andijon, Farg'ona va boshqalar — obunachingiz qayerda bo'lsa, o'z vaqtini shu rasmdan topadi.
+
+3️⃣ <b>Kuniga ikki marta</b>
+Post kuniga ikki marta ketadi: saharlikdan bir soat oldin va iftordan bir soat oldin. Ya'ni xabar eng kerak bo'lgan paytda keladi — odam tayyorlanib olishga ulguradi.
+
+4️⃣ <b>Faqat rasmiy vaqtlar</b>
+Vaqtlar faqat rasmiy manba — islom.uz saytidan olinadi. Agar saytdan rasmiy jadval hali kelmagan bo'lsa, bot hisoblab taxminiy vaqt chiqarmaydi, balki rasmiy ma'lumot kelgunicha kutadi. Noto'g'ri vaqt bilan post ketmaydi.
+
+5️⃣ <b>Qaysi kanalga — o'zingiz tanlaysiz</b>
+Yoqish juda oson: «Kanallarim» yoki «Guruhlarim» bo'limiga kirasiz, kerakli kanalni ochasiz va ro'yxatdan «Ramazon taqvimi» ni belgilaysiz. Bir kanalga yoqib, boshqasiga yoqmasligingiz mumkin.
+
+6️⃣ <b>Vaqtni o'zingizga moslash</b>
+Agar bir soat emas, masalan yarim soat oldin kelishini xohlasangiz — admin panelidan oldinroq yuborish daqiqasini o'zgartirasiz. O'n besh daqiqadan uch soatgacha tanlash mumkin.
+
+7️⃣ <b>Ramazon tugasa — o'zi to'xtaydi</b>
+Bu bo'lim faqat Ramazon oyi davomida ishlaydi. Oy boshlanganda o'zi ishga tushadi, oy tugaganda o'zi to'xtaydi — siz o'chirishni esdan chiqarib qo'yishingizdan xavotir olmang.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rz

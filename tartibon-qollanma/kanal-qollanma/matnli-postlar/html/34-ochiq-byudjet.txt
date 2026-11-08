@@ -1,0 +1,29 @@
+<b>📘 TartibOn qo'llanma · 34/42</b>
+
+🖼 <b>Ochiq byudjet</b>
+Mahalla tashabbusi uchun ovoz yig'ish
+
+Mahalla tashabbusingiz uchun ovoz yig'uvchi post yasaydi va eslatmalarni o'zi yuboradi.
+
+1️⃣ <b>Mahalla loyihasiga ovoz yig'ish</b>
+«Ochiq byudjet» — mahallangizdagi loyihaga ovoz yig'ish uchun. Yo'l, maktab, sport maydoni yoki bog'cha bo'ladimi — guruhingiz a'zolarini rasmiy ovoz berishga chaqiruvchi chiroyli post yasab beradi.
+
+2️⃣ <b>Postni to'ldirasiz</b>
+Birinchi qadam — post tayyorlash. Loyiha nomini, mahallangiz nomini, rasmini va rasmiy openbudget.uz saytidagi havolasini kiritasiz. Bot hammasini chiroyli postga joylaydi.
+
+3️⃣ <b>Guruhga ikki tugma bilan ketadi</b>
+Keyin postni guruhingizga yuborasiz. Post tagida ikki tugma turadi: «Ovoz berish» — rasmiy saytni ochadi, va «Ovoz berdim» — bosganlarni sanaydi.
+
+4️⃣ <b>Necha kishi ovoz berganini ko'rasiz</b>
+«Ovoz berdim» tugmasini bosganlar soni postning o'zida ko'rinib turadi. Shunday qilib mahalladagi harakat qanday ketayotganini real vaqtda kuzatasiz.
+
+5️⃣ <b>Eslatmalar o'zi ketadi</b>
+Ovoz berish muddati tugaguncha bot eslatma postlarini o'zi yuboradi. Siz har kuni «ovoz bering» deb yozib o'tirmaysiz — bot esga soladi.
+
+6️⃣ <b>Xavfsizlik — eng muhimi</b>
+Bu juda muhim: bot hech qachon telefon raqamingizni yoki SMS kodni so'ramaydi. Ovoz faqat rasmiy saytning o'zida beriladi. Shuning uchun guruh a'zolaringiz xotirjam bosa oladi.
+
+7️⃣ <b>Yakunda tabrik</b>
+Ovoz berish tugagach, natija bilan tabrik postini yuborasiz. Mahalla qancha ovoz yig'ganini ko'rish — odamlarni keyingi loyihaga ham jalb qiladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_obd

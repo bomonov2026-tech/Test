@@ -1,0 +1,38 @@
+<b>📘 TartibOn qo'llanma · 26/42</b>
+
+🖼 <b>Taksi e'loni</b>
+Haydovchilar uchun
+
+Yo'nalish, narx va telefonli taksi e'lonini rasmli post qilib chiqaradi.
+
+1️⃣ <b>Tartibi: rasm → ma'lumot → post</b>
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+2️⃣ <b>Aloqa tugmasi o'zi qo'shiladi</b>
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+3️⃣ <b>Avval «Brend to'plami» ni to'ldiring</b>
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+4️⃣ <b>Taksi xizmati uchun tayyor post</b>
+Taksi e'loni — taksi xizmati ko'rsatadiganlar uchun tayyor post shabloni.
+
+5️⃣ <b>Qayerdan — qayerga</b>
+Avval yo'nalishni kiritasiz: qayerdan jo'nashingiz va qayerga borishingiz.
+
+6️⃣ <b>Sana va jo'nash vaqti</b>
+Keyin sana va jo'nash vaqtini belgilaysiz.
+
+7️⃣ <b>Bo'sh joylar soni va mashina modeli</b>
+Nechta bo'sh joy borligini va mashina modelini yozasiz — yo'lovchi uchun bu eng muhim ma'lumot.
+
+8️⃣ <b>Telefon raqami</b>
+Telefon raqamingizni kiritasiz, so'ng post rasmi tayyor bo'ladi.
+
+9️⃣ <b>«🚕 Haydovchiga yozish» tugmasi</b>
+Post tagida «Haydovchiga yozish» tugmasi chiqadi — yo'lovchi bir bosib siz bilan bog'lanadi.
+
+🔟 <b>Mahalla va yo'nalish guruhlariga</b>
+Bu shablon mahalla guruhlari va yo'nalish guruhlari uchun juda qulay. Har kuni bir xil yo'nalishni yuboradigan bo'lsangiz, postni nusxalab qo'ying.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_txp

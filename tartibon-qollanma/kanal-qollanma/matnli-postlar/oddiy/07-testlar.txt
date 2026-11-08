@@ -1,0 +1,35 @@
+📘 TartibOn qo'llanma · 07/42
+
+🛠 Testlar
+Viktorina bilan faollik
+
+Kanal yoki guruhda savol-javob testi o'tkazadi, natijalarni o'zi sanab reyting chiqaradi.
+
+1️⃣ 4 variantli viktorina: A, B, C, D
+Testlar bo'limi guruh va kanalda to'rt variantli viktorina o'tkazish imkonini beradi.
+
+2️⃣ Savol-javob bazasi
+Birinchi tur — Savol-javob. Maktab, litsey, kollej, oliy ta'lim va sertifikat imtihonlari mavzulari bo'yicha savollar bazasi bor.
+
+3️⃣ Prava testi — rasmli savollar
+Ikkinchi tur — Prava testi. Yo'l harakati qoidalari bo'yicha, rasmli savollar bilan. Mavzuni ham o'zingiz tanlaysiz.
+
+4️⃣ Avtomatik test — bot o'zi so'raydi
+«Avtomatik test» ni yoqsangiz, bot siz belgilagan oraliqda o'zi savol berib turadi. Masalan har ikki soatda.
+
+5️⃣ «📨 Hozir savol» tugmasi
+Qo'lda yuborish uchun «Hozir savol» tugmasi bor — bir bosasiz, savol chiqadi.
+
+6️⃣ Tez javobga ko'proq ochko
+To'g'ri javob uchun ochko beriladi, tezroq javob bergan ko'proq ochko oladi. Bu tezlik musobaqasini yaratadi.
+
+7️⃣ TOP-10 va umumiy reyting
+Oxirida eng yaxshi o'nta ishtirokchi e'lon qilinadi. Reyting umumiy bo'lib boradi.
+
+8️⃣ Guruhda /prava va /viktorina
+Guruh a'zolari o'zi ham savol chaqira oladi: /prava yoki /viktorina deb yozadi. Har ikki daqiqada bir marta ruxsat beriladi.
+
+9️⃣ Kanalda ochko hisoblanmaydi
+Eslatma: kanalda so'rovlar anonim bo'lgani uchun u yerda ochko hisoblanmaydi. Reyting faqat guruhda ishlaydi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_psj

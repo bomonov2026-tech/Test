@@ -1,0 +1,32 @@
+📘 TartibOn qo'llanma · 01/42
+
+🛠 Kanallarim
+Barcha kanallar bir joyda
+
+Botga ulangan barcha kanallaringizni bir joydan boshqaradi: avto-xabarlar, imzo, tugmalar, ta'til rejimi.
+
+1️⃣ Ulangan kanallar ro'yxati
+«Kanallarim» — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
+
+2️⃣ Har kanalga alohida avto-xabarlar
+Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
+
+3️⃣ Kanal imzosi
+«Kanal imzosi» — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
+
+4️⃣ Post tagidagi doimiy tugmalar
+Postlar tagiga doimiy tugmalar qo'shish mumkin: «Do'stga ulashish» va «Qo'llab-quvvatlash». Ulashish tugmasi kanal o'sishiga yordam beradi.
+
+5️⃣ 💝 Qo'llab-quvvatlash — daromad
+«Qo'llab-quvvatlash» tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
+
+6️⃣ Ta'til rejimi
+Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
+
+7️⃣ Saytdan avtomatik post
+«Sayt yoki YouTube'dan avtomatik post» — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
+
+8️⃣ Muammo bo'lsa — qizil belgi
+Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, «Kanallarim» katagida qizil raqam turadi va «Tuzatish» tugmasi chiqadi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_mykanal

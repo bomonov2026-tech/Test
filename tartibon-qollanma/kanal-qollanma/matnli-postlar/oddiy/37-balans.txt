@@ -1,0 +1,47 @@
+📘 TartibOn qo'llanma · 37/42
+
+📱 Balans
+Ilova ichidagi hisobingiz
+
+Ilova ichidagi hisobingiz: pul to'ldirish, sarflash va yechib olish shu yerda.
+
+1️⃣ Barcha to'lovlar shu hisobdan
+Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+
+2️⃣ 1 — Kartaga pul o'tkazing
+To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+
+3️⃣ 2 — Chek rasmini yuklang
+Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+
+4️⃣ 3 — «To'lov qildim» ni bosing
+Uchinchi qadam: «To'lov qildim» tugmasini bosasiz.
+
+5️⃣ 4 — Admin tasdiqlaydi
+Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+
+6️⃣ Eng kam va eng ko'p summa
+Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+
+7️⃣ Birinchi to'ldirishga bonus
+Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+
+8️⃣ Pul yechish: summa va karta raqami
+Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+
+9️⃣ Tasdiqlansa — kartangizga o'tadi
+Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+
+🔟 Bonus pulini yechib bo'lmaydi
+Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+
+• Sovg'a qilish mumkin
+Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+
+• Daromad ham shu balansga tushadi
+Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+
+• «Adminga murojaat» qatori
+To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — «Balans» sahifasidagi «Adminga murojaat» qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bal

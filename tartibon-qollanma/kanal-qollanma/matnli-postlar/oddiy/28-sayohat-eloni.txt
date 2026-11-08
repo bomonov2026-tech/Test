@@ -1,0 +1,32 @@
+📘 TartibOn qo'llanma · 28/42
+
+🖼 Sayohat e'loni
+Turagentliklar uchun
+
+Tur paketi e'lonini yo'nalish, muddat, narx va nima kirgani bilan yasab beradi.
+
+1️⃣ Tartibi: rasm → ma'lumot → post
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+2️⃣ Aloqa tugmasi o'zi qo'shiladi
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+3️⃣ Avval «Brend to'plami» ni to'ldiring
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+4️⃣ Turagentliklar uchun shablon
+Sayohat e'loni — turagentliklar uchun maxsus tayyorlangan shablon.
+
+5️⃣ Uch xil: tur paket, qaynoq tur, Umra
+Uchta tayyor ko'rinish bor: oddiy tur paket, qaynoq tur va Umra shabloni.
+
+6️⃣ Yo'nalish, sana, narx
+Yo'nalishni, sanani va narxni kiritasiz.
+
+7️⃣ Narxga kiradigan xizmatlar
+Narxga nimalar kirishini alohida yozasiz — aviabilet, mehmonxona, ovqat, viza. Bu savollarning yarmini kamaytiradi.
+
+8️⃣ «✈️ Bron qilish» tugmasi
+Post tagida «Bron qilish» tugmasi chiqadi va mijoz to'g'ridan-to'g'ri sizga yozadi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_trv

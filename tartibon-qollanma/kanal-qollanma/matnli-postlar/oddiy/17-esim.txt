@@ -1,0 +1,41 @@
+📘 TartibOn qo'llanma · 17/42
+
+🧰 eSIM
+Bir martalik raqam va SMS kod
+
+Chet elga chiqqanda telefon raqami almashtirmasdan internet ishlashi uchun elektron SIM sotib beradi.
+
+1️⃣ Ro'yxatdan o'tish uchun raqam
+eSIM bo'limi ro'yxatdan o'tish uchun bir martalik virtual raqam va SMS kodni olish imkonini beradi.
+
+2️⃣ 1 — Davlatni tanlang
+Birinchi qadam: davlatni tanlaysiz.
+
+3️⃣ 2 — Ijtimoiy tarmoqni tanlang
+Ikkinchi qadam: qaysi tarmoq uchun kerakligini belgilaysiz — Telegram, WhatsApp, Instagram va boshqalar.
+
+4️⃣ 3 — «Olish» ni bosing
+Uchinchi qadam: «Olish» tugmasini bosasiz va sizga raqam beriladi.
+
+5️⃣ 4 — Raqamni nusxalab kiriting
+Raqamni nusxalab, o'sha tarmoqning ro'yxatdan o'tish oynasiga kiritasiz.
+
+6️⃣ SMS kod shu sahifada chiqadi
+Kelgan SMS kod avtomatik ravishda shu sahifaning o'zida paydo bo'ladi — boshqa joyga qarash shart emas.
+
+7️⃣ Kod kelmasa — pul qaytadi
+Agar kod taxminan 15 daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
+
+8️⃣ Kod kelgach pul qaytmaydi
+Lekin diqqat: kod kelgandan keyin pul qaytarilmaydi. Shuning uchun kodni o'z vaqtida ishlating.
+
+9️⃣ «Boshqa raqam» — 1,5 daqiqadan keyin
+Raqam yoqmasa, «Boshqa raqam» tugmasi bir yarim daqiqadan keyin ochiladi.
+
+🔟 ⭐ Sifat belgisi
+Har bir yo'nalishda yulduzcha belgisi bor — bu so'nggi 30 kunda kod kelish foizi va o'rtacha vaqtni ko'rsatadi. Tanlashdan oldin shunga qarang.
+
+• Qabul qilinishi kafolatlanmaydi
+Ochiq aytamiz: platforma raqamni qabul qilishi kafolatlanmaydi — bu virtual raqamlarning tabiati.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_vs

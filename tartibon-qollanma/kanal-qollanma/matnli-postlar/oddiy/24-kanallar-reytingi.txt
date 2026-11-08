@@ -1,0 +1,26 @@
+📘 TartibOn qo'llanma · 24/42
+
+🧰 Kanallar reytingi
+Eng tez o'sayotgan TOP-10
+
+Ilovadagi kanallarni mavzu bo'yicha reytingga qo'yib, yangi obunachi olib keladi.
+
+1️⃣ 7 kunlik o'sish bo'yicha TOP-10
+Kanallar reytingi — so'nggi yetti kunda eng tez o'sgan o'nta kanal ro'yxati.
+
+2️⃣ Har kuni yangilanadi
+Reyting har kuni yangilanadi, ya'ni ro'yxat doim jonli.
+
+3️⃣ Obunachi soni emas, o'sish tezligi
+Diqqat qiling: bu yerda eng katta kanal emas, eng tez o'sayotgan kanal yuqori chiqadi. Kichik kanallarning ham chiqish imkoni bor.
+
+4️⃣ «Kanalimni ko'tarish» — pullik
+Pullik xizmat ham bor: «Kanalimni ko'tarish». Kanalingiz yetti kun davomida «Tavsiya etiladi» qatorida, eng tepada turadi.
+
+5️⃣ Narxni admin belgilaydi
+Ko'tarish narxini admin belgilaydi — joriy narx sahifada ko'rinadi.
+
+6️⃣ Yangi kanallar uchun foydali
+Bu xizmat yangi kanallar uchun ayniqsa foydali: hali obunachingiz kam bo'lsa ham, birinchi odamlarni olib kelishning tez yo'li.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rt

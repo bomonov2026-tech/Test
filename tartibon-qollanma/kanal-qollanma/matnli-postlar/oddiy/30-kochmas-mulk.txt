@@ -1,0 +1,32 @@
+📘 TartibOn qo'llanma · 30/42
+
+🖼 Ko'chmas mulk
+Uy, kvartira, ijara
+
+Uy, kvartira yoki yer e'lonini maydon, xona va narx bilan rasmli post qilib yasaydi.
+
+1️⃣ Tartibi: rasm → ma'lumot → post
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+2️⃣ Aloqa tugmasi o'zi qo'shiladi
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+3️⃣ Avval «Brend to'plami» ni to'ldiring
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+4️⃣ Uy, kvartira yoki ijara e'loni
+Ko'chmas mulk — uy, kvartira sotish yoki ijaraga berish e'lonlari uchun.
+
+5️⃣ Suratlar va maydon
+Obyekt suratlarini yuklaysiz va maydonini kvadrat metrda yozasiz.
+
+6️⃣ Qavat va narx
+Qavat, umumiy qavatlar soni va narxni kiritasiz.
+
+7️⃣ «Bog'lanish» tugmasi
+Post tagida «Bog'lanish» tugmasi chiqadi.
+
+8️⃣ Ko'proq surat — ko'proq murojaat
+Maslahat: uchta suratni ham to'liq ishlating. Ko'chmas mulkda surat qancha ko'p bo'lsa, murojaat shuncha ko'p bo'ladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rlt

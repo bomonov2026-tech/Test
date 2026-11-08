@@ -1,0 +1,23 @@
+📘 TartibOn qo'llanma · 39/42
+
+📱 Savol va takliflar
+Administrator bilan aloqa
+
+Savolingizni to'g'ridan-to'g'ri ilova jamoasiga yuboradi va javobini olib keladi.
+
+1️⃣ To'g'ridan-to'g'ri adminga yozish
+Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+
+2️⃣ Savol, muammo yoki taklif
+Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+
+3️⃣ Admin yoqqanda ko'rinadi
+Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, «Balans» sahifasidagi «Adminga murojaat» qatoridan foydalaning.
+
+4️⃣ Muammoni aniq yozing
+Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+
+5️⃣ Tilaklar qutisi — ovoz berish
+«Profil» bo'limida «Tilaklar qutisi» ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sup

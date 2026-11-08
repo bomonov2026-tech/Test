@@ -1,0 +1,23 @@
+<b>📘 TartibOn qo'llanma · 12/42</b>
+
+🔔 <b>Tongi xabar</b>
+Har kuni 04:30
+
+Har tongda salomlashuv, kun ma'lumoti va kayfiyat beruvchi postni o'zi joylaydi.
+
+1️⃣ <b>Ertalabki video va matn</b>
+Tongi xabar — har kuni erta tongda kanal va guruhingizga video va matn bilan yuboriladigan xabar.
+
+2️⃣ <b>Soat 04:30 da yuboriladi</b>
+Yuborish vaqti — soat to'rt yarim. Ya'ni obunachilaringiz uyg'onganda post allaqachon tayyor turadi.
+
+3️⃣ <b>Kun, sana va hijriy sana avtomatik</b>
+Matnda bugun haftaning qaysi kuni ekani, sana va hijriy sana avtomatik yoziladi. Siz hech narsa yozmaysiz.
+
+4️⃣ <b>Qaysi kunlar — o'zingiz tanlaysiz</b>
+Sozlashda haftaning qaysi kunlarida yuborilishini belgilaysiz. Masalan, faqat ish kunlari yoki faqat dam olish kunlari.
+
+5️⃣ <b>Siz hech narsa qilmaysiz</b>
+Yoqib qo'ygandan keyin bu xizmat butunlay avtomatik ishlaydi — kanalingiz har kuni jonli ko'rinadi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pdp

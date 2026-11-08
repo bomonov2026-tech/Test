@@ -1,0 +1,32 @@
+<b>📘 TartibOn qo'llanma · 32/42</b>
+
+🖼 <b>Restoran va kafe</b>
+Menyu, kombo, aksiya
+
+Restoran, kafe yoki taom e'lonini menyu va narx bilan rasmli post qilib chiqaradi.
+
+1️⃣ <b>Tartibi: rasm → ma'lumot → post</b>
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+2️⃣ <b>Aloqa tugmasi o'zi qo'shiladi</b>
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+3️⃣ <b>Avval «Brend to'plami» ni to'ldiring</b>
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+4️⃣ <b>Umumiy ovqatlanish uchun</b>
+Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
+
+5️⃣ <b>Taom suratlari va narxlar</b>
+Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
+
+6️⃣ <b>Chegirma va aksiya</b>
+Chegirma foizini yoki aksiya shartini ko'rsatasiz.
+
+7️⃣ <b>«Buyurtma berish» tugmasi</b>
+Post tagida «Buyurtma berish» tugmasi chiqadi.
+
+8️⃣ <b>Tushlik oldidan yuboring</b>
+Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rst

@@ -1,0 +1,26 @@
+<b>📘 TartibOn qo'llanma · 02/42</b>
+
+🛠 <b>Guruhlarim</b>
+Guruhlarni ulash va sozlash
+
+Botga ulangan guruhlaringiz ro'yxati: har biriga alohida himoya va avto-xabar sozlamalari.
+
+1️⃣ <b>Guruhlar ro'yxati va sozlamalari</b>
+«Guruhlarim» — ulangan guruhlaringiz ro'yxati. Har bir guruh uchun alohida sozlama bor.
+
+2️⃣ <b>Guruh qo'shish: @username yoki ID</b>
+Yangi guruh qo'shish uchun «Guruh qo'shish» tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
+
+3️⃣ <b>Avtomatik xabarlarni yoqish</b>
+Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
+
+4️⃣ <b>Himoya sozlamalari</b>
+Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
+
+5️⃣ <b>Testlar va viktorina</b>
+Guruhda avtomatik test o'tkazishni ham shu yerdan yoqasiz — a'zolar faolligini oshirishning eng oson yo'li.
+
+6️⃣ <b>Administrator huquqini unutmang</b>
+Yana bir bor eslatma: bot guruhda administrator bo'lmasa, bu funksiyalarning hech biri ishlamaydi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_myguruh

@@ -1,0 +1,23 @@
+📘 TartibOn qo'llanma · 36/42
+
+🖼 Brend to'plami
+Bir marta sozlang — hammasi oladi
+
+Logo, rang va imzoni bir marta saqlaydi — barcha e'lonlaringizga o'zi qo'yiladi.
+
+1️⃣ Brend rangi
+Brend to'plamida birinchi navbatda brend rangingizni tanlaysiz — postlar shu rangda chiziladi.
+
+2️⃣ Aloqa username
+Keyin aloqa uchun username'ingizni yozasiz — mijoz shu manzilga yoziladi.
+
+3️⃣ Tugma matni
+Tugmada qanday yozuv turishini ham o'zingiz belgilaysiz.
+
+4️⃣ Hamma bo'lim avtomatik oladi
+Bir marta saqlasangiz, barcha post bo'limlari — Savdogar, Taksi, Sayohat va qolganlari — shu sozlamani avtomatik oladi.
+
+5️⃣ Eng birinchi shuni to'ldiring
+Shuning uchun aytdim: «Savdo admin» bilan ishlashni aynan shu katakdan boshlang. Bir martalik ish, lekin barcha postlaringiz bir xil, tanilarli ko'rinishga ega bo'ladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_brand

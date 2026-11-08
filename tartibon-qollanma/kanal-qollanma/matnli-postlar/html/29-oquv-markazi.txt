@@ -1,0 +1,32 @@
+<b>📘 TartibOn qo'llanma · 29/42</b>
+
+🖼 <b>O'quv markazi</b>
+Kurslarga qabul e'loni
+
+Kurs va o'quv markazi e'lonini fan, muddat va narx bilan rasmli post qilib chiqaradi.
+
+1️⃣ <b>Tartibi: rasm → ma'lumot → post</b>
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+2️⃣ <b>Aloqa tugmasi o'zi qo'shiladi</b>
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+3️⃣ <b>Avval «Brend to'plami» ni to'ldiring</b>
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+4️⃣ <b>Kurs va guruhlar uchun post</b>
+O'quv markazi — kurslarga qabul e'lonlari uchun shablon.
+
+5️⃣ <b>Boshlanish sanasi va davomiyligi</b>
+Kursning boshlanish sanasini va necha oy davom etishini kiritasiz.
+
+6️⃣ <b>Narx va shartlar</b>
+Narxni va to'lov shartlarini yozasiz.
+
+7️⃣ <b>«Kursga yozilish» tugmasi</b>
+Post tagida «Kursga yozilish» tugmasi bo'ladi — talaba bir bosadi va sizga tushadi.
+
+8️⃣ <b>Qabul tugashidan oldin takrorlang</b>
+Maslahat: qabul tugashiga bir hafta qolganda postni qayta yuboring — «joylar tugayapti» degan post eng ko'p ariza keltiradi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_edu

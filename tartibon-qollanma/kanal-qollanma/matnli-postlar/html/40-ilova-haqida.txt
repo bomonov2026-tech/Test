@@ -1,0 +1,29 @@
+<b>📘 TartibOn qo'llanma · 40/42</b>
+
+📱 <b>Ilova haqida</b>
+Ichki qo'llanma
+
+Ilovaning barcha bo'limlari, qoidalari va yangilanishlari haqidagi ma'lumot.
+
+1️⃣ <b>Barcha xizmatlar bo'yicha qo'llanma</b>
+Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
+
+2️⃣ <b>Besh bo'lim bo'yicha tartiblangan</b>
+Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
+
+3️⃣ <b>Har qator ochiladi</b>
+Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
+
+4️⃣ <b>Esdan chiqsa — shu yerga qarang</b>
+Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
+
+5️⃣ <b>Profil bo'limi ham bor</b>
+Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
+
+6️⃣ <b>Hamkor dasturi — 3% komissiya</b>
+Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
+
+7️⃣ <b>Daraja: Bronza → Kumush → Oltin</b>
+Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_ab

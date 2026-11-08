@@ -1,0 +1,44 @@
+📘 TartibOn qo'llanma · 16/42
+
+🧰 Nakrutka
+Obunachi, layk, izoh, ko'rish
+
+Kanal, guruh va ijtimoiy tarmoqlaringizga obunachi, ko'rish va reaksiya buyurtma qiladi.
+
+1️⃣ Ijtimoiy tarmoqlarga buyurtma
+Nakrutka bo'limi orqali ijtimoiy tarmoqlarda obunachi, layk, izoh va ko'rishlarni buyurtma qilasiz.
+
+2️⃣ 1 — Tarmoqni tanlang
+Birinchi qadam: tarmoqni tanlaysiz. Telegram, Instagram, YouTube, TikTok va boshqalar.
+
+3️⃣ 2 — Xizmat turini tanlang
+Ikkinchi qadam: xizmat turi. Obuna, layk, izoh yoki ko'rish.
+
+4️⃣ 3 — Havola va miqdorni kiriting
+Uchinchi qadam: havolani va kerakli miqdorni kiritasiz.
+
+5️⃣ Narx darrov ko'rinadi
+Narx shu zahoti ekranda ko'rinadi — buyurtma berishdan oldin qancha turishini bilasiz.
+
+6️⃣ To'lov balansdan yechiladi
+To'lov sizning ilova ichidagi balansingizdan yechiladi.
+
+7️⃣ Bajarilmasa — pul qaytariladi
+Agar buyurtma bajarilmasa, pul to'liq qaytariladi.
+
+8️⃣ Qisman bajarilsa — qolgani qaytadi
+Qisman bajarilgan bo'lsa, bajarilmagan qismining puli qaytariladi. Ya'ni faqat haqiqiy natija uchun to'laysiz.
+
+9️⃣ Ko'p miqdorga chegirma
+Katta miqdorga chegirma bor — bir martada ko'proq olish arzonroq tushadi.
+
+🔟 «Takrorlash» tugmasi
+Avvalgi buyurtmani «Takrorlash» tugmasi bilan bir bosishda qayta berasiz — hamma ma'lumotni qaytadan yozish shart emas.
+
+• Havola ochiq bo'lishi shart
+Muhim shart: havola ochiq bo'lishi kerak. Yopiq kanal yoki yopiq sahifaga buyurtma bajarilmaydi.
+
+• Tezlik tarmoqqa bog'liq
+Natija tezligi tarmoqqa bog'liq. Buyurtma holati va butun tarix shu sahifada ko'rinib turadi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_nk

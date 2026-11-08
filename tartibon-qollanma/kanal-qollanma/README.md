@@ -13,6 +13,7 @@ Har bir video oxirida o'sha bo'limning **to'g'ridan-to'g'ri havolasi** ko'rsatil
 | `kanal-postlari/` | Kanalga qo'yiladigan tayyor post matnlari (video tagiga) |
 | `subtitr/` | SRT fayllar — kerak bo'lsa subtitr sifatida ulash uchun |
 | `../elevenlabs/kanal-qollanma/` | ElevenLabs uchun sahna-sahna matn va CSV |
+| `matnli-postlar/` | O'sha 42 ta bo'lim **matn ko'rinishida** — video o'rniga yoki u bilan birga |
 
 ## Videolar ovozsiz — nega?
 
@@ -36,6 +37,26 @@ sahna ham joyida turadi. Ovoz uzunroq chiqsa, skript ogohlantiradi.
 
 > ElevenLabs o'zbek tilini qanchalik yaxshi o'qishini **oldin bitta qisqa video
 > ustida sinab ko'ring** — hammasiga kredit sarflashdan oldin.
+
+## Matnli postlar
+
+Videolarning o'rniga yoki ular bilan birga ishlatish uchun, har bir bo'lim
+matn ko'rinishida ham tayyorlandi: `matnli-postlar/`.
+
+| Papka | Nima |
+|---|---|
+| `oddiy/` | Belgisiz matn — nusxa olib qo'yasiz |
+| `html/` | `parse_mode=HTML` bilan yuboriladigan (sarlavhalar qalin) |
+| `00-mundarija.txt` | 42 tasining ro'yxati, har biri havola bilan |
+| `HAMMASI.md` | Hammasi bitta faylda |
+
+Eng uzun post 1 998 belgi, mundarija 3 319 — Telegram cheki 4096 dan past.
+
+Matnli post videodan ikki joyda ustun: qidiruvda topiladi va odam kerakli
+joyini tez topib o'qiydi. Video esa yaxshiroq tushuntiradi. Ikkalasini birga
+qo'ysangiz — avval video, keyin matn — eng yaxshi natija beradi.
+
+Mundarija postini kanalga **mahkamlab** qo'ying.
 
 ## Kanalga qanday joylash
 

@@ -1,0 +1,57 @@
+<b>📘 TartibOn — to'liq qo'llanma</b>
+
+Ilovaning har bir bo'limi bo'yicha alohida qo'llanma. Nomini bosing — o'sha bo'lim ochiladi.
+
+<b>🛠 Adminlar uchun</b>
+01. <a href="https://t.me/TartibOnBot?startapp=s_mykanal">Kanallarim</a>
+02. <a href="https://t.me/TartibOnBot?startapp=s_myguruh">Guruhlarim</a>
+03. <a href="https://t.me/TartibOnBot?startapp=s_gd">Guruh himoyasi</a>
+04. <a href="https://t.me/TartibOnBot?startapp=s_po">Rejalashtirilgan postlar</a>
+05. <a href="https://t.me/TartibOnBot?startapp=s_rf">Taklif havolalari</a>
+06. <a href="https://t.me/TartibOnBot?startapp=s_st">Statistika</a>
+07. <a href="https://t.me/TartibOnBot?startapp=s_psj">Testlar</a>
+08. <a href="https://t.me/TartibOnBot?startapp=s_pc">Pullik kanallar</a>
+09. <a href="https://t.me/TartibOnBot?startapp=s_gw">Konkurs</a>
+
+<b>🔔 Kundalik xabarlar</b>
+10. <a href="https://t.me/TartibOnBot?startapp=s_pcb">Dollar kursi</a>
+11. <a href="https://t.me/TartibOnBot?startapp=s_pwx">Ob-havo</a>
+12. <a href="https://t.me/TartibOnBot?startapp=s_pdp">Tongi xabar</a>
+13. <a href="https://t.me/TartibOnBot?startapp=s_pev">Tungi xabar</a>
+14. <a href="https://t.me/TartibOnBot?startapp=s_bt">Bayram tabriklari</a>
+15. <a href="https://t.me/TartibOnBot?startapp=s_rz">Ramazon taqvimi</a>
+42. <a href="https://t.me/TartibOnBot?startapp=s_pnm">Namoz vaqtlari</a>
+
+<b>🧰 Xizmatlar</b>
+16. <a href="https://t.me/TartibOnBot?startapp=s_nk">Nakrutka</a>
+17. <a href="https://t.me/TartibOnBot?startapp=s_vs">eSIM</a>
+18. <a href="https://t.me/TartibOnBot?startapp=s_dv">Prava</a>
+19. <a href="https://t.me/TartibOnBot?startapp=s_vz">O'zaro reklama</a>
+20. <a href="https://t.me/TartibOnBot?startapp=s_sale">Kanal Savdo — Telegram</a>
+21. <a href="https://t.me/TartibOnBot?startapp=s_ksyt">Kanal Savdo — YouTube</a>
+22. <a href="https://t.me/TartibOnBot?startapp=s_ksig">Kanal Savdo — Instagram</a>
+23. <a href="https://t.me/TartibOnBot?startapp=s_auc">Reklama birjasi</a>
+24. <a href="https://t.me/TartibOnBot?startapp=s_rt">Kanallar reytingi</a>
+
+<b>🖼 Reklama posti</b>
+25. <a href="https://t.me/TartibOnBot?startapp=s_adp">Savdogar</a>
+26. <a href="https://t.me/TartibOnBot?startapp=s_txp">Taksi e'loni</a>
+27. <a href="https://t.me/TartibOnBot?startapp=s_avt">Avto savdo</a>
+28. <a href="https://t.me/TartibOnBot?startapp=s_trv">Sayohat e'loni</a>
+29. <a href="https://t.me/TartibOnBot?startapp=s_edu">O'quv markazi</a>
+30. <a href="https://t.me/TartibOnBot?startapp=s_rlt">Ko'chmas mulk</a>
+31. <a href="https://t.me/TartibOnBot?startapp=s_vak">Vakansiya</a>
+32. <a href="https://t.me/TartibOnBot?startapp=s_rst">Restoran va kafe</a>
+33. <a href="https://t.me/TartibOnBot?startapp=s_sln">Salon va klinika</a>
+34. <a href="https://t.me/TartibOnBot?startapp=s_obd">Ochiq byudjet</a>
+35. <a href="https://t.me/TartibOnBot?startapp=s_ast">Statistikam</a>
+36. <a href="https://t.me/TartibOnBot?startapp=s_brand">Brend to'plami</a>
+
+<b>📱 Ilova</b>
+37. <a href="https://t.me/TartibOnBot?startapp=s_bal">Balans</a>
+38. <a href="https://t.me/TartibOnBot?startapp=s_bty">Bot yaratish</a>
+39. <a href="https://t.me/TartibOnBot?startapp=s_sup">Savol va takliflar</a>
+40. <a href="https://t.me/TartibOnBot?startapp=s_ab">Ilova haqida</a>
+41. <a href="https://t.me/TartibOnBot?startapp=s_ads">Reklama berish</a>
+
+⭐️ Shu postni saqlab qo'ying — kerak bo'lganda ochasiz.
