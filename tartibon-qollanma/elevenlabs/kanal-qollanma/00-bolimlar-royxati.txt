@@ -1,0 +1,18 @@
+# 00 — Bo'limlar ro'yxati
+# 8 sahna · 53 soniya
+
+[001]  TartibOn nima qila oladi?
+
+[002]  Qirq ikkita bo'lim.
+
+[003]  Adminlar uchun to'qqizta bo'lim: kanal va guruhlaringizni boshqarish, himoya, rejalashtirilgan postlar, statistika, testlar, pullik kanal va konkurs.
+
+[004]  Kundalik xabarlar — yettita bo'lim. Dollar kursi, ob-havo, tongi va tungi xabar, bayram tabriklari, Ramazon taqvimi va namoz vaqtlari. Hammasi o'zi chiqadi.
+
+[005]  Xizmatlar — to'qqizta bo'lim: nakrutka, eSIM, prava savollari, o'zaro reklama, kanal savdosi, reklama birjasi va kanallar reytingi.
+
+[006]  E'lon yasash uchun o'n ikkita bo'lim. Savdogar, taksi, avto, sayohat, o'quv markazi, ko'chmas mulk, vakansiya, restoran, salon va boshqalar.
+
+[007]  Va ilovaning o'zi: balans, shaxsiy bot yaratish, savol va takliflar, ilova haqida hamda reklama berish.
+
+[008]  Hammasi bitta ilovada. Havola tagida.

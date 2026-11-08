@@ -8,7 +8,7 @@ Har bir video oxirida o'sha bo'limning **to'g'ridan-to'g'ri havolasi** ko'rsatil
 
 | Papka | Nima bor |
 |---|---|
-| `video/` | 41 ta tayyor mp4 — 1080×1920 (9:16), ovozsiz |
+| `video/` | 43 ta mp4 — 1080×1920 (9:16), ovozsiz: `00-bolimlar-royxati` (umumiy ro'yxat) + 42 ta bo'lim qo'llanmasi |
 | `diktor-matni/` | Har bir videoning diktor matni, oddiy matn fayl |
 | `kanal-postlari/` | Kanalga qo'yiladigan tayyor post matnlari (video tagiga) |
 | `subtitr/` | SRT fayllar — kerak bo'lsa subtitr sifatida ulash uchun |
@@ -37,6 +37,17 @@ sahna ham joyida turadi. Ovoz uzunroq chiqsa, skript ogohlantiradi.
 
 > ElevenLabs o'zbek tilini qanchalik yaxshi o'qishini **oldin bitta qisqa video
 > ustida sinab ko'ring** — hammasiga kredit sarflashdan oldin.
+
+## 00 — bo'limlar ro'yxati videosi
+
+`video/00-bolimlar-royxati.mp4` — 53 soniya, ilovaning **barcha 42 ta bo'limi**
+ikonkalari bilan ro'yxat qilib ko'rsatiladi, ramkalar bo'yicha guruhlangan.
+
+Bu — **birinchi** qo'yiladigan video. Yangi odam bir daqiqada ilova nima
+qila olishini ko'radi, keyin qiziqqan bo'limining qo'llanmasini qidiradi.
+Kanalga mahkamlab qo'ying.
+
+Matni `matnli-postlar/*/00-video-posti.txt` da.
 
 ## Matnli postlar
 
