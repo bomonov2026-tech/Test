@@ -1,0 +1,5 @@
+📱 <b>Bot yaratish</b> — biznesingiz uchun shaxsiy bot
+
+O'zingizning nomingizdagi shaxsiy botni ilova funksiyalari bilan ishga tushiradi.
+
+#TartibOn #qollanma #ilova

@@ -1,0 +1,5 @@
+🛠 <b>Kanallarim</b> — barcha kanallar bir joyda
+
+Botga ulangan barcha kanallaringizni bir joydan boshqaradi: avto-xabarlar, imzo, tugmalar, ta'til rejimi.
+
+#TartibOn #qollanma #adminlarga

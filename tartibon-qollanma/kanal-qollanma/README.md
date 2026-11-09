@@ -11,6 +11,7 @@ Har bir video oxirida o'sha bo'limning **to'g'ridan-to'g'ri havolasi** ko'rsatil
 | `video/` | 43 ta mp4 — 1080×1920 (9:16), ovozsiz: `00-bolimlar-royxati` (umumiy ro'yxat) + 42 ta bo'lim qo'llanmasi |
 | `diktor-matni/` | Har bir videoning diktor matni, oddiy matn fayl |
 | `kanal-postlari/` | Kanalga qo'yiladigan tayyor post matnlari (video tagiga) |
+| `kanal-postlari/qisqa/` | **Qisqa** post — video tagida tugma bo'lganda |
 | `subtitr/` | SRT fayllar — kerak bo'lsa subtitr sifatida ulash uchun |
 | `../elevenlabs/kanal-qollanma/` | ElevenLabs uchun sahna-sahna matn va CSV |
 | `matnli-postlar/` | O'sha 42 ta bo'lim **matn ko'rinishida** — video o'rniga yoki u bilan birga |
