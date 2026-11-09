@@ -1,0 +1,62 @@
+<!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;background:#0b0a12}canvas{display:block}</style>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="iso.js"></script>
+<script>
+const c=document.getElementById('c').getContext('2d');
+function sky(){
+  const g=c.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#2FA8EA');g.addColorStop(.45,'#79D3F6');g.addColorStop(1,'#CFF0FF');
+  c.fillStyle=g;c.fillRect(0,0,W,H);
+  c.fillStyle='rgba(255,255,255,.95)';
+  [[150,250,1],[880,180,.8],[600,380,.6],[260,520,.5]].forEach(b=>{const s=b[2];
+    c.beginPath();c.arc(b[0],b[1],58*s,0,7);c.arc(b[0]+60*s,b[1]+14*s,42*s,0,7);
+    c.arc(b[0]-56*s,b[1]+18*s,36*s,0,7);c.arc(b[0]+14*s,b[1]-26*s,38*s,0,7);c.fill();});
+}
+/* platformalar: [x,y,rang,balandlik] */
+function build(P){
+  P.slice().sort((a,b)=>(a[0]+a[1])-(b[0]+b[1])).forEach(p=>cube(c,p[0],p[1],p[3]||0,p[2],p[4]||1));
+}
+function scene(o){
+  sky();
+  /* pastda — bo'shliq va bulutlar */
+  c.fillStyle='rgba(255,255,255,.75)';
+  [[210,1340,.9],[830,1250,.7],[520,1520,1.1],[930,1600,.8],[180,1660,.6]].forEach(b=>{const s=b[2];
+    c.beginPath();c.arc(b[0],b[1],64*s,0,7);c.arc(b[0]+66*s,b[1]+16*s,46*s,0,7);
+    c.arc(b[0]-62*s,b[1]+20*s,40*s,0,7);c.arc(b[0]+16*s,b[1]-30*s,42*s,0,7);c.fill();});
+  build(o.plat);
+  o.spin.forEach(s=>spinner(c,s[0],s[1],s[2],s[3]));
+  o.flags.forEach(f=>flag(c,f[0],f[1],f[2],f[3]));
+  guy(c,o.me[0],o.me[1],o.me[2],o.jump);
+  hud(o);
+}
+function rr(x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function chip(x,y,w,h,f){rr(x,y,w,h,h/2);c.fillStyle=f||'rgba(8,24,38,.45)';c.fill();
+  c.strokeStyle='rgba(255,255,255,.3)';c.lineWidth=3;rr(x,y,w,h,h/2);c.stroke()}
+function hud(o){
+  c.textBaseline='middle';
+  chip(40,62,340,106);
+  c.textAlign='left';c.fillStyle='rgba(255,255,255,.78)';c.font='800 25px Inter,sans-serif';
+  c.fillText('BOSQICH',74,96);
+  c.fillStyle='#fff';c.font='900 58px Inter,sans-serif';c.fillText(o.stage+' / 20',74,140);
+  chip(W-300,62,260,106);
+  c.textAlign='right';c.fillStyle='#FFD24A';c.font='900 50px Inter,sans-serif';c.fillText(o.time,W-74,100);
+  c.fillStyle='rgba(255,255,255,.78)';c.font='800 24px Inter,sans-serif';c.fillText(o.place,W-74,142);
+  chip(W/2-200,192,400,80,'rgba(255,210,74,.95)');
+  c.textAlign='center';c.fillStyle='#3A2A00';c.font='900 34px Inter,sans-serif';
+  c.fillText('TURNIR  '+o.left,W/2,232);
+  /* yetakchi */
+  chip(W/2-290,H-330,580,86,'rgba(8,24,38,.55)');
+  c.fillStyle='#8CE6FF';c.font='900 32px Inter,sans-serif';
+  c.fillText('🥇 AZIZ — 14-bosqich · 2:41',W/2,H-287);
+  /* boshqaruv */
+  const y=H-150;
+  [['◀',W*0.17],['▲',W*0.5],['▶',W*0.83]].forEach(k=>{
+    c.beginPath();c.arc(k[1],y,74,0,7);c.fillStyle='rgba(255,255,255,.88)';c.fill();
+    c.strokeStyle='rgba(20,70,100,.18)';c.lineWidth=4;c.stroke();
+    c.fillStyle='#1B5E80';c.font='800 50px Inter,sans-serif';c.fillText(k[0],k[1],y);});
+  c.fillStyle='rgba(255,255,255,.95)';c.font='800 26px Inter,sans-serif';
+  c.fillText('SAKRASH',W*0.5,y+108);
+}
+</script>
