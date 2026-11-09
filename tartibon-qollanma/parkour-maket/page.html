@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;background:#0b0a12}canvas{display:block}</style>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="draw.js"></script><script src="hud.js"></script>
+<script>
+const c=document.getElementById('c').getContext('2d');
+function scene(o){
+  sky(c);skyline(c);
+  const lanes=road(c,o.scroll);
+  /* uzoqdagi to'siqlar */
+  o.obs.forEach(b=>box(c,lanes[b[0]],b[1],150,b[2],b[3]||'#1D84F2'));
+  o.coins.forEach(k=>coin(c,lanes[k[0]],k[1],k[2]||60));
+  if(o.leader)leaderLine(c,o.leader.z,o.leader.n,o.leader.d);
+  runner(c,lanes[o.lane],o.phase,o.air);
+  hud(c,o);
+  controls(c);
+}
+</script>
