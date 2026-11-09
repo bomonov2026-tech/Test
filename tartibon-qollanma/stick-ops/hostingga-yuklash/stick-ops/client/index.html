@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101718">
+  <title>STICK OPS — 5v5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="world" aria-label="STICK OPS jang xaritasi"></canvas>
+  <div id="lobby" class="lobby">
+    <section class="intro">
+      <button class="back quiet" data-exit aria-label="Ilovaga qaytish">← Ilovaga</button>
+      <div class="eyebrow"><span class="signal"></span> TELEGRAM TAKTIK ARENA</div>
+      <h1>STICK<br><em>OPS<span> /</span></em></h1>
+      <p class="intro-text">Bitta jamoa. Bitta maqsad.<br>Maydonni egalla.</p>
+      <div class="features"><span><b>5</b> VS <b>5</b></span><span>90 SONIYA</span><span>A / B NUQTA</span></div>
+      <div class="map-tag"><i></i><div><strong>ESKI SHAHAR</strong><small>Bozor · Ikki bomba nuqtasi</small></div></div>
+    </section>
+    <section class="setup">
+      <div class="section-top"><span class="section-number">01 / LOBBI</span><span class="pill">5v5</span></div>
+      <h2>Jamoangni yig‘.</h2>
+      <p class="muted">Xona yarat yoki do‘stlaringga qo‘shil.</p>
+      <p id="connection" class="connection" role="status">Ilova bilan bog‘lanmoqda…</p>
+      <div id="room-form">
+        <button id="create" class="primary" disabled>+ XONA YARATISH <span>→</span></button>
+        <div class="or"><span>YOKI KOD BILAN KIRISH</span></div>
+        <form id="join-form" class="join-form"><label class="sr-only" for="code">Xona kodi</label><input id="code" placeholder="XONA KODI" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false"><button id="join" aria-label="Xonaga kirish" disabled>→</button></form>
+      </div>
+      <div id="room-panel" hidden>
+        <div class="room-heading"><span>XONA KODI<strong id="room-code"></strong></span><button id="share" class="quiet">↗ Taklif qilish</button></div>
+        <div class="teams"><div class="team blue"><div class="team-name">HIMOYA <span id="blue-count">0/5</span></div><div id="blue-list"></div><button data-team="blue" class="team-join">Moviy jamoaga</button></div><div class="team red"><div class="team-name">HUJUM <span id="red-count">0/5</span></div><div id="red-list"></div><button data-team="red" class="team-join">Qizil jamoaga</button></div></div>
+        <p id="room-note" class="muted small"></p>
+        <button id="start" class="primary" disabled>JANGNI BOSHLASH <span>→</span></button>
+        <button id="leave-room" class="text-button">Xonadan chiqish</button>
+      </div>
+      <div class="practice-area"><button id="practice" class="secondary"><span>◎</span> BOTLAR BILAN MASHQ <span>→</span></button><small>Server ulanishisiz ham ishlaydi · 1 o‘yinchi + 9 bot</small></div>
+      <p class="setup-foot">Jamoangga ishon. Burchaklarni tekshir.</p>
+    </section>
+  </div>
+  <main id="game" hidden>
+    <header class="game-top"><button id="game-exit" class="icon-button" aria-label="Jangdan chiqish">‹</button><div class="game-brand">STICK OPS<span>/</span><small id="mode">MASHQ</small></div><div class="scoreboard"><span id="score-blue">0</span><div><small id="phase-label">TAYYORGARLIK</small><strong id="timer">00:10</strong></div><span id="score-red">0</span></div><div class="funds"><small>O‘YIN PULI</small><strong id="credits">$ 2 400</strong></div><button id="buy-open" class="buy-button">XARID <span>B</span></button></header>
+    <canvas id="minimap" width="224" height="140" aria-label="Kichik xarita"></canvas>
+    <div id="network" class="network" hidden></div>
+    <div id="event" class="event" role="status"></div>
+    <div id="announcement" class="announcement" hidden><small id="announcement-top"></small><strong id="announcement-title"></strong><span id="announcement-sub"></span><button id="result-exit" class="primary" hidden>LOBBIGA QAYTISH →</button></div>
+    <div id="spectating" class="spectating" hidden></div>
+    <div class="player-hud"><div class="avatar">●</div><div class="player-info"><strong id="player-name">SIZ</strong><div class="health-line"><b id="health">100</b><span class="health-track"><i id="health-fill"></i></span><span id="armor">◇ 50</span></div></div></div>
+    <div class="weapon-hud"><small id="weapon-name">PISTOLET</small><strong><span id="ammo">12</span><span class="ammo-reserve"> / <span id="reserve">48</span></span></strong><span id="reload-label"></span></div>
+    <div id="move-stick" class="joystick move-stick"><span></span><i></i></div>
+    <div id="aim-stick" class="joystick aim-stick"><span>⌖</span><i></i></div>
+    <button id="reload" class="action reload" aria-label="O‘q almashtirish">⟳<small>R</small></button>
+    <button id="interact" class="action interact" aria-label="Bomba o‘rnatish yoki zararsizlantirish">◇<small>E</small></button>
+    <div id="bomb-progress" class="bomb-progress" hidden><strong id="bomb-label"></strong><div><i id="bomb-fill"></i></div></div>
+    <div class="keyboard-hint">W A S D — yurish · Sichqoncha — nishon / otish · R — o‘q · E — bomba · B — xarid</div>
+    <div id="buy" class="buy-overlay" hidden><section><div class="section-top"><span class="section-number">RAUND OLDIDAN</span><button id="buy-close" class="quiet" aria-label="Xaridni yopish">✕</button></div><h2>Qurol tanlang</h2><p class="muted">Xarid faqat tayyorgarlik paytida mumkin.</p><div id="weapon-list" class="weapon-list"></div><div class="buy-help">Qizil jamoa: bombani A yoki B nuqtaga olib boring va ◇ tugmasini ushlab turing.<br>Moviy jamoa: o‘rnatilgan bombaga yaqinlashib ◇ tugmasini ushlab turing.</div></section></div>
+  </main>
+  <div id="toast" class="toast" role="alert" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
