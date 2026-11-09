@@ -1,4 +1,4 @@
-# Parkour Run — dizayn maketi
+# Parkour Run — dizayn maketi (Subway Surfers uslubi)
 
 Uchta ekran: `1-oyin.png`, `2-turnir.png`, `3-natija.png`,
 hammasi birga — `maket.png`.
@@ -23,10 +23,23 @@ o'zi** chizgan kadr. Ya'ni ko'rayotganingiz rostdan yasaladi, keyin
 Agar haqiqiy 3D (aylanadigan kamera, modellar, soyalar) kerak bo'lsa —
 aytasiz, lekin unda alohida fayllar va og'irroq yuk bo'ladi.
 
+## Uslub
+
+Subway Surfers'ga yaqin: yorqin kunduz, moviy osmon va bulutlar, rangli
+shahar, temir yo'l. Qorong'i variantdan voz kechildi.
+
+| Element | Nima |
+|---|---|
+| Fon | Moviy osmon, oq bulutlar, binafsha binolar, daraxtlar |
+| Yo'l | Temir yo'l: shpallar, relslar, qumli chekka |
+| To'siqlar | **Poyezdlar** (qizil, moviy) va to'siq panjaralar |
+| Tangalar | Yoy shaklida uchib turadi |
+| Boshqaruv | **Ekranni surish** — tugmalar yo'q |
+
 ## 1-ekran: o'yin
 
-- Orqadan ko'rinadigan stickman, uchta yo'lak
-- Uzoqqa ketuvchi ko'cha, quyosh botishi, shahar siluети
+- Orqadan ko'rinadigan stickman: sariq shapka, moviy sharf
+- Uchta yo'lak, poyezd va panjara to'siqlar
 - **Moviy chiziq** — hozirgi yetakchining masofasi. Yaqinlashganda
   «🥇 AZIZ · 1 840 m» yozuvi ko'rinadi, o'tib ketsangiz ekran yonadi
 - Yuqorida: masofa, tanga, turnir taymeri
@@ -53,10 +66,11 @@ aytasiz, lekin unda alohida fayllar va og'irroq yuk bo'ladi.
 
 | | |
 |---|---|
-| Fon | To'q siyohrang → binafsha |
+| Osmon / fon | Moviy, och ko'k |
 | Asosiy tugma | Oltin-sariq |
-| O'zingiz / yetakchi chizig'i | Moviy |
-| Ogohlantirish / jonli | Qizil |
+| Yetakchi chizig'i | Moviy punktir |
+| Jonli turnir belgisi | Qizil |
+| Taymer | To'q zarg'aldoq |
 
 ## Keyingi qadam
 
