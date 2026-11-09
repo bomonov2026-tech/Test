@@ -80,3 +80,75 @@ xona sinab ko'ring.
 **4. Kodni men yozmadim.** O'qib chiqdim, sinadim, xavfli narsa topmadim —
 lekin har bir qatorini tekshirib chiqqanim yo'q (30 ming qator). Testlari
 o'tadi va mantiqan to'g'ri yozilgan.
+
+---
+
+# YANGILANISH: hammasi bitta `index.php` ichiga kiritildi
+
+Siz so'raganingizdek, alohida `stick-ops/` papkasi **endi kerak emas**.
+Faqat `index.php` ni almashtirasiz — sizning odatdagi tartibingiz.
+
+## Nima qilindi
+
+| Avval (alohida fayl) | Endi |
+|---|---|
+| `stick-ops/bridge.php` | `index.php` ichida funksiya |
+| `stick-ops/integration.css` | sahifada inline `<style>` |
+| `stick-ops/integration.js` | sahifada inline `<script>` |
+| `stick-ops/client/index.html` + `style.css` + `app.js` + `render.js` + `shared/game.js` | `index.php?ops=client` manzili bo'yicha beriladi |
+
+O'yin baribir **iframe ichida** qoladi — bu ataylab shunday. Iframe o'yinning
+CSS va JS'ini ilovangizdan ajratib turadi; qo'shib yuborilsa, nomlar
+to'qnashib ikkala tomon ham buzilishi mumkin edi.
+
+## Yo'lda topilgan xato
+
+Uchta JS modulni oddiygina ketma-ket qo'shganimda **`clamp` nomi ikki faylda
+takrorlandi** va o'yin umuman ishga tushmadi. Alohida modul bo'lganda muammo
+yo'q edi, birlashtirgach to'qnashdi.
+
+Tuzatish: har bir modul o'z doirasiga (IIFE) o'raldi, eksportlar obyekt
+orqali uzatiladi. Ya'ni modul ajratilishi saqlanib qoldi.
+
+## Kesh
+
+73 KB o'yin sahifasi har safar qaytadan yuklanmasligi uchun `ETag` va
+`Cache-Control: max-age=86400` qo'yildi. Tekshirildi:
+
+```
+brauzer ETag yubormasa   -> 200 (to'liq sahifa)
+to'g'ri ETag bilan       -> 304 (keshdan)
+eski versiya ETag        -> 200 (to'liq sahifa)
+```
+
+Kodni o'zgartirsangiz, versiya avtomatik o'zgaradi va kesh yangilanadi.
+
+## Tekshirildi
+
+| Nima | Natija |
+|---|---|
+| `php -l` | Toza |
+| `index.php?ops=client` chiqishi | Kutilgan sahifa bilan **bayt-bayt bir xil** (75 373 bayt) |
+| JS to'plami sintaksisi | `node --check` toza |
+| Brauzerda to'liq zanjir | iframe `?ops=client&v=…` ni yukladi, **mashq rejimi ishladi** |
+| ETag / 304 | To'rt holatda to'g'ri |
+| Eski 40 ta bo'lim havolasi | Buzilmagan |
+
+## Yuklash
+
+1. Hozirgi `index.php` ning **zaxirasini oling**
+2. `stick-ops-bitta-fayl.zip` ichidagi `index.php` ni yuklang
+3. Tamom — mashq rejimi ishlaydi
+
+Onlayn 5v5 uchun qo'shimcha: `ops-config.php` yaratasiz va Node serverini
+joylaysiz (o'zgarmadi).
+
+## Hali ham sinalmagan
+
+- Haqiqiy onlayn jang (10 ta akkaunt kerak)
+- Sizning hostingda `?ops=client` to'g'ri ishlashi — ba'zi hostinglar
+  `index.php?...` so'rovlarini qayta yo'naltirishi mumkin
+- Telegram ichidagi haqiqiy ko'rinish
+
+Fayl 2,13 MB bo'ldi (ilgari 2,08 MB). PHP uni har so'rovda o'qiydi —
+sezilarli farq bo'lmasligi kerak, lekin sayt sekinlashsa ayting.
