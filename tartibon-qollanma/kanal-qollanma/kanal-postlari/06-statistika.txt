@@ -1,0 +1,17 @@
+📘 TartibOn qo'llanma · 06/42
+
+🛠 Statistika — O'sishni raqamlarda ko'ring
+
+Kanal va guruhingizning o'sishi, qo'shilgan-chiqib ketganlar va faollik raqamlarini chiqaradi.
+
+Videoda:
+• Hozirgi obunachi va a'zolar soni
+• Kecha, 7 va 30 kunlik o'zgarish
+• 14 kunlik grafik
+• Guruhda xabarlar soni ham
+• Excel — CSV yuklab olish
+• Hisob botdan keyin boshlanadi
+
+#TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_st

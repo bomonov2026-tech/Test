@@ -1,0 +1,69 @@
+Oltinchi va oxirgi dars — Ilova ramkasi. Bu yerda to'rtta katak bor: balans, bot yaratish xizmati, savol va takliflar hamda ilova haqida bo'limi.
+
+Balans eng muhimi — chunki barcha pullik xizmatlar aynan shu hisob orqali ishlaydi.
+
+Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+
+To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+
+Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+
+Uchinchi qadam: To'lov qildim tugmasini bosasiz.
+
+Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+
+Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+
+Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+
+Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+
+Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+
+Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+
+Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+
+Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+
+To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — Balans sahifasidagi Adminga murojaat qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+
+Bot yaratish — biznesingiz uchun alohida Telegram bot buyurtma qilish xizmati.
+
+Nima qilish mumkin: onlayn do'kon boti, navbat boti, to'lov qabul qiluvchi bot, sun'iy intellektli yordamchi va boshqalar.
+
+Birinchi qadam: Murojaat qilish tugmasini bosib, g'oyangizni yozasiz. Botingiz nima qilishi kerakligini oddiy so'z bilan tushuntirasiz.
+
+Ikkinchi qadam: sizga narx va muddat aytiladi, kelishib olasiz.
+
+Odatda bot uch kun ichida tayyor bo'ladi.
+
+Murojaat qilishdan oldin tayyor namunalarni so'rang — shunga qarab o'z botingizni aniqroq tasavvur qilasiz.
+
+Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+
+Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+
+Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, Balans sahifasidagi Adminga murojaat qatoridan foydalaning.
+
+Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+
+Profil bo'limida Tilaklar qutisi ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+
+Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
+
+Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
+
+Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
+
+Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
+
+Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
+
+Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
+
+Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
+
+Shu bilan TartibOn video qo'llanmasi yakunlandi. Oltita darsda bosh sahifadagi barcha bo'limlarni ko'rib chiqdik. Endi ilovani oching, kanalingizni ulang va keraklisini sinab ko'ring.
+
+Savol bo'lsa — Savol va takliflar orqali yozing. E'tiboringiz uchun rahmat!

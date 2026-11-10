@@ -1,0 +1,32 @@
+<b>📘 TartibOn qo'llanma · 33/42</b>
+
+🖼 <b>Salon va klinika</b>
+Go'zallik va tibbiyot xizmatlari
+
+Go'zallik saloni yoki klinika xizmatlari e'lonini narxlari bilan yasab beradi.
+
+1️⃣ <b>Tartibi: rasm → ma'lumot → post</b>
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+2️⃣ <b>Aloqa tugmasi o'zi qo'shiladi</b>
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+3️⃣ <b>Avval «Brend to'plami» ni to'ldiring</b>
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+4️⃣ <b>Salon yoki klinika uchun</b>
+Salon va klinika — go'zallik saloni yoki tibbiy klinika xizmatlari uchun shablon.
+
+5️⃣ <b>Narxlar ro'yxati</b>
+Xizmatlar va ularning narxlari ro'yxatini kiritasiz.
+
+6️⃣ <b>Aksiya va chegirma</b>
+Vaqtinchalik aksiyani ham qo'shishingiz mumkin.
+
+7️⃣ <b>«Navbatga yozilish» tugmasi</b>
+Post tagida «Navbatga yozilish» tugmasi bo'ladi — mijoz bir bosib navbat so'raydi.
+
+8️⃣ <b>Tibbiy va'dalarda ehtiyot bo'ling</b>
+Eslatma: tibbiyot sohasida natija kafolati kabi va'dalarni yozishda ehtiyot bo'ling — qonun talablariga rioya qiling.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sln

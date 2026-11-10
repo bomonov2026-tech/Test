@@ -1,0 +1,13 @@
+# 16 — taklif-havola
+# 5 sahna · 21 soniya
+# Har sahnani ALOHIDA yarating: 001.mp3, 002.mp3 …
+
+[001]  Reklamaga pul berdingiz. Natija bormi? Bilmaysiz.
+
+[002]  Har bir reklama uchun alohida havola yasaysiz.
+
+[003]  Qaysi havoladan necha obunachi kelgani raqam bilan ko'rinadi.
+
+[004]  Ishlamagan reklamaga ikkinchi marta pul bermaysiz.
+
+[005]  Pulingizni sanab sarflang. Havola tagida.

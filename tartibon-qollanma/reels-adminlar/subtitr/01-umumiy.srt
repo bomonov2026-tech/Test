@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:03,040
+Telegramda kanalingiz yoki guruhingiz bormi?
+
+2
+00:00:03,100 --> 00:00:07,820
+Postni qo'lda yuborasiz, spamni qo'lda o'chirasiz, obunachilarni qo'lda sanaysiz.
+
+3
+00:00:07,880 --> 00:00:13,440
+Barcha kanal va guruhlaringiz bitta ro'yxatda — har biri alohida sozlanadi.
+
+4
+00:00:13,500 --> 00:00:18,640
+Reklama va spamni bot o'zi o'chiradi. Siz hatto ko'rmaysiz ham.
+
+5
+00:00:18,700 --> 00:00:23,840
+Postni oldindan tayyorlab, kerakli kunga qo'yasiz — bot o'zi chiqaradi.
+
+6
+00:00:23,900 --> 00:00:28,620
+O'sish grafigini ko'rib turasiz va hisobotni Excelga yuklab olasiz.
+
+7
+00:00:28,680 --> 00:00:33,820
+Yopiq kanalingizga pullik obuna sotasiz — pul to'g'ridan-to'g'ri balansingizga tushadi.
+
+8
+00:00:33,880 --> 00:00:39,020
+Jami to'qqizta vosita. Hammasi Telegramning ichida — hech narsa o'rnatmaysiz.
+
+9
+00:00:39,080 --> 00:00:41,280
+TartibOn. Telegramda qidiring.

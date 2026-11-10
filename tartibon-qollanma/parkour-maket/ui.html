@@ -1,0 +1,88 @@
+<!doctype html><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;font-family:Inter,system-ui,sans-serif;background:#F2F7FC;color:#15283A}
+.scr{width:1080px;height:1920px;padding:54px 46px;display:flex;flex-direction:column;gap:26px;
+ background:linear-gradient(180deg,#39B9EE 0%,#7FD8F7 26%,#EAF6FD 54%,#F2F7FC 100%)}
+.top{display:flex;align-items:center;justify-content:space-between}
+.bk{width:78px;height:78px;border-radius:26px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:36px;color:#2C7FA8;box-shadow:0 6px 16px rgba(20,60,90,.18)}
+.gold{color:#E8A400}.cy{color:#0E8FC4}
+{background:rgba(255,255,255,.92);color:#15283A;box-shadow:0 6px 16px rgba(20,60,90,.16)}
+.pill{background:rgba(255,255,255,.92);border-radius:999px;padding:16px 30px;font-size:28px;font-weight:800}
+h1{font-size:62px;font-weight:900;letter-spacing:-2px;line-height:1.04}
+h1 em{font-style:normal;color:#E8701F}
+.sub{color:#5B7994;font-size:30px;font-weight:600;line-height:1.35}
+.card{background:#fff;border:1px solid #DCE8F2;border-radius:34px;padding:34px;box-shadow:0 10px 26px rgba(20,60,90,.09)}
+.live{display:inline-flex;align-items:center;gap:12px;background:#FF4D6D;
+ border:1px solid #FF4D6D;color:#fff;border-radius:999px;padding:12px 26px;font-size:25px;font-weight:800}
+.live i{width:16px;height:16px;border-radius:50%;background:#FF4D6D;font-style:normal}
+.timer{text-align:center;padding:14px 0}
+.timer b{display:block;font-size:112px;font-weight:900;letter-spacing:-4px;color:#E8701F;line-height:1}
+.timer span{color:#6B8198;font-size:27px;font-weight:700}
+.row{display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid #E6EEF5}
+.row:last-child{border-bottom:0}
+.row u{text-decoration:none;width:62px;font-size:36px;font-weight:900;color:#9DB0C2;text-align:center}
+.row .av{width:72px;height:72px;border-radius:50%;background:#E8F2F9;display:flex;align-items:center;justify-content:center;font-size:34px}
+.row .nm{flex:1;min-width:0}
+.row .nm b{display:block;font-size:34px;font-weight:800}
+.row .nm small{color:#7D93A8;font-size:24px}
+.row .d{font-size:38px;font-weight:900}
+.me{background:#E3F5FD;border-radius:22px;padding:22px 18px;border-bottom:0}
+.btn{border:0;border-radius:28px;padding:34px;font-size:38px;font-weight:900;font-family:inherit;
+ background:linear-gradient(180deg,#FFC928,#F09A0C);color:#3A2A00;box-shadow:0 14px 30px rgba(240,154,12,.38)}
+.btn2{border:2px solid #CFE2EF;background:#fff;color:#2C5C7D;border-radius:28px;padding:28px;font-size:30px;font-weight:800;font-family:inherit}
+.grp{display:flex;align-items:center;gap:20px}
+.grp .ic{width:84px;height:84px;border-radius:26px;background:#fff;box-shadow:0 8px 20px rgba(20,60,90,.14);display:flex;align-items:center;justify-content:center;font-size:40px}
+.stat{display:flex;gap:16px}
+.stat>div{flex:1;background:#fff;border:1px solid #DCE8F2;border-radius:26px;padding:26px;text-align:center}
+.stat b{display:block;font-size:46px;font-weight:900}
+.stat span{color:#7D93A8;font-size:24px;font-weight:700}
+.win{background:linear-gradient(145deg,#FFD976,#FFB01F);border:1px solid #E89C0A;border-radius:34px;padding:40px;text-align:center}
+.win .crown{font-size:70px}
+.win b{display:block;font-size:58px;font-weight:900;margin-top:10px}
+.win span{color:#7A4A00;font-size:40px;font-weight:900}
+.foot{margin-top:auto;color:#7D93A8;font-size:24px;text-align:center}
+</style>
+
+<!-- ===== 2: TURNIR LOBBISI ===== -->
+<div class="scr" id="s2">
+  <div class="top"><div class="bk">‹</div><div class="live"><i></i>JONLI TURNIR</div><div class="pill gold">🪙 46</div></div>
+  <div class="grp"><div class="ic">👥</div><div>
+    <h1>Toshkent <em>Savdo</em></h1><div class="sub">Guruh turniri · 18 ishtirokchi</div></div></div>
+  <div class="card timer"><b>07:20</b><span>TURNIR TUGASHIGA</span></div>
+  <div class="card" style="padding:28px 34px">
+    <div class="sub" style="font-size:25px;margin-bottom:8px">HOZIRGI REYTING</div>
+    <div class="row"><u>🥇</u><div class="av">🏃</div><div class="nm"><b>Aziz</b><small>7 urinish</small></div><div class="d gold">1 840 m</div></div>
+    <div class="row"><u>🥈</u><div class="av">🏃</div><div class="nm"><b>Dilnoza</b><small>5 urinish</small></div><div class="d">1 712 m</div></div>
+    <div class="row me"><u class="cy">4</u><div class="av">🙂</div><div class="nm"><b>Siz</b><small>3 urinish · eng yaxshi</small></div><div class="d cy">1 284 m</div></div>
+    <div class="row"><u>5</u><div class="av">🏃</div><div class="nm"><b>Madina</b><small>2 urinish</small></div><div class="d">1 280 m</div></div>
+  </div>
+  <div class="card" style="padding:26px 30px;border-color:#9BD9F2;background:#E3F5FD">
+    <div style="font-size:28px;font-weight:800">🎯 Birinchi o‘ringacha <span class="cy">556 m</span></div>
+    <div class="sub" style="font-size:24px;margin-top:6px">Trassa hamma uchun bir xil · istagancha urinasiz</div>
+  </div>
+  <button class="btn">▶  YUGURISH</button>
+  <div class="foot">Turnirni guruh admini boshlagan · kuniga bitta</div>
+</div>
+
+<!-- ===== 3: NATIJA (guruhga tashlanadigan) ===== -->
+<div class="scr" id="s3">
+  <div class="top"><div class="bk">‹</div><div class="pill">TURNIR YAKUNI</div><div class="pill gold">🪙 72</div></div>
+  <div class="win"><div class="crown">👑</div><b style="color:#4A3000">AZIZ</b><span>1 840 m</span>
+    <div class="sub" style="font-size:26px;margin-top:10px">Toshkent Savdo · g‘olib</div></div>
+  <div class="stat"><div><b>18</b><span>ishtirokchi</span></div><div><b>64</b><span>urinish</span></div><div><b>1 284</b><span>sizniki</span></div></div>
+  <div class="card" style="padding:28px 34px">
+    <div class="sub" style="font-size:25px;margin-bottom:8px">YAKUNIY JADVAL</div>
+    <div class="row"><u>🥇</u><div class="av">🏃</div><div class="nm"><b>Aziz</b><small>+120 🪙</small></div><div class="d gold">1 840</div></div>
+    <div class="row"><u>🥈</u><div class="av">🏃</div><div class="nm"><b>Dilnoza</b><small>+80 🪙</small></div><div class="d">1 712</div></div>
+    <div class="row"><u>🥉</u><div class="av">🏃</div><div class="nm"><b>Sardor</b><small>+50 🪙</small></div><div class="d">1 655</div></div>
+    <div class="row me"><u class="cy">4</u><div class="av">🙂</div><div class="nm"><b>Siz</b><small>+30 🪙</small></div><div class="d cy">1 284</div></div>
+  </div>
+  <div class="card" style="padding:26px 30px">
+    <div style="font-size:28px;font-weight:800">🏆 Guruhlar ligasi</div>
+    <div class="sub" style="font-size:25px;margin-top:8px">Toshkent Savdo — <b class="gold">7-o‘rin</b> · birinchi o‘ringacha 6 400 ball</div>
+  </div>
+  <button class="btn">📤  GURUHGA TASHLASH</button>
+  <button class="btn2">Kanalga ham yuborish</button>
+  <div class="foot">Natijani server tekshirdi · cheat qilib bo‘lmaydi</div>
+</div>

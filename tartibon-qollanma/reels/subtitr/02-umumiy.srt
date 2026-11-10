@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:04,300
+Biznesingiz bormi? Lekin e'lonlaringiz oddiy va ko'zga tashlanmaydimi?
+
+2
+00:00:04,360 --> 00:00:09,080
+Dizayner yollash ham, grafik dastur o'rganish ham kerak emas.
+
+3
+00:00:09,140 --> 00:00:12,180
+Mahsulot sotasizmi — Savdogar bo'limi.
+
+4
+00:00:12,240 --> 00:00:15,280
+Mashina sotasizmi — Avto savdo.
+
+5
+00:00:15,340 --> 00:00:18,800
+Uy yoki kvartira — Ko'chmas mulk.
+
+6
+00:00:18,860 --> 00:00:21,900
+Ishga odam qidiryapsizmi — Vakansiya.
+
+7
+00:00:21,960 --> 00:00:25,840
+Kursga qabul e'lon qilyapsizmi — O'quv markazi.
+
+8
+00:00:25,900 --> 00:00:30,620
+Kafe yoki restoran bo'lsa — menyu va aksiya posti.
+
+9
+00:00:30,680 --> 00:00:34,560
+Salon yoki klinika — narxlar ro'yxati bilan.
+
+10
+00:00:34,620 --> 00:00:40,600
+Hammasi bir xil ishlaydi: rasm va bir nechta maydon — tayyor post.
+
+11
+00:00:40,660 --> 00:00:44,540
+TartibOn. Telegramda qidiring — bepul sinab ko'ring.

@@ -3,3 +3,27 @@ app/vendor/
 app/data/
 app/composer.lock
 *.zip
+
+# Video qo'llanma: generatsiya qilingan mp4 fayllar (~150 MB) git tarixiga qo'shilmaydi
+tartibon-qollanma/video/
+tartibon-qollanma/reels/video/
+tartibon-qollanma/reels-adminlar/video/
+tartibon-qollanma/reels-xizmatlar/video/
+tartibon-qollanma/reels-kundalik/video/
+tartibon-qollanma/reels-himoya/video/
+tartibon-qollanma/reels-himoya2/video/
+tartibon-qollanma/reels-hamkor/video/
+tartibon-qollanma/TartibOn-hammasi.mp4
+tartibon-qollanma/TartibOn-hammasi-kichik.mp4
+*.tmp.mp4
+tartibon-qollanma/qismlar/
+tartibon-qollanma/kanal-qollanma/video/
+tartibon-qollanma/elevenlabs/kanal-qollanma-matnlar.zip
+tartibon-qollanma/kanal-qollanma/diktor-matni.zip
+tartibon-qollanma/reklama-video/video/
+tartibon-qollanma/reklama-video/diktor-matni.zip
+tartibon-qollanma/kanal-qollanma/matnli-postlar.zip
+tartibon-qollanma/kanal-qollanma/kanal-postlari.zip
+tartibon-qollanma/stick-ops-hosting.zip
+tartibon-qollanma/stick-ops-server.zip
+tartibon-qollanma/stick-ops-bitta-fayl.zip

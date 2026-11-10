@@ -1,0 +1,29 @@
+<b>📘 TartibOn qo'llanma · 42/42</b>
+
+🔔 <b>Namoz vaqtlari</b>
+Har namozdan 30 daqiqa keyin
+
+Har namoz vaqtidan 30 daqiqa keyin kanal va guruhingizga namoz vaqti xabarini yuboradi.
+
+1️⃣ <b>Avtomatik namoz vaqti xabari</b>
+Namoz vaqtlari kanal va guruhlaringizga namoz vaqti haqida xabar yuboradi.
+
+2️⃣ <b>Har namozdan 30 daqiqa keyin</b>
+Xabar har bir namoz vaqti kirganidan o'ttiz daqiqa o'tgach yuboriladi. Ya'ni azon vaqtida emas, odamlar namozni o'qib bo'lgandan keyin.
+
+3️⃣ <b>Hududni tanlaysiz</b>
+Sozlashda avval hududni tanlaysiz — viloyat va uning ichidagi shaharlar ro'yxatidan. Vaqtlar aynan shu hudud bo'yicha hisoblanadi.
+
+4️⃣ <b>Xabar matnini o'zgartirish mumkin</b>
+Xabarning matnini o'zingizga moslab yozishingiz mumkin — kanalingiz uslubiga mos qilib.
+
+5️⃣ <b>Manba: islom.uz taqvimi</b>
+Vaqtlar islom.uz taqvimi asosida olinadi — bu rasmiy va ishonchli manba.
+
+6️⃣ <b>Manba ishlamasa — bot o'zi hisoblaydi</b>
+Agar manba vaqtincha ishlamay qolsa, bot vaqtlarni o'zi hisoblab, xabarni baribir yuboradi. Ya'ni uzilish bo'lmaydi.
+
+7️⃣ <b>Bosh sahifada 12 viloyat</b>
+Bosh sahifadagi katakda 12 ta viloyat markazining vaqti ko'rinadi. Shahar darajasigacha aniqlik kerak bo'lsa, bo'limga kirib hudud tanlaysiz.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pnm

@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:02,200
+Turagentlik bilan shug'ullanasizmi?
+
+2
+00:00:02,260 --> 00:00:07,400
+Tur paket, qaynoq tur yoki Umra uchun chiroyli post kerakmi?
+
+3
+00:00:07,460 --> 00:00:13,440
+Yo'nalish, sana, kecha soni va narxni kiritasiz — davlat bayrog'i o'zi qo'yiladi.
+
+4
+00:00:13,500 --> 00:00:19,900
+Eng muhimi: narxga nima kirishini alohida ko'rsatasiz — aviabilet, mehmonxona, transfer va ovqatlanish.
+
+5
+00:00:19,960 --> 00:00:25,520
+Shunda mijozlarning savollari ikki barobar kamayadi — chunki hammasi rasmda ko'rinadi.
+
+6
+00:00:25,580 --> 00:00:29,040
+Post tagida «Bron qilish» tugmasi turadi.
+
+7
+00:00:29,100 --> 00:00:31,300
+TartibOn. Telegramda qidiring.

@@ -1,0 +1,35 @@
+📘 TartibOn qo'llanma · 08/42
+
+🛠 Pullik kanallar
+Yopiq kanaldan daromad
+
+Kanalingizga pullik obuna qo'yadi: to'lovni bot qabul qiladi, muddat tugasa o'zi chiqarib yuboradi.
+
+1️⃣ Yopiq kanalga pullik obuna
+Bu bo'lim yopiq kanalingizga pullik obuna sotish imkonini beradi. Ya'ni kontentingizdan daromad olasiz.
+
+2️⃣ Paketlar: 1, 3, 6, 12 oy
+To'rtta paket bor: bir oylik, uch oylik, olti oylik va bir yillik obuna. Narxni o'zingiz qo'yasiz.
+
+3️⃣ Uzoq muddatga chegirma
+Ko'p oyga chegirma foizini ham o'zingiz belgilaysiz. Masalan, 12 oylikka 30 foiz chegirma — bu odamlarni uzoq muddatga olishga undaydi.
+
+4️⃣ Bepul sinov: 1–7 kun
+Bepul sinov muddatini yoqsangiz, har bir obunachi bir marta bepul kirib ko'ra oladi. Bir kundan yetti kungacha.
+
+5️⃣ To'lov balansdan, pul sizga
+Obunachi o'z balansidan to'laydi, pul xizmat haqi ayrilgach sizning balansingizga tushadi.
+
+6️⃣ Kirish havolasi botga keladi
+To'lagan odamga kirish havolasi bot orqali yuboriladi — siz qo'lda hech narsa qilmaysiz.
+
+7️⃣ 3 kun qolganda eslatma
+Muddat tugashiga uch kun qolganda obunachiga avtomatik eslatma boradi — bu uzaytirish foizini sezilarli oshiradi.
+
+8️⃣ Muddat tugasa — bot chiqaradi
+Muddat tugagach bot obunachini kanaldan o'zi chiqaradi. Qo'lda kuzatib o'tirish shart emas.
+
+9️⃣ «Taklif havolasi» va «Bloklash» huquqi
+Shart: botga «Taklif havolasi» va «Bloklash» huquqlarini bering. Busiz bot odamni na kirgiza oladi, na chiqara oladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pc

@@ -1,0 +1,17 @@
+📘 TartibOn qo'llanma · 38/42
+
+📱 Bot yaratish — Biznesingiz uchun shaxsiy bot
+
+O'zingizning nomingizdagi shaxsiy botni ilova funksiyalari bilan ishga tushiradi.
+
+Videoda:
+• Shaxsiy Telegram bot buyurtmasi
+• Do'kon, navbat, to'lov, AI-yordamchi
+• 1 — «Murojaat qilish» tugmasi
+• 2 — Narx va muddat kelishiladi
+• 3 — Bot 3 kunda tayyor
+• Namunalar ko'rsatiladi
+
+#TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bty

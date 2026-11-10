@@ -1,0 +1,315 @@
+1
+00:00:00,000 --> 00:00:11,920
+Bu — TartibOn qo'llanmasining ikkinchi darsi. Ramka nomi «Adminlar uchun» deyilgan, lekin bu ilova admini degani emas: bu — o'z kanali yoki guruhi bor har qanday foydalanuvchi uchun.
+
+2
+00:00:12,000 --> 00:00:17,860
+Ya'ni siz uchun. Bugun shu ramkadagi to'qqizta katakni birma-bir ko'rib chiqamiz.
+
+3
+00:00:17,940 --> 00:00:27,320
+«Kanallarim» — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
+
+4
+00:00:27,400 --> 00:00:37,660
+Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
+
+5
+00:00:37,740 --> 00:00:46,240
+«Kanal imzosi» — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
+
+6
+00:00:46,320 --> 00:00:54,380
+Postlar tagiga doimiy tugmalar qo'shish mumkin: «Do'stga ulashish» va «Qo'llab-quvvatlash». Ulashish tugmasi kanal o'sishiga yordam beradi.
+
+7
+00:00:54,460 --> 00:01:06,040
+«Qo'llab-quvvatlash» tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
+
+8
+00:01:06,120 --> 00:01:14,180
+Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
+
+9
+00:01:14,260 --> 00:01:24,520
+«Sayt yoki YouTube'dan avtomatik post» — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
+
+10
+00:01:24,600 --> 00:01:33,100
+Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, «Kanallarim» katagida qizil raqam turadi va «Tuzatish» tugmasi chiqadi.
+
+11
+00:01:33,180 --> 00:01:39,480
+«Guruhlarim» — ulangan guruhlaringiz ro'yxati. Har bir guruh uchun alohida sozlama bor.
+
+12
+00:01:39,560 --> 00:01:48,060
+Yangi guruh qo'shish uchun «Guruh qo'shish» tugmasini bosib, @username yoki ID kiritasiz, so'ng botni guruhga administrator qilasiz.
+
+13
+00:01:48,140 --> 00:01:54,440
+Guruh kartasida namoz vaqtlari, ob-havo, dollar kursi, tongi va tungi xabarlarni yoqasiz.
+
+14
+00:01:54,520 --> 00:01:59,940
+Shu yerdan guruh himoyasiga o'tasiz — qaysi qoidalar ishlashini belgilaysiz.
+
+15
+00:02:00,020 --> 00:02:07,640
+Guruhda avtomatik test o'tkazishni ham shu yerdan yoqasiz — a'zolar faolligini oshirishning eng oson yo'li.
+
+16
+00:02:07,720 --> 00:02:14,460
+Yana bir bor eslatma: bot guruhda administrator bo'lmasa, bu funksiyalarning hech biri ishlamaydi.
+
+17
+00:02:14,540 --> 00:02:21,720
+Guruh himoyasi — eng kuchli funksiyalardan biri. Bot begona reklama va havolalarni avtomatik o'chiradi.
+
+18
+00:02:21,800 --> 00:02:28,980
+So'kinish ishlatilgan xabarlar va spam — ya'ni tez-tez takrorlanadigan bir xil xabarlar ham o'chiriladi.
+
+19
+00:02:29,060 --> 00:02:35,360
+Guruhlarga ko'p tashlanadigan arab botlar va arabcha reklama alohida filtr bilan to'siladi.
+
+20
+00:02:35,440 --> 00:02:42,180
+Zararli bo'lishi mumkin bo'lgan fayllar — masalan apk va exe — guruhga o'tkazilmaydi.
+
+21
+00:02:42,260 --> 00:02:48,560
+Sun'iy intellekt ulangan bo'lsa, bot noo'rin rasmlarni va yashirin reklamani ham taniydi.
+
+22
+00:02:48,640 --> 00:02:56,700
+Yangi a'zolar uchun alohida rejim bor: birinchi 24 soat davomida ular havola va fayl yubora olmaydi.
+
+23
+00:02:56,780 --> 00:03:04,840
+Kirishda kapcha qo'yish mumkin — «Men odamman» tugmasini bosmagan akkaunt guruhga yoza olmaydi. Bu botlarni to'sadi.
+
+24
+00:03:04,920 --> 00:03:11,220
+Yangi a'zoga kirish savolini berish yoki avtomatik salomlashish xabarini yuborish ham mumkin.
+
+25
+00:03:11,300 --> 00:03:18,920
+Tungi rejimda faqat adminlar yozadi. Juma sukuti — Juma kuni belgilangan vaqtda guruh jim turadi.
+
+26
+00:03:19,000 --> 00:03:27,060
+Har hafta eng faol o'nta a'zo e'lon qilinadi, a'zolarda reputatsiya ballari yig'iladi — bu guruhni jonlantiradi.
+
+27
+00:03:27,140 --> 00:03:33,880
+Muhim: guruh adminlarining xabarlariga bot hech qachon tegmaydi. Qoidalar faqat oddiy a'zolarga ishlaydi.
+
+28
+00:03:33,960 --> 00:03:42,900
+Guruhning o'zida /himoya deb yozsangiz, bot hozir qaysi qoidalar yoqilganini ro'yxat qilib ko'rsatadi. Har bir qoidani alohida yoqib-o'chirasiz.
+
+29
+00:03:42,980 --> 00:03:50,160
+Yana takrorlayman: botga «Xabarlarni o'chirish» va «Foydalanuvchilarni bloklash» huquqlarini bering, aks holda himoya ishlamaydi.
+
+30
+00:03:50,240 --> 00:03:58,300
+Bu bo'limda postni oldindan tayyorlab, kerakli kunga va soatga qo'yasiz. Belgilangan vaqtda bot uni o'zi chiqaradi.
+
+31
+00:03:58,380 --> 00:04:05,560
+Takrorlanishni tanlaysiz: faqat bir marta, har kuni yoki har hafta. Doimiy rukniga juda qulay.
+
+32
+00:04:05,640 --> 00:04:11,500
+Matn muharririda qalin, kursiv, havola, yashirin matn va iqtibos tugmalari bor.
+
+33
+00:04:11,580 --> 00:04:17,440
+Emoji panelidan belgilarni bir bosishda qo'yasiz — klaviaturani almashtirish shart emas.
+
+34
+00:04:17,520 --> 00:04:25,580
+Eng qulayi: post Telegramda aynan qanday ko'rinishi pastda darhol ko'rinib turadi. Ya'ni yuborishdan oldin natijani ko'rasiz.
+
+35
+00:04:25,660 --> 00:04:31,520
+Yozgan matningiz avtomatik qoralama sifatida saqlanadi. Ilovadan chiqib ketsangiz ham yo'qolmaydi.
+
+36
+00:04:31,600 --> 00:04:37,460
+Avval ishlatgan rasm va videolaringizni ro'yxatdan bir bosishda qayta tanlashingiz mumkin.
+
+37
+00:04:37,540 --> 00:04:42,960
+Yoqqan postingizni «Nusxa» tugmasi bilan ko'paytirib, faqat kerakli joyini o'zgartirasiz.
+
+38
+00:04:43,040 --> 00:04:50,660
+Ishonchingiz komil bo'lmasa, «Menga yuborish» tugmasini bosing — post avval faqat sizga keladi, ko'rib tekshirasiz.
+
+39
+00:04:50,740 --> 00:04:59,240
+Postni belgilangan vaqtdan keyin avtomatik o'chirish ham mumkin. Kalendar orqali qaysi kunga nima rejalashtirilganini bir qarashda ko'rasiz.
+
+40
+00:04:59,320 --> 00:05:05,180
+Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
+
+41
+00:05:05,260 --> 00:05:13,320
+Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
+
+42
+00:05:13,400 --> 00:05:21,020
+Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
+
+43
+00:05:21,100 --> 00:05:30,040
+Maslahat: taklif havolalarini konkurs bilan birlashtiring — «eng ko'p odam taklif qilgan uchtaga sovg'a» deng, guruh tez o'sadi.
+
+44
+00:05:30,120 --> 00:05:35,980
+Bu ishlashi uchun botga «Havola orqali taklif qilish» huquqini berish shart.
+
+45
+00:05:36,060 --> 00:05:43,680
+Statistika bo'limi kanal va guruhingiz qanday o'sayotganini ko'rsatadi. Birinchi navbatda hozirgi obunachilar yoki a'zolar soni.
+
+46
+00:05:43,760 --> 00:05:50,500
+Keyin o'zgarish: kecha qancha qo'shilgan, so'nggi 7 kunda va 30 kunda qancha bo'lgan.
+
+47
+00:05:50,580 --> 00:05:56,880
+So'nggi 14 kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+
+48
+00:05:56,960 --> 00:06:04,580
+Guruh uchun qo'shimcha: guruhda nechta xabar yozilgani ham ko'rsatiladi. Bu guruh jonli yoki jonsizligini ko'rsatadi.
+
+49
+00:06:04,660 --> 00:06:13,160
+«Excel yuklab olish» tugmasi bilan hisobotni fayl qilib olasiz — hisobot tayyorlash yoki reklama beruvchiga ko'rsatish uchun.
+
+50
+00:06:13,240 --> 00:06:19,540
+Diqqat: kirdi-chiqdi faqat bot administrator bo'lgandan keyin hisoblanadi. Undan oldingi tarix ko'rinmaydi.
+
+51
+00:06:19,620 --> 00:06:25,480
+Testlar bo'limi guruh va kanalda to'rt variantli viktorina o'tkazish imkonini beradi.
+
+52
+00:06:25,560 --> 00:06:34,060
+Birinchi tur — Savol-javob. Maktab, litsey, kollej, oliy ta'lim va sertifikat imtihonlari mavzulari bo'yicha savollar bazasi bor.
+
+53
+00:06:34,140 --> 00:06:42,200
+Ikkinchi tur — Prava testi. Yo'l harakati qoidalari bo'yicha, rasmli savollar bilan. Mavzuni ham o'zingiz tanlaysiz.
+
+54
+00:06:42,280 --> 00:06:50,340
+«Avtomatik test» ni yoqsangiz, bot siz belgilagan oraliqda o'zi savol berib turadi. Masalan har ikki soatda.
+
+55
+00:06:50,420 --> 00:06:56,720
+Qo'lda yuborish uchun «Hozir savol» tugmasi bor — bir bosasiz, savol chiqadi.
+
+56
+00:06:56,800 --> 00:07:04,420
+To'g'ri javob uchun ochko beriladi, tezroq javob bergan ko'proq ochko oladi. Bu tezlik musobaqasini yaratadi.
+
+57
+00:07:04,500 --> 00:07:10,360
+Oxirida eng yaxshi o'nta ishtirokchi e'lon qilinadi. Reyting umumiy bo'lib boradi.
+
+58
+00:07:10,440 --> 00:07:19,820
+Guruh a'zolari o'zi ham savol chaqira oladi: /prava yoki /viktorina deb yozadi. Har ikki daqiqada bir marta ruxsat beriladi.
+
+59
+00:07:19,900 --> 00:07:27,080
+Eslatma: kanalda so'rovlar anonim bo'lgani uchun u yerda ochko hisoblanmaydi. Reyting faqat guruhda ishlaydi.
+
+60
+00:07:27,160 --> 00:07:33,900
+Bu bo'lim yopiq kanalingizga pullik obuna sotish imkonini beradi. Ya'ni kontentingizdan daromad olasiz.
+
+61
+00:07:33,980 --> 00:07:42,040
+To'rtta paket bor: bir oylik, uch oylik, olti oylik va bir yillik obuna. Narxni o'zingiz qo'yasiz.
+
+62
+00:07:42,120 --> 00:07:51,940
+Ko'p oyga chegirma foizini ham o'zingiz belgilaysiz. Masalan, 12 oylikka 30 foiz chegirma — bu odamlarni uzoq muddatga olishga undaydi.
+
+63
+00:07:52,020 --> 00:08:00,520
+Bepul sinov muddatini yoqsangiz, har bir obunachi bir marta bepul kirib ko'ra oladi. Bir kundan yetti kungacha.
+
+64
+00:08:00,600 --> 00:08:06,460
+Obunachi o'z balansidan to'laydi, pul xizmat haqi ayrilgach sizning balansingizga tushadi.
+
+65
+00:08:06,540 --> 00:08:13,280
+To'lagan odamga kirish havolasi bot orqali yuboriladi — siz qo'lda hech narsa qilmaysiz.
+
+66
+00:08:13,360 --> 00:08:20,980
+Muddat tugashiga uch kun qolganda obunachiga avtomatik eslatma boradi — bu uzaytirish foizini sezilarli oshiradi.
+
+67
+00:08:21,060 --> 00:08:27,360
+Muddat tugagach bot obunachini kanaldan o'zi chiqaradi. Qo'lda kuzatib o'tirish shart emas.
+
+68
+00:08:27,440 --> 00:08:35,940
+Shart: botga «Taklif havolasi» va «Bloklash» huquqlarini bering. Busiz bot odamni na kirgiza oladi, na chiqara oladi.
+
+69
+00:08:36,020 --> 00:08:41,000
+Konkurs bo'limi orqali kanal yoki guruhda sovg'a o'yini o'tkazasiz.
+
+70
+00:08:41,080 --> 00:08:46,500
+Birinchi qadam: konkurs qaysi kanal yoki guruhda e'lon qilinishini tanlaysiz.
+
+71
+00:08:46,580 --> 00:08:52,000
+Keyin nechta g'olib bo'lishini belgilaysiz — bir kishimi yoki o'nta.
+
+72
+00:08:52,080 --> 00:08:57,500
+Uchinchi qadam — konkurs qachon tugashini belgilash. Sana va soat.
+
+73
+00:08:57,580 --> 00:09:06,520
+Xohlasangiz obuna shartini qo'yasiz: ishtirok etish uchun qaysi kanalga a'zo bo'lish kerakligini ko'rsatasiz. Bu kanalni o'stirishning tez usuli.
+
+74
+00:09:06,600 --> 00:09:13,340
+Konkurs posti ishtirok tugmasi bilan chiqadi — odam bir bosadi va ro'yxatga tushadi.
+
+75
+00:09:13,420 --> 00:09:19,280
+Vaqt tugaganda g'oliblar tasodifiy tanlanadi. Hammasi adolatli, hech kim aralasha olmaydi.
+
+76
+00:09:19,360 --> 00:09:26,540
+Konkurs tugashidan oldin obunadan chiqib ketganlar avtomatik chiqarib tashlanadi. Ya'ni faqat haqiqiy obunachilar yutadi.
+
+77
+00:09:26,620 --> 00:09:32,920
+G'oliblar ro'yxati kanalga o'zi e'lon qilinadi — sizdan qo'shimcha harakat talab etilmaydi.
+
+78
+00:09:33,000 --> 00:09:40,180
+«Adminlar uchun» bo'limi shu bilan tugadi. Bu to'qqizta katak kanalingizni muntazam yuritish uchun yetarli.
+
+79
+00:09:40,260 --> 00:09:47,000
+Keyingi darsda «Kundalik xabarlar» — har kuni o'zi ishlab turadigan avtomatik postlarni ko'ramiz.

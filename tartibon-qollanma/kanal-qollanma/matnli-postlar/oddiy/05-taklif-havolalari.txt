@@ -1,0 +1,23 @@
+📘 TartibOn qo'llanma · 05/42
+
+🛠 Taklif havolalari
+Guruhni o'stirishning oson yo'li
+
+Har bir reklama uchun alohida havola yasab, qaysi havoladan necha obunachi kelganini ko'rsatadi.
+
+1️⃣ Har a'zoga shaxsiy havola
+Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
+
+2️⃣ Kim kimni olib kelgani sanaladi
+Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
+
+3️⃣ TOP ro'yxat — musobaqa
+Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
+
+4️⃣ Konkurs bilan birga kuchli ishlaydi
+Maslahat: taklif havolalarini konkurs bilan birlashtiring — «eng ko'p odam taklif qilgan uchtaga sovg'a» deng, guruh tez o'sadi.
+
+5️⃣ «Havola orqali taklif qilish» huquqi
+Bu ishlashi uchun botga «Havola orqali taklif qilish» huquqini berish shart.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_rf

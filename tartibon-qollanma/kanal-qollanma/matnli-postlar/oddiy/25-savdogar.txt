@@ -1,0 +1,29 @@
+📘 TartibOn qo'llanma · 25/42
+
+🖼 Savdogar
+Umumiy mahsulot e'loni
+
+Mahsulot uchun chiroyli rasmli savdo e'lonini bir daqiqada yasab beradi.
+
+1️⃣ Tartibi: rasm → ma'lumot → post
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+2️⃣ Aloqa tugmasi o'zi qo'shiladi
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+3️⃣ Avval «Brend to'plami» ni to'ldiring
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+4️⃣ Istalgan mahsulot uchun
+Savdogar — umumiy savdo e'loni. Kiyim, texnika, uy jihozlari — istalgan mahsulot uchun ishlatiladi.
+
+5️⃣ Rasm, nom, narx, tavsif
+Mahsulot rasmini yuklaysiz, nomini, narxini va qisqa tavsifini yozasiz.
+
+6️⃣ «🛒 Sotuvchi bilan bog'lanish» tugmasi
+Post tagida «Sotuvchi bilan bog'lanish» tugmasi chiqadi va xaridor to'g'ridan-to'g'ri sizga yozadi.
+
+7️⃣ Bir xil uslub — tanilgan do'kon
+Barcha mahsulotlaringizni shu shablon bilan chiqarsangiz, postlaringiz bir xil uslubda bo'ladi va do'koningiz tanila boshlaydi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_adp

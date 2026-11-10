@@ -1,0 +1,47 @@
+<b>📘 TartibOn qo'llanma · 03/42</b>
+
+🛠 <b>Guruh himoyasi</b>
+Guruhni toza saqlash
+
+Guruhingizni reklama, spam, so'kinish, havola va ruxsatsiz postlardan avtomatik tozalaydi.
+
+1️⃣ <b>Reklama va havolalarni o'chiradi</b>
+Guruh himoyasi — eng kuchli funksiyalardan biri. Bot begona reklama va havolalarni avtomatik o'chiradi.
+
+2️⃣ <b>So'kinish va spam</b>
+So'kinish ishlatilgan xabarlar va spam — ya'ni tez-tez takrorlanadigan bir xil xabarlar ham o'chiriladi.
+
+3️⃣ <b>Arab botlar va arabcha reklama</b>
+Guruhlarga ko'p tashlanadigan arab botlar va arabcha reklama alohida filtr bilan to'siladi.
+
+4️⃣ <b>Zararli fayllar: .apk, .exe</b>
+Zararli bo'lishi mumkin bo'lgan fayllar — masalan apk va exe — guruhga o'tkazilmaydi.
+
+5️⃣ <b>Sun'iy intellekt filtri</b>
+Sun'iy intellekt ulangan bo'lsa, bot noo'rin rasmlarni va yashirin reklamani ham taniydi.
+
+6️⃣ <b>Yangi a'zolarga 24 soat cheklov</b>
+Yangi a'zolar uchun alohida rejim bor: birinchi 24 soat davomida ular havola va fayl yubora olmaydi.
+
+7️⃣ <b>Kapcha: «Men odamman»</b>
+Kirishda kapcha qo'yish mumkin — «Men odamman» tugmasini bosmagan akkaunt guruhga yoza olmaydi. Bu botlarni to'sadi.
+
+8️⃣ <b>Kirish testi va salomlashish</b>
+Yangi a'zoga kirish savolini berish yoki avtomatik salomlashish xabarini yuborish ham mumkin.
+
+9️⃣ <b>Tungi rejim va Juma sukuti</b>
+Tungi rejimda faqat adminlar yozadi. Juma sukuti — Juma kuni belgilangan vaqtda guruh jim turadi.
+
+🔟 <b>Haftalik TOP-10 va reputatsiya</b>
+Har hafta eng faol o'nta a'zo e'lon qilinadi, a'zolarda reputatsiya ballari yig'iladi — bu guruhni jonlantiradi.
+
+• <b>Adminlarga tegilmaydi</b>
+Muhim: guruh adminlarining xabarlariga bot hech qachon tegmaydi. Qoidalar faqat oddiy a'zolarga ishlaydi.
+
+• <b>Guruhda /himoya buyrug'i</b>
+Guruhning o'zida /himoya deb yozsangiz, bot hozir qaysi qoidalar yoqilganini ro'yxat qilib ko'rsatadi. Har bir qoidani alohida yoqib-o'chirasiz.
+
+• <b>Ikkita huquq shart</b>
+Yana takrorlayman: botga «Xabarlarni o'chirish» va «Foydalanuvchilarni bloklash» huquqlarini bering, aks holda himoya ishlamaydi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_gd

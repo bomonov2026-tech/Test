@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,620
+Bir nechta guruh boshqarasizmi?
+
+2
+00:00:02,680 --> 00:00:07,820
+Hammasi bitta ekranda: a'zolar soni va bugun nechta xabar yozilgani.
+
+3
+00:00:07,880 --> 00:00:13,440
+Har bir guruh uchun alohida: himoya qoidalari, testlar va avtomatik xabarlar.
+
+4
+00:00:13,500 --> 00:00:19,060
+Guruh qo'shish oson: username yoki ID kiritasiz va botni administrator qilasiz.
+
+5
+00:00:19,120 --> 00:00:23,840
+Shu zahoti ishlay boshlaydi — guruh himoyasi avtomatik yoqiladi.
+
+6
+00:00:23,900 --> 00:00:26,100
+TartibOn. Telegramda qidiring.

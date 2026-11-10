@@ -1,0 +1,133 @@
+Beshinchi dars — Savdo admin ramkasi. Bu bo'lim biznes bilan shug'ullanadiganlar uchun: taksi, avto savdo, ko'chmas mulk, vakansiya, o'quv markazi va boshqalar.
+
+Mohiyati oddiy — siz ma'lumotni kiritasiz, bot chiroyli post rasmini o'zi chizib beradi va kanalingizga tugma bilan yuboradi. Dizayner ham, grafik dasturi ham kerak emas.
+
+Avval barcha post bo'limlariga xos bo'lgan umumiy tartibni tushuntiraman. Birinchi qadam: mavzuingizga mos katakni tanlaysiz.
+
+Ikkinchi qadam: bir dona, ikki yoki uchta rasm yuklaysiz. Rasm sifatli bo'lsa, post ham chiroyli chiqadi.
+
+Uchinchi qadam: narx, manzil, tavsif kabi maydonlarni to'ldirasiz. Har bo'limda maydonlar o'ziga xos.
+
+To'rtinchi qadam: bot ma'lumotlarni chiroyli post rasmiga joylaydi. Siz faqat natijani ko'rasiz.
+
+Beshinchi qadam: postni tugmasi bilan birga kanal yoki guruhingizga yuborasiz.
+
+Har bir e'londa mijoz bosadigan tugma bo'ladi — Bog'lanish, Bron qilish, Buyurtma berish kabi. Mijoz bir bosadi va sizga yoziladi.
+
+Eng muhim maslahat: ishni Brend to'plami dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlasangiz, barcha bo'limlar shuni avtomatik oladi.
+
+Taksi e'loni — taksi xizmati ko'rsatadiganlar uchun tayyor post shabloni.
+
+Avval yo'nalishni kiritasiz: qayerdan jo'nashingiz va qayerga borishingiz.
+
+Keyin sana va jo'nash vaqtini belgilaysiz.
+
+Nechta bo'sh joy borligini va mashina modelini yozasiz — yo'lovchi uchun bu eng muhim ma'lumot.
+
+Telefon raqamingizni kiritasiz, so'ng post rasmi tayyor bo'ladi.
+
+Post tagida Haydovchiga yozish tugmasi chiqadi — yo'lovchi bir bosib siz bilan bog'lanadi.
+
+Bu shablon mahalla guruhlari va yo'nalish guruhlari uchun juda qulay. Har kuni bir xil yo'nalishni yuboradigan bo'lsangiz, postni nusxalab qo'ying.
+
+Avto savdo — mashina sotish uchun post shabloni.
+
+Mashinaning suratlarini yuklaysiz, so'ng ishlab chiqarilgan yili, probegi va rangini kiritasiz.
+
+Narxni va mashina holatini yozasiz.
+
+Post tagida Sotuvchiga yozish tugmasi bo'ladi — xaridor darhol siz bilan bog'lanadi.
+
+Maslahat: probeg va holatni haqiqatga mos yozing. Avto guruhlarida ishonch eng qimmat narsa.
+
+Savdogar — umumiy savdo e'loni. Kiyim, texnika, uy jihozlari — istalgan mahsulot uchun ishlatiladi.
+
+Mahsulot rasmini yuklaysiz, nomini, narxini va qisqa tavsifini yozasiz.
+
+Post tagida Sotuvchi bilan bog'lanish tugmasi chiqadi va xaridor to'g'ridan-to'g'ri sizga yozadi.
+
+Barcha mahsulotlaringizni shu shablon bilan chiqarsangiz, postlaringiz bir xil uslubda bo'ladi va do'koningiz tanila boshlaydi.
+
+Sayohat e'loni — turagentliklar uchun maxsus tayyorlangan shablon.
+
+Uchta tayyor ko'rinish bor: oddiy tur paket, qaynoq tur va Umra shabloni.
+
+Yo'nalishni, sanani va narxni kiritasiz.
+
+Narxga nimalar kirishini alohida yozasiz — aviabilet, mehmonxona, ovqat, viza. Bu savollarning yarmini kamaytiradi.
+
+Post tagida Bron qilish tugmasi chiqadi va mijoz to'g'ridan-to'g'ri sizga yozadi.
+
+O'quv markazi — kurslarga qabul e'lonlari uchun shablon.
+
+Kursning boshlanish sanasini va necha oy davom etishini kiritasiz.
+
+Narxni va to'lov shartlarini yozasiz.
+
+Post tagida Kursga yozilish tugmasi bo'ladi — talaba bir bosadi va sizga tushadi.
+
+Maslahat: qabul tugashiga bir hafta qolganda postni qayta yuboring — joylar tugayapti degan post eng ko'p ariza keltiradi.
+
+Ko'chmas mulk — uy, kvartira sotish yoki ijaraga berish e'lonlari uchun.
+
+Obyekt suratlarini yuklaysiz va maydonini kvadrat metrda yozasiz.
+
+Qavat, umumiy qavatlar soni va narxni kiritasiz.
+
+Post tagida Bog'lanish tugmasi chiqadi.
+
+Maslahat: uchta suratni ham to'liq ishlating. Ko'chmas mulkda surat qancha ko'p bo'lsa, murojaat shuncha ko'p bo'ladi.
+
+Vakansiya — ishga odam qidirayotganlar uchun post shabloni.
+
+Lavozim nomini va maoshni yozasiz.
+
+Ish vaqtini va nomzodga qo'yilgan talablarni kiritasiz.
+
+Post tagida Rezyume yuborish tugmasi bo'ladi — nomzod to'g'ridan-to'g'ri sizga yozadi.
+
+Maslahat: maosh raqamini albatta yozing. Maoshi ko'rsatilmagan e'lonlar bir necha barobar kam javob oladi.
+
+Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
+
+Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
+
+Chegirma foizini yoki aksiya shartini ko'rsatasiz.
+
+Post tagida Buyurtma berish tugmasi chiqadi.
+
+Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
+
+Salon va klinika — go'zallik saloni yoki tibbiy klinika xizmatlari uchun shablon.
+
+Xizmatlar va ularning narxlari ro'yxatini kiritasiz.
+
+Vaqtinchalik aksiyani ham qo'shishingiz mumkin.
+
+Post tagida Navbatga yozilish tugmasi bo'ladi — mijoz bir bosib navbat so'raydi.
+
+Eslatma: tibbiyot sohasida natija kafolati kabi va'dalarni yozishda ehtiyot bo'ling — qonun talablariga rioya qiling.
+
+Statistikam bo'limi — siz yuborgan e'lonlardagi tugmalarni necha kishi bosgani sanaladi.
+
+Bog'lanish, Bron qilish, Buyurtma berish — qaysi tugma necha marta bosilgani alohida ko'rinadi.
+
+Shu orqali qaysi e'lon ishlayapti, qaysi biri bekorga ketayotganini aniq bilasiz.
+
+Agar hali e'lon yubormagan bo'lsangiz, bu bo'lim bo'sh turadi. Birinchi postni yuboring, raqamlar shundan keyin paydo bo'ladi.
+
+Maslahat: bitta mahsulotni ikki xil matn bilan sinab ko'ring va qaysi biri ko'proq bosilganini shu yerdan solishtiring.
+
+Brend to'plamida birinchi navbatda brend rangingizni tanlaysiz — postlar shu rangda chiziladi.
+
+Keyin aloqa uchun username'ingizni yozasiz — mijoz shu manzilga yoziladi.
+
+Tugmada qanday yozuv turishini ham o'zingiz belgilaysiz.
+
+Bir marta saqlasangiz, barcha post bo'limlari — Savdogar, Taksi, Sayohat va qolganlari — shu sozlamani avtomatik oladi.
+
+Shuning uchun aytdim: Savdo admin bilan ishlashni aynan shu katakdan boshlang. Bir martalik ish, lekin barcha postlaringiz bir xil, tanilarli ko'rinishga ega bo'ladi.
+
+Savdo admin bo'limi shunday ishlaydi. Esda tuting: avval Brend to'plami ni to'ldiring, keyin Statistikam orqali qaysi e'lon ishlayotganini kuzatib boring.
+
+Oxirgi, oltinchi darsda Ilova bo'limini — balans, bot yaratish va yordam xizmatini ko'ramiz.

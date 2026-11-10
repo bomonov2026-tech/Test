@@ -1,0 +1,8 @@
+--- index.php
++++ index.php
+@@ adpDrawCard()
+  if(pp){
+   y+=18;txpFit(ctx,pp,124,'900',tw);ctx.fillStyle=pe?GRAY:color;ctx.fillText(pp,tx-4,y);y+=118;
+-  ctx.fillStyle=pe?GRAY:'#8A94A6';ctx.font='500 28px'+F;ctx.fillText('Namuna narx',tx,y+8);
++  if(pv&&pe){ctx.fillStyle=GRAY;ctx.font='500 28px'+F;ctx.fillText('Namuna narx',tx,y+8);}
+  }

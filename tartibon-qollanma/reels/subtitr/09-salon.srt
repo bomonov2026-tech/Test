@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,040
+Go'zallik saloni yoki klinikangiz bormi?
+
+2
+00:00:03,100 --> 00:00:07,820
+Mijozlar har kuni bir xil savolni berib, narxlarni so'rayveradimi?
+
+3
+00:00:07,880 --> 00:00:13,440
+Barcha xizmatlar va narxlarni bitta rasmga joylaysiz — savollar o'z-o'zidan kamayadi.
+
+4
+00:00:13,500 --> 00:00:18,220
+Vaqtinchalik aksiyani ham qo'shasiz — bu yangi mijoz keltiradi.
+
+5
+00:00:18,280 --> 00:00:22,580
+Mijoz «Navbatga yozilish» tugmasini bosadi va sizga yoziladi.
+
+6
+00:00:22,640 --> 00:00:24,840
+TartibOn. Telegramda qidiring.

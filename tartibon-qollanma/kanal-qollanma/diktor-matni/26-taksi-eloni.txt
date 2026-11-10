@@ -1,0 +1,23 @@
+«Taksi e'loni». Yo'nalish, narx va telefonli taksi e'lonini rasmli post qilib chiqaradi.
+
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+Taksi e'loni — taksi xizmati ko'rsatadiganlar uchun tayyor post shabloni.
+
+Avval yo'nalishni kiritasiz: qayerdan jo'nashingiz va qayerga borishingiz.
+
+Keyin sana va jo'nash vaqtini belgilaysiz.
+
+Nechta bo'sh joy borligini va mashina modelini yozasiz — yo'lovchi uchun bu eng muhim ma'lumot.
+
+Telefon raqamingizni kiritasiz, so'ng post rasmi tayyor bo'ladi.
+
+Post tagida «Haydovchiga yozish» tugmasi chiqadi — yo'lovchi bir bosib siz bilan bog'lanadi.
+
+Bu shablon mahalla guruhlari va yo'nalish guruhlari uchun juda qulay. Har kuni bir xil yo'nalishni yuboradigan bo'lsangiz, postni nusxalab qo'ying.
+
+«Taksi e'loni» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

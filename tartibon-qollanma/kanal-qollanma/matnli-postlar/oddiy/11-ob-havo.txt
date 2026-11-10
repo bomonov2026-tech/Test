@@ -1,0 +1,26 @@
+📘 TartibOn qo'llanma · 11/42
+
+🔔 Ob-havo
+Har kuni ertalab 06:00
+
+Tanlagan shahringiz ob-havosini har kuni rasmli post qilib kanalingizga chiqaradi.
+
+1️⃣ 12 viloyat ob-havosi
+Ob-havo katagi 12 ta viloyatning ob-havosini bitta chiroyli postda yuboradi.
+
+2️⃣ Har kuni soat 06:00 da
+Post har kuni ertalab soat oltida chiqadi — odamlar ishga chiqishdan oldin.
+
+3️⃣ Bitta kalit — hamma chatga
+Qulaylik: bosh sahifadagi katakda kalitni yoqsangiz, xizmat barcha ulangan chatlarga birdaniga yoqiladi. Har birini alohida sozlash shart emas.
+
+4️⃣ Ogohlantirish: shamol, jazirama, sovuq
+Alohida funksiya — ogohlantirish. Kuchli shamol, jazirama issiq yoki qattiq sovuq kutilsa, bot qo'shimcha xabar yuboradi.
+
+5️⃣ Do'l va kuchli yomg'ir/qor
+Do'l, kuchli yomg'ir yoki qor kutilganda ham ogohlantirish keladi. Bu obunachilaringiz uchun chinakam foydali ma'lumot.
+
+6️⃣ Profilda shaxsiy ogohlantirish
+«Profil» bo'limida o'zingiz uchun shaxsiy ob-havo ogohlantirishini ham yoqib qo'yishingiz mumkin — u shaxsiy xabar bo'lib keladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pwx

@@ -1,0 +1,267 @@
+1
+00:00:00,000 --> 00:00:10,700
+Beshinchi dars — «Savdo admin» ramkasi. Bu bo'lim biznes bilan shug'ullanadiganlar uchun: taksi, avto savdo, ko'chmas mulk, vakansiya, o'quv markazi va boshqalar.
+
+2
+00:00:10,780 --> 00:00:22,700
+Mohiyati oddiy — siz ma'lumotni kiritasiz, bot chiroyli post rasmini o'zi chizib beradi va kanalingizga tugma bilan yuboradi. Dizayner ham, grafik dasturi ham kerak emas.
+
+3
+00:00:22,780 --> 00:00:30,400
+Avval barcha post bo'limlariga xos bo'lgan umumiy tartibni tushuntiraman. Birinchi qadam: mavzuingizga mos katakni tanlaysiz.
+
+4
+00:00:30,480 --> 00:00:38,540
+Ikkinchi qadam: bir dona, ikki yoki uchta rasm yuklaysiz. Rasm sifatli bo'lsa, post ham chiroyli chiqadi.
+
+5
+00:00:38,620 --> 00:00:45,360
+Uchinchi qadam: narx, manzil, tavsif kabi maydonlarni to'ldirasiz. Har bo'limda maydonlar o'ziga xos.
+
+6
+00:00:45,440 --> 00:00:51,740
+To'rtinchi qadam: bot ma'lumotlarni chiroyli post rasmiga joylaydi. Siz faqat natijani ko'rasiz.
+
+7
+00:00:51,820 --> 00:00:57,240
+Beshinchi qadam: postni tugmasi bilan birga kanal yoki guruhingizga yuborasiz.
+
+8
+00:00:57,320 --> 00:01:07,140
+Har bir e'londa mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish», «Buyurtma berish» kabi. Mijoz bir bosadi va sizga yoziladi.
+
+9
+00:01:07,220 --> 00:01:17,920
+Eng muhim maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlasangiz, barcha bo'limlar shuni avtomatik oladi.
+
+10
+00:01:18,000 --> 00:01:23,420
+Taksi e'loni — taksi xizmati ko'rsatadiganlar uchun tayyor post shabloni.
+
+11
+00:01:23,500 --> 00:01:28,040
+Avval yo'nalishni kiritasiz: qayerdan jo'nashingiz va qayerga borishingiz.
+
+12
+00:01:28,120 --> 00:01:31,780
+Keyin sana va jo'nash vaqtini belgilaysiz.
+
+13
+00:01:31,860 --> 00:01:39,480
+Nechta bo'sh joy borligini va mashina modelini yozasiz — yo'lovchi uchun bu eng muhim ma'lumot.
+
+14
+00:01:39,560 --> 00:01:44,100
+Telefon raqamingizni kiritasiz, so'ng post rasmi tayyor bo'ladi.
+
+15
+00:01:44,180 --> 00:01:50,920
+Post tagida «Haydovchiga yozish» tugmasi chiqadi — yo'lovchi bir bosib siz bilan bog'lanadi.
+
+16
+00:01:51,000 --> 00:02:00,820
+Bu shablon mahalla guruhlari va yo'nalish guruhlari uchun juda qulay. Har kuni bir xil yo'nalishni yuboradigan bo'lsangiz, postni nusxalab qo'ying.
+
+17
+00:02:00,900 --> 00:02:05,440
+Avto savdo — mashina sotish uchun post shabloni.
+
+18
+00:02:05,520 --> 00:02:11,380
+Mashinaning suratlarini yuklaysiz, so'ng ishlab chiqarilgan yili, probegi va rangini kiritasiz.
+
+19
+00:02:11,460 --> 00:02:14,680
+Narxni va mashina holatini yozasiz.
+
+20
+00:02:14,760 --> 00:02:21,060
+Post tagida «Sotuvchiga yozish» tugmasi bo'ladi — xaridor darhol siz bilan bog'lanadi.
+
+21
+00:02:21,140 --> 00:02:27,880
+Maslahat: probeg va holatni haqiqatga mos yozing. Avto guruhlarida ishonch eng qimmat narsa.
+
+22
+00:02:27,960 --> 00:02:35,140
+Savdogar — umumiy savdo e'loni. Kiyim, texnika, uy jihozlari — istalgan mahsulot uchun ishlatiladi.
+
+23
+00:02:35,220 --> 00:02:40,200
+Mahsulot rasmini yuklaysiz, nomini, narxini va qisqa tavsifini yozasiz.
+
+24
+00:02:40,280 --> 00:02:46,580
+Post tagida «Sotuvchi bilan bog'lanish» tugmasi chiqadi va xaridor to'g'ridan-to'g'ri sizga yozadi.
+
+25
+00:02:46,660 --> 00:02:54,280
+Barcha mahsulotlaringizni shu shablon bilan chiqarsangiz, postlaringiz bir xil uslubda bo'ladi va do'koningiz tanila boshlaydi.
+
+26
+00:02:54,360 --> 00:02:58,900
+Sayohat e'loni — turagentliklar uchun maxsus tayyorlangan shablon.
+
+27
+00:02:58,980 --> 00:03:05,280
+Uchta tayyor ko'rinish bor: oddiy tur paket, qaynoq tur va Umra shabloni.
+
+28
+00:03:05,360 --> 00:03:08,580
+Yo'nalishni, sanani va narxni kiritasiz.
+
+29
+00:03:08,660 --> 00:03:15,840
+Narxga nimalar kirishini alohida yozasiz — aviabilet, mehmonxona, ovqat, viza. Bu savollarning yarmini kamaytiradi.
+
+30
+00:03:15,920 --> 00:03:21,780
+Post tagida «Bron qilish» tugmasi chiqadi va mijoz to'g'ridan-to'g'ri sizga yozadi.
+
+31
+00:03:21,860 --> 00:03:26,400
+O'quv markazi — kurslarga qabul e'lonlari uchun shablon.
+
+32
+00:03:26,480 --> 00:03:31,460
+Kursning boshlanish sanasini va necha oy davom etishini kiritasiz.
+
+33
+00:03:31,540 --> 00:03:34,760
+Narxni va to'lov shartlarini yozasiz.
+
+34
+00:03:34,840 --> 00:03:41,580
+Post tagida «Kursga yozilish» tugmasi bo'ladi — talaba bir bosadi va sizga tushadi.
+
+35
+00:03:41,660 --> 00:03:50,600
+Maslahat: qabul tugashiga bir hafta qolganda postni qayta yuboring — «joylar tugayapti» degan post eng ko'p ariza keltiradi.
+
+36
+00:03:50,680 --> 00:03:56,540
+Ko'chmas mulk — uy, kvartira sotish yoki ijaraga berish e'lonlari uchun.
+
+37
+00:03:56,620 --> 00:04:01,160
+Obyekt suratlarini yuklaysiz va maydonini kvadrat metrda yozasiz.
+
+38
+00:04:01,240 --> 00:04:05,340
+Qavat, umumiy qavatlar soni va narxni kiritasiz.
+
+39
+00:04:05,420 --> 00:04:08,640
+Post tagida «Bog'lanish» tugmasi chiqadi.
+
+40
+00:04:08,720 --> 00:04:16,780
+Maslahat: uchta suratni ham to'liq ishlating. Ko'chmas mulkda surat qancha ko'p bo'lsa, murojaat shuncha ko'p bo'ladi.
+
+41
+00:04:16,860 --> 00:04:21,400
+Vakansiya — ishga odam qidirayotganlar uchun post shabloni.
+
+42
+00:04:21,480 --> 00:04:24,700
+Lavozim nomini va maoshni yozasiz.
+
+43
+00:04:24,780 --> 00:04:28,880
+Ish vaqtini va nomzodga qo'yilgan talablarni kiritasiz.
+
+44
+00:04:28,960 --> 00:04:34,820
+Post tagida «Rezyume yuborish» tugmasi bo'ladi — nomzod to'g'ridan-to'g'ri sizga yozadi.
+
+45
+00:04:34,900 --> 00:04:42,080
+Maslahat: maosh raqamini albatta yozing. Maoshi ko'rsatilmagan e'lonlar bir necha barobar kam javob oladi.
+
+46
+00:04:42,160 --> 00:04:48,020
+Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
+
+47
+00:04:48,100 --> 00:04:51,760
+Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
+
+48
+00:04:51,840 --> 00:04:55,500
+Chegirma foizini yoki aksiya shartini ko'rsatasiz.
+
+49
+00:04:55,580 --> 00:04:59,240
+Post tagida «Buyurtma berish» tugmasi chiqadi.
+
+50
+00:04:59,320 --> 00:05:07,380
+Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
+
+51
+00:05:07,460 --> 00:05:13,760
+Salon va klinika — go'zallik saloni yoki tibbiy klinika xizmatlari uchun shablon.
+
+52
+00:05:13,840 --> 00:05:17,500
+Xizmatlar va ularning narxlari ro'yxatini kiritasiz.
+
+53
+00:05:17,580 --> 00:05:20,800
+Vaqtinchalik aksiyani ham qo'shishingiz mumkin.
+
+54
+00:05:20,880 --> 00:05:27,180
+Post tagida «Navbatga yozilish» tugmasi bo'ladi — mijoz bir bosib navbat so'raydi.
+
+55
+00:05:27,260 --> 00:05:34,880
+Eslatma: tibbiyot sohasida natija kafolati kabi va'dalarni yozishda ehtiyot bo'ling — qonun talablariga rioya qiling.
+
+56
+00:05:34,960 --> 00:05:40,820
+Statistikam bo'limi — siz yuborgan e'lonlardagi tugmalarni necha kishi bosgani sanaladi.
+
+57
+00:05:40,900 --> 00:05:47,640
+«Bog'lanish», «Bron qilish», «Buyurtma berish» — qaysi tugma necha marta bosilgani alohida ko'rinadi.
+
+58
+00:05:47,720 --> 00:05:53,580
+Shu orqali qaysi e'lon ishlayapti, qaysi biri bekorga ketayotganini aniq bilasiz.
+
+59
+00:05:53,660 --> 00:06:02,160
+Agar hali e'lon yubormagan bo'lsangiz, bu bo'lim bo'sh turadi. Birinchi postni yuboring, raqamlar shundan keyin paydo bo'ladi.
+
+60
+00:06:02,240 --> 00:06:10,740
+Maslahat: bitta mahsulotni ikki xil matn bilan sinab ko'ring va qaysi biri ko'proq bosilganini shu yerdan solishtiring.
+
+61
+00:06:10,820 --> 00:06:17,120
+Brend to'plamida birinchi navbatda brend rangingizni tanlaysiz — postlar shu rangda chiziladi.
+
+62
+00:06:17,200 --> 00:06:22,620
+Keyin aloqa uchun username'ingizni yozasiz — mijoz shu manzilga yoziladi.
+
+63
+00:06:22,700 --> 00:06:26,800
+Tugmada qanday yozuv turishini ham o'zingiz belgilaysiz.
+
+64
+00:06:26,880 --> 00:06:35,380
+Bir marta saqlasangiz, barcha post bo'limlari — Savdogar, Taksi, Sayohat va qolganlari — shu sozlamani avtomatik oladi.
+
+65
+00:06:35,460 --> 00:06:46,600
+Shuning uchun aytdim: «Savdo admin» bilan ishlashni aynan shu katakdan boshlang. Bir martalik ish, lekin barcha postlaringiz bir xil, tanilarli ko'rinishga ega bo'ladi.
+
+66
+00:06:46,680 --> 00:06:56,500
+«Savdo admin» bo'limi shunday ishlaydi. Esda tuting: avval «Brend to'plami» ni to'ldiring, keyin «Statistikam» orqali qaysi e'lon ishlayotganini kuzatib boring.
+
+67
+00:06:56,580 --> 00:07:03,320
+Oxirgi, oltinchi darsda «Ilova» bo'limini — balans, bot yaratish va yordam xizmatini ko'ramiz.

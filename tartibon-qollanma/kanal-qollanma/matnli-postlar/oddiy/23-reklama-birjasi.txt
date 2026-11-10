@@ -1,0 +1,38 @@
+📘 TartibOn qo'llanma · 23/42
+
+🧰 Reklama birjasi
+Pul kafolati bilan reklama savdosi
+
+Reklama o'rnini kim ko'p deb narx taklif qilsa — unga beradi, auksion tarzida.
+
+1️⃣ Kanallar orasida reklama savdosi
+Reklama birjasi — kanallar orasida reklama sotib olish va sotish maydoni.
+
+2️⃣ Sotuvchi: narx va formatni belgilaydi
+Sotuvchi bo'lsangiz: reklama narxini va formatini belgilaysiz.
+
+3️⃣ Format: 1/24, 2/48 yoki doimiy
+Format degani — reklama qancha turishi. Bir soat tepada va yigirma to'rt soat kanalda, ikki soat va qirq sakkiz soat, yoki umuman o'chirilmaydigan doimiy post.
+
+4️⃣ Buyurtma kelsa — «Joylash»
+Buyurtma kelganda «Joylash» tugmasini bosasiz va reklama kanalingizga chiqadi.
+
+5️⃣ 🛡 Pul kafolati
+Eng muhim funksiya — pul kafolati. Xaridor to'lagan pul darhol sotuvchiga o'tmaydi.
+
+6️⃣ Vaqt o'tgach pul avtomatik tushadi
+Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin pul o'zi sotuvchiga tushadi.
+
+7️⃣ Reklama o'chirilsa — «⚠️ Nizo ochish»
+Agar reklama muddatidan oldin o'chirilsa yoki kelishilgandek bo'lmasa, xaridor «Nizo ochish» tugmasini bosadi.
+
+8️⃣ Nizoni admin hal qiladi
+Nizoni admin ko'rib chiqadi va qaror qabul qiladi: sotuvchiga to'lash yoki xaridorga pulni qaytarish.
+
+9️⃣ Xaridor: to'g'ridan-to'g'ri kanal egasidan
+Xaridor bo'lsangiz, reklamani vositachisiz, to'g'ridan-to'g'ri kanal egasidan olasiz — ortiqcha ustama yo'q.
+
+🔟 ✅ belgili kanallar tekshirilgan
+Ko'k belgili kanallar TartibOn tomonidan tekshirilgan. Yangi bo'lsangiz, avval shunday kanallardan boshlang.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_auc

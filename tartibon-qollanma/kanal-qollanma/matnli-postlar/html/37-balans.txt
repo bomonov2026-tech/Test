@@ -1,0 +1,47 @@
+<b>📘 TartibOn qo'llanma · 37/42</b>
+
+📱 <b>Balans</b>
+Ilova ichidagi hisobingiz
+
+Ilova ichidagi hisobingiz: pul to'ldirish, sarflash va yechib olish shu yerda.
+
+1️⃣ <b>Barcha to'lovlar shu hisobdan</b>
+Balans — ilova ichidagi shaxsiy hisobingiz. Nakrutka, eSIM, e'lon, pullik kanal va reklama — hammasi shu hisobdan to'lanadi.
+
+2️⃣ <b>1 — Kartaga pul o'tkazing</b>
+To'ldirish tartibi oddiy. Birinchi qadam: sahifada ko'rsatilgan kartaga pul o'tkazasiz.
+
+3️⃣ <b>2 — Chek rasmini yuklang</b>
+Ikkinchi qadam: to'lov chekining rasmini ilovaga yuklaysiz.
+
+4️⃣ <b>3 — «To'lov qildim» ni bosing</b>
+Uchinchi qadam: «To'lov qildim» tugmasini bosasiz.
+
+5️⃣ <b>4 — Admin tasdiqlaydi</b>
+Admin chekni tekshirib tasdiqlagach, summa balansingizga tushadi.
+
+6️⃣ <b>Eng kam va eng ko'p summa</b>
+Bir martada o'tkazish mumkin bo'lgan eng kam va eng ko'p summa sahifada yozilgan — o'tkazishdan oldin ko'rib oling.
+
+7️⃣ <b>Birinchi to'ldirishga bonus</b>
+Birinchi marta to'ldirishga va katta summalarga bonus beriladi — bu qo'shimcha pul balansingizga qo'shiladi.
+
+8️⃣ <b>Pul yechish: summa va karta raqami</b>
+Pul yechish ham shu yerda: yechmoqchi bo'lgan summani va karta raqamingizni yozasiz.
+
+9️⃣ <b>Tasdiqlansa — kartangizga o'tadi</b>
+Admin tasdiqlasa, summa balansingizdan yechiladi va kartangizga o'tkaziladi. Rad etilsa, balansingiz o'zgarmaydi.
+
+🔟 <b>Bonus pulini yechib bo'lmaydi</b>
+Muhim qoida: bonus pulini kartaga yechib bo'lmaydi. U faqat ilova ichidagi xizmatlarga sarflanadi.
+
+• <b>Sovg'a qilish mumkin</b>
+Balansni boshqa foydalanuvchiga sovg'a qilish imkoni ham bor.
+
+• <b>Daromad ham shu balansga tushadi</b>
+Teskari tomoni: reklama birjasi, pullik kanal va qo'llab-quvvatlash tugmasidan tushgan pul ham xizmat haqi ayrilgach shu balansga keladi.
+
+• <b>«Adminga murojaat» qatori</b>
+To'lov uzoq tasdiqlanmasa yoki savolingiz bo'lsa — «Balans» sahifasidagi «Adminga murojaat» qatorini bosing, administrator bilan Telegramda to'g'ridan-to'g'ri yozishasiz.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_bal

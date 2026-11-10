@@ -1,0 +1,29 @@
+<b>📘 TartibOn qo'llanma · 10/42</b>
+
+🔔 <b>Dollar kursi</b>
+Banklardan avtomatik
+
+Markaziy bank va banklar valyuta kursini chiroyli rasmli post qilib kanalingizga o'zi joylaydi.
+
+1️⃣ <b>Banklarning olish va sotish kursi</b>
+Dollar kursi katagida o'zbek banklarining dollar uchun olish va sotish kurslari ko'rsatiladi.
+
+2️⃣ <b>Mikrokreditbank, Turonbank va b.</b>
+Mikrokreditbank, Turonbank va boshqa banklar — hammasi bir ro'yxatda, taqqoslab ko'rish qulay.
+
+3️⃣ <b>Ma'lumot bank saytlaridan olinadi</b>
+Raqamlar bank saytlaridan avtomatik olinadi, qo'lda kiritilmaydi.
+
+4️⃣ <b>Kurs o'zgarsa — post o'zi chiqadi</b>
+Eng qulayi: kurs o'zgargan zahoti kanal va guruhingizga rasmli xabar o'zi chiqadi.
+
+5️⃣ <b>O'zgarish bo'lmasa — takror yubormaydi</b>
+Agar kurs o'zgarmagan bo'lsa, bot bir xil postni qayta yubormaydi. Obunachilaringiz bezovta bo'lmaydi.
+
+6️⃣ <b>Markaziy bank kurslari ham bor</b>
+Bundan tashqari markaziy bank kurslari ham bor — ular har uch soatda yangilanib turadi.
+
+7️⃣ <b>Bankdagi kurs biroz farq qilishi mumkin</b>
+Bir eslatma: bankdagi haqiqiy kurs e'londagidan biroz farq qilishi mumkin. Katta summa almashtirishdan oldin bank bilan aniqlashtirishni tavsiya qiling.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pcb

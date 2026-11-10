@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,880
+Obunachilaringiz har kuni ochib ko'radigan post kerakmi?
+
+2
+00:00:03,940 --> 00:00:09,500
+Har kuni ertalab oltida o'n ikki viloyatning ob-havosi bitta postda yuboriladi.
+
+3
+00:00:09,560 --> 00:00:14,700
+Har bir viloyat uchun kunduzgi va tungi harorat alohida ko'rsatiladi.
+
+4
+00:00:14,760 --> 00:00:21,160
+Kuchli shamol, jazirama issiq, qattiq sovuq yoki do'l kutilsa, bot alohida ogohlantirish yuboradi.
+
+5
+00:00:21,220 --> 00:00:26,360
+Bosh sahifadagi kalitni yoqsangiz, xizmat barcha ulangan chatlarga birdaniga yoqiladi.
+
+6
+00:00:26,420 --> 00:00:28,620
+TartibOn. Telegramda qidiring.

@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,460
+Kanalingiz o'syaptimi yoki pasayyaptimi? Aniq bilasizmi?
+
+2
+00:00:03,520 --> 00:00:10,340
+Statistika bo'limida hammasi ko'rinadi: kecha qancha qo'shilgan, yetti kunda va o'ttiz kunda qancha bo'lgan.
+
+3
+00:00:10,400 --> 00:00:16,380
+O'n to'rt kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+
+4
+00:00:16,440 --> 00:00:22,840
+Guruh uchun xabarlar soni ham chiqadi — guruhingiz jonli yoki jonsizligini shu ko'rsatadi.
+
+5
+00:00:22,900 --> 00:00:28,460
+Hisobotni Excelga yuklab olasiz — reklama beruvchiga ko'rsatish uchun juda qulay.
+
+6
+00:00:28,520 --> 00:00:30,720
+TartibOn. Telegramda qidiring.

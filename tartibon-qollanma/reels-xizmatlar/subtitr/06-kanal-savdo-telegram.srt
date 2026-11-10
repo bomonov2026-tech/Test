@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,300
+Telegram kanal sotib olmoqchimisiz yoki o'z kanalingizni sotmoqchimisiz?
+
+2
+00:00:04,360 --> 00:00:10,760
+Eng katta muammo — raqamlar. Sotuvchi obunachilar sonini o'zi yozsa, unga qanday ishonasiz?
+
+3
+00:00:10,820 --> 00:00:18,060
+Bu yerda raqamlar sotuvchidan emas — TartibOn statistikasidan avtomatik olinadi. Ya'ni soxta ko'rsatkich qo'yib bo'lmaydi.
+
+4
+00:00:18,120 --> 00:00:24,940
+To'lov esa vositachi orqali: pul admin qo'lida turadi va kanal topshirilgandan keyingina sotuvchiga beriladi.
+
+5
+00:00:25,000 --> 00:00:30,560
+Sotmoqchi bo'lsangiz, shu sahifada bitta tugma bosasiz — kanalingiz sotuvga chiqadi.
+
+6
+00:00:30,620 --> 00:00:32,820
+TartibOn. Telegramda qidiring.

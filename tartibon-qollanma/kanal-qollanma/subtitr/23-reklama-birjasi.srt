@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:07,700
+«Reklama birjasi». Reklama o'rnini kim ko'p deb narx taklif qilsa — unga beradi, auksion tarzida.
+
+2
+00:00:07,700 --> 00:00:13,640
+Reklama birjasi — kanallar orasida reklama sotib olish va sotish maydoni.
+
+3
+00:00:13,640 --> 00:00:17,820
+Sotuvchi bo'lsangiz: reklama narxini va formatini belgilaysiz.
+
+4
+00:00:17,820 --> 00:00:29,820
+Format degani — reklama qancha turishi. Bir soat tepada va yigirma to'rt soat kanalda, ikki soat va qirq sakkiz soat, yoki umuman o'chirilmaydigan doimiy post.
+
+5
+00:00:29,820 --> 00:00:34,880
+Buyurtma kelganda «Joylash» tugmasini bosasiz va reklama kanalingizga chiqadi.
+
+6
+00:00:34,880 --> 00:00:41,260
+Eng muhim funksiya — pul kafolati. Xaridor to'lagan pul darhol sotuvchiga o'tmaydi.
+
+7
+00:00:41,260 --> 00:00:49,840
+Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin pul o'zi sotuvchiga tushadi.
+
+8
+00:00:49,840 --> 00:00:56,660
+Agar reklama muddatidan oldin o'chirilsa yoki kelishilgandek bo'lmasa, xaridor «Nizo ochish» tugmasini bosadi.
+
+9
+00:00:56,660 --> 00:01:03,920
+Nizoni admin ko'rib chiqadi va qaror qabul qiladi: sotuvchiga to'lash yoki xaridorga pulni qaytarish.
+
+10
+00:01:03,920 --> 00:01:10,300
+Xaridor bo'lsangiz, reklamani vositachisiz, to'g'ridan-to'g'ri kanal egasidan olasiz — ortiqcha ustama yo'q.
+
+11
+00:01:10,300 --> 00:01:16,680
+Ko'k belgili kanallar TartibOn tomonidan tekshirilgan. Yangi bo'lsangiz, avval shunday kanallardan boshlang.
+
+12
+00:01:16,680 --> 00:01:25,260
+«Reklama birjasi» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

@@ -1,0 +1,23 @@
+# 01 — Kanallarim
+# 10 sahna · 90 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Kanallarim». Botga ulangan barcha kanallaringizni bir joydan boshqaradi: avto-xabarlar, imzo, tugmalar, ta'til rejimi.
+
+[002]  «Kanallarim» — botga ulangan barcha kanallaringiz ro'yxati. Har bir kanal alohida karta ko'rinishida turadi va hammasini shu yerdan boshqarasiz.
+
+[003]  Kanal kartasini ochsangiz, o'sha kanal uchun qaysi avtomatik xabarlar yoqilganini belgilaysiz. Bir kanalga namoz vaqtlari, boshqasiga faqat dollar kursi — ixtiyoringiz.
+
+[004]  «Kanal imzosi» — har bir postning tagiga qo'yiladigan doimiy yozuv. Masalan, kanalingiz nomi yoki aloqa uchun username.
+
+[005]  Postlar tagiga doimiy tugmalar qo'shish mumkin: «Do'stga ulashish» va «Qo'llab-quvvatlash». Ulashish tugmasi kanal o'sishiga yordam beradi.
+
+[006]  «Qo'llab-quvvatlash» tugmasini bosgan obunachi summani tanlaydi va o'z balansidan o'tkazadi. Pul sizning balansingizga tushadi — kichik xizmat haqi ayriladi. Jami tushum shu yerda ko'rinadi.
+
+[007]  Ta'til rejimi — vaqtincha hamma avtomatik xabarlarni to'xtatib turish uchun. Yoqasiz, kanal jim qoladi, keyin qaytarasiz.
+
+[008]  «Sayt yoki YouTube'dan avtomatik post» — tanlagan saytingizda yangi maqola yoki YouTube kanalida yangi video chiqsa, bot uni o'zi kanalga joylaydi.
+
+[009]  Agar botni kanaldan chiqarib yuborishsa yoki huquqi yetmasa, «Kanallarim» katagida qizil raqam turadi va «Tuzatish» tugmasi chiqadi.
+
+[010]  «Kanallarim» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

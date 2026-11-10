@@ -1,0 +1,18 @@
+📘 TartibOn qo'llanma · 42/42
+
+🔔 Namoz vaqtlari — Har namozdan 30 daqiqa keyin
+
+Har namoz vaqtidan 30 daqiqa keyin kanal va guruhingizga namoz vaqti xabarini yuboradi.
+
+Videoda:
+• Avtomatik namoz vaqti xabari
+• Har namozdan 30 daqiqa keyin
+• Hududni tanlaysiz
+• Xabar matnini o'zgartirish mumkin
+• Manba: islom.uz taqvimi
+• Manba ishlamasa — bot o'zi hisoblaydi
+• … va yana 1 ta
+
+#TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_pnm

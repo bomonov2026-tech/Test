@@ -1,0 +1,32 @@
+<b>📘 TartibOn qo'llanma · 31/42</b>
+
+🖼 <b>Vakansiya</b>
+Ish e'loni
+
+Ishga odam qidirish e'lonini lavozim, maosh va talablar bilan yasab beradi.
+
+1️⃣ <b>Tartibi: rasm → ma'lumot → post</b>
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+2️⃣ <b>Aloqa tugmasi o'zi qo'shiladi</b>
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+3️⃣ <b>Avval «Brend to'plami» ni to'ldiring</b>
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+4️⃣ <b>Ishga odam qidirish uchun</b>
+Vakansiya — ishga odam qidirayotganlar uchun post shabloni.
+
+5️⃣ <b>Lavozim va maosh</b>
+Lavozim nomini va maoshni yozasiz.
+
+6️⃣ <b>Ish vaqti va talablar</b>
+Ish vaqtini va nomzodga qo'yilgan talablarni kiritasiz.
+
+7️⃣ <b>«Rezyume yuborish» tugmasi</b>
+Post tagida «Rezyume yuborish» tugmasi bo'ladi — nomzod to'g'ridan-to'g'ri sizga yozadi.
+
+8️⃣ <b>Maoshni yozing</b>
+Maslahat: maosh raqamini albatta yozing. Maoshi ko'rsatilmagan e'lonlar bir necha barobar kam javob oladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_vak

@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,460
+Kanalingizga mehnat qilasiz, lekin daromad yo'qmi?
+
+2
+00:00:03,520 --> 00:00:08,240
+Yopiq kanalingizga pullik obuna soting. Pul to'g'ridan-to'g'ri balansingizga tushadi.
+
+3
+00:00:08,300 --> 00:00:15,540
+Paketlar: bir, uch, olti va o'n ikki oylik. Narxni va uzoq muddatga chegirmani o'zingiz qo'yasiz.
+
+4
+00:00:15,600 --> 00:00:23,540
+Bepul sinov muddatini yoqsangiz, har bir odam bir marta bepul kirib ko'radi — shundan keyin ko'pchilik qoladi.
+
+5
+00:00:23,600 --> 00:00:31,540
+Qolgani avtomatik: kirish havolasi o'zi boradi, muddat tugashiga uch kun qolganda eslatma ketadi, tugaganda bot o'zi chiqaradi.
+
+6
+00:00:31,600 --> 00:00:33,800
+TartibOn. Telegramda qidiring.

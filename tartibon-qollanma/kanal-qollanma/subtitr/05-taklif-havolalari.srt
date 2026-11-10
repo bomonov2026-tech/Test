@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:07,700
+«Taklif havolalari». Har bir reklama uchun alohida havola yasab, qaysi havoladan necha obunachi kelganini ko'rsatadi.
+
+2
+00:00:07,700 --> 00:00:13,640
+Bu funksiya guruhdagi har bir a'zoga o'zining shaxsiy taklif havolasini beradi.
+
+3
+00:00:13,640 --> 00:00:21,780
+Shu havola orqali kirgan odamlar o'sha a'zoga hisoblanadi. Ya'ni kim nechta odam olib kelgani aniq ko'rinadi.
+
+4
+00:00:21,780 --> 00:00:29,480
+Eng ko'p odam taklif qilganlar TOP ro'yxatda chiqadi. Bu a'zolar orasida tabiiy musobaqa hosil qiladi.
+
+5
+00:00:29,480 --> 00:00:38,500
+Maslahat: taklif havolalarini konkurs bilan birlashtiring — «eng ko'p odam taklif qilgan uchtaga sovg'a» deng, guruh tez o'sadi.
+
+6
+00:00:38,500 --> 00:00:44,440
+Bu ishlashi uchun botga «Havola orqali taklif qilish» huquqini berish shart.
+
+7
+00:00:44,440 --> 00:00:53,020
+«Taklif havolalari» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

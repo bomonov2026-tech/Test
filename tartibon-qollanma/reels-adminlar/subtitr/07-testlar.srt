@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,040
+Guruhingizda hech kim yozmay qo'ydimi?
+
+2
+00:00:03,100 --> 00:00:08,660
+Bot belgilangan oraliqda o'zi savol berib turadi — to'rt variantli viktorina.
+
+3
+00:00:08,720 --> 00:00:15,540
+Mavzuni o'zingiz tanlaysiz: maktab va imtihon savollari yoki yo'l harakati qoidalari bo'yicha Prava testi.
+
+4
+00:00:15,600 --> 00:00:22,420
+To'g'ri javobga ochko beriladi, tezroq javob berganga ko'proq. Oxirida eng yaxshi o'nta e'lon qilinadi.
+
+5
+00:00:22,480 --> 00:00:28,460
+Bir necha kundan keyin a'zolarning o'zi savol chaqira boshlaydi — guruh jonlanadi.
+
+6
+00:00:28,520 --> 00:00:30,720
+TartibOn. Telegramda qidiring.

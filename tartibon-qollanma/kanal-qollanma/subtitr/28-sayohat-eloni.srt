@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:07,260
+«Sayohat e'loni». Tur paketi e'lonini yo'nalish, muddat, narx va nima kirgani bilan yasab beradi.
+
+2
+00:00:07,260 --> 00:00:19,260
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+3
+00:00:19,260 --> 00:00:31,260
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+4
+00:00:31,260 --> 00:00:42,480
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+5
+00:00:42,480 --> 00:00:47,100
+Sayohat e'loni — turagentliklar uchun maxsus tayyorlangan shablon.
+
+6
+00:00:47,100 --> 00:00:53,480
+Uchta tayyor ko'rinish bor: oddiy tur paket, qaynoq tur va Umra shabloni.
+
+7
+00:00:53,480 --> 00:00:56,780
+Yo'nalishni, sanani va narxni kiritasiz.
+
+8
+00:00:56,780 --> 00:01:04,040
+Narxga nimalar kirishini alohida yozasiz — aviabilet, mehmonxona, ovqat, viza. Bu savollarning yarmini kamaytiradi.
+
+9
+00:01:04,040 --> 00:01:09,980
+Post tagida «Bron qilish» tugmasi chiqadi va mijoz to'g'ridan-to'g'ri sizga yozadi.
+
+10
+00:01:09,980 --> 00:01:18,560
+«Sayohat e'loni» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

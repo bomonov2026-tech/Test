@@ -1,0 +1,188 @@
+<!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;background:#eef4fa}canvas{display:block}</style>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="bg.js"></script>
+<script src="ninja.js"></script>
+<script>
+const c=document.getElementById('c').getContext('2d');
+function shadow(on,b,y,col){c.shadowColor=on?(col||'rgba(20,40,70,.22)'):'transparent';
+  c.shadowBlur=on?b:0;c.shadowOffsetY=on?y:0}
+function chip(x,y,w,h,f){shadow(1,18,6);rr(c,x,y,w,h,h/2);c.fillStyle=f||'rgba(255,255,255,.94)';c.fill();shadow(0)}
+function btn(x,y,w,h,t,f,tc,fs){shadow(1,16,6);rr(c,x,y,w,h,22);c.fillStyle=f;c.fill();shadow(0);
+  c.textAlign='center';c.textBaseline='middle';c.fillStyle=tc;
+  c.font='900 '+(fs||36)+'px Inter,sans-serif';c.fillText(t,x+w/2,y+h/2+1)}
+
+/* ================= 1 — O'YIN ================= */
+function hud(o){
+  c.textBaseline='middle';c.textAlign='center';
+  chip(W/2-200,96,400,208,'rgba(255,255,255,.90)');
+  c.fillStyle='rgba(20,36,61,.55)';c.font='800 28px Inter,sans-serif';
+  c.fillText('SAKRASH',W/2,142);
+  c.fillStyle=NAVY;c.font='900 128px Inter,sans-serif';
+  c.fillText(o.hops,W/2,220);
+  c.fillStyle='#C98100';c.font='800 28px Inter,sans-serif';
+  c.fillText('rekord '+o.best,W/2,282);
+
+  chip(40,110,236,78);
+  c.fillStyle=NAVY;c.font='800 30px Inter,sans-serif';
+  c.fillText(o.hat,158,150);
+
+  chip(W-276,110,236,78,GOLD);
+  c.fillStyle='#3A2600';c.font='900 32px Inter,sans-serif';
+  c.fillText(o.left,W-158,150);
+
+  chip(W/2-262,330,524,78,'rgba(26,167,232,.95)');
+  c.fillStyle='#FFFFFF';c.font='900 32px Inter,sans-serif';
+  c.fillText('🥇 AZIZ — '+o.leader+' sakrash',W/2,370);
+}
+function scene(o){
+  sky(c);clouds(c);far(c);
+  o.roofs.forEach(r=>roof(c,r[0],r[1],r[2]));
+  if(o.arc){c.setLineDash([16,18]);c.strokeStyle='rgba(20,40,70,.40)';c.lineWidth=6;
+    c.beginPath();
+    for(let t=0;t<=1.001;t+=0.02){
+      const x=o.arc[0]+(o.arc[2]-o.arc[0])*t,
+            y=o.arc[1]-Math.sin(Math.PI*t)*o.arc[3]+(o.arc[4]-o.arc[1])*t;
+      t?c.lineTo(x,y):c.moveTo(x,y);}
+    c.stroke();c.setLineDash([]);}
+  ninja(c,o.man[0],o.man[1],o.man[2],o.pose,o.ph);
+  if(o.pw!==undefined)power(c,o.man[0]-132,o.man[1]-24,o.pw);
+  hud(o);
+  chip(W/2-322,H-156,644,100);
+  c.textAlign='center';c.textBaseline='middle';c.fillStyle=NAVY;
+  c.font='900 34px Inter,sans-serif';
+  c.fillText('BOSIB TURING  →  QO‘YIB YUBORING',W/2,H-106);
+}
+
+/* ================= 2 — NATIJA ================= */
+function row(x,y,w,k,v,vc){
+  rr(c,x,y,w,88,22);c.fillStyle='#F1F5FA';c.fill();
+  c.textBaseline='middle';
+  c.textAlign='left';c.fillStyle='rgba(20,36,61,.68)';c.font='700 32px Inter,sans-serif';
+  c.fillText(k,x+30,y+45);
+  c.textAlign='right';c.fillStyle=vc||NAVY;c.font='900 36px Inter,sans-serif';
+  c.fillText(v,x+w-30,y+45);
+}
+function res(o){
+  sky(c);clouds(c);far(c);
+  o.roofs.forEach(r=>roof(c,r[0],r[1],r[2]));
+  c.fillStyle='rgba(228,240,250,.76)';c.fillRect(0,0,W,H);
+  ninja(c,838,1716,1.08,'land',0.5);
+
+  const px=68,pw=W-136,py=290,ph=1160;
+  shadow(1,50,16,'rgba(20,45,80,.28)');
+  rr(c,px,py,pw,ph,48);c.fillStyle='#FFFFFF';c.fill();shadow(0);
+
+  c.textAlign='center';c.textBaseline='middle';
+  c.fillStyle='rgba(20,36,61,.55)';c.font='800 32px Inter,sans-serif';
+  c.fillText('YAKUNIY NATIJA',W/2,py+76);
+  c.fillStyle=NAVY;c.font='900 186px Inter,sans-serif';
+  c.fillText(o.hops,W/2,py+228);
+  c.fillStyle='rgba(20,36,61,.5)';c.font='800 34px Inter,sans-serif';
+  c.fillText('sakrash',W/2,py+346);
+
+  chip(W/2-212,py+392,424,82,GOLD);
+  c.fillStyle='#3A2600';c.font='900 34px Inter,sans-serif';
+  c.fillText('🔥 YANGI REKORD',W/2,py+434);
+
+  let y=py+524;
+  row(px+44,y,pw-88,'🏆 Turnirdagi o‘rin','2 / 48',CY); y+=106;
+  row(px+44,y,pw-88,'🎯 Toza qo‘nish','91%','#12A05F'); y+=106;
+  row(px+44,y,pw-88,'⚡ Eng uzun seriya','17 ta'); y+=106;
+  row(px+44,y,pw-88,'🎩 Yangi shlyapa','5-daraja','#C98100');
+
+  btn(px+44,py+ph-170,(pw-128)/2,106,'🔁 QAYTA',GOLD,'#3A2600');
+  btn(px+44+(pw-128)/2+40,py+ph-170,(pw-128)/2,106,'📤 GURUHGA',CY,'#FFFFFF');
+
+  chip(W/2-312,H-170,624,100);
+  c.textAlign='center';c.fillStyle=NAVY;c.font='800 32px Inter,sans-serif';
+  c.fillText('Yetakchidan 5 sakrash orqada',W/2,H-120);
+}
+
+/* ================= 3 — GURUH POSTI ================= */
+function prow(x,y,w,m,nm,sc,me){
+  rr(c,x,y,w,98,24);c.fillStyle=me?'#FFF4D6':'#F3F7FB';c.fill();
+  if(me){c.strokeStyle=GOLD;c.lineWidth=4;rr(c,x,y,w,98,24);c.stroke()}
+  c.textBaseline='middle';c.textAlign='center';
+  c.font='900 40px Inter,sans-serif';c.fillStyle=NAVY;c.fillText(m,x+58,y+50);
+  c.textAlign='left';c.font='800 36px Inter,sans-serif';c.fillText(nm,x+112,y+49);
+  c.textAlign='right';c.font='900 42px Inter,sans-serif';c.fillStyle='#C98100';
+  c.fillText(sc,x+w-30,y+49);
+}
+function post(){
+  const g=c.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#DCEBF7');g.addColorStop(1,'#EFF5FA');
+  c.fillStyle=g;c.fillRect(0,0,W,H);
+
+  const x=50,w=W-100,y=200,h=1500;
+  shadow(1,44,14,'rgba(20,45,80,.20)');
+  rr(c,x,y,w,h,38);c.fillStyle='#FFFFFF';c.fill();shadow(0);
+
+  /* sarlavha */
+  const hg=c.createLinearGradient(x,y,x+w,y+240);
+  hg.addColorStop(0,'#1AA7E8');hg.addColorStop(1,'#4FD0C9');
+  c.save();rr(c,x,y,w,240,38);c.clip();c.fillStyle=hg;c.fillRect(x,y,w,240);
+  c.fillStyle='rgba(255,255,255,.22)';c.beginPath();c.arc(x+w-50,y+30,180,0,7);c.fill();
+  ninja(c,x+w-146,y+230,0.80,'fly',0.4,false);
+  c.restore();
+  c.textAlign='left';c.textBaseline='middle';
+  c.fillStyle='#fff';c.font='900 50px Inter,sans-serif';
+  c.fillText('🏆 15 DAQIQALIK TURNIR',x+44,y+82);
+  c.fillStyle='rgba(255,255,255,.92)';c.font='700 31px Inter,sans-serif';
+  c.fillText('Toshkent IT Guruh  •  48 ishtirokchi',x+44,y+144);
+  c.fillStyle='rgba(255,255,255,.80)';c.font='700 27px Inter,sans-serif';
+  c.fillText('Yakunlandi  •  bugun 19:00',x+44,y+192);
+
+  let ry=y+282;
+  [['🥇','Aziz','91',0],['🥈','Siz','86',1],['🥉','Dilshod','79',0],
+   ['4','Madina','74',0],['5','Jasur','71',0],['6','Nodira','68',0],['7','Bekzod','63',0]]
+   .forEach(r=>{prow(x+34,ry,w-68,r[0],r[1],r[2],r[3]);ry+=114});
+
+  ry+=16;
+  rr(c,x+34,ry,w-68,114,24);c.fillStyle='#E8F6FD';c.fill();
+  c.textAlign='left';c.fillStyle='rgba(20,36,61,.62)';c.font='700 29px Inter,sans-serif';
+  c.fillText('Guruh jami',x+70,ry+40);
+  c.fillStyle=CY;c.font='900 38px Inter,sans-serif';
+  c.fillText('2 847 sakrash',x+70,ry+82);
+  c.textAlign='right';c.fillStyle='rgba(20,36,61,.62)';c.font='700 29px Inter,sans-serif';
+  c.fillText('Kanallar reytingi',x+w-70,ry+40);
+  c.fillStyle='#C98100';c.font='900 38px Inter,sans-serif';
+  c.fillText('3-o‘rin',x+w-70,ry+82);
+
+  ry+=146;
+  c.textAlign='center';c.fillStyle='rgba(20,36,61,.5)';c.font='700 29px Inter,sans-serif';
+  c.fillText('Keyingi turnir  •  bugun 21:00',W/2,ry);
+
+  const by=y+h-150;
+  btn(x+34,by,(w-108)/2,110,'🎮 O‘YNASH',GOLD,'#3A2600',34);
+  btn(x+34+(w-108)/2+40,by,(w-108)/2,110,'📊 TO‘LIQ REYTING','#E9F0F7',NAVY,34);
+}
+
+/* ================= 4 — QAHRAMON LAVHASI ================= */
+function sheet(){
+  const g=c.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#F7FBFF');g.addColorStop(1,'#DEEAF5');
+  c.fillStyle=g;c.fillRect(0,0,W,H);
+  c.textAlign='center';c.textBaseline='middle';
+  c.fillStyle=NAVY;c.font='900 64px Inter,sans-serif';
+  c.fillText('TARTIBON NINJA',W/2,128);
+  c.fillStyle='rgba(20,36,61,.55)';c.font='700 32px Inter,sans-serif';
+  c.fillText('qahramon pozalari',W/2,192);
+
+  const cells=[['TURISH','idle'],['KUCH TO\u2018PLASH','charge'],
+               ['SAKRASH','fly'],['QO\u2018NISH','land']];
+  cells.forEach((cl,i)=>{
+    const cx=i%2?788:292, cy=i<2?620:1330;
+    shadow(1,34,12);rr(c,cx-230,cy-360,460,540,36);c.fillStyle='#FFFFFF';c.fill();shadow(0);
+    c.save();rr(c,cx-230,cy-360,460,540,36);c.clip();
+    c.fillStyle='#EDF3F9';c.fillRect(cx-230,cy+110,460,120);
+    ninja(c,cx,cy+100,1.55,cl[1],0.5);
+    c.restore();
+    c.fillStyle=NAVY;c.font='900 34px Inter,sans-serif';
+    c.textAlign='center';c.fillText(cl[0],cx,cy+148);
+  });
+  chip(W/2-372,H-156,744,98);
+  c.fillStyle=NAVY;c.font='800 31px Inter,sans-serif';
+  c.fillText('Qora siluet  \u2022  qizil bog\u2018ich va sharf  \u2022  yorug\u2018 fon',W/2,H-107);
+}
+</script>

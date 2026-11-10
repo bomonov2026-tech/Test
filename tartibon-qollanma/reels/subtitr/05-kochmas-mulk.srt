@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,460
+Uy, kvartira sotyapsizmi yoki ijaraga beryapsizmi?
+
+2
+00:00:03,520 --> 00:00:10,760
+Maydon, qavat va narx — bularning hammasi odatda izohda qolib ketadi va hech kim o'qimaydi.
+
+3
+00:00:10,820 --> 00:00:15,540
+Endi bu ma'lumotlar rasmning o'zida, suratlar bilan birga chiqadi.
+
+4
+00:00:15,600 --> 00:00:20,740
+Ta'mir holati, jihozlangani va hujjatlar — alohida belgilar bilan ko'rsatiladi.
+
+5
+00:00:20,800 --> 00:00:25,520
+Post tagidagi «Bog'lanish» tugmasini bosgan mijoz to'g'ridan-to'g'ri sizga yoziladi.
+
+6
+00:00:25,580 --> 00:00:27,780
+TartibOn. Telegramda qidiring.

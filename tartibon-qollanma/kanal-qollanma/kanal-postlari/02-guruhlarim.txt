@@ -1,0 +1,17 @@
+📘 TartibOn qo'llanma · 02/42
+
+🛠 Guruhlarim — Guruhlarni ulash va sozlash
+
+Botga ulangan guruhlaringiz ro'yxati: har biriga alohida himoya va avto-xabar sozlamalari.
+
+Videoda:
+• Guruhlar ro'yxati va sozlamalari
+• Guruh qo'shish: @username yoki ID
+• Avtomatik xabarlarni yoqish
+• Himoya sozlamalari
+• Testlar va viktorina
+• Administrator huquqini unutmang
+
+#TartibOn #qollanma
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_myguruh

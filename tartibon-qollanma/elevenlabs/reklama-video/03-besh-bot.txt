@@ -1,0 +1,13 @@
+# 03 — besh-bot
+# 5 sahna · 20 soniya
+# Har sahnani ALOHIDA yarating: 001.mp3, 002.mp3 …
+
+[001]  Guruhingizda nechta bot bor? Uchta? Beshta?
+
+[002]  Har biriga alohida to'lov, alohida sozlama. Va har biri o'z reklamasini joylaydi.
+
+[003]  TartibOn bitta o'zi hammasining vazifasini bajaradi. Va hech qachon o'z reklamasini joylamaydi.
+
+[004]  Qirq ikkita bo'lim, hammasi bitta ilovada.
+
+[005]  Qolgan botlarni o'chirib tashlang. Havola tagida.

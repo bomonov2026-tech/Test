@@ -1,0 +1,26 @@
+📘 TartibOn qo'llanma · 20/42
+
+🧰 Kanal Savdo — Telegram
+Telegram kanal va guruh savdosi
+
+Telegram kanal va guruhlarni sotish-sotib olish e'lonlari bozori.
+
+1️⃣ Telegram kanal va guruhlar bozori
+Kanal Savdo Telegram — Telegram kanal va guruhlarini sotish va sotib olish bo'limi.
+
+2️⃣ Raqamlar TartibOn statistikasidan
+Eng muhim farqi: bu yerdagi obunachi va o'sish raqamlari TartibOn statistikasidan olinadi.
+
+3️⃣ Soxta raqam bo'lishi mumkin emas
+Ya'ni raqamlarni sotuvchi o'zi yozmaydi — bot o'zi hisoblaydi. Demak soxta ko'rsatkich qo'yib bo'lmaydi. Xaridor uchun bu katta ishonch.
+
+4️⃣ «➕ Kanalimni sotuvga qo'yish»
+Sotish uchun shu sahifaning o'zida «Kanalimni sotuvga qo'yish» tugmasini bosasiz.
+
+5️⃣ Kanal botga ulangan bo'lishi kerak
+Shart: kanalingiz botga ulangan bo'lishi kerak, aks holda statistika hisoblanmaydi.
+
+6️⃣ 🛡 Vositachi orqali xavfsiz
+Bu yerda ham vositachi xizmati ishlaydi — pul admin orqali o'tadi va kanal topshirilgach sotuvchiga beriladi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_sale

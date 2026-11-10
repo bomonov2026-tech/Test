@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,720
+Telegram yoki boshqa tarmoqda ro'yxatdan o'tish uchun raqam kerakmi?
+
+2
+00:00:04,780 --> 00:00:09,500
+Buning uchun yangi SIM karta sotib olish shart emas.
+
+3
+00:00:09,560 --> 00:00:15,960
+Davlat va tarmoqni tanlaysiz, raqam darhol beriladi. SMS kod shu sahifaning o'zida chiqadi.
+
+4
+00:00:16,020 --> 00:00:21,160
+Agar kod o'n besh daqiqada kelmasa, pul balansingizga avtomatik qaytariladi.
+
+5
+00:00:21,220 --> 00:00:28,040
+Tanlashdan oldin yulduzcha belgisiga qarang — u oxirgi o'ttiz kundagi kod kelish foizini ko'rsatadi.
+
+6
+00:00:28,100 --> 00:00:30,300
+TartibOn. Telegramda qidiring.

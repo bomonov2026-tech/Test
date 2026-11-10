@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:05,560
+Reklama uchun pul to'ladingiz, lekin post bir soatdan keyin o'chirib yuborildimi?
+
+2
+00:00:05,620 --> 00:00:10,340
+Reklama birjasida bunday bo'lmaydi. Chunki pul kafolat ostida turadi.
+
+3
+00:00:10,400 --> 00:00:18,340
+To'lagan pulingiz darhol sotuvchiga o'tmaydi. Reklama kelishilgan vaqt — yigirma to'rt yoki qirq sakkiz soat — turgandan keyin o'zi o'tadi.
+
+4
+00:00:18,400 --> 00:00:26,340
+Agar reklama muddatidan oldin o'chirilsa, nizo ochasiz va qarorni admin chiqaradi: pul sizga qaytadi yoki sotuvchiga beriladi.
+
+5
+00:00:26,400 --> 00:00:33,220
+Kanal egasi bo'lsangiz, narx va formatni o'zingiz belgilaysiz — buyurtma kelganda Joylash tugmasini bosasiz.
+
+6
+00:00:33,280 --> 00:00:35,480
+TartibOn. Telegramda qidiring.

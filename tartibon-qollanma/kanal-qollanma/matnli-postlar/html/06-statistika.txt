@@ -1,0 +1,26 @@
+<b>📘 TartibOn qo'llanma · 06/42</b>
+
+🛠 <b>Statistika</b>
+O'sishni raqamlarda ko'ring
+
+Kanal va guruhingizning o'sishi, qo'shilgan-chiqib ketganlar va faollik raqamlarini chiqaradi.
+
+1️⃣ <b>Hozirgi obunachi va a'zolar soni</b>
+Statistika bo'limi kanal va guruhingiz qanday o'sayotganini ko'rsatadi. Birinchi navbatda hozirgi obunachilar yoki a'zolar soni.
+
+2️⃣ <b>Kecha, 7 va 30 kunlik o'zgarish</b>
+Keyin o'zgarish: kecha qancha qo'shilgan, so'nggi 7 kunda va 30 kunda qancha bo'lgan.
+
+3️⃣ <b>14 kunlik grafik</b>
+So'nggi 14 kunlik grafik chiziladi — o'sish yoki pasayish ko'zga darrov tashlanadi.
+
+4️⃣ <b>Guruhda xabarlar soni ham</b>
+Guruh uchun qo'shimcha: guruhda nechta xabar yozilgani ham ko'rsatiladi. Bu guruh jonli yoki jonsizligini ko'rsatadi.
+
+5️⃣ <b>Excel — CSV yuklab olish</b>
+«Excel yuklab olish» tugmasi bilan hisobotni fayl qilib olasiz — hisobot tayyorlash yoki reklama beruvchiga ko'rsatish uchun.
+
+6️⃣ <b>Hisob botdan keyin boshlanadi</b>
+Diqqat: kirdi-chiqdi faqat bot administrator bo'lgandan keyin hisoblanadi. Undan oldingi tarix ko'rinmaydi.
+
+👉 Bo'limni ochish: https://t.me/TartibOnBot?startapp=s_st

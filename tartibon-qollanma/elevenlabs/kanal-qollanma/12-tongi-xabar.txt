@@ -1,0 +1,17 @@
+# 12 — Tongi xabar
+# 7 sahna · 53 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Tongi xabar». Har tongda salomlashuv, kun ma'lumoti va kayfiyat beruvchi postni o'zi joylaydi.
+
+[002]  Tongi xabar — har kuni erta tongda kanal va guruhingizga video va matn bilan yuboriladigan xabar.
+
+[003]  Yuborish vaqti — soat to'rt yarim. Ya'ni obunachilaringiz uyg'onganda post allaqachon tayyor turadi.
+
+[004]  Matnda bugun haftaning qaysi kuni ekani, sana va hijriy sana avtomatik yoziladi. Siz hech narsa yozmaysiz.
+
+[005]  Sozlashda haftaning qaysi kunlarida yuborilishini belgilaysiz. Masalan, faqat ish kunlari yoki faqat dam olish kunlari.
+
+[006]  Yoqib qo'ygandan keyin bu xizmat butunlay avtomatik ishlaydi — kanalingiz har kuni jonli ko'rinadi.
+
+[007]  «Tongi xabar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

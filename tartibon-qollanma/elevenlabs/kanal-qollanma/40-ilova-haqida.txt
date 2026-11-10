@@ -1,0 +1,21 @@
+# 40 — Ilova haqida
+# 9 sahna · 68 soniya
+# Har bir sahnani ALOHIDA yarating va 001.mp3, 002.mp3 … deb saqlang.
+
+[001]  «Ilova haqida». Ilovaning barcha bo'limlari, qoidalari va yangilanishlari haqidagi ma'lumot.
+
+[002]  Ilova haqida — bu ilovaning o'z ichki qo'llanmasi.
+
+[003]  Ma'lumot besh guruhga bo'lingan: kanal xizmatlari, guruh xizmatlari, umumiy xizmatlar, hisob va to'lovlar hamda profil.
+
+[004]  Har bir qatorni bossangiz, o'sha xizmat haqida batafsil tushuntirish ochiladi.
+
+[005]  Biror funksiya qanday ishlashi esdan chiqsa, menga yoki qo'llanmaga emas, avval shu bo'limga qarang — javob shu yerda yozilgan.
+
+[006]  Shu yerdan profil haqida ham bilib olasiz: daraja tizimi, hamkor dasturi, tug'ilgan kun bonusi va ko'p so'raladigan savollar.
+
+[007]  Masalan hamkor dasturi: profildagi shaxsiy havolangiz orqali kelgan odam xizmat sotib olsa, har bajarilgan buyurtmadan sizga uch foiz komissiya tushadi.
+
+[008]  Daraja tizimi ham bor: xizmatlarga sarflagan summangiz oshgan sari daraja ko'tariladi va narxlarga chegirma beriladi.
+
+[009]  «Ilova haqida» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

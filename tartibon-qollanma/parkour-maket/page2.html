@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;background:#0b0a12}canvas{display:block}</style>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="draw2.js"></script><script src="hud2.js"></script>
+<script>
+const c=document.getElementById('c').getContext('2d');
+function scene(o){
+  sky(c); city(c);
+  const L=track(c,o.scroll);
+  const items=[];
+  o.trains.forEach(t=>items.push({z:t[1],f:()=>train(c,L[t[0]],t[1],t[2],t[3])}));
+  o.bars.forEach(b=>items.push({z:b[1],f:()=>barrier(c,L[b[0]],b[1],b[2])}));
+  items.sort((a,b)=>b.z-a.z).forEach(i=>i.f());
+  o.coins.forEach(k=>coinArc(c,L[k[0]],k[1],k[2]));
+  if(o.leader) leaderLine(c,o.leader.z,o.leader.n,o.leader.d);
+  runner(c,L[o.lane],o.phase,o.air);
+  hud(c,o); swipe(c);
+}
+</script>

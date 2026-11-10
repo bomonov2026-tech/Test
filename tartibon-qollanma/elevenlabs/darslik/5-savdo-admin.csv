@@ -1,0 +1,68 @@
+sahna;boshlanish_s;davomiylik_s;boshlanish;matn
+001;0.00;10.78;0:00.00;Beshinchi dars — Savdo admin ramkasi. Bu bo'lim biznes bilan shug'ullanadiganlar uchun: taksi, avto savdo, ko'chmas mulk, vakansiya, o'quv markazi va boshqalar.
+002;10.78;12.00;0:10.78;Mohiyati oddiy — siz ma'lumotni kiritasiz, bot chiroyli post rasmini o'zi chizib beradi va kanalingizga tugma bilan yuboradi. Dizayner ham, grafik dasturi ham kerak emas.
+003;22.78;7.70;0:22.78;Avval barcha post bo'limlariga xos bo'lgan umumiy tartibni tushuntiraman. Birinchi qadam: mavzuingizga mos katakni tanlaysiz.
+004;30.48;8.14;0:30.48;Ikkinchi qadam: bir dona, ikki yoki uchta rasm yuklaysiz. Rasm sifatli bo'lsa, post ham chiroyli chiqadi.
+005;38.62;6.82;0:38.62;Uchinchi qadam: narx, manzil, tavsif kabi maydonlarni to'ldirasiz. Har bo'limda maydonlar o'ziga xos.
+006;45.44;6.38;0:45.44;To'rtinchi qadam: bot ma'lumotlarni chiroyli post rasmiga joylaydi. Siz faqat natijani ko'rasiz.
+007;51.82;5.50;0:51.82;Beshinchi qadam: postni tugmasi bilan birga kanal yoki guruhingizga yuborasiz.
+008;57.32;9.90;0:57.32;Har bir e'londa mijoz bosadigan tugma bo'ladi — Bog'lanish, Bron qilish, Buyurtma berish kabi. Mijoz bir bosadi va sizga yoziladi.
+009;67.22;10.78;1:07.22;Eng muhim maslahat: ishni Brend to'plami dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlasangiz, barcha bo'limlar shuni avtomatik oladi.
+010;78.00;5.50;1:18.00;Taksi e'loni — taksi xizmati ko'rsatadiganlar uchun tayyor post shabloni.
+011;83.50;4.62;1:23.50;Avval yo'nalishni kiritasiz: qayerdan jo'nashingiz va qayerga borishingiz.
+012;88.12;3.74;1:28.12;Keyin sana va jo'nash vaqtini belgilaysiz.
+013;91.86;7.70;1:31.86;Nechta bo'sh joy borligini va mashina modelini yozasiz — yo'lovchi uchun bu eng muhim ma'lumot.
+014;99.56;4.62;1:39.56;Telefon raqamingizni kiritasiz, so'ng post rasmi tayyor bo'ladi.
+015;104.18;6.82;1:44.18;Post tagida Haydovchiga yozish tugmasi chiqadi — yo'lovchi bir bosib siz bilan bog'lanadi.
+016;111.00;9.90;1:51.00;Bu shablon mahalla guruhlari va yo'nalish guruhlari uchun juda qulay. Har kuni bir xil yo'nalishni yuboradigan bo'lsangiz, postni nusxalab qo'ying.
+017;120.90;4.62;2:00.90;Avto savdo — mashina sotish uchun post shabloni.
+018;125.52;5.94;2:05.52;Mashinaning suratlarini yuklaysiz, so'ng ishlab chiqarilgan yili, probegi va rangini kiritasiz.
+019;131.46;3.30;2:11.46;Narxni va mashina holatini yozasiz.
+020;134.76;6.38;2:14.76;Post tagida Sotuvchiga yozish tugmasi bo'ladi — xaridor darhol siz bilan bog'lanadi.
+021;141.14;6.82;2:21.14;Maslahat: probeg va holatni haqiqatga mos yozing. Avto guruhlarida ishonch eng qimmat narsa.
+022;147.96;7.26;2:27.96;Savdogar — umumiy savdo e'loni. Kiyim, texnika, uy jihozlari — istalgan mahsulot uchun ishlatiladi.
+023;155.22;5.06;2:35.22;Mahsulot rasmini yuklaysiz, nomini, narxini va qisqa tavsifini yozasiz.
+024;160.28;6.38;2:40.28;Post tagida Sotuvchi bilan bog'lanish tugmasi chiqadi va xaridor to'g'ridan-to'g'ri sizga yozadi.
+025;166.66;7.70;2:46.66;Barcha mahsulotlaringizni shu shablon bilan chiqarsangiz, postlaringiz bir xil uslubda bo'ladi va do'koningiz tanila boshlaydi.
+026;174.36;4.62;2:54.36;Sayohat e'loni — turagentliklar uchun maxsus tayyorlangan shablon.
+027;178.98;6.38;2:58.98;Uchta tayyor ko'rinish bor: oddiy tur paket, qaynoq tur va Umra shabloni.
+028;185.36;3.30;3:05.36;Yo'nalishni, sanani va narxni kiritasiz.
+029;188.66;7.26;3:08.66;Narxga nimalar kirishini alohida yozasiz — aviabilet, mehmonxona, ovqat, viza. Bu savollarning yarmini kamaytiradi.
+030;195.92;5.94;3:15.92;Post tagida Bron qilish tugmasi chiqadi va mijoz to'g'ridan-to'g'ri sizga yozadi.
+031;201.86;4.62;3:21.86;O'quv markazi — kurslarga qabul e'lonlari uchun shablon.
+032;206.48;5.06;3:26.48;Kursning boshlanish sanasini va necha oy davom etishini kiritasiz.
+033;211.54;3.30;3:31.54;Narxni va to'lov shartlarini yozasiz.
+034;214.84;6.82;3:34.84;Post tagida Kursga yozilish tugmasi bo'ladi — talaba bir bosadi va sizga tushadi.
+035;221.66;9.02;3:41.66;Maslahat: qabul tugashiga bir hafta qolganda postni qayta yuboring — joylar tugayapti degan post eng ko'p ariza keltiradi.
+036;230.68;5.94;3:50.68;Ko'chmas mulk — uy, kvartira sotish yoki ijaraga berish e'lonlari uchun.
+037;236.62;4.62;3:56.62;Obyekt suratlarini yuklaysiz va maydonini kvadrat metrda yozasiz.
+038;241.24;4.18;4:01.24;Qavat, umumiy qavatlar soni va narxni kiritasiz.
+039;245.42;3.30;4:05.42;Post tagida Bog'lanish tugmasi chiqadi.
+040;248.72;8.14;4:08.72;Maslahat: uchta suratni ham to'liq ishlating. Ko'chmas mulkda surat qancha ko'p bo'lsa, murojaat shuncha ko'p bo'ladi.
+041;256.86;4.62;4:16.86;Vakansiya — ishga odam qidirayotganlar uchun post shabloni.
+042;261.48;3.30;4:21.48;Lavozim nomini va maoshni yozasiz.
+043;264.78;4.18;4:24.78;Ish vaqtini va nomzodga qo'yilgan talablarni kiritasiz.
+044;268.96;5.94;4:28.96;Post tagida Rezyume yuborish tugmasi bo'ladi — nomzod to'g'ridan-to'g'ri sizga yozadi.
+045;274.90;7.26;4:34.90;Maslahat: maosh raqamini albatta yozing. Maoshi ko'rsatilmagan e'lonlar bir necha barobar kam javob oladi.
+046;282.16;5.94;4:42.16;Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
+047;288.10;3.74;4:48.10;Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
+048;291.84;3.74;4:51.84;Chegirma foizini yoki aksiya shartini ko'rsatasiz.
+049;295.58;3.74;4:55.58;Post tagida Buyurtma berish tugmasi chiqadi.
+050;299.32;8.14;4:59.32;Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
+051;307.46;6.38;5:07.46;Salon va klinika — go'zallik saloni yoki tibbiy klinika xizmatlari uchun shablon.
+052;313.84;3.74;5:13.84;Xizmatlar va ularning narxlari ro'yxatini kiritasiz.
+053;317.58;3.30;5:17.58;Vaqtinchalik aksiyani ham qo'shishingiz mumkin.
+054;320.88;6.38;5:20.88;Post tagida Navbatga yozilish tugmasi bo'ladi — mijoz bir bosib navbat so'raydi.
+055;327.26;7.70;5:27.26;Eslatma: tibbiyot sohasida natija kafolati kabi va'dalarni yozishda ehtiyot bo'ling — qonun talablariga rioya qiling.
+056;334.96;5.94;5:34.96;Statistikam bo'limi — siz yuborgan e'lonlardagi tugmalarni necha kishi bosgani sanaladi.
+057;340.90;6.82;5:40.90;Bog'lanish, Bron qilish, Buyurtma berish — qaysi tugma necha marta bosilgani alohida ko'rinadi.
+058;347.72;5.94;5:47.72;Shu orqali qaysi e'lon ishlayapti, qaysi biri bekorga ketayotganini aniq bilasiz.
+059;353.66;8.58;5:53.66;Agar hali e'lon yubormagan bo'lsangiz, bu bo'lim bo'sh turadi. Birinchi postni yuboring, raqamlar shundan keyin paydo bo'ladi.
+060;362.24;8.58;6:02.24;Maslahat: bitta mahsulotni ikki xil matn bilan sinab ko'ring va qaysi biri ko'proq bosilganini shu yerdan solishtiring.
+061;370.82;6.38;6:10.82;Brend to'plamida birinchi navbatda brend rangingizni tanlaysiz — postlar shu rangda chiziladi.
+062;377.20;5.50;6:17.20;Keyin aloqa uchun username'ingizni yozasiz — mijoz shu manzilga yoziladi.
+063;382.70;4.18;6:22.70;Tugmada qanday yozuv turishini ham o'zingiz belgilaysiz.
+064;386.88;8.58;6:26.88;Bir marta saqlasangiz, barcha post bo'limlari — Savdogar, Taksi, Sayohat va qolganlari — shu sozlamani avtomatik oladi.
+065;395.46;11.22;6:35.46;Shuning uchun aytdim: Savdo admin bilan ishlashni aynan shu katakdan boshlang. Bir martalik ish, lekin barcha postlaringiz bir xil, tanilarli ko'rinishga ega bo'ladi.
+066;406.68;9.90;6:46.68;Savdo admin bo'limi shunday ishlaydi. Esda tuting: avval Brend to'plami ni to'ldiring, keyin Statistikam orqali qaysi e'lon ishlayotganini kuzatib boring.
+067;416.58;6.82;6:56.58;Oxirgi, oltinchi darsda Ilova bo'limini — balans, bot yaratish va yordam xizmatini ko'ramiz.

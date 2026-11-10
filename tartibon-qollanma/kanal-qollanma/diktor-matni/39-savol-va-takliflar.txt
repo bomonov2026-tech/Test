@@ -1,0 +1,13 @@
+«Savol va takliflar». Savolingizni to'g'ridan-to'g'ri ilova jamoasiga yuboradi va javobini olib keladi.
+
+Savol va takliflar katagi orqali administratorga to'g'ridan-to'g'ri yozasiz.
+
+Savolingiz bormi, xatolikka duch keldingizmi yoki yangi funksiya taklif qilmoqchimisiz — hammasi shu yerga yoziladi.
+
+Eslatma: bu katak admin uni yoqib qo'ygan bo'lsa ko'rinadi. Ko'rmasangiz, «Balans» sahifasidagi «Adminga murojaat» qatoridan foydalaning.
+
+Maslahat: muammoni yozganda qaysi bo'limda, qaysi tugmani bosganingizda chiqqanini ayting va skrinshot yuboring — javob tezroq keladi.
+
+«Profil» bo'limida «Tilaklar qutisi» ham bor: u yerga yozilgan takliflarga boshqa foydalanuvchilar ovoz beradi, eng ko'p ovoz olgani birinchi bo'lib bajariladi.
+
+«Savol va takliflar» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.

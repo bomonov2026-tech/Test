@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:08,140
+«Restoran va kafe». Restoran, kafe yoki taom e'lonini menyu va narx bilan rasmli post qilib chiqaradi.
+
+2
+00:00:08,140 --> 00:00:20,140
+Avval umumiy tartib. Hamma e'lon bo'limlari bir xil ishlaydi: bir dona yoki uchtagacha rasm yuklaysiz, kerakli maydonlarni to'ldirasiz — narx, manzil, tavsif. Bot ularni o'zi chiroyli post rasmiga joylaydi.
+
+3
+00:00:20,140 --> 00:00:32,140
+Har bir e'lon tagida mijoz bosadigan tugma bo'ladi — «Bog'lanish», «Bron qilish» yoki «Buyurtma berish». Mijoz bir bosadi va to'g'ridan-to'g'ri sizga yoziladi, raqam qidirib o'tirmaydi.
+
+4
+00:00:32,140 --> 00:00:43,360
+Bitta maslahat: ishni «Brend to'plami» dan boshlang. U yerda rangingizni va aloqa username'ingizni bir marta saqlab qo'ysangiz, keyin yasagan hamma e'lonlaringizga o'zi qo'yiladi.
+
+5
+00:00:43,360 --> 00:00:49,300
+Restoran va kafe — menyu, kombo takliflar va aksiyalar uchun shablon.
+
+6
+00:00:49,300 --> 00:00:53,040
+Taomlarning suratlarini yuklaysiz va narxlarini yozasiz.
+
+7
+00:00:53,040 --> 00:00:56,780
+Chegirma foizini yoki aksiya shartini ko'rsatasiz.
+
+8
+00:00:56,780 --> 00:01:00,520
+Post tagida «Buyurtma berish» tugmasi chiqadi.
+
+9
+00:01:00,520 --> 00:01:08,660
+Maslahat: postni soat o'n birda — tushlik oldidan yuboring. Aynan shu payt buyurtma eng ko'p bo'ladi.
+
+10
+00:01:08,660 --> 00:01:17,680
+«Restoran va kafe» bo'limini hoziroq ochish uchun shu postning tagidagi havolani bosing — ilova to'g'ridan-to'g'ri shu bo'limda ochiladi.
