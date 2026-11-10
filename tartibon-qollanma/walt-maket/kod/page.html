@@ -1,0 +1,134 @@
+<!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;background:#EFEFF4}canvas{display:block}</style>
+<canvas id="c" width="1080" height="2340"></canvas>
+<script src="ui.js"></script>
+<script>
+const c=document.getElementById('c').getContext('2d');
+let Y=0;
+function bg(){c.fillStyle=BG;c.fillRect(0,0,W,H)}
+
+/* ---- yuqori sarlavha ---- */
+function head(title,sub){
+  c.fillStyle='#FFFFFF';rr(c,0,-60,W,260,56);c.fill();
+  c.fillStyle='#D5D5DA';rr(c,W/2-56,36,112,12,6);c.fill();
+  disc(c,M+56,142,112,'#FFFFFF');
+  c.save();c.shadowColor='rgba(16,24,40,.08)';c.shadowBlur=16;c.shadowOffsetY=2;
+  disc(c,M+56,142,112,'#FFFFFF');disc(c,W-M-56,142,112,'#FFFFFF');c.restore();
+  icon(c,'x',M+56,142,1.5,'#1C1C1E','#FFFFFF');
+  icon(c,'nuqta',W-M-56,142,1.5,'#1C1C1E','#FFFFFF');
+  T(c,title,W/2,128,'800 48px '+FONT,TX,'center');
+  T(c,sub,W/2,180,'500 34px '+FONT,SUB,'center');
+  c.strokeStyle=SEP;c.lineWidth=2;c.beginPath();c.moveTo(0,200);c.lineTo(W,200);c.stroke();
+  Y=264;
+}
+/* ---- 4 ta tezkor tugma ---- */
+function actions(items){
+  const g=18, w=(W-2*M-3*g)/4, h=236;
+  items.forEach(function(it,i){
+    const x=M+i*(w+g);
+    card(c,x,Y,w,h,32);
+    disc(c,x+w/2,Y+86,86,BLUE);
+    icon(c,it[0],x+w/2,Y+86,1.25,'#FFFFFF',BLUE);
+    T(c,it[1],x+w/2,Y+170,'700 31px '+FONT,BLUE,'center');
+  });
+  Y+=h+34;
+}
+/* ---- bo'lim sarlavhasi ---- */
+function sec(t,right){
+  T(c,t,M+28,Y+26,'700 38px '+FONT,'#6D6D72');
+  if(right)T(c,right,W-M-28,Y+26,'600 34px '+FONT,SUB,'right');
+  Y+=84;
+}
+/* ---- qator ---- */
+function row(o){
+  const h=o.h||164;
+  card(c,M,Y,W-2*M,h,R);
+  const cx=M+48+50;
+  if(o.ic){disc(c,cx,Y+h/2,100,o.col);icon(c,o.ic,cx,Y+h/2,o.is||1.45,o.icol||'#FFFFFF',o.col)}
+  const tx=M+48+(o.ic?118:0);
+  if(o.sub){
+    T(c,o.title,tx,Y+h/2-24,'700 42px '+FONT,TX);
+    T(c,o.sub,tx,Y+h/2+28,'500 34px '+FONT,SUB);
+  } else T(c,o.title,tx,Y+h/2,'700 42px '+FONT,TX);
+  if(o.val){
+    T(c,o.val,W-M-(o.chev?86:48),Y+h/2-(o.val2?24:0),(o.vw||'800')+' 42px '+FONT,o.valc||TX,'right');
+    if(o.val2)T(c,o.val2,W-M-(o.chev?86:48),Y+h/2+28,'600 32px '+FONT,o.val2c||SUB,'right');
+  }
+  if(o.chev)chev(c,W-M-54,Y+h/2);
+  Y+=h+20;
+}
+/* ---- pastki panel ---- */
+function tabs(items,on){
+  const h=150, y=H-h-44, x=M+10, w=W-2*(M+10);
+  c.save();c.shadowColor='rgba(16,24,40,.10)';c.shadowBlur=26;c.shadowOffsetY=6;
+  rr(c,x,y,w,h,h/2);c.fillStyle='#FFFFFF';c.fill();c.restore();
+  const tw=w/items.length;
+  items.forEach(function(it,i){
+    const cx=x+tw*i+tw/2, act=i===on;
+    if(act){rr(c,x+tw*i+14,y+14,tw-28,h-28,(h-28)/2);c.fillStyle=PILL;c.fill()}
+    icon(c,it[0],cx,y+54,1.1,act?BLUE:'#8E8E93',act?PILL:'#FFFFFF');
+    T(c,it[1],cx,y+108,'700 30px '+FONT,act?BLUE:'#8E8E93','center');
+  });
+}
+
+/* ================= 1-EKRAN: ASOSIY ================= */
+function home(){
+  bg(); head('TartibOn','mini-ilova');
+  actions([['megafon','Kanal'],['odamlar','Guruh'],['qalam','Post'],['plus','To‘ldirish']]);
+  row({ic:'pul',col:'#34C759',is:1.4,title:'Balans',sub:'so‘m',val:'248 000',h:176});
+  sec('Kanal va guruhlarim','5 ta');
+  row({ic:'megafon',col:'#2F80ED',title:'@tartibon_news',sub:'Kanal · 12 400 a’zo',chev:1});
+  row({ic:'odamlar',col:'#34C759',title:'@dev_uz',sub:'Guruh · 3 180 a’zo',chev:1});
+  sec('Xizmatlar');
+  row({ic:'grafik',col:'#FF9500',title:'Reklama birjasi',sub:'Buyurtmalar: 3 ta',chev:1});
+  row({ic:'almash',col:'#AF52DE',title:'Kanallar savdosi',sub:'Sotish va sotib olish',chev:1});
+  sec('Kashf qiling');
+  row({ic:'mashina',col:'#1C1C1E',title:'SHASHKA',sub:'3D poyga · oylik TOP-100',chev:1});
+  row({ic:'kitob',col:'#8E8E93',title:'Qo‘llanma',sub:'42 ta video dars',chev:1});
+  tabs([['uy','Asosiy'],['megafon','Kanallar'],['grafik','Xizmatlar'],['olmos','Bonuslar']],0);
+}
+/* ================= 2-EKRAN: XIZMATLAR ================= */
+function services(){
+  bg(); head('Xizmatlar','TartibOn');
+  Y=264;
+  sec('Har kuni avtomatik');
+  row({ic:'pul',col:'#34C759',title:'Dollar kursi',sub:'Har kuni 09:00',val:'Yoqilgan',valc:'#34C759',vw:'700',h:160});
+  row({ic:'kitob',col:'#5856D6',title:'Namoz vaqtlari',sub:'Har namozdan keyin',val:'Yoqilgan',valc:'#34C759',vw:'700',h:160});
+  row({ic:'samolyot',col:'#32ADE6',title:'Ob-havo',sub:'12 viloyat, rasm bilan',val:'O‘chiq',valc:SUB,vw:'700',h:160});
+  sec('Pul ishlash');
+  row({ic:'grafik',col:'#FF9500',title:'Reklama berish',sub:'1 240 kanal bazasi',chev:1});
+  row({ic:'almash',col:'#AF52DE',title:'O‘zaro reklama',sub:'Bepul almashinuv',chev:1});
+  row({ic:'odamlar',col:'#FF2D55',title:'Taklif havolalari',sub:'Har do‘st uchun 500 so‘m',chev:1});
+  row({ic:'olmos',col:'#5AC8FA',title:'Konkurs o‘tkazish',sub:'G‘olibni bot tanlaydi',chev:1});
+  sec('Hisobot');
+  row({ic:'grafik',col:'#30B0C7',title:'Kunlik statistika',sub:'A’zolar va postlar',chev:1,h:150});
+  row({ic:'royxat',col:'#8E8E93',title:'O‘tkazmalar tarixi',chev:1,h:150});
+  tabs([['uy','Asosiy'],['megafon','Kanallar'],['grafik','Xizmatlar'],['olmos','Bonuslar']],2);
+}
+/* ================= 3-EKRAN: KANAL ================= */
+function channel(){
+  bg(); head('@tartibon_news','kanal');
+  Y=264;
+  card(c,M,Y,W-2*M,330,R);
+  disc(c,M+56+58,Y+118,116,'#2F80ED');icon(c,'megafon',M+56+58,Y+118,1.7,'#FFFFFF','#2F80ED');
+  T(c,'@tartibon_news',M+56+140,Y+96,'800 46px '+FONT,TX);
+  T(c,'Kanal · bot administrator ✅',M+56+140,Y+148,'500 34px '+FONT,SUB);
+  c.strokeStyle=SEP;c.lineWidth=2;c.beginPath();c.moveTo(M+40,Y+208);c.lineTo(W-M-40,Y+208);c.stroke();
+  [['12 400','a’zo'],['+128','bugun'],['34 %','faollik']].forEach(function(s,i){
+    const x=M+(W-2*M)/3*(i+0.5);
+    T(c,s[0],x,Y+256,'800 46px '+FONT,TX,'center');
+    T(c,s[1],x,Y+300,'500 32px '+FONT,SUB,'center');
+  });
+  Y+=330+34;
+  sec('Boshqarish');
+  row({ic:'qalam',col:'#2F80ED',title:'Post yozish',sub:'Rejalashtirish ham bor',chev:1});
+  row({ic:'grafik',col:'#FF9500',title:'Statistika',sub:'O‘sish va faollik',chev:1});
+  row({ic:'sozlama',col:'#8E8E93',title:'Avtomatik xabarlar',sub:'5 tasi yoqilgan',chev:1});
+  sec('Himoya');
+  row({ic:'olmos',col:'#34C759',title:'Guruh himoyasi',sub:'Spam va havolalar bloki',val:'Yoqilgan',valc:'#34C759',vw:'700'});
+  sec('Daromad');
+  row({ic:'pul',col:'#FF9500',title:'Pullik obuna',sub:'Oyiga 25 000 so‘m',chev:1});
+  row({ic:'odamlar',col:'#FF2D55',title:'Taklif havolasi',sub:'128 kishi qo‘shildi',chev:1});
+  tabs([['uy','Asosiy'],['megafon','Kanallar'],['grafik','Xizmatlar'],['olmos','Bonuslar']],1);
+}
+</script>
