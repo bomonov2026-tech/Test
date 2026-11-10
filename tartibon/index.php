@@ -11992,7 +11992,7 @@ html:not(.dark):has(#p-home.on) .sheet{background:#fff!important}
 </style><div id="p-home" class="pg on">
 <div id="to-home" class="to-home">
 <div class="hlogo" aria-label="TartibOn">
-<span class="hl-w"><b>Tartib</b><i class="hl-o" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M30.34 12.41A15 15 0 1 1 17.66 12.41"/><path d="M24 6.5V24"/></svg></i><b>n</b></span>
+<span class="hl-w">Tartib<i class="hl-o" aria-hidden="true"><svg viewBox="0 0 332 370"><path class="hl-r" d="M211.1 80.1A131.9 131.9 0 1 1 120.9 80.1"/><path class="hl-b" d="M166 28.2V153.6"/></svg></i>n</span>
 </div>
 <div class="hstat">
 <div class="hstat-h">Ilovadan foydalanuvchilar</div>
@@ -14391,11 +14391,12 @@ html body .to-header .agear { width:36px; height:36px; background:transparent; }
 .to-category-text b { display:block; font-size:16.5px; line-height:1.2; font-weight:750; letter-spacing:-.35px; }
 .to-category-text small { display:block; margin-top:1px; font-size:12px; line-height:1.3; font-weight:400; color:var(--to-muted); }
 /* bosh sahifa: logotip va foydalanuvchilar soni */
-.hlogo { display:flex; align-items:center; justify-content:center; padding:21px 14px 23px; border-radius:28px; background:#070d1b; box-shadow:0 12px 28px rgba(7,13,27,.22); overflow:hidden; }
-.hl-w { display:inline-flex; align-items:center; gap:0; }
-.hl-w b { color:#fff; font:800 40px/1 ui-rounded,"SF Pro Rounded","Nunito",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; letter-spacing:-1.8px; }
-.hl-o { display:inline-block; width:45px; height:45px; margin:0 -3px -2px; flex:none; filter:drop-shadow(0 0 7px rgba(45,232,45,.75)) drop-shadow(0 0 18px rgba(45,232,45,.45)); }
-.hl-o svg { display:block; width:100%; height:100%; fill:none; stroke:#2be82b; stroke-width:6.6; stroke-linecap:round; }
+.hlogo { display:flex; align-items:center; justify-content:center; padding:24px 14px; border-radius:28px; background:#070d1b; box-shadow:0 12px 28px rgba(7,13,27,.22); overflow:hidden; }
+.hl-w { display:inline-block; white-space:nowrap; color:#fff; font:800 40px/1 ui-rounded,"SF Pro Rounded","Nunito",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; letter-spacing:-.045em; }
+.hl-o { display:inline-block; vertical-align:baseline; width:.664em; height:.74em; margin:0 .043em -.026em; filter:drop-shadow(0 0 .055em rgba(4,250,9,.85)) drop-shadow(0 0 .17em rgba(4,250,9,.5)); }
+.hl-o svg { display:block; width:100%; height:100%; fill:none; stroke-linecap:round; }
+.hl-r { stroke:#04fa09; stroke-width:68.2; }
+.hl-b { stroke:#fff; stroke-width:56.4; }
 .hstat { padding:15px 12px 16px; border-radius:26px; background:#fff; }
 .hstat-h { margin:0 0 12px; text-align:center; font-size:13.5px; font-weight:650; letter-spacing:-.2px; color:var(--to-muted); }
 .hstat-g { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
@@ -14406,7 +14407,7 @@ html body .to-header .agear { width:36px; height:36px; background:transparent; }
 html.dark .hstat { background:var(--cd); }
 html.dark .hstat-g>div+div:before { background:var(--ln); }
 html body:has(#p-home.on) .to-brand { visibility:hidden; }
-@media(max-width:360px) { .hl-w b{font-size:34px}.hl-o{width:36px;height:36px}.hstat-g b{font-size:20px}.hstat-g span{font-size:11px} }
+@media(max-width:360px) { .hl-w{font-size:34px}.hl-o{width:36px;height:36px}.hstat-g b{font-size:20px}.hstat-g span{font-size:11px} }
 #tp-pn { padding-bottom:calc(24px + env(safe-area-inset-bottom)); }
 #tp-pn .card { background:transparent; box-shadow:none; border:0; padding:0; margin:0; border-radius:0; }
 #tp-pn .card>b:first-child { display:none; }
