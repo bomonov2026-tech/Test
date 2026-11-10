@@ -12283,15 +12283,31 @@ function adPick(){var b0=$('apk');if(b0&&b0.dataset.drag==='1'){b0.dataset.drag=
   r.readAsDataURL(fl)};f.click();}
 function adDownload(){if(!ARIMG){toast('Avval rasm tanlang');return}adRender();if(!AIMG){toast('Rasm tayyor emas');return}var a=document.createElement('a');a.download='reklama.jpg';a.href=AIMG;a.click()}
 function aks(k){var t=$('atx');if(t)ATXT=t.value;AKS=k;rads()}
-function rbal(){var h='<div class="card"><div class="sub">Sizning balansingiz</div><div style="font-size:30px;font-weight:700;margin-top:4px">'+fmt(W.balance)+'</div></div>';
-h+='<div class="card"><b>➕ Balansni to\'ldirish</b>'+(W.bn?'<div class="sub" style="margin:2px 0 8px;color:#1a9e4f"><b>🎁 '+esc(W.bn)+'</b></div>':'')+'<input id="ta" type="number" inputmode="numeric" placeholder="Summani kiriting (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.min)+', eng ko\'pi '+fmt(W.max)+'.</p>';
-if(W.card){h+='<div class="cbx"><div class="sub" style="font-size:12px">Karta raqami</div><div class="row" style="margin:2px 0 8px"><b style="font-size:18px;letter-spacing:.5px">'+esc(W.card)+'</b><button class="cp" onclick="cpy()" aria-label="Nusxalash"><svg viewBox="0 0 24 24" fill="none" stroke="#2f80ed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div><div class="sub" style="font-size:12px">Karta egasi</div><b>'+esc(W.holder)+'</b></div><p class="sub" style="font-size:12px;margin:0 0 6px">Shu kartaga to\'lov qiling, to\'lov chekining rasmini yuklang va «To\'lov qildim» ni bosing. Admin tasdiqlagach summa balansingizga tushadi.</p><label class="up">🧾 To\'lov chekini yuklang<input type="file" accept="image/*" style="display:none" onchange="pickR(this)"></label><div id="rpv">'+pvR()+'</div><button class="btn" onclick="tn()">To\'lov qildim</button>'}else h+='<p class="sub">Karta ma\'lumotlari hali kiritilmagan.</p>';
+/* ---------- Balans: hamyon uslubidagi sahifa ---------- */
+var BQ='';
+var BQI={
+ gift:'<svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>',
+ top:'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+ wd:'<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+ don:'<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>'};
+function bqt(k,lb){return '<button type="button" class="wq'+(BQ===k?' on':'')+'" onclick="bqo(\''+k+'\')"><i>'+BQI[k]+'</i><span>'+lb+'</span></button>'}
+function bqo(k){BQ=(BQ===k?'':k);rbal();try{tg.HapticFeedback.impactOccurred('light')}catch(e){}
+ if(BQ)setTimeout(function(){var e=$('bqbox');if(e)e.scrollIntoView({behavior:'smooth',block:'nearest'})},50)}
+function rbal(){
+var h='<div class="wbal"><span>Balans</span><b>'+fmt(W.balance)+'</b>'+(W.bn?'<i>\U0001F381 '+esc(W.bn)+'</i>':'')+'</div>';
+h+='<div class="wact">'+(W.gift?bqt('gift','O\'tkazish'):'')+bqt('top','To\'ldirish')+bqt('wd','Yechish')+bqt('don','Donat')+'</div>';
+h+='<div id="bqbox">';
+if(BQ==='top'){
+ h+='<div class="card"><b>➕ Balansni to\'ldirish</b><input id="ta" type="number" inputmode="numeric" placeholder="Summani kiriting (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.min)+', eng ko\'pi '+fmt(W.max)+'.</p>';
+ if(W.card){h+='<div class="cbx"><div class="sub" style="font-size:12px">Karta raqami</div><div class="row" style="margin:2px 0 8px"><b style="font-size:18px;letter-spacing:.5px">'+esc(W.card)+'</b><button class="cp" onclick="cpy()" aria-label="Nusxalash"><svg viewBox="0 0 24 24" fill="none" stroke="#2f80ed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div><div class="sub" style="font-size:12px">Karta egasi</div><b>'+esc(W.holder)+'</b></div><p class="sub" style="font-size:12px;margin:0 0 6px">Shu kartaga to\'lov qiling, to\'lov chekining rasmini yuklang va «To\'lov qildim» ni bosing. Admin tasdiqlagach summa balansingizga tushadi.</p><label class="up">\U0001F9FE To\'lov chekini yuklang<input type="file" accept="image/*" style="display:none" onchange="pickR(this)"></label><div id="rpv">'+pvR()+'</div><button class="btn" onclick="tn()">To\'lov qildim</button>'}else h+='<p class="sub">Karta ma\'lumotlari hali kiritilmagan.</p>';
+ h+='</div>';
+}
+if(BQ==='gift')h+=giftui();
+if(BQ==='wd')h+='<div class="card"><b>➖ Balansdan yechish</b><input id="wa" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><input id="wc" inputmode="numeric" maxlength="19" placeholder="Karta raqami (16 xonali)"><input id="wh" maxlength="60" placeholder="Karta egasi (ism familiya)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.wd_min)+'.'+(W.wd_hold?' Kutilayotgan so\'rovlar: '+fmt(W.wd_hold)+'.':'')+' Admin tasdiqlagach summa balansingizdan yechiladi va kartangizga o\'tkaziladi.</p><button class="btn" onclick="wn()">Yechishni so\'rash</button></div>';
+if(BQ==='don')h+='<div class="card"><b>\U0001F91D Bot rivoji uchun o\'tkazish</b><input id="da" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Summa darhol balansingizdan yechiladi va bot rivojiga yo\'naltiriladi.</p><button class="btn" onclick="dns()">O\'tkazish</button></div>';
 h+='</div>';
-h+=giftui();
-h+='<div class="card"><b>🤝 Bot rivoji uchun o\'tkazish</b><input id="da" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Summa darhol balansingizdan yechiladi va bot rivojiga yo\'naltiriladi.</p><button class="btn" onclick="dns()">O\'tkazish</button></div>';
-h+='<div class="card"><b>➖ Balansdan yechish</b><input id="wa" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><input id="wc" inputmode="numeric" maxlength="19" placeholder="Karta raqami (16 xonali)"><input id="wh" maxlength="60" placeholder="Karta egasi (ism familiya)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.wd_min)+'.'+(W.wd_hold?' Kutilayotgan so\'rovlar: '+fmt(W.wd_hold)+'.':'')+' Admin tasdiqlagach summa balansingizdan yechiladi va kartangizga o\'tkaziladi.</p><button class="btn" onclick="wn()">Yechishni so\'rash</button></div>';
 if((W.wds||[]).length)h+='<div class="card"><b>➖ So\'nggi yechishlar</b>'+W.wds.map(function(t){return '<div class="row" style="margin-top:10px"><div><b>'+fmt(t.amount)+'</b><div class="sub" style="font-size:12px">**** '+esc(String(t.card).slice(-4))+' · '+esc(t.created_at)+'</div></div><span class="tag">'+TS[t.status]+'</span></div>'}).join('')+'</div>';
-if(W.topups.length)h+='<div class="card"><b>🧾 So\'nggi to\'ldirishlar</b>'+W.topups.map(function(t){return '<div class="row" style="margin-top:10px"><div><b>'+fmt(t.amount)+'</b><div class="sub" style="font-size:12px">'+esc(t.created_at)+'</div></div><span class="tag">'+TS[t.status]+'</span></div>'}).join('')+'</div>';
+if(W.topups.length)h+='<div class="card"><b>\U0001F9FE So\'nggi to\'ldirishlar</b>'+W.topups.map(function(t){return '<div class="row" style="margin-top:10px"><div><b>'+fmt(t.amount)+'</b><div class="sub" style="font-size:12px">'+esc(t.created_at)+'</div></div><span class="tag">'+TS[t.status]+'</span></div>'}).join('')+'</div>';
 h+='<div class="acl" onclick="balct()"><div class="acr" role="button" tabindex="0"><span class="aci" style="background:#5ac8fa24;color:#2f9ee0"><svg viewBox="0 0 24 24"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1z"/></svg></span><span class="act">Adminga murojaat</span>'+(W.ct?'<span class="acv">@'+esc(W.ct)+'</span>':'')+'<svg class="acc" viewBox="0 0 9 15"><path d="M1.5 1.5l6 6-6 6"/></svg></div></div>';
 $('balb').innerHTML=h}
 function balct(){if(!W||!W.ct){toast('Admin aloqasi hali kiritilmagan');return}var u='https://t.me/'+W.ct;try{tg.openTelegramLink(u)}catch(e){location.href=u}}
@@ -14345,6 +14361,24 @@ html body .to-header .agear { width:36px; height:36px; background:transparent; }
 .to-category-text { flex:1; min-width:0; }
 .to-category-text b { display:block; font-size:16.5px; line-height:1.2; font-weight:750; letter-spacing:-.35px; }
 .to-category-text small { display:block; margin-top:1px; font-size:12px; line-height:1.3; font-weight:400; color:var(--to-muted); }
+.wbal { text-align:center; padding:14px 8px 20px; }
+.wbal span { display:block; font-size:15px; font-weight:600; color:var(--to-muted); margin-bottom:4px; }
+.wbal b { display:block; font-size:40px; line-height:1.08; font-weight:800; letter-spacing:-1.4px; color:var(--to-text); }
+.wbal i { display:inline-block; margin-top:8px; padding:4px 12px; border-radius:999px; background:#e7f6ec; color:#1a9e4f; font-style:normal; font-size:12.5px; font-weight:650; }
+.wact { display:flex; gap:9px; margin:0 0 14px; }
+.wq { flex:1 1 0; min-width:0; border:0; border-radius:22px; background:#fff; color:var(--to-blue); padding:12px 3px 11px; min-height:84px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; cursor:pointer; font:650 12.5px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+.wq i { width:32px; height:32px; border-radius:50%; background:var(--to-blue); display:grid; place-items:center; flex:none; }
+.wq i svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.wq span { display:block; text-align:center; overflow-wrap:anywhere; }
+.wq.on { background:var(--to-blue); color:#fff; }
+.wq.on i { background:rgba(255,255,255,.24); }
+.wq:active { transform:scale(.97); }
+.wq:focus-visible { outline:3px solid var(--to-blue); outline-offset:3px; }
+#bqbox:empty { display:none; }
+html body #p-bal>h1, html body #p-bal>.phd { display:none; }
+html.dark .wq { background:var(--cd); }
+html.dark .wbal i { background:var(--gs); color:var(--g); }
+@media(max-width:360px) { .wact{gap:7px}.wq{font-size:11.5px;min-height:78px;border-radius:19px}.wq i{width:29px;height:29px}.wbal b{font-size:34px} }
 .to-chevron { width:15px; height:15px; flex:none; color:#8b899e; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .to-quick:active,.to-category:active,.to-service:active { transform:scale(.98); }
 .to-quick:focus-visible,.to-category:focus-visible,.to-service:focus-visible,.to-head-button:focus-visible,#to-nav button:focus-visible,#to-panel-close:focus-visible { outline:3px solid var(--to-blue); outline-offset:3px; }
