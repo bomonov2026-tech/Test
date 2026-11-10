@@ -12283,7 +12283,32 @@ function adPick(){var b0=$('apk');if(b0&&b0.dataset.drag==='1'){b0.dataset.drag=
   r.readAsDataURL(fl)};f.click();}
 function adDownload(){if(!ARIMG){toast('Avval rasm tanlang');return}adRender();if(!AIMG){toast('Rasm tayyor emas');return}var a=document.createElement('a');a.download='reklama.jpg';a.href=AIMG;a.click()}
 function aks(k){var t=$('atx');if(t)ATXT=t.value;AKS=k;rads()}
+/* ---------- "Balansni to'ldirish" oynasi (bosh sahifadan) ---------- */
+function tpOpen(){
+ var ov=$('tp-ov'),bd=$('tp-body');if(!ov||!bd)return;
+ ov.hidden=false;document.documentElement.classList.add('to-modal-open');
+ bd.innerHTML='<div class="sk"></div>';
+ try{tg.HapticFeedback.impactOccurred('light')}catch(e){}
+ try{tg.BackButton.show()}catch(e){}
+ api('wallet').then(function(j){
+  if(!j||!j.ok){bd.innerHTML='<p class="sub">'+esc((j&&j.error)||'Bo\'lim yuklanmadi')+'</p>';return}
+  W=j;bd.innerHTML=topupCard();try{rads()}catch(e){}
+ });
+}
+function tpOn(){var o=$('tp-ov');return !!(o&&!o.hidden)}
+function tpClose(){
+ var ov=$('tp-ov');if(!ov||ov.hidden)return;
+ ov.hidden=true;document.documentElement.classList.remove('to-modal-open');
+ var b=$('tp-body');if(b)b.innerHTML='';
+ try{if(!$('p-home').classList.contains('on'))tg.BackButton.show();else tg.BackButton.hide()}catch(e){}
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&tpOn())tpClose()});
 /* ---------- Balans: hamyon uslubidagi sahifa ---------- */
+function topupCard(){
+ var h='<div class="card"><b>➕ Balansni to\'ldirish</b><input id="ta" type="number" inputmode="numeric" placeholder="Summani kiriting (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.min)+', eng ko\'pi '+fmt(W.max)+'.</p>';
+ if(W.card){h+='<div class="cbx"><div class="sub" style="font-size:12px">Karta raqami</div><div class="row" style="margin:2px 0 8px"><b style="font-size:18px;letter-spacing:.5px">'+esc(W.card)+'</b><button class="cp" onclick="cpy()" aria-label="Nusxalash"><svg viewBox="0 0 24 24" fill="none" stroke="#2f80ed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div><div class="sub" style="font-size:12px">Karta egasi</div><b>'+esc(W.holder)+'</b></div><p class="sub" style="font-size:12px;margin:0 0 6px">Shu kartaga to\'lov qiling, to\'lov chekining rasmini yuklang va «To\'lov qildim» ni bosing. Admin tasdiqlagach summa balansingizga tushadi.</p><label class="up">🧾 To\'lov chekini yuklang<input type="file" accept="image/*" style="display:none" onchange="pickR(this)"></label><div id="rpv">'+pvR()+'</div><button class="btn" onclick="tn()">To\'lov qildim</button>'}else h+='<p class="sub">Karta ma\'lumotlari hali kiritilmagan.</p>';
+ h+='</div>';
+ return h}
 var BQ='';
 var BQI={
  gift:'<svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>',
@@ -12298,11 +12323,7 @@ function rbal(){
 var h='<div class="wbal"><span>Balans</span><b>'+fmt(W.balance)+'</b>'+(W.bn?'<i>🎁 '+esc(W.bn)+'</i>':'')+'</div>';
 h+='<div class="wact">'+(W.gift?bqt('gift','O\'tkazish'):'')+bqt('top','To\'ldirish')+bqt('wd','Yechish')+bqt('don','Donat')+'</div>';
 h+='<div id="bqbox">';
-if(BQ==='top'){
- h+='<div class="card"><b>➕ Balansni to\'ldirish</b><input id="ta" type="number" inputmode="numeric" placeholder="Summani kiriting (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.min)+', eng ko\'pi '+fmt(W.max)+'.</p>';
- if(W.card){h+='<div class="cbx"><div class="sub" style="font-size:12px">Karta raqami</div><div class="row" style="margin:2px 0 8px"><b style="font-size:18px;letter-spacing:.5px">'+esc(W.card)+'</b><button class="cp" onclick="cpy()" aria-label="Nusxalash"><svg viewBox="0 0 24 24" fill="none" stroke="#2f80ed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div><div class="sub" style="font-size:12px">Karta egasi</div><b>'+esc(W.holder)+'</b></div><p class="sub" style="font-size:12px;margin:0 0 6px">Shu kartaga to\'lov qiling, to\'lov chekining rasmini yuklang va «To\'lov qildim» ni bosing. Admin tasdiqlagach summa balansingizga tushadi.</p><label class="up">🧾 To\'lov chekini yuklang<input type="file" accept="image/*" style="display:none" onchange="pickR(this)"></label><div id="rpv">'+pvR()+'</div><button class="btn" onclick="tn()">To\'lov qildim</button>'}else h+='<p class="sub">Karta ma\'lumotlari hali kiritilmagan.</p>';
- h+='</div>';
-}
+if(BQ==='top')h+=topupCard();
 if(BQ==='gift')h+=giftui();
 if(BQ==='wd')h+='<div class="card"><b>➖ Balansdan yechish</b><input id="wa" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><input id="wc" inputmode="numeric" maxlength="19" placeholder="Karta raqami (16 xonali)"><input id="wh" maxlength="60" placeholder="Karta egasi (ism familiya)"><p class="sub" style="font-size:12px;margin:0 0 6px">Eng kam '+fmt(W.wd_min)+'.'+(W.wd_hold?' Kutilayotgan so\'rovlar: '+fmt(W.wd_hold)+'.':'')+' Admin tasdiqlagach summa balansingizdan yechiladi va kartangizga o\'tkaziladi.</p><button class="btn" onclick="wn()">Yechishni so\'rash</button></div>';
 if(BQ==='don')h+='<div class="card"><b>🤝 Bot rivoji uchun o\'tkazish</b><input id="da" type="number" inputmode="numeric" placeholder="Summa (so\'m)"><p class="sub" style="font-size:12px;margin:0 0 6px">Summa darhol balansingizdan yechiladi va bot rivojiga yo\'naltiriladi.</p><button class="btn" onclick="dns()">O\'tkazish</button></div>';
@@ -12352,7 +12373,7 @@ h+=j.list.length?'<div class="card"><b>O\'tkazganlar</b>'+j.list.map(function(r)
 function dns(){var a=+$('da').value;if(!a){toast('Summani kiriting');return}api('dn_send',{amount:a}).then(function(j){if(j.ok){toast('Rahmat! Bot rivoji uchun o\'tkazildi 🤝');wallet();dnl()}})}
 function wn(){var a=+$('wa').value,c=$('wc').value.replace(/\D/g,''),h=$('wh').value.trim();if(!a){toast('Summani kiriting');return}api('wd_new',{amount:a,card:c,holder:h}).then(function(j){if(j.ok){toast('So\'rov yuborildi — admin tasdiqlashini kuting ✅');wallet()}})}
 function cpy(){var t=String(W.card).replace(/\D/g,'');var ok=function(){toast('Karta raqami nusxalandi ✅')};var fb=function(){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.focus();a.select();try{document.execCommand('copy');ok()}catch(e){toast(t)}document.body.removeChild(a)};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb()}
-function tn(){var a=parseInt($('ta').value,10);if(!a||a<W.min||a>W.max){toast('Summa '+fmt(W.min)+' dan '+fmt(W.max)+' gacha bo\'lsin');return}if(!RIMG){toast('To\'lov chekining rasmini yuklang');return}cf(fmt(a)+' to\'lov qildingizmi? Admin chekni tekshirib tasdiqlaydi.',function(y){if(!y)return;api('topup_new',{amount:a,receipt:RIMG}).then(function(j){if(j.ok){RIMG='';toast('So\'rov yuborildi ✅');wallet()}})})}
+function tn(){var a=parseInt($('ta').value,10);if(!a||a<W.min||a>W.max){toast('Summa '+fmt(W.min)+' dan '+fmt(W.max)+' gacha bo\'lsin');return}if(!RIMG){toast('To\'lov chekining rasmini yuklang');return}cf(fmt(a)+' to\'lov qildingizmi? Admin chekni tekshirib tasdiqlaydi.',function(y){if(!y)return;api('topup_new',{amount:a,receipt:RIMG}).then(function(j){if(j.ok){RIMG='';toast('So\'rov yuborildi ✅');tpClose();wallet()}})})}
 /* ---------- admin: Premium va Stars ---------- */
 var TSA=null;
 function tsadm(){api('adm_ts').then(function(j){if(!j.ok){var e=$('tsa');if(e)e.innerHTML='<div class="card sub">'+esc(j.error||'Yuklanmadi')+'</div>';return}TSA=j;tsar()})}
@@ -12498,7 +12519,7 @@ function hxbegin(b,ev){HX.drag=b;b.classList.add('hxd');var g=b.querySelector('.
 function hxmove(ev){if(HX.key&&!HX.drag&&Math.hypot(ev.clientX-HX.key.x,ev.clientY-HX.key.y)>9)clearTimeout(hxT);if(!HX.drag)return;ev.preventDefault&&ev.preventDefault();var g=HX.ghost;g.style.left=ev.clientX+'px';g.style.top=ev.clientY+'px';if(ev.clientY<90)window.scrollBy(0,-14);else if(ev.clientY>innerHeight-110)window.scrollBy(0,14);var el=document.elementFromPoint(ev.clientX,ev.clientY);if(!el)return;var t=el.closest('.hx-g .tq-s');if(t&&t.parentNode!==HX.drag.parentNode)return;if(t&&t!==HX.drag&&t.style.display!=='none'){var r=t.getBoundingClientRect();var after=ev.clientX>r.left+r.width/2&&Math.abs(ev.clientY-(r.top+r.height/2))<r.height/2+8||ev.clientY>r.bottom;if(after)t.parentNode.insertBefore(HX.drag,t.nextSibling);else t.parentNode.insertBefore(HX.drag,t)}else if(!t){var gr=el.closest('.hx-g');if(gr===HX.drag.parentNode)gr.appendChild(HX.drag)}}
 function hxup(){clearTimeout(hxT);HX.key=null;if(!HX.drag)return;HX.drag.classList.remove('hxd');HX.drag=null;if(HX.ghost){HX.ghost.remove();HX.ghost=null}hxsave();hxcount()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',hxinit);else hxinit();
-function go(p,w){if(p!=='ov')ovLeave();if(p!=='adm')ovAdminLeave();var _k=AGO;AGO=0;ADMV=!!_k;if(w)CW=w;if(p==='my'||p==='st'||p==='psj'||p==='gw'){try{var ov=obv();if(!ov[p]){ov[p]=1;localStorage.setItem('ob_v',JSON.stringify(ov))}}catch(e){}}if(p==='home'&&window.hxcount)setTimeout(hxcount,60);if(p==='home'&&window.HST)hst();if(p!=='home'&&HX.e)hxedit(0);document.body.classList.toggle('hxn',p==='home'||p==='st'||p==='me'||p==='adm');document.querySelectorAll('nav a,.pg').forEach(function(e){e.classList.remove('on')});var a=document.querySelector('nav a[data-p="'+p+'"]'+(w?'[data-w="'+w+'"]':''));if(a)a.classList.add('on');if(p==='tools')dr(1);$('p-'+p).classList.add('on');var _b=document.querySelector('#p-'+p+' .bkb');if(_b){if(!_b.dataset.o)_b.dataset.o=_b.getAttribute('onclick');_b.setAttribute('onclick',ADMV?"go('adm')":_b.dataset.o)}window.scrollTo(0,0);try{if(p==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(e){}if(p==='chats'){$('otn').textContent=CW==='Kanal'?'kanalingizni':'guruhingizni';$('otb').textContent='⚡ '+(CW==='Kanal'?'Kanalni':'Guruhni')+' tanlash';$('cht').textContent='➕ '+CW+' qo\'shish';$('cb2').textContent='➕ '+CW+' qo\'shish';$('cu').placeholder=(CW==='Kanal'?'@kanal_username yoki -100... ID':'@guruh_username yoki -100... ID')}if(p==='pnm'){tqs();prh();ucl('c')}if(p==='pcb'||p==='pvl'||p==='pdp'||p==='pev')tqs();if(p==='pev'){tqs();evl()}if(p==='pwx')wal();if(p==='vz')vzl();if(p==='sale')sall();if(p==='don')donl();if(p==='mk')mkl();if(p==='dv'){DV.v='home';dvl()}if(p==='me'){clubl();p5l()}hlp(p);if(p==='auc')aul();if(p==='pc')pcl();if(p==='rt')rtl();if(p==='pcb')ucl('a');if(p==='pvl')ucl('b');if(p==='psj')sjl();if(p==='me')mych();if(p==='pwx'){tqs();wxh();ucl('w')}if(p==='my'){$('myt').textContent=CW==='Kanal'?'📢 Kanallar':'👥 Guruhlar';$('chl').innerHTML='<div class="sk"></div>';chats()}if(p==='bal'||p==='ads')wallet();if(p==='ts')tsl();if(p==='bns')bnsl();if(p==='dn')dnp();if(p==='nk')nkl();if(p==='vs')vsl();if(p==='rz')rzl();if(p==='home'){adl();visualReferralLoad()}if(p==='dp')dpl();if(p==='bt')btl();if(p==='wx')wxl();if(p==='qz'){go('psj');return}if(p==='pr')prl();if(p==='gd')gdl();if(p==='po'){pol();pxl()}if(p==='st')stl();if(p==='gw'){gwl();gcl()}if(p==='rf')rfl();if(p==='adp')adpInit();if(p==='txp')txpInit();if(p==='bty')btyl();if(p==='trv')trvInit();if(window.PGS&&PGS[p])pgInit(p);if(p==='ast')astl();if(window.DRAFT_IDS&&DRAFT_IDS[p]){draftLoad(p);if(window.brandApply)brandApply(p);draftRedraw(p);if(window.tplInit)tplInit(p)}if(p==='brand')brandl();if(p==='ov')ovLoad();if(p==='adm'&&ADM){AV='home';MSG=null;admin()}}
+function go(p,w){try{tpClose()}catch(e){}if(p!=='ov')ovLeave();if(p!=='adm')ovAdminLeave();var _k=AGO;AGO=0;ADMV=!!_k;if(w)CW=w;if(p==='my'||p==='st'||p==='psj'||p==='gw'){try{var ov=obv();if(!ov[p]){ov[p]=1;localStorage.setItem('ob_v',JSON.stringify(ov))}}catch(e){}}if(p==='home'&&window.hxcount)setTimeout(hxcount,60);if(p==='home'&&window.HST)hst();if(p!=='home'&&HX.e)hxedit(0);document.body.classList.toggle('hxn',p==='home'||p==='st'||p==='me'||p==='adm');document.querySelectorAll('nav a,.pg').forEach(function(e){e.classList.remove('on')});var a=document.querySelector('nav a[data-p="'+p+'"]'+(w?'[data-w="'+w+'"]':''));if(a)a.classList.add('on');if(p==='tools')dr(1);$('p-'+p).classList.add('on');var _b=document.querySelector('#p-'+p+' .bkb');if(_b){if(!_b.dataset.o)_b.dataset.o=_b.getAttribute('onclick');_b.setAttribute('onclick',ADMV?"go('adm')":_b.dataset.o)}window.scrollTo(0,0);try{if(p==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(e){}if(p==='chats'){$('otn').textContent=CW==='Kanal'?'kanalingizni':'guruhingizni';$('otb').textContent='⚡ '+(CW==='Kanal'?'Kanalni':'Guruhni')+' tanlash';$('cht').textContent='➕ '+CW+' qo\'shish';$('cb2').textContent='➕ '+CW+' qo\'shish';$('cu').placeholder=(CW==='Kanal'?'@kanal_username yoki -100... ID':'@guruh_username yoki -100... ID')}if(p==='pnm'){tqs();prh();ucl('c')}if(p==='pcb'||p==='pvl'||p==='pdp'||p==='pev')tqs();if(p==='pev'){tqs();evl()}if(p==='pwx')wal();if(p==='vz')vzl();if(p==='sale')sall();if(p==='don')donl();if(p==='mk')mkl();if(p==='dv'){DV.v='home';dvl()}if(p==='me'){clubl();p5l()}hlp(p);if(p==='auc')aul();if(p==='pc')pcl();if(p==='rt')rtl();if(p==='pcb')ucl('a');if(p==='pvl')ucl('b');if(p==='psj')sjl();if(p==='me')mych();if(p==='pwx'){tqs();wxh();ucl('w')}if(p==='my'){$('myt').textContent=CW==='Kanal'?'📢 Kanallar':'👥 Guruhlar';$('chl').innerHTML='<div class="sk"></div>';chats()}if(p==='bal'||p==='ads')wallet();if(p==='ts')tsl();if(p==='bns')bnsl();if(p==='dn')dnp();if(p==='nk')nkl();if(p==='vs')vsl();if(p==='rz')rzl();if(p==='home'){adl();visualReferralLoad()}if(p==='dp')dpl();if(p==='bt')btl();if(p==='wx')wxl();if(p==='qz'){go('psj');return}if(p==='pr')prl();if(p==='gd')gdl();if(p==='po'){pol();pxl()}if(p==='st')stl();if(p==='gw'){gwl();gcl()}if(p==='rf')rfl();if(p==='adp')adpInit();if(p==='txp')txpInit();if(p==='bty')btyl();if(p==='trv')trvInit();if(window.PGS&&PGS[p])pgInit(p);if(p==='ast')astl();if(window.DRAFT_IDS&&DRAFT_IDS[p]){draftLoad(p);if(window.brandApply)brandApply(p);draftRedraw(p);if(window.tplInit)tplInit(p)}if(p==='brand')brandl();if(p==='ov')ovLoad();if(p==='adm'&&ADM){AV='home';MSG=null;admin()}}
 document.querySelectorAll('nav a').forEach(function(a){a.onclick=function(){if(a.dataset.p==='x')hxsvc();else go(a.dataset.p,a.dataset.w)}});
 function hxsvc(){go('home');setTimeout(function(){var e=$('hx-svc');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},80)}
 try{tg.BackButton.onClick(function(){go('home')})}catch(e){}
@@ -14362,6 +14383,11 @@ html body .to-header .agear { width:36px; height:36px; background:transparent; }
 .to-category-text { flex:1; min-width:0; }
 .to-category-text b { display:block; font-size:16.5px; line-height:1.2; font-weight:750; letter-spacing:-.35px; }
 .to-category-text small { display:block; margin-top:1px; font-size:12px; line-height:1.3; font-weight:400; color:var(--to-muted); }
+#tp-pn { padding-bottom:calc(24px + env(safe-area-inset-bottom)); }
+#tp-pn .card { background:transparent; box-shadow:none; border:0; padding:0; margin:0; border-radius:0; }
+#tp-pn .card>b:first-child { display:none; }
+#tp-x { display:grid; place-items:center; width:36px; height:36px; flex:0 0 36px; padding:0; border:0; border-radius:50%; background:#f1f0f6; color:#24252b; cursor:pointer; }
+#tp-x svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; }
 .wbal { text-align:center; padding:14px 8px 20px; }
 .wbal span { display:block; font-size:15px; font-weight:600; color:var(--to-muted); margin-bottom:4px; }
 .wbal b { display:block; font-size:40px; line-height:1.08; font-weight:800; letter-spacing:-1.4px; color:var(--to-text); }
@@ -14416,6 +14442,12 @@ html body #gate { z-index:120; }
 
 </style>
 <nav id="to-nav" aria-label="Asosiy navigatsiya"><button type="button" data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Asosiy</span></button><button type="button" data-tab="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.7"/><rect x="14" y="3" width="7" height="7" rx="1.7"/><rect x="3" y="14" width="7" height="7" rx="1.7"/><rect x="14" y="14" width="7" height="7" rx="1.7"/></svg><span>Xizmatlar</span></button><button type="button" data-tab="bal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7V5a2 2 0 0 1 2-2h11v4"/><rect x="3" y="7" width="18" height="14" rx="3"/><path d="M21 12h-6a2 2 0 0 0 0 4h6M16 14h.01"/></svg><span>Balans</span></button><button type="button" data-tab="me"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 6 0 0 1 16 0v2z"/></svg><span>Profil</span></button></nav>
+<div class="to-overlay" id="tp-ov" hidden>
+<section class="to-panel" id="tp-pn" role="dialog" aria-modal="true" aria-labelledby="tp-title" tabindex="-1">
+<div class="to-panel-handle" aria-hidden="true" onclick="tpClose()"></div>
+<div class="to-panel-heading"><h2 id="tp-title">Balansni to’ldirish</h2><button type="button" id="tp-x" aria-label="Yopish" onclick="tpClose()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+<div id="tp-body"></div>
+</section></div>
 <div class="to-overlay" id="to-overlay" hidden>
 <section class="to-panel" id="to-panel" role="dialog" aria-modal="true" aria-labelledby="to-panel-title" tabindex="-1">
 <div class="to-panel-handle" aria-hidden="true"></div>
@@ -14625,13 +14657,15 @@ var TO_ICONS = {
     if(quick){
       if(quick.dataset.quick==='channel')navigate('chats','Kanal');
       if(quick.dataset.quick==='group')navigate('chats','Guruh');
-      if(quick.dataset.quick==='topup'){try{window.BQ='top'}catch(e){}navigate('bal');}
+      if(quick.dataset.quick==='topup'){try{window.tpOpen()}catch(e){navigate('bal')}}
       return;
     }
     var tab=event.target.closest('#to-nav [data-tab]');
     if(tab)navigate(tab.dataset.tab);
   });
   overlay.addEventListener('click',function(event){if(event.target===overlay)close();});
+  var tpov=document.getElementById('tp-ov');
+  if(tpov)tpov.addEventListener('click',function(event){if(event.target===tpov&&window.tpClose)tpClose();});
   document.getElementById('to-panel-close').addEventListener('click',function(){close();});
   document.addEventListener('keydown',function(event){
     if(!current)return;
