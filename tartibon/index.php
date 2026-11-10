@@ -14372,10 +14372,10 @@ html body .to-header .agear { width:36px; height:36px; background:transparent; }
 .to-category-list { display:grid; gap:9px; }
 #to-home-status { padding:13px 16px; border-radius:18px; background:#e4f1ff; color:#1d609b; font-size:14px; line-height:1.45; }
 #to-home-status[hidden] { display:none!important; }
-.to-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; margin:0; }
-.to-quick { border:0; border-radius:26px; background:#fff; color:var(--to-blue); padding:12px 5px 11px; min-height:90px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:7px; cursor:pointer; font:650 13.5px/1.18 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
-.to-plus { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:var(--to-blue); color:white; flex:none; }
-.to-plus svg { width:21px; height:21px; stroke:currentColor; stroke-width:2.3; stroke-linecap:round; fill:none; }
+.to-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin:0; }
+.to-quick { border:0; border-radius:20px; background:#fff; color:var(--to-blue); padding:9px 4px 8px; min-height:70px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:5px; cursor:pointer; font:650 11.5px/1.16 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+.to-plus { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:var(--to-blue); color:white; flex:none; }
+.to-plus svg { width:17px; height:17px; stroke:currentColor; stroke-width:2.3; stroke-linecap:round; fill:none; }
 .to-quick-label { display:block; text-align:center; }
 .to-category { display:flex; align-items:center; gap:11px; width:100%; min-height:62px; padding:7px 18px 7px 8px; background:#fff; border:0; border-radius:999px; text-align:left; color:var(--to-text); cursor:pointer; font:inherit; }
 .to-category-icon { display:block; width:46px; height:46px; flex:0 0 46px; }
@@ -14436,8 +14436,8 @@ html body #toast { z-index:110; }
 html body #gate { z-index:120; }
 @keyframes to-rise { from{transform:translateY(32px);opacity:0} to{transform:translateY(0);opacity:1} }
 @keyframes to-fade { from{background:rgba(22,22,33,0)} to{background:rgba(22,22,33,.42)} }
-@media(min-width:480px) { .to-category{min-height:68px}.to-category-text b{font-size:18px}.to-category-text small{font-size:13px}.to-quick{font-size:15px;min-height:98px}.to-category-icon{width:50px;height:50px;flex-basis:50px}.to-category-list{gap:10px} }
-@media(max-width:360px) { html body .sheet{padding-left:12px;padding-right:12px}.to-category{gap:9px;padding-left:7px;padding-right:15px;border-radius:999px;min-height:56px}.to-category-icon{width:40px;height:40px;flex-basis:40px}.to-category-text b{font-size:15px}.to-category-text small{font-size:11px}.to-quick{font-size:12.5px;border-radius:22px;min-height:82px}.to-panel{padding-left:12px;padding-right:12px}.to-panel-grid{gap:7px}.to-panel-grid[data-columns="3"] .to-service{font-size:12px;padding:10px 4px}.to-panel-grid[data-columns="3"] .to-service-icon{width:50px;height:50px} }
+@media(min-width:480px) { .to-category{min-height:68px}.to-category-text b{font-size:18px}.to-category-text small{font-size:13px}.to-quick{font-size:12.5px;min-height:76px}.to-category-icon{width:50px;height:50px;flex-basis:50px}.to-category-list{gap:10px} }
+@media(max-width:360px) { html body .sheet{padding-left:12px;padding-right:12px}.to-category{gap:9px;padding-left:7px;padding-right:15px;border-radius:999px;min-height:56px}.to-category-icon{width:40px;height:40px;flex-basis:40px}.to-category-text b{font-size:15px}.to-category-text small{font-size:11px}.to-quick{font-size:10.5px;border-radius:18px;min-height:64px}.to-plus{width:25px;height:25px}.to-plus svg{width:15px;height:15px}.to-panel{padding-left:12px;padding-right:12px}.to-panel-grid{gap:7px}.to-panel-grid[data-columns="3"] .to-service{font-size:12px;padding:10px 4px}.to-panel-grid[data-columns="3"] .to-service-icon{width:50px;height:50px} }
 @media(prefers-reduced-motion:reduce) { .to-overlay,.to-panel{animation:none}.to-quick:active,.to-category:active,.to-service:active{transform:none} }
 
 </style>
