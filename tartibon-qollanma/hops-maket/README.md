@@ -8,6 +8,29 @@ dizayn maketi. 1080×1920, Telegram Mini App ichida ishlashga mo'ljallangan.
 | `01-oyin.png` | O'yin ekrani — kuch to'plash holati |
 | `02-natija.png` | Yugurish tugagandan keyingi natija |
 | `03-guruh-posti.png` | Guruh/kanalga tashlanadigan turnir yakuni |
+| `04-qahramon.png` | Qahramon pozalari lavhasi |
+
+---
+
+## Qahramon — TartibOn Ninja
+
+Qora siluet, qizil bog'ich va sharf, oq g'azabli ko'zlar.
+Fon yorug' (kunduzgi osmon, oq binolar) — shuning uchun qora qahramon
+har qanday ekranda aniq ko'rinadi, kichik telefonda ham yo'qolmaydi.
+
+Pozalar `kod/ninja.js` ichida `POSE` jadvalida — bo'g'im nuqtalari
+(son, tizza, oyoq, yelka, tirsak, qo'l) sifatida yozilgan, rasm emas.
+Shuning uchun:
+
+- hech qanday sprite fayl kerak emas — `index.php` hajmi oshmaydi;
+- oraliq kadrlarni kod o'zi hisoblaydi (ikki poza orasini interpolyatsiya qiladi);
+- rangni bitta joydan o'zgartirib, yangi "skin" chiqarish mumkin
+  (masalan oltin bog'ich — 1000 sakrash mukofoti).
+
+Bog'ich va sharf dumlari fizika bilan emas, oddiy sinus to'lqini bilan
+chiziladi (`tailPts`) — tekin, lekin harakatda tirik ko'rinadi.
+
+Pozalarni yaqindan ko'rish: `cd kod && node zoom.js` → `zoom.png`.
 
 ---
 
@@ -72,9 +95,9 @@ Qo'shimcha chegaralar:
 ## Maketni qayta chizish
 
 ```bash
-cd kod && node shot.js      # h1.png, h2.png, h3.png
+cd kod && node shot.js      # n1..n4.png
 ```
 
-`g.js` — fon, tomlar, stickman, kuch ko'rsatkichi.
-`g2.js` — natija va Telegram post elementlari.
-`page.html` — `scene()`, `res()`, `post()` ekranlari.
+`bg.js` — osmon, bulutlar, binolar, tomlar, kuch ko‘rsatkichi.
+`ninja.js` — qahramon: bo‘g‘imlar, pozalar, sharf va bog‘ich.
+`page.html` — `scene()`, `res()`, `post()`, `sheet()` ekranlari.
