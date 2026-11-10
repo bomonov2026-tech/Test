@@ -1,0 +1,82 @@
+    if ($a === 'sh_get') {
+        $oy = isset($in['oy']) ? (string)$in['oy'] : sh_oy();
+        if (!preg_match('/^20\d{2}-(0[1-9]|1[0-2])$/', $oy) || $oy > sh_oy()) $oy = sh_oy();
+        $me = q('SELECT masofa, yaqin, plays FROM sh_rec WHERE oy=? AND uid=?', array($oy, $u['id']))->fetch();
+        $oylar = array(); foreach (q('SELECT DISTINCT oy FROM sh_rec ORDER BY oy DESC LIMIT 24')->fetchAll() as $x) $oylar[] = $x['oy'];
+        if (!in_array(sh_oy(), $oylar, true)) array_unshift($oylar, sh_oy());
+        out(array('ok' => true, 'oy' => $oy, 'hozir' => sh_oy(), 'oylar' => $oylar,
+            'oxiri' => sh_oy_oxiri($oy), 'ver' => SH_SIM_VER,
+            'me' => array('m' => $me ? (int)$me['masofa'] : 0, 'y' => $me ? (int)$me['yaqin'] : 0,
+                          'plays' => $me ? (int)$me['plays'] : 0, 'rank' => sh_rank($oy, $u['id'])),
+            'top' => sh_top($oy, 100),
+            'total' => (int)q('SELECT COUNT(*) FROM sh_rec WHERE oy=? AND masofa>0', array($oy))->fetchColumn(),
+            'chats' => q("SELECT id, username, ctype FROM chats WHERE owner=? AND blocked=0 AND status='approved' ORDER BY ctype, id", array($u['id']))->fetchAll()));
+    }
+    if ($a === 'sh_start') {
+        if ((string)(isset($in['ver']) ? $in['ver'] : '') !== SH_SIM_VER)
+            out(array('ok' => false, 'error' => "O'yin yangilandi. Ilovani yopib qayta oching."), 409);
+        $ms = (int)round(microtime(true) * 1000);
+        $n = (int)q('SELECT COUNT(*) FROM sh_run WHERE uid=? AND t0 > ?', array($u['id'], $ms - 60000))->fetchColumn();
+        if ($n >= 8) out(array('ok' => false, 'error' => "Juda ko'p urinish. Bir daqiqadan so'ng qayta boshlang."), 429);
+        $seed = random_int(1, 4294967295);
+        $rid = bin2hex(random_bytes(16));
+        q("UPDATE sh_run SET holat='cancelled' WHERE uid=? AND holat='active'", array($u['id']));
+        q("INSERT INTO sh_run (id,uid,seed,oy,t0,holat) VALUES (?,?,?,?,?,'active')",
+          array($rid, $u['id'], $seed, sh_oy(), $ms));
+        out(array('ok' => true, 'run' => $rid, 'seed' => $seed, 'ver' => SH_SIM_VER));
+    }
+    if ($a === 'sh_fin') {
+        if ((string)(isset($in['ver']) ? $in['ver'] : '') !== SH_SIM_VER)
+            out(array('ok' => false, 'error' => "O'yin yangilandi. Ilovani yopib qayta oching."), 409);
+        $rid = (string)(isset($in['run']) ? $in['run'] : '');
+        if (!preg_match('/^[a-f0-9]{32}$/', $rid)) out(array('ok' => false, 'error' => 'Poyga topilmadi'), 404);
+        $ticks = (int)(isset($in['ticks']) ? $in['ticks'] : 0);
+        $inp = isset($in['inputs']) && is_array($in['inputs']) ? $in['inputs'] : array();
+        if ($ticks < 1 || $ticks > SH_MAX_TICKS || count($inp) > SH_MAX_INPUTS)
+            out(array('ok' => false, 'error' => "Boshqaruv yozuvi noto'g'ri"), 400);
+        $r = q("SELECT id, uid, seed, oy, t0, holat FROM sh_run WHERE id=? AND uid=?", array($rid, $u['id']))->fetch();
+        if (!$r) out(array('ok' => false, 'error' => 'Poyga topilmadi'), 404);
+        if ($r['holat'] !== 'active') out(array('ok' => false, 'error' => 'Bu poyga allaqachon yakunlangan'), 409);
+        $ms = (int)round(microtime(true) * 1000);
+        $o = $ms - (int)$r['t0'];
+        if ($o < 0 || $o > 3600000) out(array('ok' => false, 'error' => 'Poyga seansi tugagan. Yangi poyga boshlang.'), 409);
+        if ($ticks * 1000 / SH_TICK > $o + 750) out(array('ok' => false, 'error' => "Poyga vaqti tasdiqlanmadi"), 400);
+        if ($r['oy'] !== sh_oy()) out(array('ok' => false, 'error' => 'Oylik mavsum tugadi. Yangi poyga boshlang.'), 409);
+        /* bitta poyga faqat bir marta hisoblanadi */
+        $cl = q("UPDATE sh_run SET holat='checking' WHERE id=? AND uid=? AND holat='active'", array($rid, $u['id']));
+        if ($cl->rowCount() !== 1) out(array('ok' => false, 'error' => 'Bu poyga allaqachon yakunlangan'), 409);
+        $res = sh_replay((int)$r['seed'], $inp, $ticks);
+        if ($res === null) {
+            q("UPDATE sh_run SET holat='rejected', t1=? WHERE id=?", array($ms, $rid));
+            out(array('ok' => false, 'error' => "Natija tekshiruvdan o'tmadi. Yangi poyga boshlang."), 400);
+        }
+        $m = (int)floor($res['distance']); $y = (int)$res['near'];
+        $oy = $r['oy'];
+        q("INSERT INTO sh_rec (oy,uid,masofa,yaqin,plays,vaqt) VALUES (?,?,?,?,1,NOW())
+           ON DUPLICATE KEY UPDATE
+             yaqin  = IF(VALUES(masofa) > masofa OR (VALUES(masofa)=masofa AND VALUES(yaqin)>yaqin), VALUES(yaqin), yaqin),
+             vaqt   = IF(VALUES(masofa) > masofa OR (VALUES(masofa)=masofa AND VALUES(yaqin)>yaqin), VALUES(vaqt), vaqt),
+             masofa = GREATEST(masofa, VALUES(masofa)),
+             plays  = plays + 1",
+          array($oy, $u['id'], $m, $y));
+        q("UPDATE sh_run SET holat='finished', t1=? WHERE id=?", array($ms, $rid));
+        $best = q('SELECT masofa, yaqin, plays FROM sh_rec WHERE oy=? AND uid=?', array($oy, $u['id']))->fetch();
+        out(array('ok' => true, 'm' => $m, 'y' => $y, 'oy' => $oy,
+            'best' => (int)$best['masofa'], 'rekord' => $m >= (int)$best['masofa'],
+            'rank' => sh_rank($oy, $u['id']), 'plays' => (int)$best['plays'],
+            'top' => sh_top($oy, 100),
+            'total' => (int)q('SELECT COUNT(*) FROM sh_rec WHERE oy=? AND masofa>0', array($oy))->fetchColumn()));
+    }
+    if ($a === 'sh_post') {
+        $cid = (int)(isset($in['chat']) ? $in['chat'] : 0);
+        $c = q("SELECT id, chat_id FROM chats WHERE id=? AND owner=? AND blocked=0 AND status='approved'",
+               array($cid, $u['id']))->fetch();
+        if (!$c) out(array('ok' => false, 'error' => 'Kanal yoki guruh topilmadi'), 404);
+        $k = 'sh_post_' . $c['id'];
+        if (time() - (int)setting($k, '0') < 3600) out(array('ok' => false, 'error' => 'Bu kanalga soatiga bir marta joylash mumkin'), 429);
+        $r = tg('sendMessage', array('chat_id' => $c['chat_id'], 'text' => sh_board_text(sh_oy()),
+            'reply_markup' => sh_kb()));
+        if (empty($r['ok'])) out(array('ok' => false, 'error' => 'Yuborilmadi. Bot administrator ekanini tekshiring'), 422);
+        setset($k, (string)time());
+        out(array('ok' => true));
+    }

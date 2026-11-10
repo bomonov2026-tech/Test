@@ -1,0 +1,45 @@
+/* ---------- SHASHKA — 3D trafik poygasi ---------- */
+function sh_oy() { return date('Y-m'); }                 /* Toshkent oyi */
+function sh_oy_oxiri($oy) { return date('d.m.Y', strtotime($oy . '-01 +1 month') - 1); }
+function sh_top($oy, $lim = 100) {
+    $lim = max(1, min(100, (int)$lim));
+    $r = array();
+    foreach (q("SELECT s.uid, s.masofa, s.yaqin, u.name, u.username FROM sh_rec s
+                LEFT JOIN users u ON u.id=s.uid
+                WHERE s.oy=? AND s.masofa>0
+                ORDER BY s.masofa DESC, s.yaqin DESC, s.vaqt ASC, s.uid ASC LIMIT $lim",
+               array($oy))->fetchAll() as $x) {
+        $nm = trim((string)$x['name']); if ($nm === '') $nm = 'Haydovchi';
+        $r[] = array('uid' => (int)$x['uid'], 'm' => (int)$x['masofa'], 'y' => (int)$x['yaqin'],
+                     'name' => mb_substr($nm, 0, 24), 'username' => (string)$x['username']);
+    }
+    return $r;
+}
+function sh_rank($oy, $uid) {
+    $me = q('SELECT masofa, yaqin, vaqt FROM sh_rec WHERE oy=? AND uid=?', array($oy, $uid))->fetch();
+    if (!$me || (int)$me['masofa'] <= 0) return 0;
+    $c = q('SELECT COUNT(*) FROM sh_rec WHERE oy=? AND (masofa>? OR (masofa=? AND yaqin>?)
+            OR (masofa=? AND yaqin=? AND vaqt<?) OR (masofa=? AND yaqin=? AND vaqt=? AND uid<?))',
+           array($oy, $me['masofa'], $me['masofa'], $me['yaqin'], $me['masofa'], $me['yaqin'],
+                 $me['vaqt'], $me['masofa'], $me['yaqin'], $me['vaqt'], $uid))->fetchColumn();
+    return (int)$c + 1;
+}
+function sh_board_text($oy) {
+    $t = "\xF0\x9F\x8F\x81 SHASHKA \xE2\x80\x94 " . $oy . " oyi reytingi\n\n";
+    $L = sh_top($oy, 10);
+    if (!$L) return $t . "Bu oyda hali hech kim poyga qilmagan. Birinchi bo'ling!";
+    $m = array("\xF0\x9F\xA5\x87", "\xF0\x9F\xA5\x88", "\xF0\x9F\xA5\x89");
+    foreach ($L as $i => $x) {
+        $t .= (isset($m[$i]) ? $m[$i] : ($i + 1) . '.') . ' '
+            . ($x['username'] !== '' ? '@' . $x['username'] : $x['name'])
+            . " \xE2\x80\x94 " . number_format($x['m'], 0, '.', ' ') . " m\n";
+    }
+    $n = (int)q('SELECT COUNT(*) FROM sh_rec WHERE oy=? AND masofa>0', array($oy))->fetchColumn();
+    $t .= "\n\xF0\x9F\x91\xA5 Bu oyda " . $n . " haydovchi · oy oxiri: " . sh_oy_oxiri($oy);
+    return $t;
+}
+function sh_kb() {
+    return array('inline_keyboard' => array(array(array(
+        'text' => "\xF0\x9F\x8F\x81 Poyga qilish",
+        'url' => 'https://t.me/' . BOT_USERNAME . '?startapp=s_sh'))));
+}

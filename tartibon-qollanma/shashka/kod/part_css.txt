@@ -1,0 +1,41 @@
+<style>
+.shme{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.shme>div{background:rgba(127,127,127,.10);border-radius:14px;padding:10px 4px}
+.shme b{display:block;font-size:21px;line-height:1.15}
+.shme i{font-style:normal;font-size:11px;opacity:.65}
+.shcars{display:flex;flex-wrap:wrap;gap:6px}
+.shcar{flex:1 1 30%;padding:9px 6px;border-radius:12px;border:1px solid rgba(127,127,127,.3);background:transparent;color:inherit;font:600 14px inherit;cursor:pointer}
+.shcar.on{background:#dfff00;color:#111;border-color:#dfff00}
+.shcols{display:flex;gap:10px;margin-top:10px}
+.shcol{width:34px;height:34px;border-radius:50%;border:2px solid rgba(127,127,127,.3);cursor:pointer;padding:0}
+.shcol.on{border-color:#111;box-shadow:0 0 0 2px #dfff00}
+.shsel{background:transparent;color:inherit;border:1px solid rgba(127,127,127,.3);border-radius:10px;padding:4px 8px;font:inherit}
+.shtop{max-height:430px;overflow:auto}
+.shrow{display:flex;align-items:center;gap:10px;padding:8px 6px;border-bottom:1px solid rgba(127,127,127,.18)}
+.shrow.me{background:rgba(223,255,0,.16);border-radius:10px}
+.shpos{width:34px;text-align:center;font-weight:700}
+.shrow .shnm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shchats{display:flex;flex-wrap:wrap;gap:8px}
+.shst{position:fixed;inset:0;z-index:9999;background:#101c30;overflow:hidden}
+.shst.off{display:none}
+#shcv{position:absolute;inset:0}
+.shhud{position:absolute;top:0;left:0;right:0;display:flex;gap:8px;padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top));pointer-events:none}
+.shhud>div{flex:1;background:rgba(10,16,28,.55);border-radius:14px;padding:8px 6px;text-align:center;color:#fff}
+.shhud b{display:block;font-size:22px;line-height:1.1}
+.shhud i{font-style:normal;font-size:11px;opacity:.75}
+.shx{position:absolute;top:calc(84px + env(safe-area-inset-top));right:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(10,16,28,.55);color:#fff;font-size:20px;cursor:pointer}
+.shctl{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;gap:10px;padding:0 14px calc(18px + env(safe-area-inset-bottom))}
+.shb{width:76px;height:76px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:24px;cursor:pointer}
+.shp{height:76px;min-width:98px;border-radius:22px;border:0;font:800 16px inherit;cursor:pointer}
+.shp.br{margin-left:auto;background:rgba(255,255,255,.18);color:#fff}
+.shp.ga{background:#dfff00;color:#111}
+.shov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,14,26,.74)}
+.shov.off{display:none}
+.shovc{background:#16202f;color:#fff;border-radius:22px;padding:22px 20px;max-width:330px;width:86%;text-align:center}
+.shovc b{display:block;font-size:28px;margin-bottom:6px}
+.shovc .sub{opacity:.72;font-size:14px}
+.shovc .btn{display:block;width:100%;padding:13px;border-radius:14px;border:0;background:#dfff00;color:#111;font:800 16px inherit;cursor:pointer;margin-top:12px}
+.shovc .btn.s{background:rgba(255,255,255,.16);color:#fff}
+.shbtns{display:flex;gap:8px}
+.shbtns .btn{flex:1}
+</style>

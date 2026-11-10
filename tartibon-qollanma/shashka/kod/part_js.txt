@@ -1,0 +1,123 @@
+/* ---------- SHASHKA — 3D trafik poygasi ---------- */
+var SH={j:null,oy:'',G:null,sc:null,run:null,busy:false,model:1,color:'#dfff00',on:false,ver:''};
+var SH_CARS=[['Gentra','Klassik sedan'],['Malibu','Keng sport sedan'],['Isuzu','Yuk avtomobili'],
+             ['Damas','Shahar mikroveni'],['Matiz','Ixcham xetchbek'],['Spark','Zamonaviy xetchbek']];
+var SH_COLS=['#dfff00','#e4e9ed','#ff662e','#568dff','#b575ff'];
+function shN(n){return String(n|0).replace(/\B(?=(\d{3})+(?!\d))/g,' ')}
+function shl(){
+ var e=$('shb');if(!e)return;
+ try{SH.model=parseInt(localStorage.getItem('sh_model')||'1',10)||1;SH.color=localStorage.getItem('sh_color')||'#dfff00'}catch(x){}
+ api('sh_get',SH.oy?{oy:SH.oy}:{}).then(function(j){if(!j.ok)return;SH.j=j;SH.oy=j.oy;SH.ver=j.ver;shDraw()})
+}
+function shDraw(){
+ var j=SH.j,e=$('shb');if(!e||!j)return;var me=j.me,i;
+ var h='<div class="card"><p class="sub" style="margin:0 2px 10px">Mashinalar orasidan o\'ting. Eng uzoq masofa — oylik TOP-100 ga tushadi.</p>'
+  +'<div class="shme"><div><b>'+shN(me.m)+'</b><i>metr · '+esc(j.oy)+'</i></div>'
+  +'<div><b>'+(me.rank?me.rank:'—')+'</b><i>o\'rin</i></div>'
+  +'<div><b>'+shN(me.y)+'</b><i>yaqin o\'tish</i></div></div>'
+  +'<button class="btn" style="width:100%;margin-top:12px" onclick="shOpen()">▶️ Poygani boshlash</button>'
+  +'<p class="sub" style="margin:8px 2px 0">Oy '+esc(j.oxiri)+' kuni yakunlanadi. Keyingi oyda reyting noldan boshlanadi.</p></div>';
+ h+='<div class="card"><div class="row" style="margin-bottom:8px"><b>🚘 Garaj</b><span class="sub">'+esc(SH_CARS[SH.model][1])+'</span></div><div class="shcars">';
+ for(i=0;i<SH_CARS.length;i++)h+='<button class="shcar'+(i===SH.model?' on':'')+'" onclick="shCar('+i+')">'+esc(SH_CARS[i][0])+'</button>';
+ h+='</div><div class="shcols">';
+ for(i=0;i<SH_COLS.length;i++)h+='<button class="shcol'+(SH_COLS[i]===SH.color?' on':'')+'" style="background:'+SH_COLS[i]+'" onclick="shCol(\''+SH_COLS[i]+'\')"></button>';
+ h+='</div><p class="sub" style="margin:8px 2px 0">Mashina tanlovi tezlikka ta\'sir qilmaydi — hamma uchun bir xil o\'lcham.</p></div>';
+ h+='<div class="card"><div class="row" style="margin-bottom:8px"><b>🏆 TOP-100</b><select id="shoy" onchange="SH.oy=this.value;shl()" class="shsel">';
+ for(i=0;i<j.oylar.length;i++)h+='<option value="'+esc(j.oylar[i])+'"'+(j.oylar[i]===j.oy?' selected':'')+'>'+esc(j.oylar[i])+'</option>';
+ h+='</select></div>';
+ if(!j.top.length)h+='<p class="sub">Bu oyda hali hech kim poyga qilmagan. Birinchi bo\'ling!</p>';
+ else{h+='<div class="shtop">';
+  for(i=0;i<j.top.length;i++){var x=j.top[i],md=['🥇','🥈','🥉'][i]||(i+1)+'.';
+   h+='<div class="shrow'+(x.uid===APU?' me':'')+'"><span class="shpos">'+md+'</span><span class="shnm">'
+     +esc(x.username?('@'+x.username):x.name)+'</span><b>'+shN(x.m)+' m</b></div>'}
+  h+='</div><p class="sub" style="margin-top:8px">Bu oyda '+shN(j.total)+' haydovchi qatnashdi.</p>'}
+ h+='</div>';
+ if(j.chats&&j.chats.length){
+  h+='<div class="card"><b>📤 Reytingni kanalga yuborish</b><p class="sub" style="margin:4px 2px 8px">Bot reytingni post qiladi, post tagida «'+'Poyga qilish» tugmasi bo\'ladi.</p><div class="shchats">';
+  for(i=0;i<j.chats.length;i++)h+='<button class="btn s" onclick="shPost('+j.chats[i].id+')">'+esc(j.chats[i].username||('ID '+j.chats[i].id))+'</button>';
+  h+='</div></div>'}
+ e.innerHTML=h;
+}
+function shCar(i){SH.model=i;try{localStorage.setItem('sh_model',String(i))}catch(x){}if(SH.sc)SH.sc.setAppearance({color:SH.color,model:i});shDraw()}
+function shCol(c){SH.color=c;try{localStorage.setItem('sh_color',c)}catch(x){}if(SH.sc)SH.sc.setAppearance({color:c,model:SH.model});shDraw()}
+function shPost(id){api('sh_post',{chat:id}).then(function(j){toast(j.ok?'Yuborildi ✅':(j.error||'Xato'))})}
+/* --- to'liq ekran sahna --- */
+function shStage(){
+ var s=$('shst');if(s)return s;
+ s=document.createElement('div');s.id='shst';s.className='shst off';
+ s.innerHTML='<div id="shcv"></div>'
+  +'<div class="shhud"><div><b id="shspd">100</b><i>km/soat</i></div><div><b id="shdis">0</b><i>metr</i></div><div><b id="shnr">0</b><i>yaqin o\'tish</i></div></div>'
+  +'<button class="shx" onclick="shClose()">✕</button>'
+  +'<div class="shctl"><button class="shb l" id="shL">◀</button><button class="shb r" id="shR">▶</button>'
+  +'<button class="shp br" id="shBr">TORMOZ</button><button class="shp ga" id="shGa">GAZ</button></div>'
+  +'<div id="shov" class="shov"></div>';
+ document.body.appendChild(s);
+ var hold=function(el,on,off){
+   el.addEventListener('pointerdown',function(ev){ev.preventDefault();on()});
+   ['pointerup','pointercancel','pointerleave'].forEach(function(t){el.addEventListener(t,function(ev){ev.preventDefault();off()})});
+ };
+ s.querySelector('#shL').addEventListener('pointerdown',function(ev){ev.preventDefault();if(SH.sc)SH.sc.steer(-1)});
+ s.querySelector('#shR').addEventListener('pointerdown',function(ev){ev.preventDefault();if(SH.sc)SH.sc.steer(1)});
+ hold(s.querySelector('#shGa'),function(){if(SH.sc)SH.sc.setPedals({throttle:true})},function(){if(SH.sc)SH.sc.setPedals({throttle:false})});
+ hold(s.querySelector('#shBr'),function(){if(SH.sc)SH.sc.setPedals({brake:true})},function(){if(SH.sc)SH.sc.setPedals({brake:false})});
+ return s;
+}
+function shOv(h){var e=$('shov');if(!e)return;if(h===''){e.classList.add('off');e.innerHTML='';return}e.innerHTML='<div class="shovc">'+h+'</div>';e.classList.remove('off')}
+function shOpen(){
+ if(SH.busy)return;SH.busy=true;
+ var s=shStage();s.classList.remove('off');SH.on=true;
+ try{tg.expand()}catch(x){}
+ shOv('<b>Yuklanmoqda…</b><p class="sub">3D dvigatel birinchi marta 1–2 soniya yuklanadi.</p>');
+ shMod().then(function(G){
+   if(!SH.sc){
+     SH.sc=new G.RaceScene($('shcv'),{
+       onTick:shTick,onCrash:shCrash,
+       onError:function(e){shOv('<b>3D ishlamadi</b><p class="sub">'+esc(String(e&&e.message||e))+'</p><button class="btn" onclick="shClose()">Yopish</button>')}});
+     SH.sc.setAppearance({color:SH.color,model:SH.model});
+   }
+   return api('sh_start',{ver:SH.ver});
+ }).then(function(j){
+   SH.busy=false;
+   if(!j||!j.ok){shOv('<b>Boshlanmadi</b><p class="sub">'+esc((j&&j.error)||'Ulanishda xatolik')+'</p><button class="btn" onclick="shClose()">Yopish</button>');return}
+   SH.run=j.run;shOv('');SH.sc.start(j.seed);
+ }).catch(function(e){
+   SH.busy=false;
+   shOv('<b>Yuklanmadi</b><p class="sub">'+esc(String(e&&e.message||e))+'</p><button class="btn" onclick="shClose()">Yopish</button>');
+ });
+}
+function shMod(){
+ if(SH.G)return Promise.resolve(SH.G);
+ return import(location.pathname+'?shjs=1&v='+encodeURIComponent(SH.ver))
+   .then(function(m){return m.shLoad()}).then(function(G){SH.G=G;return G});
+}
+function shTick(s){
+ var a=$('shspd'),b=$('shdis'),c=$('shnr');
+ if(a)a.textContent=Math.round(s.speed);
+ if(b)b.textContent=shN(Math.floor(s.distance));
+ if(c)c.textContent=s.nearMisses;
+}
+function shCrash(r){
+ var m=Math.floor(r.distance);
+ shOv('<b>'+shN(m)+' metr</b><p class="sub">Saqlanmoqda…</p>');
+ if(!SH.run){shOv('<b>'+shN(m)+' metr</b><button class="btn" onclick="shOpen()">🔁 Yana</button>');return}
+ var run=SH.run;SH.run=null;
+ api('sh_fin',{run:run,ticks:r.ticks,inputs:r.inputs,ver:SH.ver}).then(function(j){
+   var h='<b>'+shN(m)+' metr</b>';
+   if(j&&j.ok){
+     if(j.rekord)h='<b>🏆 Yangi rekord: '+shN(j.m)+' m</b>';
+     h+='<p class="sub">Bu oyda eng yaxshisi: '+shN(j.best)+' m'+(j.rank?' · '+j.rank+'-o\'rin':'')+'<br>Yaqin o\'tish: '+shN(j.y)+' ta</p>';
+     SH.j=Object.assign({},SH.j,{top:j.top,total:j.total,me:{m:j.best,y:j.y,plays:j.plays,rank:j.rank}});
+   } else h+='<p class="sub">'+esc((j&&j.error)||'Saqlanmadi')+'</p>';
+   h+='<div class="shbtns"><button class="btn" onclick="shOpen()">🔁 Yana</button><button class="btn s" onclick="shClose()">Chiqish</button></div>';
+   shOv(h);
+ }).catch(function(){
+   shOv('<b>'+shN(m)+' metr</b><p class="sub">Saqlanmadi — aloqa yo\'q</p><div class="shbtns"><button class="btn" onclick="shOpen()">🔁 Yana</button><button class="btn s" onclick="shClose()">Chiqish</button></div>');
+ });
+}
+function shClose(){
+ var s=$('shst');if(s)s.classList.add('off');
+ SH.on=false;if(SH.sc){SH.sc.pause();SH.sc.reset()}
+ shOv('');shDraw();shl();
+}
+function shLeave(){if(SH.on)shClose();else if(SH.sc)SH.sc.pause()}
+document.addEventListener('visibilitychange',function(){if(document.hidden&&SH.sc)SH.sc.pause()});

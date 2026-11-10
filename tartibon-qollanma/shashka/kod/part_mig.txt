@@ -1,0 +1,7 @@
+    if (setting('mig_sh1', '') !== '1') {
+        try {
+            db()->exec("CREATE TABLE IF NOT EXISTS sh_run (id CHAR(32) PRIMARY KEY, uid BIGINT UNSIGNED NOT NULL, seed INT UNSIGNED NOT NULL, oy CHAR(7) NOT NULL, t0 BIGINT NOT NULL, t1 BIGINT NULL, holat VARCHAR(10) NOT NULL DEFAULT 'active', KEY u (uid,t0), KEY h (holat,t0)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            db()->exec("CREATE TABLE IF NOT EXISTS sh_rec (oy CHAR(7) NOT NULL, uid BIGINT UNSIGNED NOT NULL, masofa INT NOT NULL DEFAULT 0, yaqin INT NOT NULL DEFAULT 0, plays INT NOT NULL DEFAULT 0, vaqt DATETIME NOT NULL, PRIMARY KEY (oy,uid), KEY r (oy,masofa,yaqin)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            setset('mig_sh1', '1');
+        } catch (Exception $e) {}
+    }
