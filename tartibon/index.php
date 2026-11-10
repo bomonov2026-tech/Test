@@ -11782,7 +11782,7 @@ html.sp-wait #tartibon-splash{animation:sp-hide .4s ease 8s forwards} /* zaxira:
 <header class="th to-header">
 <button type="button" class="to-head-button" onclick="TartibUI.closeApp()" aria-label="Ilovani yopish"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
 <div class="to-brand"><b>TartibOn</b><span>mini-ilova</span></div>
-<div class="to-head-actions"><button type="button" class="gear agear" id="agear" onclick="go('adm')" aria-label="Admin panel"><svg viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 4.5-3.2 8.3-8 9-4.8-.7-8-4.5-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><em id="agb"></em></button><button type="button" class="to-head-button" onclick="TartibUI.open('help')" aria-label="Xizmatlar va yordam"><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button></div>
+<div class="to-head-actions"><button type="button" class="gear agear" id="agear" onclick="go('adm')" aria-label="Admin panel"><svg viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 4.5-3.2 8.3-8 9-4.8-.7-8-4.5-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><em id="agb"></em></button></div>
 </header>
 <div class="sheet">
 <style id="visual-exact-style">
