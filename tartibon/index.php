@@ -11910,152 +11910,13 @@ html:not(.dark):has(#p-home.on) .sheet{background:#fff!important}
 <div id="to-legacy-home" hidden inert aria-hidden="true"><div id="tqn_k"></div><div id="tqn_g"></div><div id="tqn_u"></div><div id="hob"></div><div id="hst"></div><div id="hxdn"></div><div id="hxdnv"></div><div id="visual-ref"></div><div id="vxgb"></div><div id="vxgr"></div><div id="vxgc"></div><div id="visual-reward"></div><div id="visual-reward3"></div><div id="visual-reward2"></div><div id="visual-url"></div><div id="visual-count"></div><div id="visual-earned"></div><div id="visual-pending"></div><div id="hxrs"></div><div id="hxeb"></div><div id="hx-svc"></div><div id="hx-ov"></div><div id="tgig"></div><div id="tqbal"></div><div id="tqsup"></div><div id="tqads"></div><div id="adb"></div><div id="cards" style="display:none"></div></div>
 </div>
 <div id="p-tools" class="pg"><div class="phd"><h1>Xizmatlar</h1><span class="balp" id="balp" onclick="go('bal')" style="display:none"></span></div><div id="tlb"></div><div id="to-tools" class="to-category-list" aria-label="Xizmatlar bo‘limlari"></div></div>
-<div id="p-adp" class="pg">
-<button class="bkb" onclick="go('home')">‹ Orqaga</button>
-<h1>🛍 Savdogar</h1>
-<p class="sub" style="margin:-6px 2px 14px">Mahsulot rasmi, nomi, narxi va aloqangizni kiriting — tayyor 9:16 post rasmini kanal yoki guruhingizga yuboring. Post ostida "Sotuvchi bilan bog'lanish" tugmasi bo'ladi.</p>
-<div class="card" style="padding:14px;margin-bottom:12px">
-<div id="adp-pick" onclick="adpPick()" style="width:100%;max-width:300px;margin:0 auto;aspect-ratio:952/1350;border-radius:16px;border:2px dashed var(--ln);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;background:var(--in)">
-<div id="adp-ph" style="display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--sub)">
-<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16l-5.3-5.3a1.5 1.5 0 0 0-2.1 0L5 19"/></svg>
-<span style="font-size:13px">Mahsulot rasmini tanlang</span>
-</div>
-</div>
-<div id="adp-pick-hint" class="sub" style="display:none;text-align:center;font-size:12px;margin-top:8px">💡 Rasmni ushlab suring — joylashuvini o'zingiz tanlang</div>
-</div>
-<div class="card" style="padding:14px;display:flex;flex-direction:column;gap:12px;margin-bottom:12px">
-<div><div class="sub" style="margin-bottom:5px">Mahsulot nomi</div><input id="adp-title" type="text" maxlength="60" placeholder="Masalan: Erkaklar sport krossovkasi" oninput="adpDraw()" style="width:100%"></div>
-<div><div class="sub" style="margin-bottom:5px">Qisqa tavsif (ixtiyoriy)</div><input id="adp-desc" type="text" maxlength="90" placeholder="Masalan: Barcha o'lchamda mavjud" oninput="adpDraw()" style="width:100%"></div>
-<div><div class="sub" style="margin-bottom:5px">Narx, so'm</div><input id="adp-price" type="number" min="0" placeholder="249000" oninput="adpDraw()" style="width:100%"></div>
-<div><div class="sub" style="margin-bottom:5px">Aloqa uchun (username)</div><input id="adp-contact" type="text" maxlength="40" placeholder="@sizning_username" style="width:100%"></div><div><div class="sub" style="margin-bottom:5px">Tugma matni (namunada yoziladi)</div><input id="adp-btn" type="text" maxlength="32" placeholder="Masalan: Bog'lanish" style="width:100%"></div>
-</div>
-<div class="card" style="padding:14px;margin-bottom:12px">
-<div class="sub" style="margin-bottom:10px">Ramka rangi</div>
-<div style="display:flex;gap:8px">
-<button class="btn s adp-tb" data-t="maroon" onclick="adpTpl('maroon')" style="flex:1;padding:9px 4px">Bordo</button>
-<button class="btn s adp-tb" data-t="charcoal" onclick="adpTpl('charcoal')" style="flex:1;padding:9px 4px">Kulrang</button>
-<button class="btn s adp-tb" data-t="green" onclick="adpTpl('green')" style="flex:1;padding:9px 4px">Yashil</button>
-<button class="btn s adp-tb on" data-t="navy" onclick="adpTpl('navy')" style="flex:1;padding:9px 4px">Ko'k</button>
-</div>
-<div class="cc-row"><label class="cc-l"><input type="checkbox" id="adp-cx" onchange="adpDraw()"><span>🎨 O'z rangim</span></label><input type="color" id="adp-cc" value="#2F80ED" oninput="if($('adp-cx').checked)adpDraw()"></div>
-</div>
-<canvas id="adp-cv" width="1080" height="1920" style="width:100%;border-radius:16px;display:block;margin-bottom:8px"></canvas>
-<div class="sub" style="text-align:center;margin:-6px 0 12px;font-size:12px">Xira yozuvlar — namuna, yuborilgan postga kirmaydi</div>
-<div style="display:flex;gap:10px">
-<button class="btn s" style="flex:1" onclick="adpDownload()">⬇ Yuklab olish</button>
-<button class="btn" style="flex:1" onclick="adpSendOpen()">📤 Yuborish</button>
-</div>
-<div id="adp-send" class="card" style="display:none;padding:14px;margin-top:12px">
-<div class="sub" style="margin-bottom:8px">Qayerga yuborilsin?</div>
-<select id="adp-chat" style="width:100%"></select>
-<button class="btn" style="width:100%;margin-top:10px" onclick="adpSend()">✅ Yuborish</button>
-</div>
-</div>
-<div id="p-trv" class="pg">
-<button class="bkb" onclick="go('home')">‹ Orqaga</button>
-<h1>✈️ Sayohat e'loni</h1>
-<p class="sub" style="margin:-6px 2px 14px">Turagentliklar uchun: rasm va tur ma'lumotlarini kiriting — tayyor post rasmini kanal yoki guruhingizga «Bron qilish» tugmasi bilan yuboring.</p>
-<div class="card" style="padding:14px;margin-bottom:12px">
-<div class="sub" style="margin-bottom:10px">Shablon</div>
-<div style="display:flex;gap:8px">
-<button class="btn s trv-tb on" data-t="tour" onclick="trvTpl('tour')" style="flex:1;padding:9px 4px">Tur paket</button>
-<button class="btn s trv-tb" data-t="deal" onclick="trvTpl('deal')" style="flex:1;padding:9px 4px">Qaynoq tur</button>
-<button class="btn s trv-tb" data-t="umra" onclick="trvTpl('umra')" style="flex:1;padding:9px 4px">Umra</button>
-</div>
-<div class="cc-row"><label class="cc-l"><input type="checkbox" id="trv-cx" onchange="trvDraw()"><span>🎨 O'z rangim</span></label><input type="color" id="trv-cc" value="#2B86F0" oninput="if($('trv-cx').checked)trvDraw()"></div>
-</div>
-<div class="card" style="padding:14px;margin-bottom:12px">
-<div class="sub" style="margin-bottom:8px">Rasmlar</div>
-<div class="trv-ph-w">
-<div id="trv-p0" class="trv-pick" onclick="trvPick(0)" style="aspect-ratio:640/560"><span class="trv-ph">🖼<br>Asosiy rasm</span></div>
-<div id="trv-small" class="trv-small"><div id="trv-p1" class="trv-pick" onclick="trvPick(1)" style="aspect-ratio:304/272"><span class="trv-ph">2-rasm</span></div><div id="trv-p2" class="trv-pick" onclick="trvPick(2)" style="aspect-ratio:304/272"><span class="trv-ph">3-rasm</span></div></div>
-</div>
-<div id="trv-hint" class="sub" style="display:none;text-align:center;font-size:12px;margin-top:8px">💡 Rasmni ushlab suring — joylashuvini o'zingiz tanlang</div>
-</div>
-<div class="card" style="padding:14px;display:flex;flex-direction:column;gap:12px;margin-bottom:12px">
-<div style="display:flex;gap:10px"><div style="flex:1;min-width:0"><div class="sub" style="margin-bottom:5px">Davlat</div><select id="trv-ct" onchange="trvCt()" style="width:100%"></select></div><div style="flex:1;min-width:0"><div class="sub" style="margin-bottom:5px">Yo'nalish (shahar)</div><input id="trv-title" type="text" maxlength="24" placeholder="Antalya" oninput="trvDraw()" style="width:100%"></div></div>
-<div id="trv-ctow" style="display:none"><div class="sub" style="margin-bottom:5px">Davlat nomi</div><input id="trv-cto" type="text" maxlength="24" placeholder="Masalan: Kipr" oninput="trvDraw()" style="width:100%"></div>
-<div><div class="sub" style="margin-bottom:5px">Qisqa tavsif</div><input id="trv-sub" type="text" maxlength="60" placeholder="Dengiz bo'yida dam olish · Toshkentdan uchish" oninput="trvDraw()" style="width:100%"></div>
-<div style="display:flex;gap:8px"><div style="flex:1.3;min-width:0"><div class="sub" style="margin-bottom:5px">Sanalar</div><input id="trv-date" type="text" maxlength="20" placeholder="12–19 noyabr" oninput="trvDraw()" style="width:100%"></div><div style="flex:1;min-width:0"><div class="sub" style="margin-bottom:5px">Muddat</div><input id="trv-nights" type="text" maxlength="14" placeholder="7 kecha" oninput="trvDraw()" style="width:100%"></div><div style="flex:1;min-width:0"><div class="sub" style="margin-bottom:5px">Kishi</div><input id="trv-ppl" type="text" maxlength="16" placeholder="2 kishi" oninput="trvDraw()" style="width:100%"></div></div>
-<div><div class="sub">Narxga kiradi (4 tagacha)</div>
-<div class="trv-inc"><select id="trv-i0" onchange="trvDraw()"></select><input id="trv-d0" type="text" maxlength="26" placeholder="qisqa izoh" oninput="trvDraw()"></div>
-<div class="trv-inc"><select id="trv-i1" onchange="trvDraw()"></select><input id="trv-d1" type="text" maxlength="26" placeholder="qisqa izoh" oninput="trvDraw()"></div>
-<div class="trv-inc"><select id="trv-i2" onchange="trvDraw()"></select><input id="trv-d2" type="text" maxlength="26" placeholder="qisqa izoh" oninput="trvDraw()"></div>
-<div class="trv-inc"><select id="trv-i3" onchange="trvDraw()"></select><input id="trv-d3" type="text" maxlength="26" placeholder="qisqa izoh" oninput="trvDraw()"></div>
-</div>
-<div style="display:flex;gap:10px"><div style="flex:2;min-width:0"><div class="sub" style="margin-bottom:5px">Narx (kishi boshiga, «dan»)</div><input id="trv-price" type="number" min="0" placeholder="690" oninput="trvDraw()" style="width:100%"></div><div style="flex:1;min-width:0"><div class="sub" style="margin-bottom:5px">Valyuta</div><select id="trv-cur" onchange="trvDraw()" style="width:100%"><option value="$">$</option><option value="so'm">so'm</option><option value="€">€</option></select></div></div>
-<div id="trv-oldw" style="display:none"><div class="sub" style="margin-bottom:5px">Eski narx (chegirmagacha) — foiz o'zi hisoblanadi</div><input id="trv-old" type="number" min="0" placeholder="990" oninput="trvDraw()" style="width:100%"></div>
-<div><div class="sub" id="trv-bl" style="margin-bottom:5px">Belgi (ixtiyoriy)</div><input id="trv-badge" type="text" maxlength="24" oninput="trvDraw()" style="width:100%"></div>
-<div><div class="sub" style="margin-bottom:5px">Bron uchun username (post tagidagi tugma)</div><input id="trv-contact" type="text" maxlength="40" placeholder="@agentlik_admin" style="width:100%"></div><div><div class="sub" style="margin-bottom:5px">Tugma matni (namunada yoziladi)</div><input id="trv-btn" type="text" maxlength="32" placeholder="Masalan: Bog'lanish" style="width:100%"></div>
-</div>
-<canvas id="trv-cv" width="1080" height="1350" style="width:100%;border-radius:16px;display:block;margin-bottom:14px"></canvas>
-<div style="display:flex;gap:10px">
-<button class="btn s" style="flex:1" onclick="trvDownload()">⬇ Yuklab olish</button>
-<button class="btn" style="flex:1" onclick="trvSendOpen()">📤 Yuborish</button>
-</div>
-<div id="trv-send" class="card" style="display:none;padding:14px;margin-top:12px">
-<div class="sub" style="margin-bottom:8px">Qayerga yuborilsin?</div>
-<select id="trv-chat" style="width:100%"></select>
-<button class="btn" style="width:100%;margin-top:10px" onclick="trvSend()">✅ Yuborish</button>
-</div>
-</div>
-<div id="p-rlt" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🏠 Ko'chmas mulk</h1><p class="sub" style="margin:-6px 2px 14px">Uy, kvartira yoki ijara uchun tayyor post rasmi: suratlar, maydon, qavat, narx va «Bog'lanish» tugmasi.</p><div id="pgb-rlt"></div></div>
-<div id="p-avt" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🚗 Avto savdo</h1><p class="sub" style="margin:-6px 2px 14px">Mashina sotish uchun chiroyli post: suratlar, yil, probeg, rang, narx va «Sotuvchiga yozish» tugmasi.</p><div id="pgb-avt"></div></div>
-<div id="p-vak" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>💼 Vakansiya</h1><p class="sub" style="margin:-6px 2px 14px">Ish e'loni uchun post: lavozim, maosh, ish vaqti, talablar va «Rezyume yuborish» tugmasi.</p><div id="pgb-vak"></div></div>
-<div id="p-edu" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🎓 O'quv markazi</h1><p class="sub" style="margin:-6px 2px 14px">Kurs va guruhlar uchun post: boshlanish sanasi, davomiyligi, narx va «Kursga yozilish» tugmasi.</p><div id="pgb-edu"></div></div>
-<div id="p-rst" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🍽 Restoran va kafe</h1><p class="sub" style="margin:-6px 2px 14px">Menyu, kombo va aksiyalar uchun post: taom suratlari, narxlar, chegirma va «Buyurtma berish» tugmasi.</p><div id="pgb-rst"></div></div>
-<div id="p-sln" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>💅 Salon va klinika</h1><p class="sub" style="margin:-6px 2px 14px">Go'zallik saloni yoki klinika xizmatlari uchun post: narxlar ro'yxati, aksiya va «Navbatga yozilish» tugmasi.</p><div id="pgb-sln"></div></div>
 <div id="p-ov" class="pg">
   <button class="bkb" onclick="go('home')">‹ Orqaga</button>
   <h1>🗳 Ovoz berish</h1>
   <div id="ov-body" aria-live="polite"><div class="sk"></div></div>
 </div>
 
-<div id="p-obd" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🗳 Ochiq byudjet</h1><p class="sub" style="margin:-6px 2px 14px">Mahalla tashabbusingiz uchun chiroyli post. Guruhga «🗳 Ovoz berish» (rasmiy sayt) va «✅ Ovoz berdim» tugmalari bilan yuboriladi, muddatgacha eslatmalar o'zi ketadi.</p><div class="card obd-g"><b>Qanday ishlaydi?</b><div class="bty-s"><i>1</i><div><b>Post tayyorlang</b><p>Loyiha nomi, mahalla, rasm va rasmiy openbudget.uz havolasini kiriting.</p></div></div><div class="bty-s"><i>2</i><div><b>Guruhga yuboring</b><p>A'zolar «Ovoz berish»ni bosib, rasmiy saytda o'z raqami bilan ovoz beradi.</p></div></div><div class="bty-s"><i>3</i><div><b>Natijani kuzating</b><p>«Ovoz berdim» bosganlar soni postda ko'rinadi. Yakunda tabrik posti yuborasiz.</p></div></div><div class="obd-safe">🔗 Ushbu postdagi «Ovoz berish» tugmasi rasmiy openbudget.uz saytini ochadi.</div></div><div id="pgb-obd"></div><div id="obd-list"></div></div>
-<div id="p-brand" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🎨 Brend to'plami</h1><p class="sub" style="margin:-6px 2px 14px">Bir marta sozlang — hamma post bo'limlariga avtomatik qo'llanadi.</p><div id="brandb"></div></div>
-<div id="p-ast" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>📊 Statistikam</h1><p class="sub" style="margin:-6px 2px 14px">Siz yuborgan e'lonlardagi tugmani necha kishi bosganini ko'rsatadi.</p><div id="astb"></div></div>
 <div id="p-bty" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button><h1>🤖 Bot yaratish</h1><div id="btyb"></div></div>
-<div id="p-txp" class="pg">
-<button class="bkb" onclick="go('home')">‹ Orqaga</button>
-<h1>🚕 Taksi e'loni</h1>
-<p class="sub" style="margin:-6px 2px 14px">Avtomobil rasmi, yo'nalish va vaqtni kiriting — tayyor post rasmini kanal yoki guruhingizga yuboring.</p>
-<div class="card" style="padding:14px;margin-bottom:12px">
-<div id="txp-pick" onclick="txpPick()" style="width:100%;aspect-ratio:16/9;border-radius:16px;border:2px dashed var(--ln);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;background:var(--in)">
-<div id="txp-ph" style="display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--sub)">
-<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16l-5.3-5.3a1.5 1.5 0 0 0-2.1 0L5 19"/></svg>
-<span style="font-size:13px">Avtomobil rasmini tanlang</span>
-</div>
-</div>
-<div id="txp-pick-hint" class="sub" style="display:none;text-align:center;font-size:12px;margin-top:8px">💡 Rasmni ushlab suring — joylashuvini o'zingiz tanlang</div>
-</div>
-<div class="card" style="padding:14px;display:flex;flex-direction:column;gap:12px;margin-bottom:12px">
-<div style="display:flex;gap:10px"><div style="flex:1"><div class="sub" style="margin-bottom:5px">Qayerdan</div><input id="txp-from" type="text" maxlength="30" placeholder="Toshkent" oninput="txpDraw()" style="width:100%"></div><div style="flex:1"><div class="sub" style="margin-bottom:5px">Qayerga</div><input id="txp-to" type="text" maxlength="30" placeholder="Samarqand" oninput="txpDraw()" style="width:100%"></div></div>
-<div style="display:flex;gap:10px"><div style="flex:1"><div class="sub" style="margin-bottom:5px">Jo'nash sanasi</div><input id="txp-date" type="date" oninput="txpDraw()" style="width:100%"></div><div style="flex:1"><div class="sub" style="margin-bottom:5px">Vaqti</div><input id="txp-time" type="time" oninput="txpDraw()" style="width:100%"></div></div>
-<div style="display:flex;gap:10px"><div style="flex:1"><div class="sub" style="margin-bottom:5px">Bo'sh joylar</div><input id="txp-seats" type="number" min="1" max="8" placeholder="3" oninput="txpDraw()" style="width:100%"></div><div style="flex:1"><div class="sub" style="margin-bottom:5px">Avtomobil modeli</div><input id="txp-model" type="text" maxlength="30" placeholder="Chevrolet Malibu" oninput="txpDraw()" style="width:100%"></div></div>
-<div><div class="sub" style="margin-bottom:5px">Telefon raqami</div><input id="txp-phone" type="tel" maxlength="20" placeholder="+998 90 123 45 67" oninput="txpDraw()" style="width:100%"></div>
-<div><div class="sub" style="margin-bottom:5px">Aloqa uchun (username)</div><input id="txp-contact" type="text" maxlength="40" placeholder="@sizning_username" oninput="txpDraw()" style="width:100%"></div><div><div class="sub" style="margin-bottom:5px">Tugma matni (namunada yoziladi)</div><input id="txp-btn" type="text" maxlength="32" placeholder="Masalan: Bog'lanish" style="width:100%"></div>
-</div>
-<div class="card" style="padding:14px;margin-bottom:12px">
-<div class="sub" style="margin-bottom:10px">Rang</div>
-<div style="display:flex;gap:8px">
-<button class="btn s txp-tb on" data-t="blue" onclick="txpTpl('blue')" style="flex:1;padding:9px 4px">Ko'k</button>
-<button class="btn s txp-tb" data-t="green" onclick="txpTpl('green')" style="flex:1;padding:9px 4px">Yashil</button>
-<button class="btn s txp-tb" data-t="orange" onclick="txpTpl('orange')" style="flex:1;padding:9px 4px">To'q sariq</button>
-</div>
-<div class="cc-row"><label class="cc-l"><input type="checkbox" id="txp-cx" onchange="txpDraw()"><span>🎨 O'z rangim</span></label><input type="color" id="txp-cc" value="#2F80ED" oninput="if($('txp-cx').checked)txpDraw()"></div>
-</div>
-<canvas id="txp-cv" width="1080" height="1080" style="width:100%;border-radius:16px;display:block;margin-bottom:8px"></canvas>
-<div class="sub" style="text-align:center;margin:-6px 0 12px;font-size:12px">Xira yozuvlar — namuna, yuborilgan postga kirmaydi</div>
-<div style="display:flex;gap:10px">
-<button class="btn s" style="flex:1" onclick="txpDownload()">⬇ Yuklab olish</button>
-<button class="btn" style="flex:1" onclick="txpSendOpen()">📤 Yuborish</button>
-</div>
-<div id="txp-send" class="card" style="display:none;padding:14px;margin-top:12px">
-<div class="sub" style="margin-bottom:8px">Qayerga yuborilsin?</div>
-<select id="txp-chat" style="width:100%"></select>
-<button class="btn" style="width:100%;margin-top:10px" onclick="txpSend()">✅ Yuborish</button>
-</div>
-</div>
 <div id="p-ab" class="pg"><button class="bkb" onclick="go('home')">‹ Orqaga</button>
 <div class="card abh"><div style="display:flex;justify-content:center"><span class="wm big"><span class="w1">Tartib</span><span class="w2"><svg class="pw" viewBox="0 0 100 112"><path d="M76 38.6A35 35 0 1 1 24 38.6"/><path d="M50 14v32" stroke-width="20"/></svg>n</span></span></div><div class="bs" style="text-align:center">Tartib — bu erkinlik!</div><p class="sub" style="text-align:center;margin:10px 0 0"><b style="color:var(--tx)">TartibOn</b> — kanal va guruhlaringizni boshqarish, foydali xizmatlar (nakrutka, eSIM, prava, namoz, kurs, ob-havo) va hisobingiz — hammasi bitta ilovada</p></div>
 
@@ -12274,7 +12135,7 @@ function donl(){$('donb').innerHTML='<div class="sk"></div>';api('don_info',{id:
 function donr(){var j=DON.d,h='<div class="card" style="text-align:center"><div class="bgi c6"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></div><b style="font-size:19px">'+esc(j.name)+'</b><div class="sub" style="margin-top:4px">'+(j.ctype==='Kanal'?'Kanal':'Guruh')+' muallifini qo\'llab-quvvatlang'+(j.n?' · '+j.n+' kishi qo\'llab-quvvatlagan':'')+'</div></div><div class="card"><b>Summani tanlang</b><div class="pcpk" style="grid-template-columns:repeat(3,minmax(0,1fr))">'+[5000,10000,25000,50000,100000,200000].map(function(a){return '<button class="btn'+(DON.a===a?'':' s')+'" onclick="DON.a='+a+';$(\'dna\').value='+a+';donr()"><b>'+nf(a)+'</b><span>so\'m</span></button>'}).join('')+'</div><input id="dna" type="number" inputmode="numeric" style="margin-top:10px" placeholder="Boshqa summa (so\'m)" value="'+DON.a+'"><p class="sub" style="font-size:12px;margin:0 0 8px">Balansingiz: <b>'+fmt(j.balance)+'</b>. Summa balansingizdan yechiladi, muallifga xizmat haqi ('+j.fee+'%) ayrilib tushadi.</p><button class="btn" onclick="donp()">💝 Qo\'llab-quvvatlash</button></div>';$('donb').innerHTML=h}
 function donp(){var a=+$('dna').value;if(!a){toast('Summani kiriting');return}cf(fmt(a)+' balansingizdan yechiladi. Davom etilsinmi?',function(y){if(y)api('don_pay',{id:DON.id,amount:a}).then(function(j){if(j.ok){toast('💝 Rahmat! Muallifga yuborildi');DON.d=j;donr()}else if(j.need_topup)goTop()})})}
 /* ?startapp=s_XX — havola bosilganda ilova o'sha bo'limda ochiladi */
-var SP_PAGES='home gd po rf st psj pc gw pcb pwx pdp pev bt rz pnm nk vs dv vz sale auc rt adp txp avt trv edu rlt vak rst sln obd ast brand bal bty ab ads ts'.split(' ');
+var SP_PAGES='home gd po rf st psj pc gw pcb pwx pdp pev bt rz pnm nk vs dv vz sale auc rt bal bty ab ads ts'.split(' ');
 var SP_FN={mykanal:function(){go('my','Kanal')},myguruh:function(){go('my','Guruh')},
  ksyt:function(){MK.p='yt';go('mk')},ksig:function(){MK.p='ig';go('mk')},sup:function(){sup()}};
 function stp(){var s='';try{s=(tg.initDataUnsafe||{}).start_param||''}catch(e){}
@@ -12434,7 +12295,7 @@ function hxbegin(b,ev){HX.drag=b;b.classList.add('hxd');var g=b.querySelector('.
 function hxmove(ev){if(HX.key&&!HX.drag&&Math.hypot(ev.clientX-HX.key.x,ev.clientY-HX.key.y)>9)clearTimeout(hxT);if(!HX.drag)return;ev.preventDefault&&ev.preventDefault();var g=HX.ghost;g.style.left=ev.clientX+'px';g.style.top=ev.clientY+'px';if(ev.clientY<90)window.scrollBy(0,-14);else if(ev.clientY>innerHeight-110)window.scrollBy(0,14);var el=document.elementFromPoint(ev.clientX,ev.clientY);if(!el)return;var t=el.closest('.hx-g .tq-s');if(t&&t.parentNode!==HX.drag.parentNode)return;if(t&&t!==HX.drag&&t.style.display!=='none'){var r=t.getBoundingClientRect();var after=ev.clientX>r.left+r.width/2&&Math.abs(ev.clientY-(r.top+r.height/2))<r.height/2+8||ev.clientY>r.bottom;if(after)t.parentNode.insertBefore(HX.drag,t.nextSibling);else t.parentNode.insertBefore(HX.drag,t)}else if(!t){var gr=el.closest('.hx-g');if(gr===HX.drag.parentNode)gr.appendChild(HX.drag)}}
 function hxup(){clearTimeout(hxT);HX.key=null;if(!HX.drag)return;HX.drag.classList.remove('hxd');HX.drag=null;if(HX.ghost){HX.ghost.remove();HX.ghost=null}hxsave();hxcount()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',hxinit);else hxinit();
-function go(p,w){try{tpClose()}catch(e){}try{document.documentElement.classList.toggle('home-on',p==='home')}catch(e){}if(p!=='ov')ovLeave();if(p!=='adm')ovAdminLeave();var _k=AGO;AGO=0;ADMV=!!_k;if(w)CW=w;if(p==='my'||p==='st'||p==='psj'||p==='gw'){try{var ov=obv();if(!ov[p]){ov[p]=1;localStorage.setItem('ob_v',JSON.stringify(ov))}}catch(e){}}if(p==='home'&&window.hxcount)setTimeout(hxcount,60);if(p==='home'&&window.HST)hst();if(p!=='home'&&HX.e)hxedit(0);document.body.classList.toggle('hxn',p==='home'||p==='st'||p==='me'||p==='adm');document.querySelectorAll('nav a,.pg').forEach(function(e){e.classList.remove('on')});var a=document.querySelector('nav a[data-p="'+p+'"]'+(w?'[data-w="'+w+'"]':''));if(a)a.classList.add('on');if(p==='tools')dr(1);$('p-'+p).classList.add('on');var _b=document.querySelector('#p-'+p+' .bkb');if(_b){if(!_b.dataset.o)_b.dataset.o=_b.getAttribute('onclick');_b.setAttribute('onclick',ADMV?"go('adm')":_b.dataset.o)}window.scrollTo(0,0);try{if(p==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(e){}if(p==='chats'){$('otn').textContent=CW==='Kanal'?'kanalingizni':'guruhingizni';$('otb').textContent='⚡ '+(CW==='Kanal'?'Kanalni':'Guruhni')+' tanlash';$('cht').textContent='➕ '+CW+' qo\'shish';$('cb2').textContent='➕ '+CW+' qo\'shish';$('cu').placeholder=(CW==='Kanal'?'@kanal_username yoki -100... ID':'@guruh_username yoki -100... ID')}if(p==='pnm'){tqs();prh();ucl('c')}if(p==='pcb'||p==='pvl'||p==='pdp'||p==='pev')tqs();if(p==='pev'){tqs();evl()}if(p==='pwx')wal();if(p==='vz')vzl();if(p==='sale')sall();if(p==='don')donl();if(p==='mk')mkl();if(p==='dv'){DV.v='home';dvl()}if(p==='me'){clubl();p5l()}hlp(p);if(p==='auc')aul();if(p==='pc')pcl();if(p==='rt')rtl();if(p==='pcb')ucl('a');if(p==='pvl')ucl('b');if(p==='psj')sjl();if(p==='me')mych();if(p==='pwx'){tqs();wxh();ucl('w')}if(p==='my'){$('myt').textContent=CW==='Kanal'?'📢 Kanallar':'👥 Guruhlar';$('chl').innerHTML='<div class="sk"></div>';chats()}if(p==='bal'||p==='ads')wallet();if(p==='ts')tsl();if(p==='bns')bnsl();if(p==='dn')dnp();if(p==='nk')nkl();if(p==='vs')vsl();if(p==='rz')rzl();if(p==='home'){adl();visualReferralLoad()}if(p==='dp')dpl();if(p==='bt')btl();if(p==='wx')wxl();if(p==='qz'){go('psj');return}if(p==='pr')prl();if(p==='gd')gdl();if(p==='po'){pol();pxl()}if(p==='st')stl();if(p==='gw'){gwl();gcl()}if(p==='rf')rfl();if(p==='adp')adpInit();if(p==='txp')txpInit();if(p==='bty')btyl();if(p==='trv')trvInit();if(window.PGS&&PGS[p])pgInit(p);if(p==='ast')astl();if(window.DRAFT_IDS&&DRAFT_IDS[p]){draftLoad(p);if(window.brandApply)brandApply(p);draftRedraw(p);if(window.tplInit)tplInit(p)}if(p==='brand')brandl();if(p==='ov')ovLoad();if(p==='adm'&&ADM){AV='home';MSG=null;admin()}}
+function go(p,w){try{tpClose()}catch(e){}try{document.documentElement.classList.toggle('home-on',p==='home')}catch(e){}if(p!=='ov')ovLeave();if(p!=='adm')ovAdminLeave();var _k=AGO;AGO=0;ADMV=!!_k;if(w)CW=w;if(p==='my'||p==='st'||p==='psj'||p==='gw'){try{var ov=obv();if(!ov[p]){ov[p]=1;localStorage.setItem('ob_v',JSON.stringify(ov))}}catch(e){}}if(p==='home'&&window.hxcount)setTimeout(hxcount,60);if(p==='home'&&window.HST)hst();if(p!=='home'&&HX.e)hxedit(0);document.body.classList.toggle('hxn',p==='home'||p==='st'||p==='me'||p==='adm');document.querySelectorAll('nav a,.pg').forEach(function(e){e.classList.remove('on')});var a=document.querySelector('nav a[data-p="'+p+'"]'+(w?'[data-w="'+w+'"]':''));if(a)a.classList.add('on');if(p==='tools')dr(1);$('p-'+p).classList.add('on');var _b=document.querySelector('#p-'+p+' .bkb');if(_b){if(!_b.dataset.o)_b.dataset.o=_b.getAttribute('onclick');_b.setAttribute('onclick',ADMV?"go('adm')":_b.dataset.o)}window.scrollTo(0,0);try{if(p==='home')tg.BackButton.hide();else tg.BackButton.show()}catch(e){}if(p==='chats'){$('otn').textContent=CW==='Kanal'?'kanalingizni':'guruhingizni';$('otb').textContent='⚡ '+(CW==='Kanal'?'Kanalni':'Guruhni')+' tanlash';$('cht').textContent='➕ '+CW+' qo\'shish';$('cb2').textContent='➕ '+CW+' qo\'shish';$('cu').placeholder=(CW==='Kanal'?'@kanal_username yoki -100... ID':'@guruh_username yoki -100... ID')}if(p==='pnm'){tqs();prh();ucl('c')}if(p==='pcb'||p==='pvl'||p==='pdp'||p==='pev')tqs();if(p==='pev'){tqs();evl()}if(p==='pwx')wal();if(p==='vz')vzl();if(p==='sale')sall();if(p==='don')donl();if(p==='mk')mkl();if(p==='dv'){DV.v='home';dvl()}if(p==='me'){clubl();p5l()}hlp(p);if(p==='auc')aul();if(p==='pc')pcl();if(p==='rt')rtl();if(p==='pcb')ucl('a');if(p==='pvl')ucl('b');if(p==='psj')sjl();if(p==='me')mych();if(p==='pwx'){tqs();wxh();ucl('w')}if(p==='my'){$('myt').textContent=CW==='Kanal'?'📢 Kanallar':'👥 Guruhlar';$('chl').innerHTML='<div class="sk"></div>';chats()}if(p==='bal'||p==='ads')wallet();if(p==='ts')tsl();if(p==='bns')bnsl();if(p==='dn')dnp();if(p==='nk')nkl();if(p==='vs')vsl();if(p==='rz')rzl();if(p==='home'){adl();visualReferralLoad()}if(p==='dp')dpl();if(p==='bt')btl();if(p==='wx')wxl();if(p==='qz'){go('psj');return}if(p==='pr')prl();if(p==='gd')gdl();if(p==='po'){pol();pxl()}if(p==='st')stl();if(p==='gw'){gwl();gcl()}if(p==='rf')rfl();if(p==='bty')btyl();if(window.PGS&&PGS[p])pgInit(p);if(window.DRAFT_IDS&&DRAFT_IDS[p]){draftLoad(p);if(window.brandApply)brandApply(p);draftRedraw(p);if(window.tplInit)tplInit(p)}if(p==='ov')ovLoad();if(p==='adm'&&ADM){AV='home';MSG=null;admin()}}
 try{document.documentElement.classList.add('home-on')}catch(e){}
 document.querySelectorAll('nav a').forEach(function(a){a.onclick=function(){if(a.dataset.p==='x')hxsvc();else go(a.dataset.p,a.dataset.w)}});
 function hxsvc(){go('home');setTimeout(function(){var e=$('hx-svc');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},80)}
@@ -13582,18 +13443,14 @@ function tplLoad(sec,i){if(i==='')return;var t=tplAll(sec)[+i];if(!t)return;for(
 function tplDel(sec){var L=tplAll(sec);if(!L.length)return;var q='Oxirgi saqlangan andoza o\'chirilsinmi?',run=function(){L.shift();try{localStorage.setItem(tplKey(sec),JSON.stringify(L))}catch(e){}tplRender(sec)};try{tg.showConfirm(q,function(ok){if(ok)run()})}catch(e){if(confirm(q))run()}}
 /* --- Brend to'plami: rang, username, tugma nomi bir marta saqlanadi, hamma postga qo'llanadi --- */
 function brandGet(){try{return JSON.parse(localStorage.getItem('tb_brand')||'{}')||{}}catch(e){return{}}}
-function brandSet(o){try{localStorage.setItem('tb_brand',JSON.stringify(o))}catch(e){}}
+
 var BRANDMAP={adp:['adp','adp-btn','adp-contact'],txp:['txp','txp-btn','txp-contact'],trv:['trv','trv-btn','trv-contact'],rlt:['pg-rlt','pg-rlt-btn','pg-rlt-contact'],avt:['pg-avt','pg-avt-btn','pg-avt-contact'],vak:['pg-vak','pg-vak-btn','pg-vak-contact'],edu:['pg-edu','pg-edu-btn','pg-edu-contact'],rst:['pg-rst','pg-rst-btn','pg-rst-contact'],sln:['pg-sln','pg-sln-btn','pg-sln-contact']};
 function brandApply(sec){var m=BRANDMAP[sec];if(!m)return;var b=brandGet();
  if(b.color){var cx=$(m[0]+'-cx'),cc=$(m[0]+'-cc');if(cx&&cc&&!cx.checked){cx.checked=true;cc.value=b.color}}
  if(b.btn){var bt=$(m[1]);if(bt&&!bt.value)bt.value=b.btn}
  if(b.contact){var ct=$(m[2]);if(ct&&!ct.value)ct.value=b.contact}}
-function brandl(){var e=$('brandb');if(!e)return;var b=brandGet();
- e.innerHTML='<div class="card"><b>Brend rangi</b><div class="sub" style="margin:4px 0 8px">Postlaringiz shu rangda bo\'ladi.</div><div class="cc-row"><label class="cc-l"><input type="checkbox" id="br-cx"'+(b.color?' checked':'')+'><span>Rang yoqilgan</span></label><input type="color" id="br-cc" value="'+(b.color||'#2B86F0')+'"></div></div>'
- +'<div class="card"><b>Aloqa username</b><div class="sub" style="margin:4px 0 6px">Post tagidagi tugma shu akkauntga olib boradi.</div><input id="br-ct" maxlength="40" placeholder="@sizning_username" value="'+esc(b.contact||'')+'"></div>'
- +'<div class="card"><b>Tugma matni</b><div class="sub" style="margin:4px 0 6px">Masalan: Bog\'lanish, Buyurtma berish.</div><input id="br-bt" maxlength="32" placeholder="Masalan: Bog\'lanish" value="'+esc(b.btn||'')+'"></div>'
- +'<button class="btn" style="width:100%" onclick="brandSave()">💾 Saqlash</button><div class="sub" style="text-align:center;margin-top:8px">Bu ma\'lumotlar faqat shu qurilmada saqlanadi va hamma post bo\'limlariga avtomatik qo\'yiladi.</div>';}
-function brandSave(){var o={color:($('br-cx').checked?$('br-cc').value:''),contact:($('br-ct').value||'').trim(),btn:($('br-bt').value||'').trim()};brandSet(o);if(o.contact)tbSaveContact(o.contact);toast('Saqlandi ✅')}
+
+
 function tbContact(){try{var b=brandGet();if(b.contact)return b.contact;return localStorage.getItem('tb_contact')||''}catch(e){return''}}
 function tbSaveContact(v){try{v=(v||'').trim();if(v)localStorage.setItem('tb_contact',v)}catch(e){}}
 function pickColor(pf,def){var x=$(pf+'-cx'),c=$(pf+'-cc');return (x&&x.checked&&c)?c.value:def}
@@ -13696,21 +13553,16 @@ function ovAdminExport(){if(!ADM||OVA.busy)return;var e=$('ova-export');if(e)e.d
 function ovAdminRetry(attempt){if(!ADM||OVA.busy)return;var message='Tashqi xizmatdagi natijani tekshirib, ovoz tasdiqlanmaganiga ishonch hosil qildingizmi? Bu amal ovoz qo‘shmaydi, foydalanuvchiga yangi urinishga ruxsat beradi.',run=function(ok){if(!ok)return;ovAdminBusy(true);api('ov_adm_retry',{attempt:attempt}).then(function(j){ovAdminBusy(false);if(j.ok){toast('Qayta urinishga ruxsat berildi');ovAdminLoad()}})};if(typeof cf==='function')cf(message,run);else run(confirm(message))}
 
 
-var DRAFT_IDS={adp:1,txp:1,trv:1,rlt:1,avt:1,vak:1,edu:1,rst:1,sln:1,obd:1},DT=0;
+var DRAFT_IDS={},DT=0;
 function draftSave(id){try{var o={};document.querySelectorAll('#p-'+id+' input,#p-'+id+' select,#p-'+id+' textarea').forEach(function(e){if(e.type==='file'||!e.id)return;o[e.id]=e.type==='checkbox'?(e.checked?1:0):e.value});localStorage.setItem('tb_dr_'+id,JSON.stringify(o))}catch(e){}}
 function draftLoad(id){try{var o=JSON.parse(localStorage.getItem('tb_dr_'+id)||'null');if(!o)return;for(var k in o){var e=document.getElementById(k);if(!e||e.type==='file')continue;if(e.type==='checkbox')e.checked=!!o[k];else if(o[k]!=='')e.value=o[k]}}catch(e){}}
 function draftClear(id){try{localStorage.removeItem('tb_dr_'+id)}catch(e){}}
-function draftRedraw(id){try{if(id==='adp')adpDraw();else if(id==='txp')txpDraw();else if(id==='trv')trvDraw();else pgDraw(id)}catch(e){}}
+function draftRedraw(id){try{pgDraw(id)}catch(e){}}
 function draftOnInput(e){var t=e.target;if(!t||!t.closest)return;var pg=t.closest('.pg');if(!pg||!DRAFT_IDS[pg.id.slice(2)]||t.type==='file')return;clearTimeout(DT);var id=pg.id.slice(2);DT=setTimeout(function(){draftSave(id)},400)}
 document.addEventListener('input',draftOnInput);document.addEventListener('change',draftOnInput);
 function ccRow(pf,def){return '<div class="cc-row"><label class="cc-l"><input type="checkbox" id="'+pf+'-cx" onchange="draftRedraw(\''+(pf.indexOf('pg-')===0?pf.slice(3):pf)+'\')"><span>🎨 O\'z rangim</span></label><input type="color" id="'+pf+'-cc" value="'+def+'" oninput="if($(\''+pf+'-cx\').checked)draftRedraw(\''+(pf.indexOf('pg-')===0?pf.slice(3):pf)+'\')"></div>'}
 /* statistika */
-function astl(){var e=$('astb');if(!e)return;e.innerHTML='<div class="sk"></div>';api('adv_stats').then(function(j){if(!j.ok){e.innerHTML='';return}
- var h='<div class="ast-top"><div class="ast-c"><b>'+(j.posts||0)+'</b><span>Yuborilgan post</span></div><div class="ast-c ast-cl"><b>'+(j.clicks||0)+'</b><span>Tugma bosilishi</span></div></div>';
- if(j.by&&j.by.length){h+='<div class="card"><b>Bo\'limlar bo\'yicha</b>'+j.by.map(function(x){return '<div class="ast-r"><span>'+esc(x.name)+'</span><b>'+x.clicks+'</b><i>'+x.n+' post</i></div>'}).join('')+'</div>'}
- if(j.last&&j.last.length){h+='<div class="card"><b>Oxirgi e\'lonlar</b>'+j.last.map(function(x){return '<div class="ast-r"><span>'+esc(x.name)+'</span><b>👆 '+x.clicks+'</b></div>'}).join('')+'</div>'}
- if(!j.posts)h='<div class="card sub" style="text-align:center">Hali e\'lon yuborilmagan. Savdogar, Taksi yoki boshqa bo\'limdan post yuboring — bu yerda nechta kishi tugmani bosgani ko\'rinadi.</div>';
- e.innerHTML=h})}
+
 function advbLoad(){var e=$('advb');if(!e)return;api('adm_advstats').then(function(j){if(!j.ok)return;
  var h='<div class="ast-top"><div class="ast-c"><b>'+j.posts+'</b><span>Jami post</span></div><div class="ast-c ast-cl"><b>'+j.clicks+'</b><span>Bosilish</span></div><div class="ast-c"><b>'+j.authors+'</b><span>Mualliflar</span></div></div>';
  h+='<div class="card sub">Bugun yuborilgan: <b style="color:var(--tx)">'+j.today+'</b> ta post</div>';
@@ -13825,65 +13677,13 @@ function adpDraw(){
  var cv=$('adp-cv');if(!cv)return;var v=adpVals();
  adpDrawCard(cv.getContext('2d'),cv.width,cv.height,ADP.img,v[0],v[1],v[2],v[3],ADP.pan,true);
 }
-function adpFinal(){
- var cv=$('adp-cv'),v=adpVals();
- adpDrawCard(cv.getContext('2d'),cv.width,cv.height,ADP.img,v[0],v[1],v[2],v[3],ADP.pan,false);
- var d=cv.toDataURL('image/jpeg',.92);adpDraw();return d;
-}
-function adpTpl(t){ADP.tpl=t;document.querySelectorAll('.adp-tb').forEach(function(b){b.classList.toggle('on',b.dataset.t===t)});adpDraw()}
-function adpPick(){
- var box0=$('adp-pick');if(box0.dataset.drag==='1'){box0.dataset.drag='';return}
- var f=document.createElement('input');f.type='file';f.accept='image/*';
- f.onchange=function(){
-  var fl=f.files&&f.files[0];if(!fl)return;
-  var r=new FileReader();
-  r.onload=function(){
-   var im=new Image();
-   im.onload=function(){
-    ADP.img=im;ADP.pan.x=.5;ADP.pan.y=.5;var box=$('adp-pick'),ex=box.querySelector('img');if(ex)ex.remove();
-    var tag=document.createElement('img');tag.src=r.result;tag.style.objectPosition='50% 50%';box.appendChild(tag);box.classList.add('has-img');
-    $('adp-pick-hint').style.display='block';
-    adpPanSetup('adp-pick',ADP.pan,adpDraw);
-    adpDraw();
-   };
-   im.onerror=function(){toast('Rasm o\'qilmadi')};
-   im.src=r.result;
-  };
-  r.readAsDataURL(fl);
- };
- f.click();
-}
-function adpInit(){
- if(!ADP.chats){
-  ADP.chats=[];
-  api('adp_chats').then(function(j){
-   ADP.chats=(j&&j.ok)?j.chats:[];
-   var s=$('adp-chat');
-   s.innerHTML=ADP.chats.length?ADP.chats.map(function(c){return '<option value="'+c.id+'">'+(c.ctype==='Kanal'?'📢':'👥')+' '+esc(c.username||('ID '+c.id))+'</option>'}).join(''):'<option value="">Tasdiqlangan kanal/guruhingiz yo\'q</option>';
-   var ci=$('adp-contact');
-   if(ci&&!ci.value)ci.value=tbContact()||((j&&j.ok&&j.me)?(j.me.username?'@'+j.me.username:j.me.id):'');
-  });
- }
- adpDraw();
-}
-function adpSendOpen(){
- if(!ADP.img){toast('Avval mahsulot rasmini tanlang');return}
- var box=$('adp-send');box.style.display=box.style.display==='none'?'block':'none';
-}
-function adpSend(){
- var id=$('adp-chat').value;
- if(!id){toast('Kanal/guruh tanlang');return}
- if(!ADP.img){toast('Avval rasm tanlang');return}
- var data=adpFinal();
- var contact=($('adp-contact').value||'').trim();tbSaveContact(contact);
- api('adp_send',{id:id,image:data,contact:contact,btn:(($('adp-btn')||{}).value||'').trim()}).then(function(j){
-  if(j.ok){toast('Yuborildi ✅');$('adp-send').style.display='none';draftClear('adp')}else toast(j.error||'Yuborilmadi')
- });
-}
-function adpDownload(){
- if(!ADP.img){toast('Avval rasm tanlang');return}
- var a=document.createElement('a');a.download='reklama.jpg';a.href=adpFinal();a.click();
-}
+
+
+
+
+
+
+
 
 
 /* ==== Sayohat e'loni (turagentliklar uchun post generatori, 1080x1350) ==== */
@@ -13956,38 +13756,14 @@ function trvData(){
   date:trvVal('trv-date'),nights:trvVal('trv-nights'),people:trvVal('trv-ppl'),inc:inc,price:price,cur:$('trv-cur').value,old:old,disc:q>p&&p>0?Math.round((q-p)*100/q):0,badge:trvVal('trv-badge')};
 }
 function trvDraw(){var cv=$('trv-cv');if(!cv)return;var p0=$('trv-p0');if(p0)p0.style.aspectRatio=TRV_T[TRV.tpl].single||(!TRV.img[1]&&!TRV.img[2])?'960/560':'640/560';trvDrawCard(cv.getContext('2d'),trvData())}
-function trvTpl(t){
- TRV.tpl=t;var T=TRV_T[t];document.querySelectorAll('.trv-tb').forEach(function(b){b.classList.toggle('on',b.dataset.t===t)});
- T.inc.forEach(function(x,i){$('trv-i'+i).value=x[0];$('trv-d'+i).value=x[1]});$('trv-badge').value=T.badge;
- $('trv-oldw').style.display=t==='deal'?'':'none';$('trv-small').style.display=T.single?'none':'';
- $('trv-bl').textContent=t==='deal'?'Chegirma muddati':'Belgi (ixtiyoriy)';
- trvDraw()}
-function trvCt(){$('trv-ctow').style.display=(TRV_CT[+$('trv-ct').value]||[])[1]==='Boshqa'?'':'none';trvDraw()}
-function trvPick(i){
- var box0=$('trv-p'+i);if(box0.dataset.drag==='1'){box0.dataset.drag='';return}
- var f=document.createElement('input');f.type='file';f.accept='image/*';
- f.onchange=function(){var fl=f.files&&f.files[0];if(!fl)return;var r=new FileReader();
-  r.onload=function(){var im=new Image();
-   im.onload=function(){TRV.img[i]=im;TRV.pan[i].x=.5;TRV.pan[i].y=.5;var box=$('trv-p'+i),ex=box.querySelector('img');if(ex)ex.remove();
-    var tag=document.createElement('img');tag.src=r.result;tag.style.objectPosition='50% 50%';box.appendChild(tag);box.classList.add('has-img');
-    $('trv-hint').style.display='block';adpPanSetup('trv-p'+i,TRV.pan[i],trvDraw);trvDraw()};
-   im.onerror=function(){toast('Rasm o\'qilmadi')};im.src=r.result};
-  r.readAsDataURL(fl)};
- f.click()}
-function trvInit(){
- if(!TRV.init){TRV.init=1;
-  $('trv-ct').innerHTML=TRV_CT.map(function(c,i){return '<option value="'+i+'">'+(c[0]?c[0]+' ':'')+esc(c[1])+'</option>'}).join('');
-  for(var i=0;i<4;i++)$('trv-i'+i).innerHTML=TRV_INC.map(function(x){return '<option value="'+x[0]+'">'+esc(x[1])+'</option>'}).join('');
-  trvTpl('tour')}
- if(!TRV.chats){TRV.chats=[];api('adp_chats').then(function(j){TRV.chats=(j&&j.ok)?j.chats:[];var s=$('trv-chat');
-  s.innerHTML=TRV.chats.length?TRV.chats.map(function(c){return '<option value="'+c.id+'">'+(c.ctype==='Kanal'?'📢':'👥')+' '+esc(c.username||('ID '+c.id))+'</option>'}).join(''):'<option value="">Tasdiqlangan kanal/guruhingiz yo\'q</option>';
-  var ci=$('trv-contact');if(ci&&!ci.value)ci.value=tbContact()||((j&&j.ok&&j.me)?(j.me.username?'@'+j.me.username:j.me.id):'')})}
- trvDraw()}
-function trvReady(){if(!TRV.img[0]){toast('Avval asosiy rasmni tanlang');return false}if(!trvVal('trv-title')){toast('Yo\'nalish nomini yozing');return false}return true}
-function trvSendOpen(){if(!trvReady())return;var b=$('trv-send');b.style.display=b.style.display==='none'?'block':'none'}
-function trvSend(){var id=$('trv-chat').value;if(!id){toast('Kanal/guruh tanlang');return}if(!trvReady())return;
- api('adp_send',{id:id,image:$('trv-cv').toDataURL('image/jpeg',.92),contact:(tbSaveContact(trvVal('trv-contact')),trvVal('trv-contact')),kind:'travel',btn:(($('trv-btn')||{}).value||'').trim()}).then(function(j){if(j.ok){toast('Yuborildi ✅');$('trv-send').style.display='none';draftClear('trv')}else toast(j.error||'Yuborilmadi')})}
-function trvDownload(){if(!trvReady())return;var a=document.createElement('a');a.download='sayohat.jpg';a.href=$('trv-cv').toDataURL('image/jpeg',.92);a.click()}
+
+
+
+
+
+
+
+
 /* ==== Soha e'lonlari: ko'chmas mulk, avto, vakansiya, o'quv markazi, restoran, salon (umumiy post generatori, 1080x1350) ==== */
 var PGI={
  area:'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5',floor:'M12 3 3 8l9 5 9-5zM3 13l9 5 9-5M3 18l9 5 9-5',door:'M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M3 21h18M15 12h.01',
@@ -14240,60 +14016,13 @@ function txpDrawCard(ctx,W,H,img,from,to,date,time,seats,model,phone,contact,col
 function txpVals(){return {from:($('txp-from').value||'').trim(),to:($('txp-to').value||'').trim(),date:$('txp-date').value?txpDate($('txp-date').value):'',time:$('txp-time').value||'',seats:$('txp-seats').value||'',model:($('txp-model').value||'').trim(),phone:($('txp-phone').value||'').trim(),contact:($('txp-contact').value||'').trim(),color:pickColor('txp',TXP_COLORS[TXP.tpl]||TXP_COLORS.blue)};}
 function txpRender(pv){var cv=$('txp-cv');if(!cv)return;var v=txpVals();txpDrawCard(cv.getContext('2d'),cv.width,cv.height,TXP.img,v.from,v.to,v.date,v.time,v.seats,v.model,v.phone,v.contact,v.color,TXP.pan,pv);}
 function txpDraw(){txpRender(true);}
-function txpFinal(){txpRender(false);var d=$('txp-cv').toDataURL('image/jpeg',.92);txpDraw();return d;}
-function txpTpl(t){TXP.tpl=t;document.querySelectorAll('.txp-tb').forEach(function(b){b.classList.toggle('on',b.dataset.t===t)});txpDraw()}
-function txpPick(){
- var box0=$('txp-pick');if(box0.dataset.drag==='1'){box0.dataset.drag='';return}
- var f=document.createElement('input');f.type='file';f.accept='image/*';
- f.onchange=function(){
-  var fl=f.files&&f.files[0];if(!fl)return;
-  var r=new FileReader();
-  r.onload=function(){
-   var im=new Image();
-   im.onload=function(){
-    TXP.img=im;TXP.pan.x=.5;TXP.pan.y=.5;var box=$('txp-pick'),ex=box.querySelector('img');if(ex)ex.remove();
-    var tag=document.createElement('img');tag.src=r.result;tag.style.objectPosition='50% 50%';box.appendChild(tag);box.classList.add('has-img');
-    $('txp-pick-hint').style.display='block';
-    adpPanSetup('txp-pick',TXP.pan,txpDraw);
-    txpDraw();
-   };
-   im.onerror=function(){toast('Rasm o\'qilmadi')};
-   im.src=r.result;
-  };
-  r.readAsDataURL(fl);
- };
- f.click();
-}
-function txpInit(){
- if(!TXP.chats){
-  TXP.chats=[];
-  api('adp_chats').then(function(j){
-   TXP.chats=(j&&j.ok)?j.chats:[];
-   var s=$('txp-chat');
-   s.innerHTML=TXP.chats.length?TXP.chats.map(function(c){return '<option value="'+c.id+'">'+(c.ctype==='Kanal'?'📢':'👥')+' '+esc(c.username||('ID '+c.id))+'</option>'}).join(''):'<option value="">Tasdiqlangan kanal/guruhingiz yo\'q</option>';
-   var ci=$('txp-contact');
-   if(ci&&!ci.value)ci.value=tbContact()||((j&&j.ok&&j.me)?(j.me.username?'@'+j.me.username:j.me.id):'');
-  });
- }
- txpDraw();
-}
-function txpSendOpen(){
- if(!TXP.img){toast('Avval avtomobil rasmini tanlang');return}
- var box=$('txp-send');box.style.display=box.style.display==='none'?'block':'none';
-}
-function txpSend(){
- var id=$('txp-chat').value;
- if(!id){toast('Kanal/guruh tanlang');return}
- if(!TXP.img){toast('Avval rasm tanlang');return}
- var data=txpFinal();
- api('adp_send',{id:id,image:data,kind:'driver',contact:(($('txp-contact')||{}).value||'').trim(),btn:(($('txp-btn')||{}).value||'').trim()}).then(function(j){
-  if(j.ok){toast('Yuborildi ✅');$('txp-send').style.display='none';draftClear('txp')}else toast(j.error||'Yuborilmadi')
- });
-}
-function txpDownload(){
- if(!TXP.img){toast('Avval rasm tanlang');return}
- var a=document.createElement('a');a.download='taksi.jpg';a.href=txpFinal();a.click();
-}
+
+
+
+
+
+
+
 
 /* Sarlavha va "Ilova haqida" ikonkalari: emoji o'rniga yangi uslubdagi ikonka (bosh sahifa katagidan yoki ACE to'plamidan) */
 var TGA={'Kanallar':'Kanallarim','Guruhlar':'Guruhlarim','Konkurslar':'Konkurs','Kanal Savdo':'Kanal Savdo Telegram','Kanal Savdo · Telegram':'Kanal Savdo Telegram','Kanal Savdo (Telegram, Instagram, YouTube)':'Kanal Savdo Telegram',"Reklama":"Reklama berish",'Namoz xabarnomalari':'Namoz vaqtlari','Postlar':'Rejalashtirilgan postlar','Hamkor dasturi':"O'zaro reklama",'Ob-havo ogohlantirishi':'Ob-havo'},TGT_=null;
@@ -14587,20 +14316,6 @@ var TO_ICONS = {
       ['esim','eSIM','esim','vs'],
       ['premium','Telegram Premium','premium','ts','prem'],
       ['stars','Stars','stars','ts','stars']
-    ]},
-    {id:'posts', title:'Post tayyorlash', subtitle:'Tayyor rasmli e’lonlar yarating', icon:'posts', items:[
-      ['taxi','Taksi e’loni','taxi','txp'],
-      ['car','Avto savdo','car','avt'],
-      ['shop','Savdogar','shop','adp'],
-      ['travel','Sayohat e’loni','travel','trv'],
-      ['education','O‘quv markazi','education','edu'],
-      ['house','Ko‘chmas mulk','house','rlt'],
-      ['job','Vakansiya','job','vak'],
-      ['restaurant','Restoran va kafe','restaurant','rst'],
-      ['clinic','Salon va klinika','clinic','sln'],
-      ['mystats','Statistikam','chart','ast'],
-      ['ballot','Ochiq byudjet','ballot','obd'],
-      ['brand','Brend to‘plami','brand','brand']
     ]},
     {id:'help', title:'Xizmatlar va yordam', subtitle:'Bot, yordam va ilova haqida', icon:'help', items:[
       ['bot','Bot yaratish','help','bty'],
