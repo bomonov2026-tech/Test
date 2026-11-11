@@ -13799,20 +13799,22 @@ html.dark .to-quick,html.dark .to-category,html.dark .wq { box-shadow:0 1px 2px 
 #tgwarn b { font-size:19px; font-weight:800; }
 #tgwarn p { margin:0; max-width:300px; color:#77758c; font-weight:500; }
 #tgwarn button { margin-top:10px; padding:11px 22px; border:0; border-radius:999px; background:#0095ff; color:#fff; font:700 15px/1 inherit; }
-.hmng { padding:14px 13px 13px; border-radius:26px; background:#fff; box-shadow:0 1px 2px rgba(28,34,66,.045), 0 6px 16px rgba(28,34,66,.07); }
 .hmng:empty { display:none; }
-.hmng-h { display:flex; align-items:baseline; gap:8px; margin:0 3px 12px; }
+.hmng-h { display:flex; align-items:baseline; gap:8px; margin:2px 6px 10px; }
 .hmng-h b { font-size:17px; font-weight:800; letter-spacing:-.35px; color:var(--to-text); }
 .hmng-h span { margin-left:auto; font-size:11px; color:var(--to-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.hmng-g { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px 4px; }
-.hmng .to-service.hmng-i { min-height:0; padding:3px 1px 2px; gap:6px; border-radius:14px; background:transparent; font:650 10.5px/1.18 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
-.hmng .to-service.hmng-i:active { background:#f1f0f6; }
-.hmng .to-service-icon { width:46px; height:46px; }
+.hmng-g { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+/* har bir bo'lim — alohida katakcha, yonlari doira simon */
+.hmng .to-service.hmng-i { min-height:106px; padding:12px 8px 10px; gap:4px; border-radius:999px; background:#fff;
+  box-shadow:0 1px 2px rgba(28,34,66,.045), 0 6px 16px rgba(28,34,66,.07);
+  font:650 9.5px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+.hmng .to-service.hmng-i:active { background:#f4f5fa; }
+.hmng .to-service-icon { width:38px; height:38px; }
 .hmng .to-service>span { -webkit-line-clamp:2; letter-spacing:-.1px; }
-html.dark .hmng { background:var(--cd); }
+html.dark .hmng .to-service.hmng-i { background:var(--cd); box-shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 16px rgba(0,0,0,.38); }
 html.dark .hmng .to-service.hmng-i:active { background:var(--in); }
-@media(max-width:360px) { .hmng{padding:12px 10px 11px}.hmng-g{gap:10px 3px}.hmng .to-service-icon{width:41px;height:41px}.hmng .to-service.hmng-i{font-size:9.5px} }
-@media(min-width:430px) { .hmng .to-service-icon{width:50px;height:50px}.hmng .to-service.hmng-i{font-size:11.5px} }
+@media(max-width:360px) { .hmng-g{gap:6px}.hmng .to-service-icon{width:33px;height:33px}.hmng .to-service.hmng-i{font-size:8.5px;min-height:94px;padding:11px 6px 9px} }
+@media(min-width:430px) { .hmng .to-service-icon{width:44px;height:44px}.hmng .to-service.hmng-i{font-size:10.5px;min-height:118px} }
 .hlogo { display:flex; align-items:center; justify-content:center; padding:0 8px 2px; }
 .hl-w { display:flex; align-items:center; white-space:nowrap; color:#0E1A33; font:900 clamp(34px,10.5vw,52px)/1 Nunito,-apple-system,"SF Pro Rounded",ui-rounded,Roboto,Arial,sans-serif; letter-spacing:-.021em; }
 .hl-w>span { display:inline-block; }
