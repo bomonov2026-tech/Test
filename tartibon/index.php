@@ -14028,15 +14028,11 @@ var TO_ICONS = {
       ['ramadan','Ramazon taqvimi','ramadan','rz'],
       ['rates','Valyutalar','currency','pvl']
     ]},
-    {id:'digital', title:'Raqamli xizmatlar', subtitle:'Nakrutka, eSIM, reklama va kanal savdosi', icon:'digital', items:[
+    {id:'digital', title:'Raqamli xizmatlar', subtitle:'Nakrutka, eSIM, Premium va Stars', icon:'digital', items:[
       ['growth','Nakrutka','digital','nk'],
       ['esim','eSIM','esim','vs'],
       ['premium','Telegram Premium','premium','ts','prem'],
-      ['stars','Stars','stars','ts','stars'],
-      ['adex','Reklama birjasi','paid','auc'],
-      ['chsale','Kanal Savdo','shop','sale'],
-      ['swap','O\'zaro reklama','group','vz'],
-      ['rating','Kanallar reytingi','trophy','rt']
+      ['stars','Stars','stars','ts','stars']
     ]},
     {id:'help', title:'Xizmatlar va yordam', subtitle:'Hamkorlik, yordam va qo\'shimcha xizmatlar', icon:'help', items:[
       ['bot','Bot yaratish','help','bty'],
