@@ -14412,7 +14412,7 @@ html body .to-header { position:relative; display:flex; align-items:center; just
 .to-head-button { display:grid; place-items:center; width:44px; height:44px; padding:0; border:1px solid rgba(255,255,255,.9); border-radius:50%; background:rgba(255,255,255,.75); color:var(--to-text); cursor:pointer; }
 .to-head-button svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 html body .to-header .agear { width:36px; height:36px; background:transparent; }
-.to-home { display:grid; gap:12px; }
+.to-home { display:grid; gap:14px; }
 .to-category-list { display:grid; gap:9px; }
 #to-home-status { padding:13px 16px; border-radius:18px; background:#e4f1ff; color:#1d609b; font-size:14px; line-height:1.45; }
 #to-home-status[hidden] { display:none!important; }
@@ -14428,7 +14428,10 @@ html body .to-header .agear { width:36px; height:36px; background:transparent; }
 .to-category-text b { display:block; font-size:16.5px; line-height:1.2; font-weight:750; letter-spacing:-.35px; }
 .to-category-text small { display:block; margin-top:1px; font-size:12px; line-height:1.3; font-weight:400; color:var(--to-muted); }
 /* bosh sahifa: logotip va foydalanuvchilar soni */
-.hcard { padding:14px 14px 12px; border-radius:26px; background:#fff; }
+/* kataklar fondan ajralib tursin */
+.to-quick,.hcard,.to-category,.wq { box-shadow:0 1px 2px rgba(28,34,66,.045), 0 6px 16px rgba(28,34,66,.07); }
+html.dark .to-quick,html.dark .hcard,html.dark .to-category,html.dark .wq { box-shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 16px rgba(0,0,0,.38); }
+.hcard { padding:15px 15px 13px; border-radius:26px; background:#fff; }
 .hcard:empty { display:none; }
 .hc-h { display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px; margin:0 0 11px; }
 .hc-h b { font-size:18px; font-weight:800; letter-spacing:-.4px; color:var(--to-text); }
@@ -14465,7 +14468,7 @@ html.dark .hc-top>div,html.dark .hw-g>div,html.dark .hc-more { background:var(--
 html.dark .hc-r { border-top-color:var(--ln); }
 @media(max-width:379px) { .hw-g{grid-template-columns:1fr} }
 @media(max-width:360px) { .hc-r>span{font-size:12.5px}.hc-r b{min-width:52px;font-size:14px}.hc-cols span:nth-child(2),.hc-cols span:nth-child(3){min-width:52px} }
-.hlogo { display:flex; align-items:center; justify-content:center; padding:4px 8px 2px; }
+.hlogo { display:flex; align-items:center; justify-content:center; padding:8px 8px 4px; }
 .hl-w { display:flex; align-items:center; white-space:nowrap; color:#0E1A33; font:900 clamp(34px,10.5vw,52px)/1 Nunito,-apple-system,"SF Pro Rounded",ui-rounded,Roboto,Arial,sans-serif; letter-spacing:-.021em; }
 .hl-w>span { display:inline-block; }
 .hl-o { position:relative; display:inline-block; width:.92em; height:.92em; margin:0 .02em 0 .04em; transform:translateY(.02em); flex:none; }
