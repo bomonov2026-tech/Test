@@ -13457,13 +13457,26 @@ function hrate(){
  BA.sort(function(a,b){return +b.buy-+a.buy});
  var hi=BA[0],lo=BA.slice().sort(function(a,b){return +a.sell-+b.sell})[0];
  var L=HR_ALL?BA:BA.slice(0,5);
- var h='<div class="hc-h"><b>Dollar kursi</b><span>Banklarda olish va sotish</span></div>'
+ var h='<div class="hc-h"><b>Dollar kursi</b>'
+  +'<button type="button" class="hc-rf" id="hr-rf" onclick="hrefresh()" aria-label="Kurslarni yangilash">'
+  +'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 3v5.5H15"/></svg></button>'
+  +'<span class="hc-sub">Banklarda olish va sotish narxi</span></div>'
   +'<div class="hc-top"><div><span>Eng yuqori olish</span><b class="hc-g">'+f(hi.buy)+'</b></div>'
   +'<div><span>Eng arzon sotish</span><b class="hc-s">'+f(lo.sell)+'</b></div></div>'
   +'<div class="hc-cols"><span>Bank</span><span>Olish</span><span>Sotish</span></div>'
   +L.map(function(b){return '<div class="hc-r"><span>'+esc(b.bank)+'</span><b class="hc-g">'+f(b.buy)+'</b><b class="hc-s">'+f(b.sell)+'</b></div>'}).join('');
  if(BA.length>5)h+='<button type="button" class="hc-more" onclick="HR_ALL=!HR_ALL;hrate()">'+(HR_ALL?'Yopish':'Barcha banklar ('+BA.length+')')+'</button>';
  e.innerHTML=h;
+}
+function hrefresh(){
+ if(hrefresh.b)return;hrefresh.b=1;
+ var e=$('hr-rf');if(e)e.classList.add('spin');
+ try{tg.HapticFeedback.impactOccurred('light')}catch(x){}
+ var done=function(m){hrefresh.b=0;var n=$('hr-rf');if(n)n.classList.remove('spin');if(m)toast(m)};
+ api('refresh').then(function(j){
+  if(j&&j.rates){hrefresh.b=0;draw(j);toast('Kurslar yangilandi \u2705')}
+  else done((j&&j.error)||'Hozircha yangilanmadi');
+ }).catch(function(){done('Aloqa yo\'q')});
 }
 function hwxr(){
  var e=$('hwx'),j=HWJ;if(!e)return;
@@ -14417,9 +14430,16 @@ html body .to-header .agear { width:36px; height:36px; background:transparent; }
 /* bosh sahifa: logotip va foydalanuvchilar soni */
 .hcard { padding:14px 14px 12px; border-radius:26px; background:#fff; }
 .hcard:empty { display:none; }
-.hc-h { display:flex; align-items:baseline; gap:8px; margin:0 0 11px; }
+.hc-h { display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px; margin:0 0 11px; }
 .hc-h b { font-size:18px; font-weight:800; letter-spacing:-.4px; color:var(--to-text); }
-.hc-h span { margin-left:auto; font-size:11.5px; color:var(--to-muted); white-space:nowrap; }
+.hc-h>span { margin-left:auto; font-size:11.5px; color:var(--to-muted); white-space:nowrap; }
+.hc-h>span.hc-sub { flex-basis:100%; margin:-2px 0 0; white-space:normal; }
+.hc-rf { margin-left:auto; display:grid; place-items:center; width:32px; height:32px; flex:none; padding:0; border:0; border-radius:50%; background:#f1f0f6; color:var(--to-blue); cursor:pointer; }
+.hc-rf svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2.1; stroke-linecap:round; stroke-linejoin:round; }
+.hc-rf:active { transform:scale(.92); }
+.hc-rf.spin svg { animation:hc-spin .9s linear infinite; transform-origin:50% 50%; }
+@keyframes hc-spin { to { transform:rotate(360deg); } }
+html.dark .hc-rf { background:var(--in); }
 .hc-top { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 10px; }
 .hc-top>div { display:flex; flex-direction:column; gap:1px; padding:8px 11px; border-radius:16px; background:#f5f6fb; }
 .hc-top span { font-size:11.5px; color:var(--to-muted); }
