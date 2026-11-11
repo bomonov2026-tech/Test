@@ -13800,10 +13800,11 @@ html.dark .to-quick,html.dark .to-category,html.dark .wq { box-shadow:0 1px 2px 
 #tgwarn p { margin:0; max-width:300px; color:#77758c; font-weight:500; }
 #tgwarn button { margin-top:10px; padding:11px 22px; border:0; border-radius:999px; background:#0095ff; color:#fff; font:700 15px/1 inherit; }
 .hmng:empty { display:none; }
+.hmng, .hmng-s, .hmng-h, .hmng-g { min-width:0; }
 .hmng-s + .hmng-s { margin-top:18px; }
 .hmng-h { display:flex; align-items:baseline; gap:8px; margin:2px 6px 10px; }
-.hmng-h b { font-size:17px; font-weight:800; letter-spacing:-.35px; color:var(--to-text); }
-.hmng-h span { margin-left:auto; font-size:11px; color:var(--to-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hmng-h b { flex:none; white-space:nowrap; font-size:17px; font-weight:800; letter-spacing:-.35px; color:var(--to-text); }
+.hmng-h span { flex:1; min-width:0; text-align:right; font-size:11px; color:var(--to-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .hmng-g { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
 /* har bir bo'lim — alohida katakcha, yonlari doira simon */
 /* katak: tepa-pasti tekis, ikki yoni doira simon; rasm ichida, nomi tagida */
@@ -14024,7 +14025,8 @@ var TO_ICONS = {
       ['morning','Tongi xabar','morning','pdp'],
       ['night','Tungi xabar','night','pev'],
       ['gift','Bayram tabriklari','gift','bt'],
-      ['ramadan','Ramazon taqvimi','ramadan','rz']
+      ['ramadan','Ramazon taqvimi','ramadan','rz'],
+      ['rates','Valyutalar','currency','pvl']
     ]},
     {id:'digital', title:'Raqamli xizmatlar', subtitle:'Nakrutka, eSIM, reklama va kanal savdosi', icon:'digital', items:[
       ['growth','Nakrutka','digital','nk'],
@@ -14036,8 +14038,13 @@ var TO_ICONS = {
       ['swap','O\'zaro reklama','group','vz'],
       ['rating','Kanallar reytingi','trophy','rt']
     ]},
-    {id:'help', title:'Xizmatlar va yordam', subtitle:'Bot, yordam va ilova haqida', icon:'help', items:[
+    {id:'help', title:'Xizmatlar va yordam', subtitle:'Hamkorlik, yordam va qo\'shimcha xizmatlar', icon:'help', items:[
       ['bot','Bot yaratish','help','bty'],
+      ['referral','Taklif havolalari','group','rf'],
+      ['partner','Hamkor dasturi','job','bns'],
+      ['prava','Prava testlari','education','dv'],
+      ['donate','Qo\'llab-quvvatlash','gift','don'],
+      ['botdev','Bot rivoji','brand','dn'],
       ['support','Savol va takliflar','question','support'],
       ['about','Ilova haqida','info','ab']
     ]}
@@ -14068,7 +14075,7 @@ var TO_ICONS = {
     return '<button type="button" class="to-category" data-category="'+c.id+'" aria-haspopup="dialog" aria-expanded="false" aria-controls="to-panel">'+icon(c.icon,'to-category-icon')+'<span class="to-category-text"><b>'+esc(c.title)+'</b><small>'+esc(c.subtitle)+'</small></span>'+chevron()+'</button>';
   }
   var mng = document.getElementById('hmng');
-  var HOME_CATS = ['manage','daily'];
+  var HOME_CATS = ['manage','daily','digital','help'];
   function renderHomeGrid() {
     if (!mng) return;
     mng.innerHTML = HOME_CATS.map(function(id){
