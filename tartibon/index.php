@@ -14026,11 +14026,15 @@ var TO_ICONS = {
       ['gift','Bayram tabriklari','gift','bt'],
       ['ramadan','Ramazon taqvimi','ramadan','rz']
     ]},
-    {id:'digital', title:'Raqamli xizmatlar', subtitle:'Nakrutka, eSIM, Premium va Stars', icon:'digital', items:[
+    {id:'digital', title:'Raqamli xizmatlar', subtitle:'Nakrutka, eSIM, reklama va kanal savdosi', icon:'digital', items:[
       ['growth','Nakrutka','digital','nk'],
       ['esim','eSIM','esim','vs'],
       ['premium','Telegram Premium','premium','ts','prem'],
-      ['stars','Stars','stars','ts','stars']
+      ['stars','Stars','stars','ts','stars'],
+      ['adex','Reklama birjasi','paid','auc'],
+      ['chsale','Kanal Savdo','shop','sale'],
+      ['swap','O\'zaro reklama','group','vz'],
+      ['rating','Kanallar reytingi','trophy','rt']
     ]},
     {id:'help', title:'Xizmatlar va yordam', subtitle:'Bot, yordam va ilova haqida', icon:'help', items:[
       ['bot','Bot yaratish','help','bty'],
@@ -14117,7 +14121,7 @@ var TO_ICONS = {
   }
   function renderPanel(c) {
     document.getElementById('to-panel-title').textContent=c.title;
-    grid.dataset.columns=(c.id==='posts'||c.id==='help')?'3':'2';
+    grid.dataset.columns=(c.id==='help'||available(c).length>6)?'3':'2';
     grid.innerHTML=available(c).map(function(item){
       return '<button type="button" class="to-service" data-service="'+item[0]+'">'+icon(item[2],'to-service-icon')+'<span>'+esc(item[1])+'</span></button>';
     }).join('');
