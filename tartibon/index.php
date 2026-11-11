@@ -13806,18 +13806,18 @@ html.dark .to-quick,html.dark .to-category,html.dark .wq { box-shadow:0 1px 2px 
 .hmng-g { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
 /* har bir bo'lim — alohida katakcha, yonlari doira simon */
 /* katak: tepa-pasti tekis, ikki yoni doira simon; rasm ichida, nomi tagida */
-.hmng .to-service.hmng-i { min-height:0; padding:0; gap:6px; border-radius:0; background:transparent; box-shadow:none;
-  font:650 10px/1.18 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+.hmng .to-service.hmng-i { min-height:0; padding:0; gap:7px; border-radius:0; background:transparent; box-shadow:none;
+  font:650 12px/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
 .hmng .to-service.hmng-i:active { background:transparent; }
 .hmng .to-service-icon { width:100%; height:54px; display:grid; place-items:center; border-radius:999px; background:#fff;
   box-shadow:0 1px 2px rgba(28,34,66,.045), 0 6px 16px rgba(28,34,66,.07); transition:transform .12s, background .12s; }
 .hmng .to-service.hmng-i:active .to-service-icon { background:#f1f0f6; transform:scale(.96); }
 .hmng .to-service-icon svg { width:32px; height:32px; }
-.hmng .to-service>span { -webkit-line-clamp:2; letter-spacing:-.1px; }
+.hmng .to-service>span { -webkit-line-clamp:2; letter-spacing:0; }
 html.dark .hmng .to-service-icon { background:var(--cd); box-shadow:0 1px 2px rgba(0,0,0,.3), 0 6px 16px rgba(0,0,0,.38); }
 html.dark .hmng .to-service.hmng-i:active .to-service-icon { background:var(--in); }
-@media(max-width:360px) { .hmng-g{gap:6px}.hmng .to-service-icon{height:48px}.hmng .to-service-icon svg{width:28px;height:28px}.hmng .to-service.hmng-i{font-size:9px} }
-@media(min-width:430px) { .hmng .to-service-icon{height:60px}.hmng .to-service-icon svg{width:36px;height:36px}.hmng .to-service.hmng-i{font-size:11px} }
+@media(max-width:360px) { .hmng-g{gap:6px}.hmng .to-service-icon{height:48px}.hmng .to-service-icon svg{width:28px;height:28px}.hmng .to-service.hmng-i{font-size:11px} }
+@media(min-width:430px) { .hmng .to-service-icon{height:60px}.hmng .to-service-icon svg{width:36px;height:36px}.hmng .to-service.hmng-i{font-size:13px} }
 .hlogo { display:flex; align-items:center; justify-content:center; padding:0 8px 2px; }
 .hl-w { display:flex; align-items:center; white-space:nowrap; color:#0E1A33; font:900 clamp(34px,10.5vw,52px)/1 Nunito,-apple-system,"SF Pro Rounded",ui-rounded,Roboto,Arial,sans-serif; letter-spacing:-.021em; }
 .hl-w>span { display:inline-block; }
