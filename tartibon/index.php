@@ -13800,6 +13800,7 @@ html.dark .to-quick,html.dark .to-category,html.dark .wq { box-shadow:0 1px 2px 
 #tgwarn p { margin:0; max-width:300px; color:#77758c; font-weight:500; }
 #tgwarn button { margin-top:10px; padding:11px 22px; border:0; border-radius:999px; background:#0095ff; color:#fff; font:700 15px/1 inherit; }
 .hmng:empty { display:none; }
+.hmng-s + .hmng-s { margin-top:18px; }
 .hmng-h { display:flex; align-items:baseline; gap:8px; margin:2px 6px 10px; }
 .hmng-h b { font-size:17px; font-weight:800; letter-spacing:-.35px; color:var(--to-text); }
 .hmng-h span { margin-left:auto; font-size:11px; color:var(--to-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -14063,17 +14064,20 @@ var TO_ICONS = {
     return '<button type="button" class="to-category" data-category="'+c.id+'" aria-haspopup="dialog" aria-expanded="false" aria-controls="to-panel">'+icon(c.icon,'to-category-icon')+'<span class="to-category-text"><b>'+esc(c.title)+'</b><small>'+esc(c.subtitle)+'</small></span>'+chevron()+'</button>';
   }
   var mng = document.getElementById('hmng');
+  var HOME_CATS = ['manage','daily'];
   function renderHomeGrid() {
     if (!mng) return;
-    var c = findCategory('manage');
-    var items = c ? available(c) : [];
-    mng.innerHTML = items.length
-      ? '<div class="hmng-h"><b>' + esc(c.title) + '</b><span>' + esc(c.subtitle) + '</span></div><div class="hmng-g">'
+    mng.innerHTML = HOME_CATS.map(function(id){
+      var c = findCategory(id);
+      var items = c ? available(c) : [];
+      if (!items.length) return '';
+      return '<div class="hmng-s"><div class="hmng-h"><b>' + esc(c.title) + '</b><span>' + esc(c.subtitle)
+        + '</span></div><div class="hmng-g">'
         + items.map(function(item){
             return '<button type="button" class="to-service hmng-i" data-service="' + item[0] + '">'
                  + icon(item[2],'to-service-icon') + '<span>' + esc(item[1]) + '</span></button>';
-          }).join('') + '</div>'
-      : '';
+          }).join('') + '</div></div>';
+    }).join('');
   }
   var cards = categories.map(card).join('');
   var homeList = home.querySelector('.to-category-list');
