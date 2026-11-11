@@ -14537,6 +14537,55 @@ html body #gate { z-index:120; }
 @keyframes to-fade { from{background:rgba(22,22,33,0)} to{background:rgba(22,22,33,.42)} }
 @media(min-width:480px) { .to-category{min-height:68px}.to-category-text b{font-size:18px}.to-category-text small{font-size:13px}.to-quick{font-size:13px}.to-category-icon{width:50px;height:50px;flex-basis:50px}.to-category-list{gap:10px} }
 @media(max-width:360px) { html body .sheet{padding-left:12px;padding-right:12px}.to-category{gap:9px;padding-left:7px;padding-right:15px;border-radius:999px;min-height:56px}.to-category-icon{width:40px;height:40px;flex-basis:40px}.to-category-text b{font-size:15px}.to-category-text small{font-size:11px}.to-quick{font-size:11px;padding-left:7px;padding-right:7px}.to-plus{width:25px;height:25px}.to-plus svg{width:15px;height:15px}.to-panel{padding-left:12px;padding-right:12px}.to-panel-grid{gap:7px}.to-service{min-height:98px;font-size:12.5px;padding:11px 6px 10px}.to-service-icon{width:48px;height:48px}.to-panel-grid[data-columns="3"] .to-service{font-size:11.5px;padding:10px 4px;min-height:90px}.to-panel-grid[data-columns="3"] .to-service-icon{width:42px;height:42px} }
+
+/* ---------- Admin panel: bosh sahifa bilan bir xil uslub ---------- */
+#p-adm { color:var(--to-text); }
+#p-adm h1 { font-size:27px; font-weight:800; letter-spacing:-.5px; margin:2px 2px 14px; }
+#p-adm .bkb { color:var(--to-blue); font-weight:650; }
+#p-adm .agt { margin:18px 4px 8px; font-size:12.5px; font-weight:650; letter-spacing:.2px; color:var(--to-muted); text-transform:none; }
+/* guruh kartalari */
+#p-adm .ag { background:#fff; border:0; border-radius:26px; margin:0 0 14px; overflow:hidden; box-shadow:0 1px 2px rgba(28,34,66,.045),0 6px 16px rgba(28,34,66,.07); }
+#p-adm .ar { min-height:58px; padding:9px 16px 9px 14px; gap:12px; }
+#p-adm .ar:not(:last-child):after { left:60px; height:1px; background:#f1eff6; }
+#p-adm .ar:active { background:#f5f6fb; }
+#p-adm .ai { width:34px; height:34px; border-radius:11px; box-shadow:none; }
+#p-adm .ai svg { width:19px; height:19px; stroke-width:1.9; }
+#p-adm .ar>b { font-size:16px; font-weight:600; letter-spacing:-.2px; }
+#p-adm .ar .av2 { font-size:14px; color:var(--to-muted); }
+#p-adm .ar .an { min-width:22px; height:22px; padding:0 7px; border-radius:11px; background:var(--to-blue); font-size:12.5px; font-weight:700; }
+#p-adm .ar .ac2 { color:#c4c3d0; font-size:22px; }
+#p-adm .ar.bl>b { color:var(--to-blue); font-weight:650; }
+#p-adm .ar.bl .ai svg { stroke:var(--to-blue); }
+/* oddiy kartalar */
+#p-adm .card { background:#fff; border:0; border-radius:24px; padding:15px 16px; margin:0 0 12px; box-shadow:0 1px 2px rgba(28,34,66,.045),0 6px 16px rgba(28,34,66,.07); }
+#p-adm .card>b:first-child { font-size:16px; font-weight:750; letter-spacing:-.2px; }
+#p-adm .sub { color:var(--to-muted); }
+/* profil sarlavhasi */
+#p-adm .ahd { padding:4px 0 16px; }
+#p-adm .ahd .aav { width:76px; height:76px; background:linear-gradient(135deg,#4cb3ff,#0f7ae5); box-shadow:0 10px 22px rgba(15,122,229,.26); }
+#p-adm .ahd .aav svg { width:38px; height:38px; }
+#p-adm .ahd b { font-size:21px; font-weight:800; letter-spacing:-.4px; }
+#p-adm .ahd span { font-size:13px; color:var(--to-muted); }
+/* yuqoridagi uchta son */
+#p-adm .tq-st { gap:9px; margin:0 0 16px; }
+#p-adm .tq-st>div { padding:11px 10px; border-radius:20px; background:#fff; box-shadow:0 1px 2px rgba(28,34,66,.045),0 6px 16px rgba(28,34,66,.07); }
+/* tugmalar */
+#p-adm .btn { border-radius:16px; background:var(--to-blue); color:#fff; font-weight:700; box-shadow:none; }
+#p-adm .btn.s { background:#eef0f7; color:var(--to-blue); box-shadow:none; }
+#p-adm .btn:active { transform:scale(.985); }
+/* maydonlar */
+#p-adm input,#p-adm textarea,#p-adm select { background:#f5f6fb; border:0; border-radius:14px; color:var(--to-text); }
+#p-adm input:focus,#p-adm textarea:focus,#p-adm select:focus { border-color:transparent; box-shadow:0 0 0 3px rgba(0,149,255,.18); }
+#p-adm .chip,#p-adm .tb { border-radius:14px; background:#eef0f7; color:var(--to-blue); }
+#p-adm .chip.on,#p-adm .tb.on { background:var(--to-blue); color:#fff; }
+#p-adm .tag { border-radius:999px; }
+/* tungi tema */
+html.dark #p-adm .ag,html.dark #p-adm .card,html.dark #p-adm .tq-st>div { background:var(--cd); box-shadow:0 1px 2px rgba(0,0,0,.3),0 6px 16px rgba(0,0,0,.38); }
+html.dark #p-adm .ar:active { background:var(--in); }
+html.dark #p-adm .ar:not(:last-child):after { background:var(--ln); }
+html.dark #p-adm input,html.dark #p-adm textarea,html.dark #p-adm select,html.dark #p-adm .btn.s,html.dark #p-adm .chip,html.dark #p-adm .tb { background:var(--in); }
+html.dark #p-adm .ar .ac2 { color:#5a5f70; }
+@media(max-width:360px) { #p-adm h1{font-size:24px}#p-adm .ar>b{font-size:15px}#p-adm .ar{padding-left:12px;padding-right:13px}#p-adm .ar:not(:last-child):after{left:56px} }
 @media(prefers-reduced-motion:reduce) { .to-overlay,.to-panel{animation:none}.to-quick:active,.to-category:active,.to-service:active{transform:none} }
 
 </style>
