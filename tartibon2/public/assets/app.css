@@ -1,0 +1,251 @@
+/* ==========================================================================
+   TartibOn — dizayn tizimi (B uslubi: chiziqli ikonkalar, oq kartalar)
+   Bitta qatlam, !important yo'q, kaskad tartibi bilan ishlaydi.
+   ========================================================================== */
+
+/* --- 1. Tokenlar --------------------------------------------------------- */
+:root{
+  --blue:#1C7DF3;
+  --blue-d:#1468D4;
+  --soft:#EAF2FE;         /* ikonka chipi foni */
+  --soft-a:#D9E8FD;       /* bosilgandagi holati */
+  --bg:#F2F3F7;
+  --bg-top:#E7F0FD;       /* sahifa tepasidagi mayin ko'k */
+  --card:#FFFFFF;
+  --card-a:#F1F2F7;
+  --text:#10131B;
+  --muted:#77758C;
+  --line:#EDEFF4;
+  --green:#22C55E;
+  --green-bg:#E7F6EC;
+  --red:#E5484D;
+  --sh:0 1px 2px rgba(28,34,66,.04), 0 6px 16px rgba(28,34,66,.06);
+  --sh-nav:0 6px 22px rgba(56,45,98,.10);
+  --r-card:22px;          /* karta burchagi */
+  --r-chip:16px;          /* ikonka chipi burchagi */
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --round:Nunito,-apple-system,"SF Pro Rounded",ui-rounded,Roboto,Arial,sans-serif;
+  --pad:16px;             /* sahifa yon chekkasi */
+  --nav-h:96px;           /* pastki navigatsiya egallagan joy */
+}
+html[data-theme="dark"]{
+  --soft:#1E2B3D; --soft-a:#26374D;
+  --bg:#16171B; --bg-top:#191D26; --card:#21232A; --card-a:#2A2D36;
+  --text:#F4F5F7; --muted:#8C8FA0; --line:#2C2F38;
+  --green-bg:#17301F;
+  --sh:0 1px 2px rgba(0,0,0,.30), 0 6px 16px rgba(0,0,0,.38);
+  --sh-nav:0 6px 22px rgba(0,0,0,.45);
+}
+
+/* --- 2. Asos ------------------------------------------------------------- */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{
+  background:var(--bg);
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:transparent;
+}
+body{
+  min-height:100vh;
+  min-height:100dvh;
+  background:linear-gradient(var(--bg-top) 0, var(--bg) 260px) no-repeat,var(--bg);
+  color:var(--text);
+  font:400 15px/1.45 var(--font);
+  overflow-x:hidden;
+}
+button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer}
+svg{display:block}
+b,strong{font-weight:700}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+[hidden]{display:none}
+
+/* ikonka chipi — butun ilova bo'ylab bir xil */
+.ic{display:grid;place-items:center;flex:none;border-radius:var(--r-chip);background:var(--soft);color:var(--blue)}
+.ic svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.ic--46{width:46px;height:46px}
+.ic--44{width:44px;height:44px;border-radius:15px}
+.ic--44 svg{width:24px;height:24px}
+
+/* --- 3. Sarlavha --------------------------------------------------------- */
+.hdr{
+  position:relative;display:flex;align-items:center;gap:12px;
+  max-width:600px;margin:0 auto;
+  padding:calc(10px + env(safe-area-inset-top)) 18px 8px;
+}
+.hdr__brand{position:absolute;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none}
+.hdr__brand b{display:block;font-size:25px;line-height:1.2;font-weight:750;letter-spacing:-.8px}
+.hdr__brand span{display:block;color:var(--muted);font-size:15px;line-height:1.4}
+.hdr__btn{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.75);color:var(--text)}
+html[data-theme="dark"] .hdr__btn{border-color:rgba(255,255,255,.07);background:rgba(255,255,255,.06)}
+.hdr__btn svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hdr__btn--end{margin-left:auto;border:0;background:none;color:var(--blue)}
+.is-home .hdr__brand{visibility:hidden}
+
+/* --- 4. Sahifa konteyneri ------------------------------------------------ */
+.wrap{max-width:600px;margin:0 auto;padding:0 var(--pad) calc(var(--nav-h) + env(safe-area-inset-bottom))}
+.page{display:none}
+.page.is-on{display:block;animation:fade .18s ease-out}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.back{display:inline-flex;align-items:center;gap:4px;margin:2px 0 10px;color:var(--blue);font-weight:650;font-size:15px}
+.back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.h1{margin:2px 2px 14px;font-size:27px;line-height:1.15;font-weight:800;letter-spacing:-.7px}
+
+/* --- 5. Logotip ---------------------------------------------------------- */
+.logo{display:flex;align-items:center;justify-content:center;padding:2px 8px 12px}
+.logo__w{display:flex;align-items:center;white-space:nowrap;color:#0E1A33;
+  font:900 clamp(34px,10.5vw,52px)/1 var(--round);letter-spacing:-.021em}
+html[data-theme="dark"] .logo__w{color:#fff}
+.logo__w>span{display:inline-block}
+.logo__o{position:relative;display:inline-block;width:.92em;height:.92em;margin:0 .02em 0 .04em;
+  transform:translateY(.02em);flex:none}
+.logo__o svg{width:100%;height:100%;fill:none;stroke-width:3.8;stroke-linecap:round;overflow:visible}
+.logo__o .r{stroke:#2B86F0}
+.logo__o .b{stroke:var(--green)}
+
+/* --- 6. Statistika kartasi ----------------------------------------------- */
+.stat{display:flex;align-items:center;padding:14px 8px;border-radius:var(--r-card);
+  background:var(--card);box-shadow:var(--sh)}
+.stat>div{flex:1;min-width:0;text-align:center}
+.stat b{display:block;font-size:19px;font-weight:800;letter-spacing:-.4px}
+.stat span{font-size:11px;color:var(--muted)}
+.stat i{width:1px;height:26px;background:var(--line);flex:none}
+
+/* --- 7. Tezkor amallar --------------------------------------------------- */
+.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.quick button{display:flex;align-items:center;justify-content:center;padding:11px 4px;border-radius:14px;
+  background:var(--card);color:var(--blue);box-shadow:var(--sh);
+  font:650 13px/1 var(--font);white-space:nowrap}
+.quick svg{width:16px;height:16px;margin-right:5px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round}
+
+/* --- 8. Bo'lim kartasi (4 ta katakli to'r) ------------------------------- */
+.sec{padding:14px 13px 13px;border-radius:var(--r-card);background:var(--card);box-shadow:var(--sh);min-width:0}
+.sec+.sec{margin-top:12px}
+.sec__h{display:flex;align-items:baseline;gap:8px;margin:0 3px 12px;min-width:0}
+.sec__h b{flex:none;white-space:nowrap;font-size:17px;font-weight:800;letter-spacing:-.35px}
+.sec__h span{flex:1;min-width:0;text-align:right;font-size:11px;color:var(--muted);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sec__g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 4px;min-width:0}
+.tile{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;
+  font:650 12px/1.25 var(--font);text-align:center;color:var(--text)}
+.tile span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  overflow-wrap:break-word}
+.tile:active .ic{background:var(--soft-a)}
+
+/* --- 9. Ro'yxat qatori --------------------------------------------------- */
+.rows{display:grid;gap:10px}
+.row{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px 11px 11px;
+  border-radius:var(--r-card);background:var(--card);box-shadow:var(--sh);text-align:left}
+.row__t{flex:1;min-width:0}
+.row__t b{display:block;font-size:16px;font-weight:650;letter-spacing:-.2px}
+.row__t small{display:block;margin-top:1px;font-size:12.5px;color:var(--muted)}
+.row__m{flex:none;color:var(--muted);font-size:14px}
+.row__c{width:15px;height:15px;flex:none;color:#8B899E;fill:none;stroke:currentColor;
+  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.row:active{background:var(--card-a)}
+
+/* --- 10. Balans ---------------------------------------------------------- */
+.bal{text-align:center;padding:10px 8px 20px}
+.bal span{display:block;font-size:15px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.bal b{display:block;font-size:40px;line-height:1.08;font-weight:800;letter-spacing:-1.4px}
+.bal i{display:inline-block;margin-top:8px;padding:4px 12px;border-radius:999px;
+  background:var(--green-bg);color:#1A9E4F;font-style:normal;font-size:12.5px;font-weight:650}
+.wact{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:14px}
+.wq{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  min-height:84px;padding:12px 3px 11px;border-radius:var(--r-card);background:var(--card);
+  color:var(--blue);box-shadow:var(--sh);font:650 12.5px/1.2 var(--font)}
+.wq i{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--blue);flex:none}
+.wq i svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.wq span{overflow-wrap:anywhere}
+.wq:active{transform:scale(.97)}
+
+/* --- 11. Profil ---------------------------------------------------------- */
+.prof{display:flex;align-items:center;gap:16px;padding:16px;margin-bottom:12px;
+  border-radius:var(--r-card);background:var(--card);box-shadow:var(--sh)}
+.prof__av{display:grid;place-items:center;width:68px;height:68px;flex:none;border-radius:50%;
+  background:linear-gradient(145deg,#4FA3FF,var(--blue));color:#fff;
+  font:800 28px/1 var(--round)}
+.prof__t{min-width:0}
+.prof__t b{display:block;font-size:22px;font-weight:800;letter-spacing:-.5px}
+.prof__t small{display:block;color:var(--muted);font-size:14px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.tag{padding:4px 11px;border-radius:999px;background:var(--line);color:var(--muted);
+  font-size:12px;font-weight:700}
+.tag--blue{background:var(--blue);color:#fff}
+
+/* --- 12. Pastki navigatsiya ---------------------------------------------- */
+.nav{position:fixed;z-index:45;left:16px;right:16px;bottom:calc(12px + env(safe-area-inset-bottom));
+  max-width:568px;margin:0 auto;padding:5px;border-radius:40px;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.97);box-shadow:var(--sh-nav)}
+html[data-theme="dark"] .nav{border-color:rgba(255,255,255,.06);background:#21232A}
+.nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  min-height:62px;padding:7px 2px;border-radius:32px;font:500 12px/1.2 var(--font)}
+.nav svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.nav button[aria-current="page"]{color:var(--blue);background:var(--line);font-weight:650}
+.nav button[aria-current="page"][data-tab="home"] svg{fill:var(--blue)}
+
+/* --- 13. Pastki oyna (bottom sheet) -------------------------------------- */
+.ov{position:fixed;z-index:80;inset:0;display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(22,22,33,.42);animation:ovIn .18s ease-out}
+.sheet{width:100%;max-width:600px;max-height:calc(100dvh - 28px - env(safe-area-inset-top));
+  padding:0 16px calc(20px + env(safe-area-inset-bottom));border-radius:30px 30px 0 0;
+  background:var(--card);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  box-shadow:0 -8px 32px rgba(25,25,45,.06);animation:shIn .23s cubic-bezier(.2,.7,.3,1)}
+.sheet__grip{display:flex;align-items:center;justify-content:center;height:22px}
+.sheet__grip::before{content:"";width:42px;height:5px;border-radius:5px;background:#DCDBE5}
+.sheet__h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}
+.sheet__h h2{margin:0;font-size:23px;line-height:1.2;font-weight:750;letter-spacing:-.6px}
+.sheet__x{display:grid;place-items:center;width:36px;height:36px;flex:none;border-radius:50%;
+  background:var(--line);color:var(--text)}
+.sheet__x svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.sheet__g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 6px}
+@keyframes ovIn{from{background:rgba(22,22,33,0)}to{background:rgba(22,22,33,.42)}}
+@keyframes shIn{from{transform:translateY(32px);opacity:0}to{transform:none;opacity:1}}
+html.is-locked{overflow:hidden}
+
+/* --- 14. Forma elementlari ----------------------------------------------- */
+.fld{display:block;margin-bottom:12px}
+.fld span{display:block;margin:0 0 6px 4px;font-size:13px;font-weight:650;color:var(--muted)}
+.fld input{width:100%;padding:13px 15px;border-radius:16px;border:1.5px solid var(--line);
+  background:var(--bg);color:var(--text);font:650 17px/1.2 var(--font)}
+.fld input:focus{outline:none;border-color:var(--blue);background:var(--card)}
+.chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.chips button{padding:10px 4px;border-radius:14px;background:var(--soft);color:var(--blue);
+  font:700 14px/1 var(--font)}
+.chips button:active{background:var(--soft-a)}
+.btn{display:block;width:100%;padding:16px;border-radius:18px;background:var(--blue);color:#fff;
+  font:700 16px/1 var(--font)}
+.btn:active{background:var(--blue-d)}
+.btn[disabled]{opacity:.5}
+.note{margin:12px 2px 0;font-size:13px;line-height:1.5;color:var(--muted)}
+
+/* --- 15. Toast / holat --------------------------------------------------- */
+.toast{position:fixed;z-index:120;left:50%;bottom:calc(var(--nav-h) + 16px);transform:translateX(-50%);
+  max-width:calc(100% - 40px);padding:12px 20px;border-radius:999px;background:#10131B;color:#fff;
+  font:650 14px/1.3 var(--font);text-align:center;box-shadow:0 8px 26px rgba(0,0,0,.25);
+  animation:fade .18s ease-out}
+.empty{padding:38px 20px;text-align:center;color:var(--muted);font-size:14.5px}
+
+/* --- 16. Moslashuv ------------------------------------------------------- */
+@media(max-width:360px){
+  :root{--pad:12px}
+  .sec__g{gap:12px 3px}
+  .ic--46{width:42px;height:42px;border-radius:14px}
+  .ic--46 svg{width:23px;height:23px}
+  .ic--44{width:40px;height:40px}
+  .tile{font-size:11px}
+  .bal b{font-size:34px}
+  .wact{gap:7px}
+  .wq{min-height:78px;font-size:11.5px}
+}
+@media(min-width:430px){
+  .ic--46{width:50px;height:50px}
+  .ic--46 svg{width:27px;height:27px}
+  .tile{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  .page.is-on,.ov,.sheet,.toast{animation:none}
+  .wq:active{transform:none}
+}

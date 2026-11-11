@@ -3,3 +3,6 @@ app/vendor/
 app/data/
 app/composer.lock
 *.zip
+
+# TartibOn maxfiy sozlamalari
+tartibon2/config.php
