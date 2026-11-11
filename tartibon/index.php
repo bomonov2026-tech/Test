@@ -11904,7 +11904,8 @@ html:not(.dark):has(#p-home.on) .sheet{background:#fff!important}
 <div id="to-home" class="to-home">
 <div class="hlogo" role="img" aria-label="TartibOn"><span class="hl-w"><span>T</span><span style="margin-left:-.079em">a</span><span>r</span><span style="margin-left:.029em">t</span><span style="margin-left:.018em">i</span><span>b</span><i class="hl-o" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="3.8" stroke-linecap="round"><path class="hl-r" d="M7.2 6.6a8 8 0 1 0 9.6 0"/><path class="hl-b" d="M12 2.6v8"/></svg></i><span>n</span></span></div>
 <div class="vx-st"><div class="vx-sth"><div class="vx-stt"><b>Ilovadan foydalanadigan kanal, guruh va obunachilar soni</b><p><svg viewBox="0 0 26 20" aria-hidden="true" fill="#5be37a"><circle cx="9" cy="6" r="4"/><circle cx="18.5" cy="7" r="3.2"/><path d="M1 19c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5z"/><path d="M18 19c0-2.6-.8-4.8-2.2-6.4.8-.4 1.7-.6 2.7-.6 3.6 0 6.5 2.6 6.5 7z"/></svg>TartibOn xizmatlaridan hozirda foydalanayotganlar</p></div><svg class="vx-trend" viewBox="0 0 80 64" aria-hidden="true"><defs><linearGradient id="vxtr" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#14b84a"/><stop offset="1" stop-color="#8bff6a"/></linearGradient></defs><path d="M4 58 26 36l12 8 26-28" fill="none" stroke="url(#vxtr)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M52 10 75 6l-4 23z" fill="#7ef56a"/></svg></div><div class="vx-tiles"><div class="vx-tile k"><span class="vx-ic"><svg viewBox="0 0 24 24"><path d="M21.5 3.2 2.6 10.6c-.9.4-.9 1.6 0 1.9l4.7 1.6 1.8 5.6c.3.8 1.3 1 1.8.4l2.7-2.7 4.8 3.5c.7.5 1.7.1 1.9-.8L23 4.5c.2-.9-.7-1.6-1.5-1.3z"/></svg></span><span class="vx-tv"><b id="hs_k">—</b><span>Kanal</span></span><svg class="vx-spark" viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 28C12 26 16 17 26 20S40 9 60 2" fill="none" stroke="#3d8bff" stroke-width="2"/></svg></div><div class="vx-tile g"><span class="vx-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.8" r="3.4"/><circle cx="5.4" cy="9.4" r="2.5"/><circle cx="18.6" cy="9.4" r="2.5"/><path d="M5.8 19.5c0-3.6 2.8-6.2 6.2-6.2s6.2 2.6 6.2 6.2z"/><path d="M.8 18.5c0-2.6 1.8-4.6 4.3-4.6.9 0 1.6.2 2.2.6-1.2 1.2-2 2.7-2.2 4z"/><path d="M23.2 18.5c0-2.6-1.8-4.6-4.3-4.6-.9 0-1.6.2-2.2.6 1.2 1.2 2 2.7 2.2 4z"/></svg></span><span class="vx-tv"><b id="hs_g">—</b><span>Guruh</span></span><svg class="vx-spark" viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 28C12 26 16 17 26 20S40 9 60 2" fill="none" stroke="#22c55e" stroke-width="2"/></svg></div><div class="vx-tile u"><span class="vx-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.8" r="4.2"/><path d="M4 20.5c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5z"/></svg></span><span class="vx-tv"><b id="hs_u">—</b><span>Obunachi</span></span></div></div></div>
-<div class="to-actions" aria-label="Tezkor amallar"><button type="button" class="to-quick" data-quick="channel" aria-label="Kanal qo‘shish"><span class="to-plus" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg></span><span class="to-quick-label">Kanal</span></button><button type="button" class="to-quick" data-quick="group" aria-label="Guruh qo‘shish"><span class="to-plus" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg></span><span class="to-quick-label">Guruh</span></button><button type="button" class="to-quick" data-quick="topup" aria-label="Hisobni to‘ldirish"><span class="to-plus" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg></span><span class="to-quick-label">To‘ldirish</span></button></div><div id="to-home-status" role="status" hidden></div></div>
+<div class="to-actions" aria-label="Tezkor amallar"><button type="button" class="to-quick" data-quick="channel" aria-label="Kanal qo‘shish"><span class="to-plus" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg></span><span class="to-quick-label">Kanal</span></button><button type="button" class="to-quick" data-quick="group" aria-label="Guruh qo‘shish"><span class="to-plus" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg></span><span class="to-quick-label">Guruh</span></button><button type="button" class="to-quick" data-quick="topup" aria-label="Hisobni to‘ldirish"><span class="to-plus" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg></span><span class="to-quick-label">To‘ldirish</span></button></div>
+<div class="hmng" id="hmng"></div><div id="to-home-status" role="status" hidden></div></div>
 <div id="to-legacy-home" hidden inert aria-hidden="true"><div id="tqn_k"></div><div id="tqn_g"></div><div id="tqn_u"></div><div id="hob"></div><div id="hst"></div><div id="hxdn"></div><div id="hxdnv"></div><div id="visual-ref"></div><div id="vxgb"></div><div id="vxgr"></div><div id="vxgc"></div><div id="visual-reward"></div><div id="visual-reward3"></div><div id="visual-reward2"></div><div id="visual-url"></div><div id="visual-count"></div><div id="visual-earned"></div><div id="visual-pending"></div><div id="hxrs"></div><div id="hxeb"></div><div id="hx-svc"></div><div id="hx-ov"></div><div id="tgig"></div><div id="tqbal"></div><div id="tqsup"></div><div id="tqads"></div><div id="adb"></div><div id="cards" style="display:none"></div></div>
 </div>
 <div id="p-tools" class="pg"><div class="phd"><h1>Xizmatlar</h1><span class="balp" id="balp" onclick="go('bal')" style="display:none"></span></div><div id="tlb"></div><div id="to-tools" class="to-category-list" aria-label="Xizmatlar bo‘limlari"></div></div>
@@ -13798,6 +13799,20 @@ html.dark .to-quick,html.dark .to-category,html.dark .wq { box-shadow:0 1px 2px 
 #tgwarn b { font-size:19px; font-weight:800; }
 #tgwarn p { margin:0; max-width:300px; color:#77758c; font-weight:500; }
 #tgwarn button { margin-top:10px; padding:11px 22px; border:0; border-radius:999px; background:#0095ff; color:#fff; font:700 15px/1 inherit; }
+.hmng { padding:14px 13px 13px; border-radius:26px; background:#fff; box-shadow:0 1px 2px rgba(28,34,66,.045), 0 6px 16px rgba(28,34,66,.07); }
+.hmng:empty { display:none; }
+.hmng-h { display:flex; align-items:baseline; gap:8px; margin:0 3px 12px; }
+.hmng-h b { font-size:17px; font-weight:800; letter-spacing:-.35px; color:var(--to-text); }
+.hmng-h span { margin-left:auto; font-size:11px; color:var(--to-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hmng-g { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px 4px; }
+.hmng .to-service.hmng-i { min-height:0; padding:3px 1px 2px; gap:6px; border-radius:14px; background:transparent; font:650 10.5px/1.18 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+.hmng .to-service.hmng-i:active { background:#f1f0f6; }
+.hmng .to-service-icon { width:46px; height:46px; }
+.hmng .to-service>span { -webkit-line-clamp:2; letter-spacing:-.1px; }
+html.dark .hmng { background:var(--cd); }
+html.dark .hmng .to-service.hmng-i:active { background:var(--in); }
+@media(max-width:360px) { .hmng{padding:12px 10px 11px}.hmng-g{gap:10px 3px}.hmng .to-service-icon{width:41px;height:41px}.hmng .to-service.hmng-i{font-size:9.5px} }
+@media(min-width:430px) { .hmng .to-service-icon{width:50px;height:50px}.hmng .to-service.hmng-i{font-size:11.5px} }
 .hlogo { display:flex; align-items:center; justify-content:center; padding:0 8px 2px; }
 .hl-w { display:flex; align-items:center; white-space:nowrap; color:#0E1A33; font:900 clamp(34px,10.5vw,52px)/1 Nunito,-apple-system,"SF Pro Rounded",ui-rounded,Roboto,Arial,sans-serif; letter-spacing:-.021em; }
 .hl-w>span { display:inline-block; }
@@ -14042,6 +14057,19 @@ var TO_ICONS = {
   function card(c) {
     return '<button type="button" class="to-category" data-category="'+c.id+'" aria-haspopup="dialog" aria-expanded="false" aria-controls="to-panel">'+icon(c.icon,'to-category-icon')+'<span class="to-category-text"><b>'+esc(c.title)+'</b><small>'+esc(c.subtitle)+'</small></span>'+chevron()+'</button>';
   }
+  var mng = document.getElementById('hmng');
+  function renderHomeGrid() {
+    if (!mng) return;
+    var c = findCategory('manage');
+    var items = c ? available(c) : [];
+    mng.innerHTML = items.length
+      ? '<div class="hmng-h"><b>' + esc(c.title) + '</b><span>' + esc(c.subtitle) + '</span></div><div class="hmng-g">'
+        + items.map(function(item){
+            return '<button type="button" class="to-service hmng-i" data-service="' + item[0] + '">'
+                 + icon(item[2],'to-service-icon') + '<span>' + esc(item[1]) + '</span></button>';
+          }).join('') + '</div>'
+      : '';
+  }
   var cards = categories.map(card).join('');
   var homeList = home.querySelector('.to-category-list');
   if (homeList) homeList.innerHTML = cards;   /* bosh sahifada faqat uchta katak */
@@ -14059,6 +14087,7 @@ var TO_ICONS = {
       button.setAttribute('aria-expanded', String(button.dataset.category===current));
       button.hidden = !available(findCategory(button.dataset.category)).length;
     });
+    renderHomeGrid();
   }
   function lock() {
     scrollY = window.pageYOffset;
