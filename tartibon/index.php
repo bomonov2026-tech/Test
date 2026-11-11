@@ -11094,8 +11094,8 @@ header('ETag: ' . $etag); header('Cache-Control: no-cache');
 if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) === $etag) { http_response_code(304); exit; }
 if (!ini_get('zlib.output_compression') && function_exists('ob_gzhandler') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) ob_start('ob_gzhandler');
 ?><!doctype html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>TartibOn</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=Poppins:wght@900&display=swap" rel="stylesheet">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all';this.onload=null">
+<script src="https://telegram.org/js/telegram-web-app.js" onerror="window.TG_SDK_FAIL=1"></script>
 <style>:root{--ac:#2f80ed;--tx:#000;--sub:#8e8e93;--g:#34c759;--r:#ff3b30;--soft:#e8f1ff;--cd:#fff;--ln:#efeff4;color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{overflow-x:hidden;overscroll-behavior:none;touch-action:pan-y;-webkit-text-size-adjust:100%}
 body{margin:0;background:#efeff4;color:var(--tx);font:16px -apple-system,Roboto,Arial,sans-serif;min-height:100vh}
@@ -11969,7 +11969,21 @@ html:not(.dark):has(#p-home.on) .sheet{background:#fff!important}
 
 
 <script>
-var tg=window.Telegram.WebApp;tg.ready();tg.expand();try{tg.disableVerticalSwipes()}catch(e){}document.addEventListener('gesturestart',function(e){e.preventDefault()});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});function thm(){document.documentElement.classList.remove('dark');try{tg.setHeaderColor('#F2F6FB');tg.setBackgroundColor('#F2F6FB')}catch(e){}}thm();try{tg.onEvent('themeChanged',thm)}catch(e){}
+/* Telegram SDK yuklanmasa (tarmoq yoki bloklash) ilova butunlay o'lib qolmasin */
+var TG_OK=!!(window.Telegram&&window.Telegram.WebApp);
+var tg=TG_OK?window.Telegram.WebApp:(function(){var n=function(){};return{initData:'',initDataUnsafe:{},
+ ready:n,expand:n,close:n,onEvent:n,offEvent:n,openLink:function(u){try{location.href=u}catch(e){}},
+ openTelegramLink:function(u){try{location.href=u}catch(e){}},setHeaderColor:n,setBackgroundColor:n,
+ disableVerticalSwipes:n,requestContact:n,showConfirm:function(q,cb){try{cb(confirm(q))}catch(e){}},
+ showAlert:function(m,cb){try{alert(m)}catch(e){}if(cb)cb()},
+ BackButton:{show:n,hide:n,onClick:n},MainButton:{show:n,hide:n},
+ HapticFeedback:{impactOccurred:n,notificationOccurred:n,selectionChanged:n}}})();
+try{tg.ready()}catch(e){}try{tg.expand()}catch(e){}try{tg.disableVerticalSwipes()}catch(e){}
+if(!TG_OK)try{document.documentElement.classList.remove('sp-intro','sp-wait');
+ var _w=document.createElement('div');_w.id='tgwarn';
+ _w.innerHTML='<b>Ilova yuklanmadi</b><p>Telegram kutubxonasiga ulanib bo\'lmadi. Internetni tekshiring yoki ilovani yopib qayta oching.</p><button onclick="location.reload()">Qayta urinish</button>';
+ if(document.body)document.body.appendChild(_w);else document.addEventListener('DOMContentLoaded',function(){document.body.appendChild(_w)});
+}catch(e){}document.addEventListener('gesturestart',function(e){e.preventDefault()});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});function thm(){document.documentElement.classList.remove('dark');try{tg.setHeaderColor('#F2F6FB');tg.setBackgroundColor('#F2F6FB')}catch(e){}}thm();try{tg.onEvent('themeChanged',thm)}catch(e){}
 var BOTU=<?php echo json_encode(BOT_USERNAME); ?>,R=[],ADM=false,$=function(i){return document.getElementById(i)};
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function f(n){return n==null?'—':Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ')}
@@ -13858,6 +13872,10 @@ html.dark .hc-top>div,html.dark .hw-g>div,html.dark .hc-more { background:var(--
 html.dark .hc-r { border-top-color:var(--ln); }
 @media(max-width:379px) { .hw-g{grid-template-columns:1fr} }
 @media(max-width:360px) { .hc-r>span{font-size:12.5px}.hc-r b{min-width:52px;font-size:14px}.hc-cols span:nth-child(2),.hc-cols span:nth-child(3){min-width:52px} }
+#tgwarn { position:fixed; z-index:2147483600; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:24px; text-align:center; background:#f0eff6; color:#10131b; font:600 15px/1.45 -apple-system,BlinkMacSystemFont,Roboto,"Segoe UI",Arial,sans-serif; }
+#tgwarn b { font-size:19px; font-weight:800; }
+#tgwarn p { margin:0; max-width:300px; color:#77758c; font-weight:500; }
+#tgwarn button { margin-top:10px; padding:11px 22px; border:0; border-radius:999px; background:#0095ff; color:#fff; font:700 15px/1 inherit; }
 .hlogo { display:flex; align-items:center; justify-content:center; padding:8px 8px 4px; }
 .hl-w { display:flex; align-items:center; white-space:nowrap; color:#0E1A33; font:900 clamp(34px,10.5vw,52px)/1 Nunito,-apple-system,"SF Pro Rounded",ui-rounded,Roboto,Arial,sans-serif; letter-spacing:-.021em; }
 .hl-w>span { display:inline-block; }
