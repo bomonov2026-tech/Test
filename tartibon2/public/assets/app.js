@@ -60,6 +60,10 @@
     return '<svg viewBox="0 0 24 24">' + (ICONS[key] || ICONS.info || '') + '</svg>';
   }
   var CHEVRON = '<svg class="cv" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>';
+  /* ma'lumot kelmaguncha kulrang chiziqcha ko'rsatiladi */
+  function val(text, wide) {
+    return state.ready ? text : '<span class="skel' + (wide ? ' skel--wide' : '') + '"></span>';
+  }
 
   /* ---- 3. API ----------------------------------------------------------- */
   function api(action, payload) {
@@ -132,6 +136,9 @@
     running: 0,
     next: null,
     recent: [],
+    counts: {},
+    summary: { in: 0, out: 0 },
+    filter: 'all',                      /* Xizmatlar sahifasidagi filtr */
     support: BOOT.support || ''
   };
   function category(id) {
@@ -157,8 +164,13 @@
 
   /* ---- 7. Bo'laklar ----------------------------------------------------- */
   function tilesHTML(cat) {
+    var c  = state.counts[cat.id] || { on: 0, all: cat.items.length };
+    var tag = c.on
+      ? '<span class="sec__n sec__n--on">' + c.on + '/' + c.all + ' yoniq</span>'
+      : '<span class="sec__n">' + c.all + ' ta</span>';
+    /* izoh o'rniga sanoq — kesilib qolgan matndan ko'ra foydaliroq */
     return '<section class="sec">' +
-      '<div class="sec__h"><b>' + esc(cat.title) + '</b><span>' + esc(cat.subtitle) + '</span></div>' +
+      '<div class="sec__h"><b>' + esc(cat.title) + '</b><span></span>' + tag + '</div>' +
       '<div class="sec__g">' + cat.items.map(function (s) {
         return '<button type="button" class="tile" data-service="' + esc(s.id) + '">' +
           '<span class="chip' + (s.on ? ' chip--on' : '') + '">' + svg(s.icon) +
@@ -167,18 +179,26 @@
       }).join('') + '</div></section>';
   }
   function listHTML(cat) {
-    return '<div class="gh">' + esc(cat.title.toUpperCase()) + '</div><div class="card">' +
-      cat.items.map(function (s) {
-        var ic = '<span class="ic ' + iconClass(cat, s) + '">' + svg(s.icon) + '</span>';
+    var items = cat.items.filter(function (s) {
+      if (state.filter === 'on')  return !!s.on;
+      if (state.filter === 'off') return s.toggle && !s.on;
+      return true;
+    });
+    if (!items.length) return '';
+    var c   = state.counts[cat.id] || { on: 0, all: cat.items.length };
+    var tag = c.on ? '<em class="on">' + c.on + ' yoniq</em>' : '<em>' + c.all + ' ta</em>';
+    return '<div class="card__h"><b>' + esc(cat.title.toUpperCase()) + '</b>' + tag + '</div>' +
+      '<div class="card">' + items.map(function (s) {
+        var ic   = '<span class="ic ' + iconClass(cat, s) + '">' + svg(s.icon) + '</span>';
+        var text = '<span class="row__t"><b>' + esc(s.title) + '</b>' +
+                   (s.sub ? '<small>' + esc(s.sub) + '</small>' : '') + '</span>';
         if (s.toggle) {
-          return '<div class="row"><span class="ic ' + iconClass(cat, s) + '">' + svg(s.icon) + '</span>' +
-            '<b>' + esc(s.title) + '</b>' +
+          return '<div class="row row--tall">' + ic + text +
             '<button type="button" class="sw" role="switch" data-toggle="' + esc(s.id) + '" ' +
             'aria-checked="' + (s.on ? 'true' : 'false') + '" ' +
             'aria-label="' + esc(s.title) + '"></button></div>';
         }
-        return '<button type="button" class="row" data-service="' + esc(s.id) + '">' + ic +
-          '<b>' + esc(s.title) + '</b>' +
+        return '<button type="button" class="row row--tall" data-service="' + esc(s.id) + '">' + ic + text +
           (s.value ? '<em>' + esc(s.value) + '</em>' : '') + CHEVRON + '</button>';
       }).join('') + '</div>';
   }
@@ -188,8 +208,6 @@
 
   PAGES.home = function () {
     var s = state.stats;
-    var nx = state.next
-      ? 'Keyingisi ' + esc(state.next.time) + ' · ' + esc(state.next.title) : '';
     return '' +
       '<div class="logo" role="img" aria-label="TartibOn"><span class="logo__w">' +
         '<span>T</span><span style="margin-left:-.079em">a</span><span>r</span>' +
@@ -198,35 +216,66 @@
           '<path class="r" d="M7.2 6.6a8 8 0 1 0 9.6 0"/><path class="b" d="M12 2.6v8"/>' +
         '</svg></i><span>n</span></span></div>' +
       '<div class="stat">' +
-        '<div><b>' + money(s.channels) + '</b><span>Kanal</span></div><i></i>' +
-        '<div><b>' + money(s.groups) + '</b><span>Guruh</span></div><i></i>' +
-        '<div><b>' + money(s.subscribers) + '</b><span>Obunachi</span></div>' +
+        '<div><b>' + val(money(s.channels)) + '</b><span>Kanal</span></div><i></i>' +
+        '<div><b>' + val(money(s.groups)) + '</b><span>Guruh</span></div><i></i>' +
+        '<div><b>' + val(money(s.subscribers)) + '</b><span>Obunachi</span>' +
+          (s.growth > 0 ? '<em>+' + money(s.growth) + '</em>' : '') +
+        '</div>' +
       '</div>' +
       '<div class="quick">' +
         quickBtn('addChannel', 'Kanal') + quickBtn('addGroup', 'Guruh') + quickBtn('topup', "To'ldirish") +
       '</div>' +
-      (state.running
-        ? '<div class="now"><span class="now__dot"></span>' +
-          '<b>' + state.running + ' ta xizmat ishlab turibdi</b>' +
-          (nx ? '<em>' + nx + '</em>' : '') + '</div>'
-        : '') +
+      nowHTML() +
       ['manage', 'daily', 'digital'].map(function (id) {
         var c = category(id);
         return c ? tilesHTML(c) : '';
       }).join('');
   };
+  /* "Hozir ishlab turibdi" — ishlayotgan xizmatlar nomi va keyingi amal vaqti */
+  function nowHTML() {
+    if (!state.running) return '';
+    var names = [];
+    state.catalog.forEach(function (c) {
+      c.items.forEach(function (i) { if (i.on) names.push(i.title); });
+    });
+    var list = names.slice(0, 3).join(', ') +
+               (names.length > 3 ? ' va yana ' + (names.length - 3) + ' ta' : '');
+    var clock = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+    return '<div class="now"><span class="now__dot"></span>' +
+      '<span class="now__t"><b>' + state.running + ' ta xizmat ishlab turibdi</b>' +
+      '<span>' + esc(list) + '</span></span>' +
+      (state.next ? '<span class="now__next">' + clock + esc(state.next.time) + '</span>' : '') +
+      '</div>';
+  }
+
   function quickBtn(action, label) {
     return '<button type="button" data-action="' + action + '">' +
       '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>' + esc(label) + '</button>';
   }
 
   PAGES.tools = function () {
+    var all = 0, on = 0, off = 0;
+    state.catalog.forEach(function (c) {
+      c.items.forEach(function (i) {
+        all++;
+        if (i.on) on++;
+        else if (i.toggle) off++;
+      });
+    });
+    var body = ['manage', 'daily', 'digital', 'help'].map(function (id) {
+      var c = category(id);
+      return c ? listHTML(c) : '';
+    }).join('');
     return '<h1 class="h1">Xizmatlar</h1>' +
-      ['manage', 'daily', 'digital', 'help'].map(function (id) {
-        var c = category(id);
-        return c ? listHTML(c) : '';
-      }).join('');
+      '<div class="seg">' +
+        segBtn('all', 'Hammasi', all) + segBtn('on', 'Yoniq', on) + segBtn('off', "O'chiq", off) +
+      '</div>' +
+      (body || '<div class="empty">Bu filtrda xizmat yo‘q.</div>');
   };
+  function segBtn(key, label, n) {
+    return '<button type="button" data-filter="' + key + '" aria-pressed="' +
+      (state.filter === key ? 'true' : 'false') + '">' + label + '<em>' + n + '</em></button>';
+  }
 
   PAGES.bal = function () {
     var w = state.wallet;
@@ -239,16 +288,22 @@
     return '' +
       '<h1 class="h1">Balans</h1>' +
       '<div class="bal"><span>Mavjud mablag‘</span>' +
-        '<b>' + (state.ready ? money(w.balance) : '…') + "<em>so'm</em></b>" +
+        '<b>' + val(money(w.balance), true) + "<em>so'm</em></b>" +
         (w.hold ? '<i>' + money(w.hold) + " so'm muzlatilgan</i>" : '') +
       '</div>' +
-      '<div class="gh" style="margin-top:14px">AMALLAR</div><div class="card">' +
+      (state.summary && (state.summary['in'] || state.summary.out)
+        ? '<div class="mini">' +
+          '<div><b>+' + money(state.summary['in']) + '</b><span>Kirim · shu oy</span></div>' +
+          '<div><b>−' + money(state.summary.out) + '</b><span>Chiqim · shu oy</span></div>' +
+          '</div>'
+        : '') +
+      '<div class="card__h"><b>AMALLAR</b></div><div class="card">' +
         walletRow('topup', 'currency', "Balansni to'ldirish", 'ic--blue') +
         walletRow('withdraw', 'digital', 'Pul yechish', 'ic--blue') +
         walletRow('transfer', 'group', "Do'stga o'tkazish", 'ic--blue') +
         walletRow('donate', 'gift', "Qo'llab-quvvatlash", 'ic--violet') +
       '</div>' +
-      (rows ? '<div class="gh">SO‘NGGI AMALLAR</div><div class="card">' + rows + '</div>' : '');
+      (rows ? '<div class="card__h"><b>SO‘NGGI AMALLAR</b></div><div class="card">' + rows + '</div>' : '');
   };
   function walletRow(action, icon, label, cls) {
     return '<button type="button" class="row" data-action="' + action + '">' +
@@ -265,7 +320,7 @@
           (u.username ? '<small>@' + esc(u.username) + '</small>' : '') +
           '<div class="tags"><span class="tag">ID: ' + esc(u.id || '—') + '</span>' +
           (u.admin ? '<span class="tag tag--blue">Admin</span>' : '') + '</div></div></div>' +
-      '<div class="gh" style="margin-top:14px">HISOBIM</div><div class="card">' +
+      '<div class="card__h"><b>HISOBIM</b></div><div class="card">' +
         walletRow2('my-channel', 'channel', 'Kanal va guruhlarim', (u.chats || 0) + ' ta') +
         walletRow2('referral', 'group', 'Taklif havolalari', '') +
         walletRow2('about', 'info', 'Ilova haqida', '') +
@@ -387,6 +442,7 @@
     api('service_toggle', { id: id, on: on }).then(function (r) {
       btn.disabled = false;
       state.running = r.running;
+      state.counts  = recount();
       haptic();
     })['catch'](function (err) {
       btn.disabled = false;
@@ -397,10 +453,24 @@
     });
   }
 
+  /* bo'limlar bo'yicha sanoqni qayta hisoblash */
+  function recount() {
+    var out = {};
+    state.catalog.forEach(function (c) {
+      var on = 0;
+      c.items.forEach(function (i) { if (i.on) on++; });
+      out[c.id] = { on: on, all: c.items.length };
+    });
+    return out;
+  }
+
   /* ---- 11. Bitta global tinglovchi (passive) ---------------------------- */
   function onTap(e) {
     var t = e.target, n;
     if ((n = t.closest('[data-toggle]'))) { return toggleService(n, n.dataset.toggle); }
+    if ((n = t.closest('[data-filter]'))) {
+      haptic(); state.filter = n.dataset.filter; return go('tools', false);
+    }
     if ((n = t.closest('[data-tab]')))    { haptic(); return go(n.dataset.tab); }
     if ((n = t.closest('[data-action]'))) {
       haptic();
@@ -428,6 +498,8 @@
       state.running = r.running || 0;
       state.next    = r.next || null;
       state.recent  = r.recent || [];
+      state.counts  = r.counts || {};
+      state.summary = r.summary || { in: 0, out: 0 };
       if (r.catalog && r.catalog.length) state.catalog = r.catalog;
       go(state.page, false);
     })['catch'](function (err) {

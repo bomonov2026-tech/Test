@@ -37,15 +37,18 @@ final class Api
     /** @param array<string,mixed> $user @return array<string,mixed> */
     private static function me(array $user): array
     {
-        $state = App::serviceState((int)$user['id']);
+        $state   = App::serviceState((int)$user['id']);
+        $catalog = Catalog::build(App::hiddenServices(), $state);
         return [
             'user'    => $user,
             'stats'   => App::stats(),
             'wallet'  => App::wallet($user),
-            'catalog' => Catalog::build(App::hiddenServices(), $state),
+            'catalog' => $catalog,
+            'counts'  => App::perCategory($catalog),
             'running' => App::runningCount($state),
             'next'    => App::nextEvent((int)$user['id']),
             'recent'  => App::recent((int)$user['id']),
+            'summary' => App::summary((int)$user['id']),
         ];
     }
 

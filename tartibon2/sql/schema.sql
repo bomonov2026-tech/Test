@@ -75,3 +75,17 @@ CREATE TABLE IF NOT EXISTS schedule (
   done     TINYINT(1)   NOT NULL DEFAULT 0,
   KEY idx_next (tg_id, run_at, done)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Barcha pul harakatlari (kirim/chiqim hisobi uchun)
+CREATE TABLE IF NOT EXISTS ledger (
+  id         BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  tg_id      BIGINT       NOT NULL,
+  amount     BIGINT       NOT NULL,          -- musbat = kirim, manfiy = chiqim
+  title      VARCHAR(128) NOT NULL DEFAULT '',
+  note       VARCHAR(128) NOT NULL DEFAULT '',
+  created_at DATETIME     NOT NULL,
+  KEY idx_user (tg_id, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- chats jadvaliga 7 kun oldingi obunachi soni (o'sishni hisoblash uchun)
+ALTER TABLE chats ADD COLUMN IF NOT EXISTS members_7d INT NOT NULL DEFAULT 0;

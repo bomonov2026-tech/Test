@@ -75,17 +75,22 @@ final class App
     public static function stats(): array
     {
         if (Config::isDemo()) {
-            return ['channels' => 60, 'groups' => 1149, 'subscribers' => 11068];
+            return ['channels' => 60, 'groups' => 1149, 'subscribers' => 11068, 'growth' => 248];
         }
         $row = Db::one(
             "SELECT SUM(type = 'channel') AS channels, SUM(type = 'group') AS groups_,
                     COALESCE(SUM(members), 0) AS subscribers
              FROM chats WHERE active = 1"
         ) ?? [];
+        $growth = Db::one(
+            'SELECT COALESCE(SUM(members), 0) - COALESCE(SUM(members_7d), 0) AS g
+             FROM chats WHERE active = 1'
+        );
         return [
             'channels'    => (int)($row['channels'] ?? 0),
             'groups'      => (int)($row['groups_'] ?? 0),
             'subscribers' => (int)($row['subscribers'] ?? 0),
+            'growth'      => (int)($growth['g'] ?? 0),
         ];
     }
 
@@ -176,6 +181,35 @@ final class App
         $row  = Db::one("SELECT value FROM settings WHERE name = 'hidden_services'");
         $list = json_decode((string)($row['value'] ?? '[]'), true);
         return is_array($list) ? array_values(array_map('strval', $list)) : [];
+    }
+
+    /** Oylik kirim va chiqim. @return array{in:int,out:int} */
+    public static function summary(int $tgId): array
+    {
+        if (Config::isDemo()) {
+            return ['in' => 95000, 'out' => 42000];
+        }
+        $row = Db::one(
+            "SELECT COALESCE(SUM(CASE WHEN amount > 0 THEN amount END), 0) AS inc,
+                    COALESCE(SUM(CASE WHEN amount < 0 THEN -amount END), 0) AS exp
+             FROM ledger WHERE tg_id = ? AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')",
+            [$tgId]
+        ) ?? [];
+        return ['in' => (int)($row['inc'] ?? 0), 'out' => (int)($row['exp'] ?? 0)];
+    }
+
+    /** Bo'lim bo'yicha nechta yoniq. @return array<string,array{on:int,all:int}> */
+    public static function perCategory(array $catalog): array
+    {
+        $out = [];
+        foreach ($catalog as $c) {
+            $on = 0;
+            foreach ($c['items'] as $i) {
+                if (!empty($i['on'])) { $on++; }
+            }
+            $out[$c['id']] = ['on' => $on, 'all' => count($c['items'])];
+        }
+        return $out;
     }
 
     /** Balans sahifasidagi so'nggi amallar. @return list<array<string,mixed>> */

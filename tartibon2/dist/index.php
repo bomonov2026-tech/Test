@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /* TartibOn — build/bundle.php tomonidan yig'ilgan. Tahrirlamang: src/ ni tahrirlang. */
-/* Yig'ilgan vaqt: 2026-11-12 03:38 */
+/* Yig'ilgan vaqt: 2026-11-12 03:57 */
 
 /**
  * Sozlamalar. `tartibon2/config.php` bo'lsa o'sha o'qiladi,
@@ -356,17 +356,22 @@ final class App
     public static function stats(): array
     {
         if (Config::isDemo()) {
-            return ['channels' => 60, 'groups' => 1149, 'subscribers' => 11068];
+            return ['channels' => 60, 'groups' => 1149, 'subscribers' => 11068, 'growth' => 248];
         }
         $row = Db::one(
             "SELECT SUM(type = 'channel') AS channels, SUM(type = 'group') AS groups_,
                     COALESCE(SUM(members), 0) AS subscribers
              FROM chats WHERE active = 1"
         ) ?? [];
+        $growth = Db::one(
+            'SELECT COALESCE(SUM(members), 0) - COALESCE(SUM(members_7d), 0) AS g
+             FROM chats WHERE active = 1'
+        );
         return [
             'channels'    => (int)($row['channels'] ?? 0),
             'groups'      => (int)($row['groups_'] ?? 0),
             'subscribers' => (int)($row['subscribers'] ?? 0),
+            'growth'      => (int)($growth['g'] ?? 0),
         ];
     }
 
@@ -459,6 +464,35 @@ final class App
         return is_array($list) ? array_values(array_map('strval', $list)) : [];
     }
 
+    /** Oylik kirim va chiqim. @return array{in:int,out:int} */
+    public static function summary(int $tgId): array
+    {
+        if (Config::isDemo()) {
+            return ['in' => 95000, 'out' => 42000];
+        }
+        $row = Db::one(
+            "SELECT COALESCE(SUM(CASE WHEN amount > 0 THEN amount END), 0) AS inc,
+                    COALESCE(SUM(CASE WHEN amount < 0 THEN -amount END), 0) AS exp
+             FROM ledger WHERE tg_id = ? AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')",
+            [$tgId]
+        ) ?? [];
+        return ['in' => (int)($row['inc'] ?? 0), 'out' => (int)($row['exp'] ?? 0)];
+    }
+
+    /** Bo'lim bo'yicha nechta yoniq. @return array<string,array{on:int,all:int}> */
+    public static function perCategory(array $catalog): array
+    {
+        $out = [];
+        foreach ($catalog as $c) {
+            $on = 0;
+            foreach ($c['items'] as $i) {
+                if (!empty($i['on'])) { $on++; }
+            }
+            $out[$c['id']] = ['on' => $on, 'all' => count($c['items'])];
+        }
+        return $out;
+    }
+
     /** Balans sahifasidagi so'nggi amallar. @return list<array<string,mixed>> */
     public static function recent(int $tgId): array
     {
@@ -519,15 +553,18 @@ final class Api
     /** @param array<string,mixed> $user @return array<string,mixed> */
     private static function me(array $user): array
     {
-        $state = App::serviceState((int)$user['id']);
+        $state   = App::serviceState((int)$user['id']);
+        $catalog = Catalog::build(App::hiddenServices(), $state);
         return [
             'user'    => $user,
             'stats'   => App::stats(),
             'wallet'  => App::wallet($user),
-            'catalog' => Catalog::build(App::hiddenServices(), $state),
+            'catalog' => $catalog,
+            'counts'  => App::perCategory($catalog),
             'running' => App::runningCount($state),
             'next'    => App::nextEvent((int)$user['id']),
             'recent'  => App::recent((int)$user['id']),
+            'summary' => App::summary((int)$user['id']),
         ];
     }
 
@@ -702,11 +739,13 @@ html[data-theme="dark"] .logo__w{color:#fff}
 .logo__o .b{stroke:#16A34A}
 
 /* --- 6. Statistika + tezkor amallar -------------------------------------- */
-.stat{display:flex;align-items:center;padding:14px 8px;border-radius:22px;background:var(--card);box-shadow:var(--sh)}
+.stat{display:flex;align-items:stretch;padding:13px 8px;border-radius:22px;background:var(--card);box-shadow:var(--sh)}
 .stat>div{flex:1;min-width:0;text-align:center}
-.stat b{display:block;font-size:19px;font-weight:800;letter-spacing:-.4px}
+.stat b{display:block;font-size:19px;font-weight:800;letter-spacing:-.4px;line-height:1.25}
 .stat span{font-size:11px;color:var(--muted)}
-.stat i{width:1px;height:26px;background:var(--line);flex:none}
+.stat em{display:inline-block;margin-top:3px;padding:2px 7px;border-radius:999px;background:var(--green-s);
+         color:var(--green-d);font:700 10px/1.4 var(--font);font-style:normal}
+.stat i{width:1px;align-self:center;height:30px;background:var(--line);flex:none}
 .quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
 .quick button{display:flex;align-items:center;justify-content:center;padding:11px 4px;border-radius:14px;
               background:var(--card);color:var(--blue);box-shadow:var(--sh);
@@ -714,13 +753,24 @@ html[data-theme="dark"] .logo__w{color:#fff}
 .quick svg{width:16px;height:16px;margin-right:5px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round}
 
 /* --- 7. "Hozir ishlab turibdi" ------------------------------------------- */
-.now{display:flex;align-items:center;gap:9px;margin-top:10px;padding:13px 15px;border-radius:18px;
+.now{display:flex;align-items:center;gap:11px;margin-top:10px;padding:12px 14px;border-radius:18px;
      background:var(--green-s)}
-.now__dot{width:9px;height:9px;border-radius:50%;background:var(--green);flex:none;
+.now__dot{position:relative;width:9px;height:9px;border-radius:50%;background:var(--green);flex:none;
           box-shadow:0 0 0 4px rgba(34,197,94,.17)}
-.now b{flex:none;font:700 13.5px/1.2 var(--font);letter-spacing:-.2px;color:#14532D}
-.now em{margin-left:auto;font:600 11.5px/1.2 var(--font);font-style:normal;color:#3E7A54;
-        white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.now__dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--green);
+          opacity:0;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.7);opacity:.7}70%,100%{transform:scale(1.9);opacity:0}}
+.now__t{flex:1;min-width:0}
+.now__t b{display:block;font:700 13.5px/1.25 var(--font);letter-spacing:-.2px;color:#14532D}
+.now__t span{display:block;font:500 11.5px/1.35 var(--font);color:#3E7A54;
+             white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.now__next{display:flex;align-items:center;gap:6px;flex:none;padding:6px 11px;border-radius:999px;
+           background:rgba(255,255,255,.72);color:#14532D;font:700 11.5px/1 var(--font)}
+.now__next svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.1;
+               stroke-linecap:round;stroke-linejoin:round}
+html[data-theme="dark"] .now__t b{color:#8FE3AE}
+html[data-theme="dark"] .now__t span{color:#6DBF8C}
+html[data-theme="dark"] .now__next{background:rgba(255,255,255,.1);color:#8FE3AE}
 html[data-theme="dark"] .now b{color:#8FE3AE}
 html[data-theme="dark"] .now em{color:#6DBF8C}
 
@@ -730,6 +780,9 @@ html[data-theme="dark"] .now em{color:#6DBF8C}
 .sec__h b{flex:none;white-space:nowrap;font-size:17px;font-weight:800;letter-spacing:-.35px}
 .sec__h span{flex:1;min-width:0;text-align:right;font-size:11px;color:var(--muted);
              white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sec__n{flex:none;padding:3px 9px;border-radius:999px;background:var(--card-a);color:var(--muted);
+        font:700 10.5px/1.5 var(--font)}
+.sec__n--on{background:var(--green-s);color:var(--green-d)}
 .sec__g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 4px;min-width:0}
 .tile{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;
       font:650 12px/1.25 var(--font);text-align:center;color:var(--text)}
@@ -741,7 +794,8 @@ html[data-theme="dark"] .now em{color:#6DBF8C}
 .chip--on{background:var(--green-s);color:var(--green-d)}
 .chip__dot{position:absolute;top:-2px;right:-2px;width:11px;height:11px;border-radius:50%;
            background:var(--green);border:2.5px solid var(--card)}
-.tile:active .chip{background:var(--card-a)}
+.tile:active .chip{transform:scale(.93)}
+.chip{transition:background .14s, transform .12s}
 
 /* --- 9. Guruhlangan ro'yxat (Xizmatlar, Balans) -------------------------- */
 .card{border-radius:16px;overflow:hidden;background:var(--card)}
@@ -859,6 +913,54 @@ html.is-locked{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   .page.is-on,.ov,.sheet,.toast{animation:none}
   .sw,.sw::after{transition:none}
+}
+
+/* ==========================================================================
+   Kuchaytirish: filtr, qator izohi, kirim/chiqim, yuklanish holati
+   ========================================================================== */
+
+/* --- filtr tasmasi (Xizmatlar sahifasi) --------------------------------- */
+.seg{display:flex;gap:6px;margin:0 0 14px}
+.seg button{display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:12px;
+            background:var(--card);color:var(--muted);font:650 13px/1 var(--font);box-shadow:var(--sh)}
+.seg em{font:700 11px/1 var(--font);font-style:normal;opacity:.75}
+.seg button[aria-pressed="true"]{background:var(--text);color:var(--card)}
+.seg button[aria-pressed="true"] em{opacity:.6}
+
+/* --- ro'yxat qatoriga ikkinchi qator ------------------------------------ */
+.row__t{flex:1;min-width:0}
+.row__t b{display:block;font:500 16px/1.3 var(--font);letter-spacing:-.2px}
+.row__t small{display:block;font:400 12.5px/1.35 var(--font);color:var(--muted);margin-top:1px;
+              white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row--tall{padding-top:11px;padding-bottom:11px}
+.card__h{display:flex;align-items:baseline;gap:8px;margin:20px 14px 8px}
+.card__h b{font:700 11px/1 var(--font);letter-spacing:.1em;color:var(--muted)}
+.card__h em{margin-left:auto;font:700 11px/1 var(--font);font-style:normal;color:var(--muted)}
+.card__h em.on{color:var(--green-d)}
+
+/* --- kirim / chiqim ------------------------------------------------------ */
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.mini div{padding:13px 15px;border-radius:18px;background:var(--card)}
+.mini b{display:block;font:800 19px/1.2 var(--font);letter-spacing:-.5px}
+.mini div:first-child b{color:var(--green-d)}
+.mini span{font:500 11px/1.5 var(--font);color:var(--muted)}
+
+/* --- yuklanish (skeleton) ------------------------------------------------ */
+.skel{display:inline-block;min-width:44px;height:.72em;border-radius:5px;vertical-align:-.04em;
+      background:linear-gradient(90deg,var(--line) 25%,var(--card-a) 37%,var(--line) 63%);
+      background-size:400% 100%;animation:shim 1.3s ease-in-out infinite}
+@keyframes shim{0%{background-position:100% 0}100%{background-position:0 0}}
+.skel--wide{min-width:120px}
+
+/* --- bo'sh holat --------------------------------------------------------- */
+.empty{padding:34px 20px;text-align:center;color:var(--muted);font:500 14.5px/1.5 var(--font)}
+
+/* --- bosilish sezilsin --------------------------------------------------- */
+.quick button:active,.seg button:active,.btn:active{transform:scale(.98)}
+.quick button,.seg button,.btn,.row{transition:transform .12s, background .14s}
+@media(prefers-reduced-motion:reduce){
+  .now__dot::after,.skel{animation:none}
+  .tile:active .chip,.quick button:active,.seg button:active,.btn:active{transform:none}
 }
 </style>
 <!-- Shrift sahifani to'sib qo'ymasligi uchun keyin yuklanadi -->
@@ -995,6 +1097,10 @@ window.TO_ICONS = {
     return '<svg viewBox="0 0 24 24">' + (ICONS[key] || ICONS.info || '') + '</svg>';
   }
   var CHEVRON = '<svg class="cv" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>';
+  /* ma'lumot kelmaguncha kulrang chiziqcha ko'rsatiladi */
+  function val(text, wide) {
+    return state.ready ? text : '<span class="skel' + (wide ? ' skel--wide' : '') + '"></span>';
+  }
 
   /* ---- 3. API ----------------------------------------------------------- */
   function api(action, payload) {
@@ -1067,6 +1173,9 @@ window.TO_ICONS = {
     running: 0,
     next: null,
     recent: [],
+    counts: {},
+    summary: { in: 0, out: 0 },
+    filter: 'all',                      /* Xizmatlar sahifasidagi filtr */
     support: BOOT.support || ''
   };
   function category(id) {
@@ -1092,8 +1201,13 @@ window.TO_ICONS = {
 
   /* ---- 7. Bo'laklar ----------------------------------------------------- */
   function tilesHTML(cat) {
+    var c  = state.counts[cat.id] || { on: 0, all: cat.items.length };
+    var tag = c.on
+      ? '<span class="sec__n sec__n--on">' + c.on + '/' + c.all + ' yoniq</span>'
+      : '<span class="sec__n">' + c.all + ' ta</span>';
+    /* izoh o'rniga sanoq — kesilib qolgan matndan ko'ra foydaliroq */
     return '<section class="sec">' +
-      '<div class="sec__h"><b>' + esc(cat.title) + '</b><span>' + esc(cat.subtitle) + '</span></div>' +
+      '<div class="sec__h"><b>' + esc(cat.title) + '</b><span></span>' + tag + '</div>' +
       '<div class="sec__g">' + cat.items.map(function (s) {
         return '<button type="button" class="tile" data-service="' + esc(s.id) + '">' +
           '<span class="chip' + (s.on ? ' chip--on' : '') + '">' + svg(s.icon) +
@@ -1102,18 +1216,26 @@ window.TO_ICONS = {
       }).join('') + '</div></section>';
   }
   function listHTML(cat) {
-    return '<div class="gh">' + esc(cat.title.toUpperCase()) + '</div><div class="card">' +
-      cat.items.map(function (s) {
-        var ic = '<span class="ic ' + iconClass(cat, s) + '">' + svg(s.icon) + '</span>';
+    var items = cat.items.filter(function (s) {
+      if (state.filter === 'on')  return !!s.on;
+      if (state.filter === 'off') return s.toggle && !s.on;
+      return true;
+    });
+    if (!items.length) return '';
+    var c   = state.counts[cat.id] || { on: 0, all: cat.items.length };
+    var tag = c.on ? '<em class="on">' + c.on + ' yoniq</em>' : '<em>' + c.all + ' ta</em>';
+    return '<div class="card__h"><b>' + esc(cat.title.toUpperCase()) + '</b>' + tag + '</div>' +
+      '<div class="card">' + items.map(function (s) {
+        var ic   = '<span class="ic ' + iconClass(cat, s) + '">' + svg(s.icon) + '</span>';
+        var text = '<span class="row__t"><b>' + esc(s.title) + '</b>' +
+                   (s.sub ? '<small>' + esc(s.sub) + '</small>' : '') + '</span>';
         if (s.toggle) {
-          return '<div class="row"><span class="ic ' + iconClass(cat, s) + '">' + svg(s.icon) + '</span>' +
-            '<b>' + esc(s.title) + '</b>' +
+          return '<div class="row row--tall">' + ic + text +
             '<button type="button" class="sw" role="switch" data-toggle="' + esc(s.id) + '" ' +
             'aria-checked="' + (s.on ? 'true' : 'false') + '" ' +
             'aria-label="' + esc(s.title) + '"></button></div>';
         }
-        return '<button type="button" class="row" data-service="' + esc(s.id) + '">' + ic +
-          '<b>' + esc(s.title) + '</b>' +
+        return '<button type="button" class="row row--tall" data-service="' + esc(s.id) + '">' + ic + text +
           (s.value ? '<em>' + esc(s.value) + '</em>' : '') + CHEVRON + '</button>';
       }).join('') + '</div>';
   }
@@ -1123,8 +1245,6 @@ window.TO_ICONS = {
 
   PAGES.home = function () {
     var s = state.stats;
-    var nx = state.next
-      ? 'Keyingisi ' + esc(state.next.time) + ' · ' + esc(state.next.title) : '';
     return '' +
       '<div class="logo" role="img" aria-label="TartibOn"><span class="logo__w">' +
         '<span>T</span><span style="margin-left:-.079em">a</span><span>r</span>' +
@@ -1133,35 +1253,66 @@ window.TO_ICONS = {
           '<path class="r" d="M7.2 6.6a8 8 0 1 0 9.6 0"/><path class="b" d="M12 2.6v8"/>' +
         '</svg></i><span>n</span></span></div>' +
       '<div class="stat">' +
-        '<div><b>' + money(s.channels) + '</b><span>Kanal</span></div><i></i>' +
-        '<div><b>' + money(s.groups) + '</b><span>Guruh</span></div><i></i>' +
-        '<div><b>' + money(s.subscribers) + '</b><span>Obunachi</span></div>' +
+        '<div><b>' + val(money(s.channels)) + '</b><span>Kanal</span></div><i></i>' +
+        '<div><b>' + val(money(s.groups)) + '</b><span>Guruh</span></div><i></i>' +
+        '<div><b>' + val(money(s.subscribers)) + '</b><span>Obunachi</span>' +
+          (s.growth > 0 ? '<em>+' + money(s.growth) + '</em>' : '') +
+        '</div>' +
       '</div>' +
       '<div class="quick">' +
         quickBtn('addChannel', 'Kanal') + quickBtn('addGroup', 'Guruh') + quickBtn('topup', "To'ldirish") +
       '</div>' +
-      (state.running
-        ? '<div class="now"><span class="now__dot"></span>' +
-          '<b>' + state.running + ' ta xizmat ishlab turibdi</b>' +
-          (nx ? '<em>' + nx + '</em>' : '') + '</div>'
-        : '') +
+      nowHTML() +
       ['manage', 'daily', 'digital'].map(function (id) {
         var c = category(id);
         return c ? tilesHTML(c) : '';
       }).join('');
   };
+  /* "Hozir ishlab turibdi" — ishlayotgan xizmatlar nomi va keyingi amal vaqti */
+  function nowHTML() {
+    if (!state.running) return '';
+    var names = [];
+    state.catalog.forEach(function (c) {
+      c.items.forEach(function (i) { if (i.on) names.push(i.title); });
+    });
+    var list = names.slice(0, 3).join(', ') +
+               (names.length > 3 ? ' va yana ' + (names.length - 3) + ' ta' : '');
+    var clock = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+    return '<div class="now"><span class="now__dot"></span>' +
+      '<span class="now__t"><b>' + state.running + ' ta xizmat ishlab turibdi</b>' +
+      '<span>' + esc(list) + '</span></span>' +
+      (state.next ? '<span class="now__next">' + clock + esc(state.next.time) + '</span>' : '') +
+      '</div>';
+  }
+
   function quickBtn(action, label) {
     return '<button type="button" data-action="' + action + '">' +
       '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>' + esc(label) + '</button>';
   }
 
   PAGES.tools = function () {
+    var all = 0, on = 0, off = 0;
+    state.catalog.forEach(function (c) {
+      c.items.forEach(function (i) {
+        all++;
+        if (i.on) on++;
+        else if (i.toggle) off++;
+      });
+    });
+    var body = ['manage', 'daily', 'digital', 'help'].map(function (id) {
+      var c = category(id);
+      return c ? listHTML(c) : '';
+    }).join('');
     return '<h1 class="h1">Xizmatlar</h1>' +
-      ['manage', 'daily', 'digital', 'help'].map(function (id) {
-        var c = category(id);
-        return c ? listHTML(c) : '';
-      }).join('');
+      '<div class="seg">' +
+        segBtn('all', 'Hammasi', all) + segBtn('on', 'Yoniq', on) + segBtn('off', "O'chiq", off) +
+      '</div>' +
+      (body || '<div class="empty">Bu filtrda xizmat yo‘q.</div>');
   };
+  function segBtn(key, label, n) {
+    return '<button type="button" data-filter="' + key + '" aria-pressed="' +
+      (state.filter === key ? 'true' : 'false') + '">' + label + '<em>' + n + '</em></button>';
+  }
 
   PAGES.bal = function () {
     var w = state.wallet;
@@ -1174,16 +1325,22 @@ window.TO_ICONS = {
     return '' +
       '<h1 class="h1">Balans</h1>' +
       '<div class="bal"><span>Mavjud mablag‘</span>' +
-        '<b>' + (state.ready ? money(w.balance) : '…') + "<em>so'm</em></b>" +
+        '<b>' + val(money(w.balance), true) + "<em>so'm</em></b>" +
         (w.hold ? '<i>' + money(w.hold) + " so'm muzlatilgan</i>" : '') +
       '</div>' +
-      '<div class="gh" style="margin-top:14px">AMALLAR</div><div class="card">' +
+      (state.summary && (state.summary['in'] || state.summary.out)
+        ? '<div class="mini">' +
+          '<div><b>+' + money(state.summary['in']) + '</b><span>Kirim · shu oy</span></div>' +
+          '<div><b>−' + money(state.summary.out) + '</b><span>Chiqim · shu oy</span></div>' +
+          '</div>'
+        : '') +
+      '<div class="card__h"><b>AMALLAR</b></div><div class="card">' +
         walletRow('topup', 'currency', "Balansni to'ldirish", 'ic--blue') +
         walletRow('withdraw', 'digital', 'Pul yechish', 'ic--blue') +
         walletRow('transfer', 'group', "Do'stga o'tkazish", 'ic--blue') +
         walletRow('donate', 'gift', "Qo'llab-quvvatlash", 'ic--violet') +
       '</div>' +
-      (rows ? '<div class="gh">SO‘NGGI AMALLAR</div><div class="card">' + rows + '</div>' : '');
+      (rows ? '<div class="card__h"><b>SO‘NGGI AMALLAR</b></div><div class="card">' + rows + '</div>' : '');
   };
   function walletRow(action, icon, label, cls) {
     return '<button type="button" class="row" data-action="' + action + '">' +
@@ -1200,7 +1357,7 @@ window.TO_ICONS = {
           (u.username ? '<small>@' + esc(u.username) + '</small>' : '') +
           '<div class="tags"><span class="tag">ID: ' + esc(u.id || '—') + '</span>' +
           (u.admin ? '<span class="tag tag--blue">Admin</span>' : '') + '</div></div></div>' +
-      '<div class="gh" style="margin-top:14px">HISOBIM</div><div class="card">' +
+      '<div class="card__h"><b>HISOBIM</b></div><div class="card">' +
         walletRow2('my-channel', 'channel', 'Kanal va guruhlarim', (u.chats || 0) + ' ta') +
         walletRow2('referral', 'group', 'Taklif havolalari', '') +
         walletRow2('about', 'info', 'Ilova haqida', '') +
@@ -1322,6 +1479,7 @@ window.TO_ICONS = {
     api('service_toggle', { id: id, on: on }).then(function (r) {
       btn.disabled = false;
       state.running = r.running;
+      state.counts  = recount();
       haptic();
     })['catch'](function (err) {
       btn.disabled = false;
@@ -1332,10 +1490,24 @@ window.TO_ICONS = {
     });
   }
 
+  /* bo'limlar bo'yicha sanoqni qayta hisoblash */
+  function recount() {
+    var out = {};
+    state.catalog.forEach(function (c) {
+      var on = 0;
+      c.items.forEach(function (i) { if (i.on) on++; });
+      out[c.id] = { on: on, all: c.items.length };
+    });
+    return out;
+  }
+
   /* ---- 11. Bitta global tinglovchi (passive) ---------------------------- */
   function onTap(e) {
     var t = e.target, n;
     if ((n = t.closest('[data-toggle]'))) { return toggleService(n, n.dataset.toggle); }
+    if ((n = t.closest('[data-filter]'))) {
+      haptic(); state.filter = n.dataset.filter; return go('tools', false);
+    }
     if ((n = t.closest('[data-tab]')))    { haptic(); return go(n.dataset.tab); }
     if ((n = t.closest('[data-action]'))) {
       haptic();
@@ -1363,6 +1535,8 @@ window.TO_ICONS = {
       state.running = r.running || 0;
       state.next    = r.next || null;
       state.recent  = r.recent || [];
+      state.counts  = r.counts || {};
+      state.summary = r.summary || { in: 0, out: 0 };
       if (r.catalog && r.catalog.length) state.catalog = r.catalog;
       go(state.page, false);
     })['catch'](function (err) {
