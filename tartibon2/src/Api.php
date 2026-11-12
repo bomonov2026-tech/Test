@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/** JSON API. Har bir so'rov initData bilan keladi va qaytadan tekshiriladi. */
+/** JSON API. Har bir so'rovda initData imzosi qaytadan tekshiriladi. */
 final class Api
 {
     public static function handle(string $action): void
@@ -20,14 +20,14 @@ final class Api
                 return;
             }
             switch ($action) {
-                case 'me':           self::ok(self::me($user)); return;
-                case 'wallet':       self::ok(['wallet' => App::wallet($user)]); return;
-                case 'topup_create': self::ok(self::topupCreate($user, $data)); return;
-                default:             self::fail('Noma\'lum amal: ' . $action, 404);
+                case 'me':             self::ok(self::me($user)); return;
+                case 'wallet':         self::ok(['wallet' => App::wallet($user)]); return;
+                case 'topup_create':   self::ok(self::topupCreate($user, $data)); return;
+                case 'service_toggle': self::ok(self::serviceToggle($user, $data)); return;
+                default:               self::fail('Noma\'lum amal: ' . $action, 404);
             }
         } catch (RuntimeException $e) {
-            // foydalanuvchiga ko'rsatiladigan xabar
-            self::fail($e->getMessage(), 400);
+            self::fail($e->getMessage(), 400);          // foydalanuvchiga ko'rsatiladi
         } catch (Throwable $e) {
             error_log('[tartibon] ' . $e->getMessage());
             self::fail('Server xatosi', 500);
@@ -37,16 +37,42 @@ final class Api
     /** @param array<string,mixed> $user @return array<string,mixed> */
     private static function me(array $user): array
     {
+        $state = App::serviceState((int)$user['id']);
         return [
             'user'    => $user,
             'stats'   => App::stats(),
             'wallet'  => App::wallet($user),
-            'catalog' => Catalog::build(App::hiddenServices()),
+            'catalog' => Catalog::build(App::hiddenServices(), $state),
+            'running' => App::runningCount($state),
+            'next'    => App::nextEvent((int)$user['id']),
+            'recent'  => App::recent((int)$user['id']),
         ];
     }
 
     /**
-     * Balansni to'ldirish arizasi.
+     * @param array<string,mixed> $user
+     * @param array<string,mixed> $data
+     * @return array<string,mixed>
+     */
+    private static function serviceToggle(array $user, array $data): array
+    {
+        $id = (string)($data['id'] ?? '');
+        $on = (bool)($data['on'] ?? false);
+        App::toggleService((int)$user['id'], $id, $on);
+
+        $state = App::serviceState((int)$user['id']);
+        if (Config::isDemo()) {
+            $state[$id] = ['on' => $on, 'value' => $on ? 'Yoniq' : "O'chiq"];
+        }
+        return [
+            'id'      => $id,
+            'on'      => $on,
+            'running' => App::runningCount($state),
+            'message' => $on ? 'Yoqildi' : "O'chirildi",
+        ];
+    }
+
+    /**
      * @param array<string,mixed> $user
      * @param array<string,mixed> $data
      * @return array<string,mixed>
@@ -58,19 +84,17 @@ final class Api
 
         if ($amount < $w['min'] || $amount > $w['max']) {
             throw new RuntimeException(sprintf(
-                "Summa %s \u{2013} %s so'm oralig'ida bo'lishi kerak",
+                "Summa %s – %s so'm oralig'ida bo'lishi kerak",
                 number_format($w['min'], 0, '.', ' '),
                 number_format($w['max'], 0, '.', ' ')
             ));
         }
-
         if (!Config::isDemo()) {
             Db::run(
                 "INSERT INTO topups (tg_id, amount, status, created_at) VALUES (?, ?, 'pending', NOW())",
                 [(int)$user['id'], $amount]
             );
         }
-
         return [
             'message' => 'Ariza qabul qilindi. To\'lov tasdiqlangach balans yangilanadi.',
             'wallet'  => $w,

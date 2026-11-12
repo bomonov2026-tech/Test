@@ -16,7 +16,7 @@ final class View
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#E7F0FD">
+<meta name="theme-color" content="#F2F3F7">
 <title>TartibOn</title>
 <link rel="preload" href="assets/app.css?v=<?= $v ?>" as="style">
 <link rel="stylesheet" href="assets/app.css?v=<?= $v ?>">

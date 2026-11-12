@@ -54,3 +54,24 @@ CREATE TABLE IF NOT EXISTS settings (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT IGNORE INTO settings (name, value) VALUES ('hidden_services', '[]');
+
+-- Foydalanuvchining qaysi xizmatlari yoniq va o'ng tomonda nima ko'rsatiladi
+CREATE TABLE IF NOT EXISTS user_services (
+  tg_id      BIGINT      NOT NULL,
+  service_id VARCHAR(32) NOT NULL,
+  enabled    TINYINT(1)  NOT NULL DEFAULT 0,
+  value      VARCHAR(64) NOT NULL DEFAULT '',
+  updated_at DATETIME    NOT NULL,
+  PRIMARY KEY (tg_id, service_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Rejalashtirilgan avtomatik amallar ("Keyingisi 12:28 · Peshin" uchun)
+CREATE TABLE IF NOT EXISTS schedule (
+  id       BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  tg_id    BIGINT       NOT NULL,
+  chat_id  BIGINT       NULL,
+  title    VARCHAR(128) NOT NULL DEFAULT '',
+  run_at   DATETIME     NOT NULL,
+  done     TINYINT(1)   NOT NULL DEFAULT 0,
+  KEY idx_next (tg_id, run_at, done)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

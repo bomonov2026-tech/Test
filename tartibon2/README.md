@@ -44,22 +44,31 @@ php -S 127.0.0.1:8080 -t public
 
 ## Dizayn tizimi
 
-Barcha ranglar va o'lchamlar `app.css` boshidagi CSS o'zgaruvchilarda:
+Uch rang — uch ma'no. Rang bezak emas, xizmat turini aytadi:
 
-| Token | Qiymat | Nima uchun |
+| Rang | Ma'nosi | Qayerda |
 |---|---|---|
-| `--blue` | `#1C7DF3` | asosiy rang, ikonka va havolalar |
-| `--soft` | `#EAF2FE` | ikonka chipi foni |
-| `--bg` / `--bg-top` | `#F2F3F7` / `#E7F0FD` | sahifa foni va tepadagi mayin ko'k |
-| `--card` | `#FFFFFF` | karta foni |
-| `--r-card` / `--r-chip` | `22px` / `16px` | burchaklar |
-| `--sh` | ikki qavatli soya | kartalar fondan ajralib tursin |
+| 🔵 **ko'k** `#1C7DF3` | siz boshqarasiz | Kanallarim, Statistika, Testlar |
+| 🟢 **yashil** `#22C55E` | ilova o'zi bajaradi (tumbler bor) | Namoz, Avto Post, Himoya |
+| 🟣 **binafsha** `#8B5CF6` | sotib olinadi | Nakrutka, eSIM, Premium, Stars |
 
-Qorong'i mavzu `html[data-theme="dark"]` orqali — Telegram mavzusiga qarab
-avtomatik almashadi. `!important` ishlatilmagan, bitta qatlam.
+Xizmatning turi `src/Catalog.php` dagi `kind` va `toggle` maydonlaridan keladi,
+CSS'da qo'lda yozilmaydi.
 
-Asosiy bo'laklar: `.stat`, `.quick`, `.sec` (4 katakli to'r), `.row`,
-`.bal` + `.wq`, `.prof`, `.nav`, `.ov`/`.sheet`, `.fld`/`.chips`/`.btn`, `.toast`.
+Sahifalar bir-birini takrorlamaydi:
+
+- **Asosiy** — kataklar (ko'rgazmali). Yoniq xizmat katagi yashil + yashil nuqta.
+  Tepada bitta qator: *"5 ta xizmat ishlab turibdi · Keyingisi 12:28 Peshin"*.
+- **Xizmatlar** — Telegram sozlamalari uslubidagi guruhlangan ro'yxat.
+  Yoqiladigan xizmat **joyida**, sahifaga kirmasdan yoqiladi (1 bosish).
+- **Balans / Profil** — xuddi shu ro'yxat, tumbler o'rniga strelka.
+
+Boshqa tokenlar `app.css` boshida: `--bg`, `--card`, `--line`, `--sh`, `--r-*`.
+Qorong'i mavzu `html[data-theme="dark"]` — Telegram mavzusiga qarab avtomatik.
+`!important` ishlatilmagan, bitta qatlam.
+
+Asosiy bo'laklar: `.stat`, `.quick`, `.now`, `.sec`+`.tile`+`.chip`,
+`.card`+`.row`+`.ic`+`.sw`, `.bal`, `.prof`, `.nav`, `.ov`/`.sheet`, `.toast`.
 
 ## Xizmat qo'shish
 
@@ -87,9 +96,10 @@ Har bir so'rovda `initData` imzosi qaytadan tekshiriladi (HMAC-SHA256,
 
 | Amal | Qaytaradi |
 |---|---|
-| `me` | foydalanuvchi, statistika, hamyon, katalog |
+| `me` | foydalanuvchi, statistika, hamyon, katalog, yoniqlar soni, keyingi amal, so'nggi amallar |
 | `wallet` | hamyon holati |
 | `topup_create` | to'ldirish arizasini yaratadi |
+| `service_toggle` | xizmatni yoqadi/o'chiradi (tumbler) |
 
 ## Eski ilovadan nimasi boshqacha
 
