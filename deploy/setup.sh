@@ -83,7 +83,7 @@ echo ">>> Cron (har daqiqa, www-data nomidan — sessiya fayllari egasi bir xil 
 cat > /etc/cron.d/tgm <<CRON
 SHELL=/bin/sh
 TGM_APP_DIR=$DST/app
-* * * * * www-data /usr/bin/php $DST/public/index.php cron >> $DST/app/data/cron.log 2>&1
+* * * * * www-data /usr/bin/php $DST/public/index.php watch >> $DST/app/data/cron.log 2>&1
 CRON
 chmod 644 /etc/cron.d/tgm
 
