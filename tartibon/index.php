@@ -9014,6 +9014,10 @@ if (isset($_GET['diag'])) {
     echo 'Rasm: ' . ($png ? 'OK (' . strlen($png) . ' bayt, ' . round((microtime(true) - $t) * 1000) . ' ms)' : 'XATO: ' . $CARD_ERR) . "\n";
     exit;
 }
+if (isset($_GET['smskey'])) {   /* SMS kalitini ko'rsatish: faqat admin KEY bilan (matnli javob) */
+    if (!hash_equals(KEY, (string)$_GET['smskey'])) { http_response_code(403); exit('Ruxsat yo\'q'); }
+    header('Content-Type: text/plain; charset=utf-8'); echo SMS_KEY; exit;
+}
 if (isset($_GET['smshook'])) {   /* iPhone Shortcuts: kelgan SMS matni POST qilinadi, sarlavha X-Token: SMS_KEY */
     header('Content-Type: application/json; charset=utf-8');
     $tok = isset($_SERVER['HTTP_X_TOKEN']) ? (string)$_SERVER['HTTP_X_TOKEN'] : '';
