@@ -3,3 +3,10 @@ app/vendor/
 app/data/
 app/composer.lock
 *.zip
+
+# --- restoran (Telegram Mini App) ---
+restoran/config/config.php
+restoran/cron/*.log
+restoran/cron/*.lock
+restoran/public_html/uploads/*/*
+!restoran/public_html/uploads/.htaccess
