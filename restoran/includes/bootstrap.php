@@ -165,13 +165,17 @@ function asset_url(?string $path): ?string
     return '/' . ltrim($path, '/');
 }
 
-/** Xavfsiz HTTP sarlavhalari. $context = 'mini' | 'admin' */
-function send_security_headers(string $context = 'mini'): void
+/**
+ * Xavfsiz HTTP sarlavhalari. $context = 'mini' | 'admin'.
+ * $nonce berilsa, shu nonce bilan inline <script> ruxsat etiladi (bitta faylli sahifalar uchun).
+ */
+function send_security_headers(string $context = 'mini', ?string $nonce = null): void
 {
     header('X-Content-Type-Options: nosniff');
     header('Referrer-Policy: strict-origin-when-cross-origin');
     header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()');
-    $scripts = "script-src 'self' https://telegram.org";
+    $nonceSrc = $nonce !== null ? " 'nonce-{$nonce}'" : '';
+    $scripts = "script-src 'self'{$nonceSrc} https://telegram.org";
     $common = "default-src 'self'; {$scripts}; style-src 'self' 'unsafe-inline'; "
         . "img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'";
     if ($context === 'admin') {
