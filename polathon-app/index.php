@@ -397,7 +397,8 @@ if (session_status() === PHP_SESSION_NONE) {
 if (isset($_GET['api'])) {
   try { handle_api((string)$_GET['api']); }
   catch (Throwable $e) {
-    json_out(['ok' => false, 'error' => 'Server xatosi: ' . (DEBUG ? $e->getMessage() : 'ma’lumotlar bazasi yoki PHP sozlamasini tekshiring')], 500);
+    $detail = ($e instanceof PDOException || DEBUG) ? mb_substr($e->getMessage(), 0, 200) : 'PHP sozlamasini tekshiring';
+    json_out(['ok' => false, 'error' => 'Server xatosi: ' . $detail], 500);
   }
 }
 
