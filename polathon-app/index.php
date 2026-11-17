@@ -29,7 +29,7 @@ const DEFAULTS = [
   'name' => 'Po’lathon Shashlik & Somsa', 'phone' => '+998 90 000 00 00',
   'delivery_fee' => '10000', 'lat' => '41.2995', 'lng' => '69.2401',
   'promo_code' => 'POLAT5', 'promo_percent' => '5', 'accepting' => '1',
-  'hero_text' => 'Mazali taomlar sizni kutmoqda!',
+  'hero_text' => 'Mazali taomlar sizni kutmoqda!', 'home_cats' => '1,2',
 ];
 
 /* ============== YORDAMCHILAR ============== */
@@ -159,6 +159,7 @@ function public_cfg(): array {
     'lat' => (float)setting('lat', '41.2995'), 'lng' => (float)setting('lng', '69.2401'),
     'promo_code' => strtoupper(setting('promo_code')), 'promo_percent' => (int)setting('promo_percent', '0'),
     'accepting' => setting('accepting', '1') === '1', 'hero_text' => setting('hero_text'),
+    'home_cats' => array_values(array_filter(array_map('intval', explode(',', setting('home_cats', '1,2'))))),
   ];
 }
 
@@ -766,6 +767,10 @@ function handle_api(string $a): void {
     case 'admin_settings_save':
       admin_guard();
       $b = json_input();
+      if (isset($b['home_cats'])) {
+        $ids = preg_replace('/[^0-9,]/', '', (string)$b['home_cats']);
+        setting_set('home_cats', trim($ids, ','));
+      }
       $text = ['name', 'phone', 'promo_code', 'hero_text'];
       foreach ($text as $k) if (isset($b[$k])) setting_set($k, mb_substr(trim((string)$b[$k]), 0, 200));
       if (isset($b['delivery_fee'])) {
@@ -862,6 +867,14 @@ button{cursor:pointer;border:0;background:none;padding:0}
 .sh h2{font-size:18px;margin:0;font-weight:800}
 .link{color:var(--p);font-size:14px;font-weight:700;cursor:pointer}
 .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pc{position:relative;background:var(--card);border-radius:22px;overflow:hidden;box-shadow:0 2px 12px rgba(15,23,42,.07);cursor:pointer}
+.pc .pimg{position:relative;width:100%;aspect-ratio:1/1;background:linear-gradient(135deg,#fde68a,#fb923c);display:grid;place-items:center;font-size:72px;overflow:hidden}
+.pc .pimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pc .addb{position:absolute;right:10px;bottom:10px;z-index:2;width:40px;height:40px;border-radius:14px;box-shadow:0 8px 18px rgba(0,0,0,.25)}
+.pc .pb{padding:10px 12px 13px}
+.pc h3{margin:0;font-size:15px;font-weight:700;line-height:1.25;height:38px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pc .price{margin-top:4px;font-size:15px}
 .cat{background:var(--card);border-radius:18px;padding:14px 4px 12px;text-align:center;font-size:12px;font-weight:700;box-shadow:0 2px 8px rgba(15,23,42,.05);cursor:pointer}
 .cat span{display:block;font-size:28px;margin-bottom:4px}
 .item{display:flex;gap:12px;background:var(--card);border-radius:var(--r);padding:10px;margin-bottom:12px;box-shadow:0 2px 12px rgba(15,23,42,.06);cursor:pointer;align-items:center}
@@ -1024,10 +1037,16 @@ function thumb(p) {
 function emptyHTML(icon, text) { return `<div class="empty"><span>${icon}</span>${esc(text)}</div>`; }
 
 /* ---------- VIEWS ---------- */
+function homeCats() {
+  const ids = (S.cfg.home_cats || []).map(Number);
+  return ids.length ? S.cats.filter(c => ids.includes(Number(c.id))) : S.cats;
+}
 function homeHTML() {
-  const feat = S.products.filter(p => p.featured == 1);
-  const list = (feat.length ? feat : S.products).slice(0, 6);
-  const heroImg = S.products.find(p => p.image)?.image;
+  const cats = homeCats();
+  const ids = cats.map(c => Number(c.id));
+  const pool = S.products.filter(p => ids.includes(Number(p.category_id)));
+  const list = [...pool].sort((a, b) => Number(b.featured) - Number(a.featured)).slice(0, 12);
+  const heroImg = list.find(p => p.image)?.image || S.products.find(p => p.image)?.image;
   return `
   <section class="hero">
     ${heroImg ? `<div class="bg" style="background-image:url('${esc(heroImg)}')"></div>` : ''}
@@ -1043,9 +1062,16 @@ function homeHTML() {
     <div class="go">›</div></div>` : ''}
   <div class="section">
     <div class="sh"><h2>Kategoriyalar</h2><span class="link" data-act="cat" data-v="0">Barchasi</span></div>
-    <div class="cats">${S.cats.map(c => `<div class="cat" data-act="cat" data-v="${c.id}"><span>${esc(c.icon)}</span>${esc(c.name)}</div>`).join('')}</div>
-    <div class="sh"><h2>Ommabop taomlar</h2><span class="link" data-act="gomenu">Barchasi</span></div>
-    ${list.map(itemHTML).join('') || emptyHTML('🍽', 'Hozircha taomlar yo‘q')}
+    <div class="cats">${cats.map(c => `<div class="cat" data-act="cat" data-v="${c.id}"><span>${esc(c.icon)}</span>${esc(c.name)}</div>`).join('')}</div>
+    <div class="sh"><h2>Taomlar</h2><span class="link" data-act="gomenu">Menyu →</span></div>
+    ${list.length ? `<div class="grid2">${list.map(pcHTML).join('')}</div>` : emptyHTML('🍽', 'Hozircha taomlar yo‘q')}
+  </div>`;
+}
+function pcHTML(p) {
+  return `<div class="pc" data-act="open" data-v="${p.id}">
+    <div class="pimg">${p.image ? `<img loading="lazy" src="${esc(p.image)}" alt="${esc(p.name)}">` : esc(iconOf(p.category_id))}
+      <button class="addb" data-act="quick" data-v="${p.id}" aria-label="Qo‘shish">+</button></div>
+    <div class="pb"><h3>${esc(p.name)}</h3><div class="price">${money(p.price)}</div></div>
   </div>`;
 }
 function itemHTML(p) {
@@ -1742,8 +1768,8 @@ function menuHTML() {
       <button class="btn ghost" data-act="extra-new">+ Qo‘shimcha</button>
       <button class="btn" data-act="prod-new">+ Taom qo‘shish</button></div></div>
   <div class="card" style="overflow:auto"><h3>Kategoriyalar</h3>
-    <table><tr><th>Icon</th><th>Nomi</th><th>Tartib</th><th></th></tr>
-    ${A.cats.map(c => `<tr><td style="font-size:22px">${esc(c.icon)}</td><td>${esc(c.name)}</td><td>${c.sort_order}</td>
+    <table><tr><th>ID</th><th>Icon</th><th>Nomi</th><th>Tartib</th><th></th></tr>
+    ${A.cats.map(c => `<tr><td><b>${c.id}</b></td><td style="font-size:22px">${esc(c.icon)}</td><td>${esc(c.name)}</td><td>${c.sort_order}</td>
       <td style="text-align:right"><button class="btn ghost sm" data-act="cat-edit" data-v="${c.id}">Tahrirlash</button>
       <button class="btn red sm" data-act="cat-del" data-v="${c.id}">O‘chirish</button></td></tr>`).join('')}</table></div>
   <div class="card" style="overflow:auto"><h3>Taomlar (${A.products.length})</h3>
@@ -1835,6 +1861,7 @@ function settingsHTML() {
     <label class="f"><span>Nomi</span><input id="s_name" value="${esc(c.name)}" style="width:100%"></label>
     <label class="f"><span>Telefon</span><input id="s_phone" value="${esc(c.phone)}" style="width:100%"></label>
     <label class="f"><span>Bosh sahifa matni</span><input id="s_hero" value="${esc(c.hero_text)}" style="width:100%"></label>
+    <label class="f"><span>Bosh sahifadagi kategoriyalar (ID lar, vergul bilan. Masalan: 1,2)</span><input id="s_hc" value="${esc((c.home_cats || []).join(','))}" style="width:100%"></label>
     <label class="check"><input type="checkbox" id="s_acc" ${c.accepting ? 'checked' : ''}> Buyurtma qabul qilish yoqilgan</label>
   </div>
   <div class="card"><h3>Yetkazib berish va joylashuv</h3>
@@ -1965,7 +1992,7 @@ document.addEventListener('click', async e => {
 
   if (act === 'settings-save') {
     const body = {
-      name: $('#s_name').value, phone: $('#s_phone').value, hero_text: $('#s_hero').value,
+      name: $('#s_name').value, phone: $('#s_phone').value, hero_text: $('#s_hero').value, home_cats: $('#s_hc').value,
       accepting: $('#s_acc').checked, delivery_fee: $('#s_fee').value, lat: $('#s_lat').value,
       lng: $('#s_lng').value, promo_code: $('#s_promo').value, promo_percent: $('#s_pct').value,
     };
