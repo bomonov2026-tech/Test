@@ -22,6 +22,11 @@ const STATUSES       = [
   'delivering' => 'Yo‘lda', 'done' => 'Yakunlandi', 'cancelled' => 'Bekor qilindi',
 ];
 const DB_DIR = __DIR__ . '/data';
+/* MySQL (hosting): DB_NAME bo‘sh bo‘lsa SQLite ishlatiladi */
+const DB_HOST = 'localhost';
+const DB_NAME = 'DB_NAME';
+const DB_USER = 'DB_USER';
+const DB_PASS = 'DB_PASSWORD';
 
 /* ============== YORDAMCHI FUNKSIYALAR ============== */
 function json_out(array $data, int $status = 200): void {
@@ -33,19 +38,49 @@ function json_out(array $data, int $status = 200): void {
 function fail(string $msg, int $code = 400): void { json_out(['ok' => false, 'error' => $msg], $code); }
 function json_input(): array { return json_decode((string)file_get_contents('php://input'), true) ?: []; }
 
+function db_is_mysql(): bool { return DB_NAME !== '' && DB_NAME !== 'DB_NAME'; }
+function sql_today(): string { return db_is_mysql() ? 'CURDATE()' : "date('now')"; }
+
 function db(): PDO {
   static $pdo = null;
   if ($pdo) return $pdo;
-  if (!is_dir(DB_DIR)) {
-    mkdir(DB_DIR, 0750, true);
-    file_put_contents(DB_DIR . '/.htaccess', "Require all denied\nDeny from all\n"); // DB brauzerdan ochilmasin
+  $opts = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC];
+  if (db_is_mysql()) {
+    $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4', DB_USER, DB_PASS, $opts);
+    foreach (MYSQL_SCHEMA as $q) $pdo->exec($q);
+  } else {
+    if (!is_dir(DB_DIR)) {
+      mkdir(DB_DIR, 0750, true);
+      file_put_contents(DB_DIR . '/.htaccess', "Require all denied\nDeny from all\n"); // DB brauzerdan ochilmasin
+    }
+    $pdo = new PDO('sqlite:' . DB_DIR . '/restaurant.sqlite', null, null, $opts);
+    $pdo->exec('PRAGMA foreign_keys = ON');
+    $pdo->exec(SQLITE_SCHEMA);
   }
-  $pdo = new PDO('sqlite:' . DB_DIR . '/restaurant.sqlite', null, null, [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-  ]);
-  $pdo->exec('PRAGMA foreign_keys = ON');
-  $pdo->exec(<<<'SQL'
+  if (!(int)$pdo->query('SELECT COUNT(*) FROM categories')->fetchColumn()) seed($pdo);
+  return $pdo;
+}
+
+const MYSQL_SCHEMA = [
+  "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, telegram_id BIGINT UNIQUE NOT NULL,
+    name VARCHAR(200), username VARCHAR(100), created_at DATETIME DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+  "CREATE TABLE IF NOT EXISTS categories (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL, icon VARCHAR(20),
+    sort_order INT DEFAULT 0, active TINYINT DEFAULT 1) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+  "CREATE TABLE IF NOT EXISTS products (id INT AUTO_INCREMENT PRIMARY KEY, category_id INT, name VARCHAR(160) NOT NULL,
+    description TEXT, price INT NOT NULL, image VARCHAR(500), featured TINYINT DEFAULT 0, available TINYINT DEFAULT 1,
+    active TINYINT DEFAULT 1, FOREIGN KEY (category_id) REFERENCES categories(id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+  "CREATE TABLE IF NOT EXISTS extras (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL, price INT DEFAULT 0,
+    active TINYINT DEFAULT 1) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+  "CREATE TABLE IF NOT EXISTS orders (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, customer_name VARCHAR(150),
+    phone VARCHAR(30), order_type VARCHAR(20), address TEXT, note TEXT, payment VARCHAR(20), subtotal INT,
+    discount INT DEFAULT 0, delivery_fee INT DEFAULT 0, total INT, status VARCHAR(20) DEFAULT 'new',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+  "CREATE TABLE IF NOT EXISTS order_items (id INT AUTO_INCREMENT PRIMARY KEY, order_id INT, product_id INT,
+    product_name VARCHAR(160), price INT, qty INT, extras VARCHAR(300), line_total INT,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+];
+
+const SQLITE_SCHEMA = <<<'SQL'
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT, telegram_id INTEGER UNIQUE NOT NULL,
   name TEXT, username TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
@@ -66,10 +101,7 @@ CREATE TABLE IF NOT EXISTS orders (
 CREATE TABLE IF NOT EXISTS order_items (
   id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
   product_id INTEGER, product_name TEXT, price INTEGER, qty INTEGER, extras TEXT, line_total INTEGER);
-SQL);
-  if (!(int)$pdo->query('SELECT COUNT(*) FROM categories')->fetchColumn()) seed($pdo);
-  return $pdo;
-}
+SQL;
 
 function seed(PDO $p): void {
   $cats = [['Shashlik', '🍢'], ['Somsa', '🥟'], ['Kabob', '🍖'], ['Osh', '🍛'], ['Salatlar', '🥗'], ['Ichimliklar', '🥤'], ['Shirinliklar', '🍰']];
@@ -123,8 +155,12 @@ function tg_user(): ?array {
 
 function upsert_user(array $tg): array {
   $pdo = db();
-  $pdo->prepare('INSERT INTO users(telegram_id, name, username) VALUES(?,?,?)
-                 ON CONFLICT(telegram_id) DO UPDATE SET name = excluded.name, username = excluded.username')
+  $sql = db_is_mysql()
+    ? 'INSERT INTO users(telegram_id, name, username) VALUES(?,?,?)
+       ON DUPLICATE KEY UPDATE name = VALUES(name), username = VALUES(username)'
+    : 'INSERT INTO users(telegram_id, name, username) VALUES(?,?,?)
+       ON CONFLICT(telegram_id) DO UPDATE SET name = excluded.name, username = excluded.username';
+  $pdo->prepare($sql)
       ->execute([(int)$tg['id'], trim(($tg['first_name'] ?? '') . ' ' . ($tg['last_name'] ?? '')), $tg['username'] ?? null]);
   $s = $pdo->prepare('SELECT * FROM users WHERE telegram_id = ?');
   $s->execute([(int)$tg['id']]);
@@ -320,8 +356,8 @@ function handle_api(string $a): void {
 
     case 'admin_stats':
       admin_guard();
-      $today = $pdo->query("SELECT COUNT(*) c, COALESCE(SUM(total),0) s FROM orders
-                            WHERE date(created_at) = date('now') AND status != 'cancelled'")->fetch();
+      $today = $pdo->query('SELECT COUNT(*) c, COALESCE(SUM(total),0) s FROM orders
+                            WHERE DATE(created_at) = ' . sql_today() . " AND status != 'cancelled'")->fetch();
       $active = (int)$pdo->query("SELECT COUNT(*) FROM orders WHERE status IN ('new','cooking','ready','delivering')")->fetchColumn();
       $done = (int)$pdo->query("SELECT COUNT(*) FROM orders WHERE status = 'done'")->fetchColumn();
       $customers = (int)$pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
