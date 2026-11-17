@@ -392,7 +392,12 @@ if (session_status() === PHP_SESSION_NONE) {
                              'secure' => !empty($_SERVER['HTTPS'])]);
   session_start();
 }
-if (isset($_GET['api'])) handle_api((string)$_GET['api']);
+if (isset($_GET['api'])) {
+  try { handle_api((string)$_GET['api']); }
+  catch (Throwable $e) {
+    json_out(['ok' => false, 'error' => 'Server xatosi: ' . (DEBUG ? $e->getMessage() : 'ma’lumotlar bazasi yoki PHP sozlamasini tekshiring')], 500);
+  }
+}
 
 /* Telegram webhook so‘rovi (POST, update_id bilan keladi) */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['admin'])) {
@@ -571,7 +576,13 @@ async function api(name, body) {
   const opt = { method: body ? 'POST' : 'GET', headers: { 'Content-Type': 'application/json', 'X-Telegram-Init-Data': INIT } };
   if (body) opt.body = JSON.stringify(body);
   const r = await fetch('?api=' + encodeURIComponent(name), opt);
-  let j; try { j = await r.json(); } catch (e) { throw new Error('Server bilan aloqa yo‘q'); }
+  const text = await r.text();
+  let j;
+  try { j = JSON.parse(text); }
+  catch (e) {
+    const snip = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
+    throw new Error('Server xatosi (HTTP ' + r.status + '): ' + (snip || 'javob bo‘sh'));
+  }
   if (!j.ok) throw new Error(j.error || 'Xatolik');
   return j;
 }
