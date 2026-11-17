@@ -310,6 +310,129 @@ function notify_new_order(int $oid, string $name, string $phone, string $type, s
   }
 }
 
+/* ============== XARID CHEKI ============== */
+function ascii_txt(string $s): string {
+  $s = strtr($s, ['‘' => "'", '’' => "'", 'ʻ' => "'", 'ʼ' => "'", '`' => "'", '×' => 'x', '—' => '-', '–' => '-', '·' => '-']);
+  $t = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s);
+  if ($t === false) $t = preg_replace('/[^\x20-\x7E]/', '', $s);
+  return (string)$t;
+}
+function fmt_num($n): string { return number_format((float)$n, 0, '.', ' '); }
+function wrap_lines(string $s, int $w): array { return explode("\n", wordwrap(ascii_txt($s), $w, "\n", true)); }
+
+function receipt_rows(array $o, array $items): array {
+  $rows = [];
+  $rows[] = ['l' => 'Buyurtma: #' . $o['id']];
+  $rows[] = ['l' => 'Sana: ' . $o['created_at']];
+  $rows[] = ['l' => 'Mijoz: ' . $o['customer_name']];
+  $rows[] = ['l' => 'Telefon: ' . $o['phone']];
+  $rows[] = ['l' => $o['order_type'] === 'delivery' ? 'Yetkazib berish' : 'Olib ketish'];
+  if ($o['order_type'] === 'delivery' && $o['address'] !== '') {
+    foreach (wrap_lines('Manzil: ' . $o['address'], 56) as $ln) $rows[] = ['l' => $ln];
+  }
+  $rows[] = ['sep' => true];
+  foreach ($items as $it) {
+    foreach (wrap_lines($it['qty'] . ' x ' . $it['product_name'], 40) as $i => $ln) {
+      $rows[] = ['l' => $ln, 'r' => $i === 0 ? fmt_num((int)$it['price'] * (int)$it['qty']) : ''];
+    }
+    if (!empty($it['extras'])) foreach (wrap_lines('  + ' . $it['extras'], 52) as $ln) $rows[] = ['l' => $ln];
+  }
+  $rows[] = ['sep' => true];
+  $rows[] = ['l' => 'Mahsulotlar', 'r' => fmt_num($o['subtotal'])];
+  if ((int)$o['delivery_fee'] > 0) $rows[] = ['l' => 'Yetkazib berish', 'r' => fmt_num($o['delivery_fee'])];
+  if ((int)$o['discount'] > 0) $rows[] = ['l' => 'Chegirma', 'r' => '-' . fmt_num($o['discount'])];
+  $rows[] = ['sep' => true];
+  $rows[] = ['l' => 'JAMI', 'r' => fmt_num($o['total']) . " so'm", 'b' => true];
+  $rows[] = ['l' => 'To‘lov: ' . ($o['payment'] === 'card' ? 'Karta' : 'Naqd')];
+  return $rows;
+}
+
+function receipt_text(array $o, array $items): string {
+  $out = [];
+  foreach (receipt_rows($o, $items) as $r) {
+    if (!empty($r['sep'])) { $out[] = str_repeat('-', 30); continue; }
+    $out[] = isset($r['r']) && $r['r'] !== '' ? $r['l'] . '  ' . $r['r'] : $r['l'];
+  }
+  return implode("\n", $out);
+}
+
+function receipt_png(array $o, array $items, string $path): bool {
+  if (!function_exists('imagecreatetruecolor') || !function_exists('imagepng')) return false;
+  $W = 520; $P = 28; $CW = 8; $LH = 22;
+  $rows = receipt_rows($o, $items);
+  $H = 120 + count($rows) * $LH + 90;
+  $img = imagecreatetruecolor($W, $H);
+  $white = imagecolorallocate($img, 255, 255, 255);
+  $blue = imagecolorallocate($img, 29, 78, 216);
+  $ink = imagecolorallocate($img, 15, 23, 42);
+  $line = imagecolorallocate($img, 203, 213, 225);
+  $green = imagecolorallocate($img, 22, 163, 74);
+  imagefilledrectangle($img, 0, 0, $W, $H, $white);
+  imagefilledrectangle($img, 0, 0, $W, 100, $blue);
+  imagestring($img, 5, $P, 26, ascii_txt(setting('name')), $white);
+  imagestring($img, 5, $P, 58, 'XARID CHEKI', $white);
+  $y = 120;
+  foreach ($rows as $r) {
+    if (!empty($r['sep'])) {
+      for ($x = $P; $x < $W - $P; $x += 8) imageline($img, $x, $y + 8, $x + 4, $y + 8, $line);
+      $y += $LH;
+      continue;
+    }
+    $txt = ascii_txt($r['l']);
+    imagestring($img, 5, $P, $y, $txt, $ink);
+    if (!empty($r['b'])) imagestring($img, 5, $P + 1, $y, $txt, $ink);
+    if (isset($r['r']) && $r['r'] !== '') {
+      $rt = ascii_txt($r['r']);
+      imagestring($img, 5, $W - $P - strlen($rt) * $CW, $y, $rt, $ink);
+    }
+    $y += $LH;
+  }
+  $thanks = 'Xaridingiz uchun rahmat!';
+  imagestring($img, 5, (int)(($W - strlen($thanks) * $CW) / 2), $y + 26, $thanks, $green);
+  $ok = imagepng($img, $path);
+  imagedestroy($img);
+  return (bool)$ok;
+}
+
+function tg_send_photo($chat, string $path, string $caption): bool {
+  if (!bot_ok() || !$chat) return false;
+  $ch = curl_init('https://api.telegram.org/bot' . BOT_TOKEN . '/sendPhoto');
+  curl_setopt_array($ch, [
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => ['chat_id' => $chat, 'caption' => $caption, 'photo' => curl_file_create($path, 'image/png', 'chek.png')],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 15,
+  ]);
+  $raw = curl_exec($ch);
+  curl_close($ch);
+  $j = is_string($raw) ? json_decode($raw, true) : null;
+  return is_array($j) && !empty($j['ok']);
+}
+
+/* Buyurtma bo‘yicha xarid chekini mijozga yuboradi (rasm, GD yo‘q bo‘lsa matn) */
+function send_receipt(int $oid): bool {
+  $pdo = db();
+  $st = $pdo->prepare('SELECT o.*, u.telegram_id FROM orders o LEFT JOIN users u ON u.id = o.user_id WHERE o.id = ?');
+  $st->execute([$oid]);
+  $o = $st->fetch();
+  if (!$o) return false;
+  $chat = (int)($o['telegram_id'] ?? 0);
+  if ($chat < 1000) return false;
+  $it = $pdo->prepare('SELECT product_name, qty, price, extras FROM order_items WHERE order_id = ? ORDER BY id');
+  $it->execute([$oid]);
+  $items = $it->fetchAll();
+  $caption = "🧾 Buyurtma #$oid — xarid cheki. " . setting('name') . " dan rahmat!";
+  if (!is_dir(DATA_DIR)) @mkdir(DATA_DIR, 0750, true);
+  $path = DATA_DIR . '/chek_' . bin2hex(random_bytes(8)) . '.png';
+  $sent = receipt_png($o, $items, $path) && tg_send_photo($chat, $path, $caption);
+  if (is_file($path)) @unlink($path);
+  if (!$sent) {
+    tg_send($chat, $caption . "\n\n" . receipt_text($o, $items));
+    $sent = true;
+  }
+  return $sent;
+}
+
 /* ============== API ============== */
 function handle_api(string $a): void {
   $pdo = db();
@@ -478,7 +601,14 @@ function handle_api(string $a): void {
       $st = (string)($b['status'] ?? '');
       if (!isset(STATUSES[$st])) fail('Noto‘g‘ri holat.', 422);
       $pdo->prepare('UPDATE orders SET status = ? WHERE id = ?')->execute([$st, $id]);
-      notify_customer($id, "Buyurtma #$id holati: " . STATUSES[$st]);
+      if ($st === 'done') send_receipt($id);
+      else notify_customer($id, "Buyurtma #$id holati: " . STATUSES[$st]);
+      json_out(['ok' => true]);
+
+    case 'admin_order_receipt':
+      admin_guard();
+      $id = (int)(json_input()['id'] ?? 0);
+      if (!send_receipt($id)) fail('Chekni yuborib bo‘lmadi (mijoz Telegram botini ochmagan bo‘lishi mumkin).', 422);
       json_out(['ok' => true]);
 
     case 'admin_order_accept':
@@ -1556,6 +1686,7 @@ function ordersList(list) {
     <div class="row" style="margin-top:10px"><div class="row">${map}<button class="btn ghost sm" data-act="o-loc" data-v="${o.id}">📍 Lokatsiyani belgilash</button></div>
       <div class="row"><b>${money(o.total)}</b>${statusSelect(o)}</div></div>
     ${o.status === 'new' ? `<button class="btn" style="width:100%;margin-top:10px;padding:13px" data-act="o-accept" data-v="${o.id}">✅ Buyurtmani qabul qilish</button>` : ''}
+    ${o.status === 'done' ? `<button class="btn ghost" style="width:100%;margin-top:10px;padding:13px" data-act="o-receipt" data-v="${o.id}">🧾 Xarid chekini qayta yuborish</button>` : ''}
   </div>`;
   }).join('');
 }
@@ -1763,6 +1894,9 @@ document.addEventListener('click', async e => {
     closeModal(); toast('Lokatsiya saqlandi va xodimlarga yuborildi ✓'); await enter(); A.tab = 'orders'; render();
   });
   if (act === 'o-loc-locate') return locateAdmin();
+  if (act === 'o-receipt') return run(async () => {
+    await aapi('admin_order_receipt', { id: v }); toast('Chek mijozga yuborildi ✓');
+  });
   if (act === 'close') return closeModal();
 
   if (act === 'prod-new') return productForm({});
