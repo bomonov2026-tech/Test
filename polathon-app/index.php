@@ -24,13 +24,13 @@ const STATUSES       = [
 const DB_DIR = __DIR__ . '/data';
 
 /* ============== YORDAMCHI FUNKSIYALAR ============== */
-function json_out(array $data, int $status = 200): never {
+function json_out(array $data, int $status = 200): void {
   http_response_code($status);
   header('Content-Type: application/json; charset=utf-8');
   echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
   exit;
 }
-function fail(string $msg, int $code = 400): never { json_out(['ok' => false, 'error' => $msg], $code); }
+function fail(string $msg, int $code = 400): void { json_out(['ok' => false, 'error' => $msg], $code); }
 function json_input(): array { return json_decode((string)file_get_contents('php://input'), true) ?: []; }
 
 function db(): PDO {
@@ -218,7 +218,8 @@ function handle_api(string $a): void {
       ]);
 
     case 'orders':
-      $tg = tg_user() ?? fail('Telegram sessiyasi tasdiqlanmadi. Botdan oching.', 401);
+      $tg = tg_user();
+      if (!$tg) fail('Telegram sessiyasi tasdiqlanmadi. Botdan oching.', 401);
       $u = upsert_user($tg);
       $st = $pdo->prepare('SELECT id, order_type, address, subtotal, discount, delivery_fee, total, status, created_at
                            FROM orders WHERE user_id = ? ORDER BY id DESC LIMIT 30');
@@ -231,7 +232,8 @@ function handle_api(string $a): void {
 
     case 'order':
       if ($method !== 'POST') fail('Noto‘g‘ri so‘rov', 405);
-      $tg = tg_user() ?? fail('Telegram sessiyasi tasdiqlanmadi. Botdan oching.', 401);
+      $tg = tg_user();
+      if (!$tg) fail('Telegram sessiyasi tasdiqlanmadi. Botdan oching.', 401);
       $u = upsert_user($tg);
       $b = json_input();
       $items = is_array($b['items'] ?? null) ? $b['items'] : [];
