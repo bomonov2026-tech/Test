@@ -144,6 +144,56 @@ function tg_send($chat, string $text): void {
   curl_close($ch);
 }
 
+/* ============== AVTOMATIK BOT SOZLASH ============== */
+function bot_configured(): bool { return BOT_TOKEN !== 'BOT_TOKEN' && BOT_TOKEN !== ''; }
+
+function self_url(): string {
+  $https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+  return ($https ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . ($_SERVER['SCRIPT_NAME'] ?? '/index.php');
+}
+function app_url(): string { return rtrim(dirname(self_url()), '/') . '/'; }
+
+function tg_api(string $method, array $params): array {
+  $ch = curl_init('https://api.telegram.org/bot' . BOT_TOKEN . '/' . $method);
+  curl_setopt_array($ch, [
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($params, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+    CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 6,
+  ]);
+  $raw = curl_exec($ch);
+  curl_close($ch);
+  $j = is_string($raw) ? json_decode($raw, true) : null;
+  return is_array($j) ? $j : ['ok' => false];
+}
+
+/* Birinchi so‘rovda webhook va menyu tugmasini o‘rnatadi. Muvaffaqiyatsiz bo‘lsa 10 daqiqada qayta urinadi. */
+function ensure_bot_installed(): void {
+  if (!bot_configured() || !is_dir(DB_DIR) && !@mkdir(DB_DIR, 0750, true)) return;
+  $flag = DB_DIR . '/install.json';
+  $st = is_file($flag) ? (json_decode((string)file_get_contents($flag), true) ?: []) : [];
+  if (!empty($st['done']) || (time() - (int)($st['last'] ?? 0)) < 600) return;
+  $ok1 = tg_api('setWebhook', ['url' => self_url(), 'drop_pending_updates' => true]);
+  $ok2 = tg_api('setChatMenuButton', ['menu_button' => ['type' => 'web_app', 'text' => 'Menyu', 'web_app' => ['url' => app_url()]]]);
+  $done = !empty($ok1['ok']) && !empty($ok2['ok']);
+  file_put_contents($flag, json_encode(['done' => $done, 'last' => time()]));
+}
+
+/* Telegram webhook: /start va /menu ga Mini App tugmasi bilan javob beradi */
+function handle_bot_update(array $upd): void {
+  $msg = $upd['message'] ?? null;
+  if (!$msg || !isset($msg['text']) || !bot_configured()) return;
+  $cmd = strtolower(explode(' ', trim((string)$msg['text']))[0] ?? '');
+  $cmd = explode('@', $cmd)[0];
+  if ($cmd !== '/start' && $cmd !== '/menu') return;
+  tg_api('sendMessage', [
+    'chat_id' => $msg['chat']['id'],
+    'text' => "Assalomu alaykum! " . RESTAURANT . " ga xush kelibsiz.\nMenyuni ochib buyurtma bering 👇",
+    'reply_markup' => ['inline_keyboard' => [[['text' => '🍽 Menyuni ochish', 'web_app' => ['url' => app_url()]]]]],
+  ]);
+}
+
 /* ============== ADMIN ============== */
 function admin_guard(): void {
   if (empty($_SESSION['admin'])) fail('Avval tizimga kiring', 401);
@@ -343,6 +393,19 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 if (isset($_GET['api'])) handle_api((string)$_GET['api']);
+
+/* Telegram webhook so‘rovi (POST, update_id bilan keladi) */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_GET['admin'])) {
+  $raw = json_decode((string)file_get_contents('php://input'), true);
+  if (is_array($raw) && isset($raw['update_id'])) {
+    handle_bot_update($raw);
+    http_response_code(200);
+    echo 'OK';
+    exit;
+  }
+}
+
+ensure_bot_installed();
 if (isset($_GET['admin'])) { render_admin(); }
 else { render_app(); }
 
