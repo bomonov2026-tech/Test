@@ -481,6 +481,34 @@ function handle_api(string $a): void {
       notify_customer($id, "Buyurtma #$id holati: " . STATUSES[$st]);
       json_out(['ok' => true]);
 
+    case 'admin_order_accept':
+      admin_guard();
+      $id = (int)(json_input()['id'] ?? 0);
+      $st = $pdo->prepare("UPDATE orders SET status = 'accepted', accepted_at = ? WHERE id = ? AND status = 'new'");
+      $st->execute([date('Y-m-d H:i:s'), $id]);
+      if ($st->rowCount() < 1) fail('Buyurtma topilmadi yoki allaqachon qabul qilingan.', 409);
+      notify_customer($id, "Buyurtma #$id qabul qilindi ✅ Tez orada tayyorlanadi.");
+      json_out(['ok' => true]);
+
+    case 'admin_order_location':
+      admin_guard();
+      $b = json_input();
+      $id = (int)($b['id'] ?? 0);
+      $lat = $b['lat'] ?? null;
+      $lng = $b['lng'] ?? null;
+      if (!is_numeric($lat) || !is_numeric($lng) || abs((float)$lat) > 90 || abs((float)$lng) > 180) fail('Koordinata noto‘g‘ri.', 422);
+      $lat = (float)$lat; $lng = (float)$lng;
+      $st = $pdo->prepare('UPDATE orders SET lat = ?, lng = ? WHERE id = ?');
+      $st->execute([$lat, $lng, $id]);
+      $cur = $pdo->prepare('SELECT customer_name, phone, status FROM orders WHERE id = ?');
+      $cur->execute([$id]);
+      $o = $cur->fetch();
+      if (!$o) fail('Buyurtma topilmadi.', 404);
+      $txt = "📍 Buyurtma #$id manzili belgilandi.\nMijoz: {$o['customer_name']} · {$o['phone']}";
+      if ($c = admin_chat()) { tg_send($c, $txt); tg_location($c, $lat, $lng); }
+      foreach (active_staff() as $s) { tg_send((int)$s['telegram_id'], $txt); tg_location((int)$s['telegram_id'], $lat, $lng); }
+      json_out(['ok' => true]);
+
     case 'admin_menu':
       admin_guard();
       json_out([
@@ -1366,7 +1394,10 @@ function render_admin(): void {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin — Po’lathon</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
+.omap{height:320px;border-radius:14px;overflow:hidden;margin:10px 0;background:#e2e8f0}
 :root{--p:#1d4ed8;--p2:#3b82f6;--ink:#0f172a;--mut:#64748b;--bg:#f1f5f9;--line:#e2e8f0;--red:#dc2626;--ok:#16a34a}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
@@ -1522,7 +1553,9 @@ function ordersList(list) {
     <div class="items">${(o.items || []).map(i => `${i.qty} × ${esc(i.product_name)}${i.extras ? ` <span class="muted">(${esc(i.extras)})</span>` : ''}`).join('<br>')}</div>
     ${o.note ? `<div class="muted">Izoh: ${esc(o.note)}</div>` : ''}
     ${o.accepted_name ? `<div class="muted">Qabul qilgan: <b>${esc(o.accepted_name)}</b></div>` : ''}
-    <div class="row" style="margin-top:10px"><div>${map}</div><div class="row"><b>${money(o.total)}</b>${statusSelect(o)}</div></div>
+    <div class="row" style="margin-top:10px"><div class="row">${map}<button class="btn ghost sm" data-act="o-loc" data-v="${o.id}">📍 Lokatsiyani belgilash</button></div>
+      <div class="row"><b>${money(o.total)}</b>${statusSelect(o)}</div></div>
+    ${o.status === 'new' ? `<button class="btn" style="width:100%;margin-top:10px;padding:13px" data-act="o-accept" data-v="${o.id}">✅ Buyurtmani qabul qilish</button>` : ''}
   </div>`;
   }).join('');
 }
@@ -1532,6 +1565,42 @@ function ordersHTML() {
     <select id="flt"><option value="all">Hammasi</option>${Object.keys(A.statuses).map(k =>
       `<option value="${k}" ${A.filter === k ? 'selected' : ''}>${esc(LBL[k] || k)}</option>`).join('')}</select></div>
     ${ordersList(list)}`;
+}
+
+/* ---------- BUYURTMA LOKATSIYASI (xarita) ---------- */
+let LOC = { id: 0, geo: null, map: null, marker: null };
+function orderLocation(id) {
+  const o = A.orders.find(x => x.id == id);
+  if (!o) return;
+  LOC = { id: o.id, geo: null, map: null, marker: null };
+  openModal(`<h3>📍 Buyurtma #${o.id} — lokatsiya</h3>
+    <p class="muted" style="margin-top:0">Xaritada yetkazib berish joyini belgilang yoki suring. Saqlangach xodimlarga Telegram'da lokatsiya yuboriladi.</p>
+    <div class="omap" id="omap"></div>
+    <div class="row"><small id="locTxt" class="muted">${o.lat != null ? `Hozirgi: ${o.lat}, ${o.lng}` : 'Lokatsiya belgilanmagan'}</small>
+      <button class="btn ghost sm" data-act="o-loc-locate">📍 Mening joyim</button></div>
+    <div class="row" style="margin-top:12px"><button class="btn ghost" data-act="close">Bekor</button>
+      <button class="btn" data-act="o-loc-save">💾 Saqlash</button></div>`);
+  const start = o.lat != null ? [o.lat, o.lng] : [A.cfg.lat, A.cfg.lng];
+  if (typeof L === 'undefined') { $('#omap').innerHTML = '<div style="padding:20px" class="muted">Xarita yuklanmadi (internet kerak).</div>'; return; }
+  LOC.map = L.map('omap').setView(start, 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(LOC.map);
+  LOC.marker = L.marker(start, { draggable: true }).addTo(LOC.map);
+  if (o.lat != null) LOC.geo = { lat: o.lat, lng: o.lng };
+  LOC.marker.on('dragend', () => setLoc(LOC.marker.getLatLng().lat, LOC.marker.getLatLng().lng));
+  LOC.map.on('click', e => { LOC.marker.setLatLng(e.latlng); setLoc(e.latlng.lat, e.latlng.lng); });
+  setTimeout(() => LOC.map && LOC.map.invalidateSize(), 200);
+}
+function setLoc(lat, lng) {
+  LOC.geo = { lat: +lat.toFixed(6), lng: +lng.toFixed(6) };
+  const t = $('#locTxt'); if (t) t.textContent = `Tanlandi: ${LOC.geo.lat}, ${LOC.geo.lng}`;
+}
+function locateAdmin() {
+  if (!navigator.geolocation) return toast('Joylashuv qo‘llab-quvvatlanmaydi');
+  navigator.geolocation.getCurrentPosition(p => {
+    const { latitude: la, longitude: lo } = p.coords;
+    setLoc(la, lo);
+    if (LOC.map) { LOC.map.setView([la, lo], 17); LOC.marker.setLatLng([la, lo]); }
+  }, () => toast('Joylashuvni aniqlab bo‘lmadi'), { enableHighAccuracy: true, timeout: 10000 });
 }
 
 /* ---------- MENYU ---------- */
@@ -1684,6 +1753,16 @@ document.addEventListener('click', async e => {
     return;
   }
   if (act === 'logout') { await aapi('admin_logout', {}).catch(() => {}); A.ok = false; A.msg = ''; return render(); }
+  if (act === 'o-accept') return run(async () => {
+    await aapi('admin_order_accept', { id: v }); toast('Buyurtma qabul qilindi ✓'); await enter(); A.tab = 'orders'; render();
+  });
+  if (act === 'o-loc') return orderLocation(v);
+  if (act === 'o-loc-save') return run(async () => {
+    if (!LOC.geo) return toast('Xaritada joyni belgilang');
+    await aapi('admin_order_location', { id: LOC.id, lat: LOC.geo.lat, lng: LOC.geo.lng });
+    closeModal(); toast('Lokatsiya saqlandi va xodimlarga yuborildi ✓'); await enter(); A.tab = 'orders'; render();
+  });
+  if (act === 'o-loc-locate') return locateAdmin();
   if (act === 'close') return closeModal();
 
   if (act === 'prod-new') return productForm({});
